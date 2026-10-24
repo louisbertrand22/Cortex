@@ -30,7 +30,7 @@ Site de révision statique (Astro 7 + MDX + Tailwind 4 + Pagefind + Mermaid). To
 
 - `classDef x fill:var(--signal-soft),stroke:var(--signal);` est permis : les `var()` sont résolus au rendu (suivent le thème).
 - `#` dans un texte de diagramme le tronque : écrire `#35;`. Pas de `;` dans les libellés (séparateur d'instructions).
-- Préférer `flowchart TB` avec des sous-graphes `direction LR` : un diagramme trop large devient illisible dans la colonne de 46rem.
+- Préférer `flowchart TB` avec des sous-graphes `direction LR` : un diagramme trop large devient illisible (colonne de 72rem max, ~50rem sur un portable).
 
 ## Composants spécifiques au cours AIAD
 

@@ -21,11 +21,11 @@ const updated = d.updated.toLocaleDateString('fr-FR', { day: 'numeric', month: '
 ---
 <BaseLayout title={d.title} description={d.description} bare sidebar>
   <div class="fixed top-16 right-0 left-0 z-30 h-0.5 origin-left scale-x-0 bg-signal" data-progress aria-hidden="true"></div>
-  <div id="top" class="mx-auto grid max-w-[90rem] grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-[15rem_minmax(0,1fr)] xl:grid-cols-[15rem_minmax(0,1fr)_13rem]">
+  <div id="top" class="mx-auto grid max-w-[120rem] grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-[16rem_minmax(0,1fr)] xl:grid-cols-[16rem_minmax(0,1fr)_14rem] xl:gap-14">
     <Sidebar />
 
     <div class="min-w-0 pt-8 lg:pt-10">
-      <article data-pagefind-body data-pagefind-meta={`subject:${subject.data.short} · S${d.session}`} class="mx-auto max-w-[46rem]">
+      <article data-pagefind-body data-pagefind-meta={`subject:${subject.data.short} · S${d.session}`} class="mx-auto max-w-[72rem]">
         <header class="mb-12" data-pagefind-ignore="all">
           <nav class="mb-8 flex flex-wrap items-center gap-1.5 text-sm text-ink-3" aria-label="Fil d'Ariane">
             <a href="/cours/" class="hover:text-ink">Cours</a><span>/</span>
@@ -42,7 +42,7 @@ const updated = d.updated.toLocaleDateString('fr-FR', { day: 'numeric', month: '
             </div>
           </div>
 
-          <p class="mt-6 text-lg leading-relaxed text-pretty text-ink-2">{d.description}</p>
+          <p class="mt-6 max-w-[52rem] text-lg leading-relaxed text-pretty text-ink-2">{d.description}</p>
 
           <dl class="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-ink-3">
             {readingTime && <div class="flex gap-1.5"><dt class="sr-only">Lecture</dt><dd>⏱ {readingTime} min de lecture</dd></div>}
@@ -90,7 +90,7 @@ const updated = d.updated.toLocaleDateString('fr-FR', { day: 'numeric', month: '
         )}
       </article>
 
-      <nav class="mx-auto mt-16 grid max-w-[46rem] gap-4 sm:grid-cols-2" aria-label="Sessions voisines" data-pagefind-ignore="all">
+      <nav class="mx-auto mt-16 grid max-w-[72rem] gap-4 sm:grid-cols-2" aria-label="Sessions voisines" data-pagefind-ignore="all">
         {prev ? (
           <a href={lessonUrl(prev)} class="group rounded-2xl border border-line bg-surface p-5 transition-colors hover:border-line-strong">
             <span class="text-xs text-ink-3">← Session {prev.data.session}</span>

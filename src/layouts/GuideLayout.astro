@@ -4,8 +4,8 @@ import Toc from '@/components/layout/Toc.astro';
 const { frontmatter, headings = [] } = Astro.props;
 ---
 <BaseLayout title={frontmatter.title} description={frontmatter.description}>
-  <div class="mx-auto grid max-w-[90rem] grid-cols-1 gap-10 px-4 sm:px-6 xl:grid-cols-[minmax(0,1fr)_13rem]">
-    <article class="mx-auto w-full max-w-[46rem] pt-12 pb-20" data-pagefind-body>
+  <div class="mx-auto grid max-w-[120rem] grid-cols-1 gap-10 px-4 sm:px-6 xl:grid-cols-[minmax(0,1fr)_14rem] xl:gap-14">
+    <article class="mx-auto w-full max-w-[72rem] pt-12 pb-20" data-pagefind-body>
       <p class="mb-2 font-mono text-xs tracking-[0.14em] text-ink-3 uppercase">Référence</p>
       <h1 class="text-5xl font-semibold tracking-[-0.04em]">{frontmatter.title}</h1>
       <p class="mt-4 text-lg text-ink-2">{frontmatter.description}</p>

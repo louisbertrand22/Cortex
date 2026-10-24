@@ -14,14 +14,14 @@ const sessions = Array.from({ length: planned }, (_, i) => ({ n: i + 1, lesson: 
 ---
 <BaseLayout title={subject.data.title} description={subject.data.description}>
   <section class="border-b border-line">
-    <div class="mx-auto max-w-[90rem] px-4 py-16 sm:px-6">
+    <div class="mx-auto max-w-[120rem] px-4 py-16 sm:px-6">
       <nav class="mb-8 text-sm text-ink-3"><a href="/cours/" class="hover:text-ink">Cours</a> / <span class="text-ink-2">{subject.data.short}</span></nav>
       <p class="mb-3 font-mono text-xs tracking-[0.14em] text-ink-3 uppercase">{domainLabels[subject.data.domain]} · {subject.data.semester}{subject.data.teacher && ` · ${subject.data.teacher}`}</p>
       <h1 class="max-w-3xl text-5xl leading-[1] font-semibold tracking-[-0.04em] text-balance sm:text-6xl">{subject.data.title}</h1>
       <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-2">{subject.data.description}</p>
     </div>
   </section>
-  <section class="mx-auto max-w-[90rem] px-4 py-16 sm:px-6">
+  <section class="mx-auto max-w-[120rem] px-4 py-16 sm:px-6">
     <ol class="relative grid gap-4 before:absolute before:top-4 before:bottom-4 before:left-[1.4rem] before:w-px before:bg-line">
       {sessions.map(({ n, lesson }, i) => (
         <li class="relative grid grid-cols-[2.8rem_1fr] gap-5" data-reveal style={`--reveal-i:${i}`}>
