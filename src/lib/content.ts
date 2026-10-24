@@ -35,6 +35,15 @@ export async function getNavTree() {
 
 export { getEntry };
 
+/** Auteur du site, pour les données structurées schema.org. */
+export const author = { '@type': 'Person', name: 'Louis Bertrand', url: 'https://lab.louis-bertrand.fr' };
+
+/** Fil d'Ariane schema.org (`[nom, chemin]` depuis la racine). */
+export const breadcrumbLd = (site: URL, items: [string, string][]) => ({
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map(([name, path], i) => ({ '@type': 'ListItem', position: i + 1, name, item: new URL(path, site).href })),
+});
+
 export const domainLabels: Record<Subject['data']['domain'], string> = {
   ia: 'Intelligence artificielle',
   architecture: 'Architecture',

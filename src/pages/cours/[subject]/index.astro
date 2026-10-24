@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { domainLabels, getLessons, getSubjects, lessonUrl, type Subject } from '@/lib/content';
+import { author, breadcrumbLd, domainLabels, getLessons, getSubjects, lessonUrl, subjectUrl, type Subject } from '@/lib/content';
 
 export async function getStaticPaths() {
   const subjects = await getSubjects();
@@ -11,8 +11,23 @@ const { subject } = Astro.props;
 const lessons = await getLessons(subject.id);
 const planned = Math.max(subject.data.plannedSessions ?? 0, lessons.length);
 const sessions = Array.from({ length: planned }, (_, i) => ({ n: i + 1, lesson: lessons.find((l) => l.data.session === i + 1), next: subject.data.upcoming.find((u) => u.session === i + 1) }));
+const site = Astro.site!;
+const jsonLd = [
+  {
+    '@type': 'Course',
+    name: subject.data.title,
+    description: subject.data.description,
+    url: new URL(subjectUrl(subject), site).href,
+    inLanguage: 'fr',
+    author,
+    provider: author,
+    isAccessibleForFree: true,
+    hasPart: lessons.map((l) => ({ '@type': 'LearningResource', name: l.data.title, url: new URL(lessonUrl(l), site).href })),
+  },
+  breadcrumbLd(site, [['Cours', '/cours/'], [subject.data.title, subjectUrl(subject)]]),
+];
 ---
-<BaseLayout title={subject.data.title} description={subject.data.description}>
+<BaseLayout title={subject.data.title} description={subject.data.description} jsonLd={jsonLd}>
   <section class="border-b border-line">
     <div class="mx-auto max-w-[120rem] px-4 py-16 sm:px-6">
       <nav class="mb-8 text-sm text-ink-3"><a href="/cours/" class="hover:text-ink">Cours</a> / <span class="text-ink-2">{subject.data.short}</span></nav>

@@ -2,14 +2,22 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import NeuralField from '@/components/layout/NeuralField.astro';
 import SubjectCard from '@/components/layout/SubjectCard.astro';
-import { getNavTree, lessonUrl } from '@/lib/content';
+import { author, getNavTree, lessonUrl } from '@/lib/content';
 
 const tree = await getNavTree();
 const allLessons = tree.flatMap((t) => t.lessons);
 const latest = [...allLessons].sort((a, b) => +b.data.updated - +a.data.updated).slice(0, 3);
 const firstLesson = allLessons[0];
+const site = Astro.site!;
+const jsonLd = {
+  '@type': 'WebSite',
+  name: 'Cortex',
+  url: site.href,
+  inLanguage: 'fr',
+  author,
+};
 ---
-<BaseLayout>
+<BaseLayout jsonLd={jsonLd}>
   <section class="relative overflow-hidden border-b border-line">
     <div class="absolute inset-0 opacity-70 [mask-image:radial-gradient(ellipse_at_70%_40%,black_20%,transparent_70%)]">
       <NeuralField />

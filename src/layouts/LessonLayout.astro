@@ -4,7 +4,7 @@ import BaseLayout from './BaseLayout.astro';
 import Sidebar from '@/components/layout/Sidebar.astro';
 import Toc from '@/components/layout/Toc.astro';
 import Footer from '@/components/layout/Footer.astro';
-import { lessonUrl, subjectUrl, type Lesson, type Subject } from '@/lib/content';
+import { author, breadcrumbLd, lessonUrl, subjectUrl, type Lesson, type Subject } from '@/lib/content';
 
 interface Props {
   lesson: Lesson;
@@ -18,8 +18,27 @@ interface Props {
 const { lesson, subject, headings, readingTime, diagramCount, prev, next } = Astro.props;
 const d = lesson.data;
 const updated = d.updated.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+const site = Astro.site!;
+const jsonLd = [
+  {
+    '@type': 'LearningResource',
+    name: d.title,
+    headline: d.title,
+    description: d.description,
+    url: new URL(lessonUrl(lesson), site).href,
+    inLanguage: 'fr',
+    dateModified: d.updated.toISOString(),
+    author,
+    keywords: d.tags.join(', '),
+    learningResourceType: 'Fiche de révision',
+    ...(d.objectives.length > 0 && { teaches: d.objectives }),
+    ...(readingTime && { timeRequired: `PT${readingTime}M` }),
+    isPartOf: { '@type': 'Course', name: subject.data.title, url: new URL(subjectUrl(subject), site).href },
+  },
+  breadcrumbLd(site, [['Cours', '/cours/'], [subject.data.title, subjectUrl(subject)], [d.title, lessonUrl(lesson)]]),
+];
 ---
-<BaseLayout title={d.title} description={d.description} bare sidebar>
+<BaseLayout title={`${d.title} · ${subject.data.title}`} description={d.description} type="article" modified={d.updated} jsonLd={jsonLd} bare sidebar>
   <div class="fixed top-16 right-0 left-0 z-30 h-0.5 origin-left scale-x-0 bg-signal" data-progress aria-hidden="true"></div>
   <div id="top" class="mx-auto grid max-w-[120rem] grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-[16rem_minmax(0,1fr)] xl:grid-cols-[16rem_minmax(0,1fr)_14rem] xl:gap-14">
     <Sidebar />

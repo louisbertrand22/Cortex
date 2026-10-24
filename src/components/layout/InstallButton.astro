@@ -1,0 +1,58 @@
+<div class="relative hidden" data-install>
+  <button
+    type="button"
+    data-install-btn
+    class="flex h-9 items-center gap-1.5 whitespace-nowrap rounded-xl border border-line bg-surface px-2.5 text-sm text-ink-2 shadow-card transition-colors hover:border-line-strong hover:text-ink"
+    aria-label="Installer Cortex sur l'écran d'accueil"
+  >
+    <svg viewBox="0 0 24 24" class="size-[1.1rem]" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14" /></svg>
+    <span class="hidden lg:inline">Installer</span>
+  </button>
+  <div
+    data-install-ios
+    role="dialog"
+    aria-label="Installer sur iPhone"
+    class="absolute top-11 right-0 hidden w-64 rounded-2xl border border-line bg-surface p-4 text-sm leading-relaxed text-ink-2 shadow-card"
+  >
+    <p class="font-medium text-ink">Installer Cortex</p>
+    <p class="mt-1">
+      Touche <svg viewBox="0 0 24 24" class="inline size-4 align-[-3px] text-info" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Partager"><path d="M12 3v12M8 7l4-4 4 4M6 11H5v10h14V11h-1" /></svg>{' '}<strong class="text-ink">Partager</strong> dans Safari, puis <strong class="text-ink">« Sur l'écran d'accueil »</strong>.
+    </p>
+  </div>
+</div>
+<script>
+  type InstallPrompt = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: string }> };
+
+  const wrap = document.querySelector<HTMLElement>('[data-install]');
+  const btn = wrap?.querySelector<HTMLButtonElement>('[data-install-btn]');
+  const ios = wrap?.querySelector<HTMLElement>('[data-install-ios]');
+  const standalone = matchMedia('(display-mode: standalone)').matches || (navigator as Navigator & { standalone?: boolean }).standalone;
+  let deferred: InstallPrompt | undefined;
+
+  if (wrap && btn && ios && !standalone) {
+    // Chrome, Edge, Android : le navigateur fournit sa propre boîte d'installation
+    addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferred = e as InstallPrompt;
+      wrap.classList.remove('hidden');
+    });
+    addEventListener('appinstalled', () => wrap.classList.add('hidden'));
+
+    // iPhone / iPad : pas d'API, on explique le geste
+    const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (isIos) wrap.classList.remove('hidden');
+
+    btn.addEventListener('click', async () => {
+      if (deferred) {
+        await deferred.prompt();
+        if ((await deferred.userChoice).outcome === 'accepted') wrap.classList.add('hidden');
+        deferred = undefined;
+      } else {
+        ios.classList.toggle('hidden');
+      }
+    });
+    document.addEventListener('click', (e) => {
+      if (!wrap.contains(e.target as Node)) ios.classList.add('hidden');
+    });
+  }
+</script>

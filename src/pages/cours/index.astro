@@ -1,10 +1,15 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SubjectCard from '@/components/layout/SubjectCard.astro';
-import { getNavTree } from '@/lib/content';
+import { getNavTree, subjectUrl } from '@/lib/content';
 const tree = await getNavTree();
+const jsonLd = {
+  '@type': 'ItemList',
+  name: 'Cours',
+  itemListElement: tree.map(({ subject }, i) => ({ '@type': 'ListItem', position: i + 1, name: subject.data.title, url: new URL(subjectUrl(subject), Astro.site).href })),
+};
 ---
-<BaseLayout title="Cours" description="Toutes les matières disponibles sur Cortex.">
+<BaseLayout title="Cours" description={`Toutes les matières disponibles sur Cortex : ${tree.map(({ subject }) => subject.data.title).join(', ')}. Révisions visuelles et interactives, session par session.`} jsonLd={jsonLd}>
   <section class="mx-auto max-w-[120rem] px-4 py-16 sm:px-6">
     <p class="mb-2 font-mono text-xs tracking-[0.14em] text-ink-3 uppercase">Bibliothèque</p>
     <h1 class="text-5xl font-semibold tracking-[-0.04em]">Cours</h1>

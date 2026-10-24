@@ -45,6 +45,14 @@ expliqué. Pas de support source : tout est rédigé ; `<DeepDive>` sert aux « 
 Composants : `Teach` (perceptron pommes/citrons) · `Neuron` (vote pondéré « aller au ciné ») · `NextWord` (mot suivant
 + température) · `PromptBuilder` (les 5 ingrédients d'un prompt).
 
+## SEO et PWA
+
+- `BaseLayout` gère canonical, Open Graph/Twitter (`/og.png`), JSON-LD (prop `jsonLd`, `@context` ajouté) et `noindex` (404 seulement).
+  Les leçons émettent `LearningResource` + `BreadcrumbList`, les matières `Course` (helpers `author`/`breadcrumbLd` dans `src/lib/content.ts`).
+- PWA : `public/manifest.webmanifest`, icônes et `og.png` générés par `~/.cache/cortex-shots/assets.mjs` (Chromium/playwright),
+  `public/sw.js` (pages réseau d'abord, `/_astro/` cache d'abord ; incrémenter `CACHE` si la stratégie change).
+  `InstallButton` (en-tête) n'apparaît que si le navigateur propose l'installation, ou sur iOS (explique « Sur l'écran d'accueil »).
+
 ## Conventions de design
 
 Papier/encre, accent `signal` (vermillon) = contenu du cours, `synapse` (teal) = enrichissement. Display : Instrument Serif

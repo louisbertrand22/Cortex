@@ -1,6 +1,7 @@
 ---
 import Logo from './Logo.astro';
 import ThemeToggle from './ThemeToggle.astro';
+import InstallButton from './InstallButton.astro';
 interface Props { showMenu?: boolean }
 const { showMenu = false } = Astro.props;
 const path = Astro.url.pathname;
@@ -37,6 +38,7 @@ const path = Astro.url.pathname;
         <span class="hidden sm:inline">Rechercher un concept…</span>
         <kbd class="ml-auto hidden shrink-0 rounded-md border border-line bg-surface-2 px-1.5 py-0.5 font-mono text-[0.7rem] text-ink-3 sm:inline">Ctrl K</kbd>
       </button>
+      <InstallButton />
       <ThemeToggle />
     </div>
   </div>
