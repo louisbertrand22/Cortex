@@ -12,7 +12,11 @@
     "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
     "check": "astro check",
-    "astro": "astro"
+    "astro": "astro",
+    "shots": "node scripts/shots.mjs",
+    "islands": "node scripts/islands.mjs",
+    "check:pwa": "node scripts/pwa.mjs",
+    "assets": "node scripts/assets.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.4",
@@ -34,6 +38,7 @@
   "devDependencies": {
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "pagefind": "^1.5.2"
+    "pagefind": "^1.5.2",
+    "playwright-core": "^1.64.1"
   }
 }

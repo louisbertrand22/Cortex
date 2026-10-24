@@ -20,6 +20,10 @@ nvm use            # Node 24 (Astro 7 exige >= 22.23)
 npm run dev        # http://localhost:4321 — la recherche n'y fonctionne pas (index généré au build)
 npm run build      # astro build + pagefind --site dist
 npm run preview    # sert dist/ avec la recherche
+npm run shots      # captures + contrôles de rendu (Mermaid, JS, débordement) → .shots/
+npm run islands    # actionne les îlots interactifs et capture avant/après
+npm run check:pwa  # vérifie l'app installable et le hors-ligne
+npm run assets     # régénère icônes et image de partage
 ```
 
 ## Arborescence

@@ -18,10 +18,19 @@ Ce fichier est la référence commune à tous les agents. Des guides plus préci
 source ~/.nvm/nvm.sh && nvm use   # Node 24, obligatoire avant toute commande npm
 npm run dev                       # http://localhost:4321 (la recherche n'y marche pas)
 npm run build                     # astro build + index Pagefind : doit passer sans erreur
-npm run preview                   # sert dist/ avec la recherche
+npm run preview                   # sert dist/ avec la recherche (démon Astro : `npx astro preview stop` pour l'arrêter)
+
+# Vérification visuelle (après un build ; Chromium via playwright-core, captures dans .shots/)
+npm run shots                     # toutes les leçons, 1440 px clair + 390 px sombre ; échoue si Mermaid/JS/débordement
+npm run shots -- aiad/03 /guide/  # pages choisies (bout de chemin ou chemin complet)
+npm run islands                   # actionne chaque contrôle de chaque îlot, capture avant/après ; échoue si erreur JS
+npm run check:pwa                 # manifeste, installabilité, service worker, hors ligne, bouton Installer
+npm run assets                    # régénère icônes PWA et public/og.png (logo ou accroche modifiés)
 ```
 
-Coupe les serveurs (dev/preview) que tu as lancés avant de rendre la main.
+Les scripts de `scripts/` servent `dist/` eux-mêmes et s'arrêtent avec lui (port `PREVIEW_PORT`, 4329 par défaut).
+Chromium : `CHROME_PATH`, sinon celui de playwright, sinon `~/.cache/ms-playwright`, sinon le navigateur système ;
+s'il manque : `npx playwright install chromium`. Coupe les serveurs (dev/preview) que tu as lancés avant de rendre la main.
 
 ## Arborescence utile
 
@@ -33,6 +42,7 @@ src/components/mdx/index.ts               # composants disponibles dans les leç
 src/components/viz/                       # îlots React + wrapper .astro (client:visible)
 src/layouts/                              # BaseLayout (SEO, PWA), LessonLayout, GuideLayout
 public/                                   # manifeste, service worker, icônes, og.png, robots.txt
+scripts/                                  # vérification visuelle (playwright-core) et génération des icônes
 ```
 
 ## Intégrer un nouveau cours — procédure
@@ -89,12 +99,12 @@ Les deux règles qui ne se négocient pas :
 ### 4. Vérifier
 
 - `npm run build` sans erreur ni avertissement de contenu. Pagefind doit indexer une page de plus.
-- Rendu réel, pas seulement le build : `npm run preview`, puis contrôler la page en **clair et sombre**,
-  en **1440 px** et en **390 px** (mobile) :
-  - aucun diagramme Mermaid en erreur (« Syntax error ») ;
-  - pas de débordement horizontal (`document.documentElement.scrollWidth` = largeur de la fenêtre) ;
-  - aucune erreur JavaScript ; chaque îlot réagit aux clics ;
-  - les titres de `<Compare>` s'affichent, les `<Stat>` ne passent pas à la ligne bizarrement.
+- `npm run shots -- <matière>/<NN>` : vérifie automatiquement Mermaid, erreurs JS et débordement horizontal en
+  **1440 px clair** et **390 px sombre** (code de sortie 1 en cas de problème).
+- **Regarder les captures** de `.shots/pages/` (tranches de 2000 px) : le script ne voit pas tout. Contrôler que
+  les titres de `<Compare>` s'affichent, que les `<Stat>` ne passent pas à la ligne bizarrement, que les schémas
+  sont lisibles sur mobile.
+- Si la leçon a des îlots : `npm run islands -- <matière>/<NN>`, puis regarder les captures avant/après de `.shots/islands/`.
 - La page de la matière (`/cours/<matière>/`) montre la nouvelle session ; la recherche (Ctrl K) la trouve.
 
 ### 5. Livrer

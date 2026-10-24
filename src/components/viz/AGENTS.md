@@ -46,7 +46,8 @@ utilisable dans toutes les leçons sans import. L'ajouter aussi à la liste du c
 ## Vérifier
 
 Dans une leçon (ou sur `/guide`) : build, puis rendu clair/sombre, 1440 px et 390 px, et **cliquer** sur chaque contrôle
-(script `inter.mjs` décrit dans `CLAUDE.md`, ou à la main en preview). Aucune erreur dans la console.
+(`npm run islands -- <page>` les actionne tous et capture avant/après dans `.shots/islands/` ; un scénario précis
+— entraîner jusqu'au bout, enchaîner des choix — se teste à la main en preview). Aucune erreur dans la console.
 
 ## Îlots existants par cours
 
