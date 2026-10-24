@@ -64,7 +64,10 @@
       pagefind = (await import(/* @vite-ignore */ path)) as Pagefind;
       await pagefind.options({ excerptLength: 22 });
     } catch {
-      list.innerHTML = `<p class="px-3 py-8 text-center text-sm text-ink-3">L'index de recherche est généré au build.<br/>Lance <code class="font-mono">npm run build && npm run preview</code> pour tester.</p>`;
+      // En dev, l'index Pagefind n'existe pas (il est généré au build) : inutile d'en parler aux visiteurs
+      list.innerHTML = import.meta.env.DEV
+        ? `<p class="px-3 py-8 text-center text-sm text-ink-3">Recherche indisponible en dev : <code class="font-mono">npm run build && npm run preview</code>.</p>`
+        : `<p class="px-3 py-8 text-center text-sm text-ink-3">Recherche indisponible pour le moment. Vérifie ta connexion.</p>`;
     }
     return pagefind;
   }
