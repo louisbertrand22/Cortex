@@ -2,12 +2,11 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import NeuralField from '@/components/layout/NeuralField.astro';
 import SubjectCard from '@/components/layout/SubjectCard.astro';
-import { author, getNavTree, lessonUrl } from '@/lib/content';
+import { author, getNavTree } from '@/lib/content';
 
 const tree = await getNavTree();
 const allLessons = tree.flatMap((t) => t.lessons);
 const latest = [...allLessons].sort((a, b) => +b.data.updated - +a.data.updated).slice(0, 3);
-const firstLesson = allLessons[0];
 const site = Astro.site!;
 const jsonLd = {
   '@type': 'WebSite',
@@ -33,11 +32,9 @@ const jsonLd = {
         Cortex transforme mes supports de cours en pages de révision visuelles : diagrammes, schémas animés, quiz, et des approfondissements qui vont au-delà du support.
       </p>
       <div class="mt-10 flex flex-wrap gap-3" data-reveal style="--reveal-i:3">
-        {firstLesson && (
-          <a href={lessonUrl(firstLesson)} class="inline-flex h-12 items-center gap-2 rounded-xl bg-ink px-5 font-medium text-bg transition-transform duration-300 ease-out-expo hover:-translate-y-0.5">
-            Reprendre : {firstLesson.data.title} <span aria-hidden="true">→</span>
-          </a>
-        )}
+        <a href="/cours/" class="inline-flex h-12 items-center gap-2 rounded-xl bg-ink px-5 font-medium text-bg transition-transform duration-300 ease-out-expo hover:-translate-y-0.5">
+          Voir les cours <span aria-hidden="true">→</span>
+        </a>
         <button type="button" data-search-open class="inline-flex h-12 items-center gap-2 rounded-xl border border-line-strong bg-surface px-5 font-medium text-ink transition-colors hover:bg-surface-2">
           Chercher un concept <kbd class="rounded border border-line bg-surface-2 px-1.5 font-mono text-xs text-ink-3">/</kbd>
         </button>
