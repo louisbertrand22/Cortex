@@ -1,60 +1,31 @@
-# Cortex — consignes pour l'agent
+@AGENTS.md
 
-Site de révision statique (Astro 7 + MDX + Tailwind 4 + Pagefind + Mermaid). Toujours `nvm use` (Node 24) avant npm.
+# Spécifique à Claude Code
 
-## Ingestion d'un nouveau cours
+## Avant de commencer un cours
 
-1. **Lire** le support source en entier (les HTML de cours pèsent plusieurs Mo à cause des polices/images base64 :
-   extraire le texte avec un parser HTML, ignorer `<script>`/`<style>`).
-2. **Matière** : ajouter une entrée dans `src/content/subjects.json` si elle n'existe pas (`id` = slug court, `plannedSessions`,
-   `upcoming` pour annoncer le titre des sessions pas encore rédigées ; retirer l'entrée une fois la leçon écrite).
-3. **Leçon** : `src/content/lessons/<subject-id>/<NN>-<slug>.mdx`, frontmatter validé par `src/content.config.ts`
-   (`title`, `subtitle`, `subject`, `session`, `description`, `tags`, `objectives`, `sources`, `updated`).
-4. **Rédaction** en français, termes techniques anglais conservés. Structure : une `##` par grande partie du support,
-   `###` pour les concepts. Finir par `<Takeaways>` (les « 5 choses à retenir » du prof = matière du quiz).
-5. **Fidélité vs enrichissement** — règle stricte :
-   - le contenu du support est rédigé dans le flux normal ;
-   - tout ce qui vient d'ailleurs (approfondissement, état de l'art, best practice, retour terrain) va dans `<DeepDive>`
-     (couleur synapse/teal) et cite ses sources dans le frontmatter `sources`.
-6. **Visualiser** chaque concept complexe : Mermaid (séquence, classes, flowchart, architecture, state), `<Pipeline>`,
-   `<BarChart>`, ou un nouvel îlot dans `src/components/viz/` (React + motion, wrapper `.astro` avec `client:visible`,
-   puis l'enregistrer dans `src/components/mdx/index.ts`). Couleurs : uniquement les tokens CSS (`var(--signal)`…).
-7. Ajouter quelques `<Quiz>` (questions type quiz d'ouverture de session) et `<Callout type="exam">` sur les points testés.
-8. `npm run build` doit passer sans erreur ; vérifier le rendu (thèmes clair et sombre, mobile 390 px).
+- Lire le support **en entier** avant d'écrire une ligne, puis annoncer le plan en une phrase (sessions, visualisations
+  prévues) et enchaîner sans attendre de validation, sauf si le support est ambigu (session manquante, public inconnu).
+- Pour un nouveau public (autre que des étudiants SIGL), demander une seule fois : niveau, tutoiement ou non, objectif.
 
-## Composants MDX (sans import)
+## Vérification visuelle (sur la machine de Louis)
 
-`Callout` (note|tip|warning|danger|definition|exam) · `DeepDive` · `Steps` · `CardGrid`/`Card` · `Compare` (props leftTitle/rightTitle, slots left/right)
-· `Takeaways` · `KeyIdea` · `Stat` · `Figure` · `Quiz` · `Pipeline` · `BarChart`. Démo vivante : `/guide`.
+Les scripts playwright-core vivent hors du repo, dans `~/.cache/cortex-shots/` (Chromium :
+`~/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome`) :
 
-## Pièges Mermaid
+| Script | Rôle |
+| --- | --- |
+| `shot.mjs` | Captures d'une leçon à plusieurs largeurs + mesures de colonne |
+| `ia0.mjs` | Captures pleine page de toutes les leçons (1440 clair / 390 sombre), compte les erreurs Mermaid et JS |
+| `inter.mjs` | Clique dans les îlots et capture le résultat |
+| `pwa.mjs` | Installabilité, service worker, hors ligne, bouton Installer |
+| `assets.mjs` | Régénère les icônes PWA et `public/og.png` |
 
-- `classDef x fill:var(--signal-soft),stroke:var(--signal);` est permis : les `var()` sont résolus au rendu (suivent le thème).
-- `#` dans un texte de diagramme le tronque : écrire `#35;`. Pas de `;` dans les libellés (séparateur d'instructions).
-- Préférer `flowchart TB` avec des sous-graphes `direction LR` : un diagramme trop large devient illisible (colonne de 72rem max, ~50rem sur un portable).
+Adapter l'URL ou la liste de pages en tête de script, lancer `npm run preview -- --port 4329` en arrière-plan, puis
+`node <script>`. Les pages longues sont découpées avec PIL avant d'être lues. Couper le preview à la fin
+(`kill <pid>` ; éviter `pkill -f`, qui tue aussi le shell courant).
 
-## Composants spécifiques au cours AIAD
+## Git
 
-`AiNesting` · `Tokenizer` · `Temperature` · `PriorityMatrix` · `Maturity` · `Hosting` · `Tco` · `ContextWindow` · `EmbeddingMap`
-· `Chunking` · `RagTriangle` · `Layers` (bandeau TOGAF, prop `active`) · `ValueChain` (props `title`, `steps`).
-
-## Cours « L'IA expliquée de zéro » (`ia-zero`)
-
-Cours écrit pour un lycéen de seconde sans bagage technique : tutoiement, exemples du quotidien, aucun terme non
-expliqué. Pas de support source : tout est rédigé ; `<DeepDive>` sert aux « pour aller plus loin ».
-Composants : `Teach` (perceptron pommes/citrons) · `Neuron` (vote pondéré « aller au ciné ») · `NextWord` (mot suivant
-+ température) · `PromptBuilder` (les 5 ingrédients d'un prompt).
-
-## SEO et PWA
-
-- `BaseLayout` gère canonical, Open Graph/Twitter (`/og.png`), JSON-LD (prop `jsonLd`, `@context` ajouté) et `noindex` (404 seulement).
-  Les leçons émettent `LearningResource` + `BreadcrumbList`, les matières `Course` (helpers `author`/`breadcrumbLd` dans `src/lib/content.ts`).
-- PWA : `public/manifest.webmanifest`, icônes et `og.png` générés par `~/.cache/cortex-shots/assets.mjs` (Chromium/playwright),
-  `public/sw.js` (pages réseau d'abord, `/_astro/` cache d'abord ; incrémenter `CACHE` si la stratégie change).
-  `InstallButton` (en-tête) n'apparaît que si le navigateur propose l'installation, ou sur iOS (explique « Sur l'écran d'accueil »).
-
-## Conventions de design
-
-Papier/encre, accent `signal` (vermillon) = contenu du cours, `synapse` (teal) = enrichissement. Display : Instrument Serif
-(titres d'exergue uniquement), texte : Geist, code : Geist Mono. Animations sobres (`ease-out-expo`), respect de
-`prefers-reduced-motion`. Pas de dépendance réseau au runtime.
+- Push en SSH sur `origin main` = mise en ligne : seulement après build **et** vérification visuelle.
+- Messages de commit en français ; terminer par la ligne `Co-Authored-By` demandée par le harnais.

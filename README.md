@@ -38,7 +38,8 @@ src/
 
 ## Ajouter un cours
 
-Voir `CLAUDE.md` (procédure suivie par l'agent). En résumé : ajouter la matière dans `subjects.json` si nouvelle,
+Voir `AGENTS.md` (procédure complète, lue par tous les agents ; `CLAUDE.md` l'importe), puis
+`src/content/lessons/AGENTS.md` pour la rédaction et `src/components/viz/AGENTS.md` pour les visualisations. En résumé : ajouter la matière dans `subjects.json` si nouvelle,
 créer `src/content/lessons/<matière>/<NN-slug>.mdx`, `npm run build`, pousser.
 
 ## Déploiement Vercel
