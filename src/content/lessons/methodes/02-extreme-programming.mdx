@@ -1,0 +1,401 @@
+---
+title: Extreme Programming (XP)
+subtitle: Valeurs, pratiques, priorisation d'un backlog et gestion d'équipe
+subject: methodes
+session: 2
+description: "XP, la méthode agile qui dit comment coder : ses 4 valeurs, son cycle, ses pratiques (tests, binôme, intégration continue), la priorisation d'un backlog (RICE, MoSCoW, WSJF) et ses limites."
+tags: [XP, Kent Beck, user stories, pair programming, intégration continue, RICE, MoSCoW, WSJF]
+objectives:
+  - Expliquer ce qu'XP reproche au cycle en V et ce qu'il promet en échange.
+  - Citer les 4 valeurs d'XP et ce qu'elles exigent de chaque rôle.
+  - Décrire le cycle de développement XP, des user stories aux tests d'acceptance.
+  - Prioriser un backlog avec RICE, MoSCoW ou WSJF et en connaître les limites.
+  - Distinguer pratiques de programmation, de collaboration et de gestion de projet.
+  - Discuter les critiques d'XP (radicalité, taille d'équipe, gestion).
+sources:
+  - label: Support de cours « Méthodes — Extreme Programming » (2025) — Hervé Durand, EPITA
+  - label: Kent Beck et Cynthia Andres, « Extreme Programming Explained », 2e édition, Addison-Wesley (2004)
+  - label: Don Wells, « Project Velocity », extremeprogramming.org
+    url: http://www.extremeprogramming.org/rules/velocity.html
+  - label: 'Sean McBride, « RICE: Simple prioritization for product managers », Intercom'
+    url: https://www.intercom.com/blog/rice-simple-prioritization-for-product-managers/
+  - label: 'DORA, « DORA''s software delivery metrics: the four keys »'
+    url: https://dora.dev/guides/dora-metrics-four-keys/
+updated: 2026-10-24
+---
+
+Scrum dit comment organiser le travail, mais pas comment écrire le code. **XP** (*eXtreme Programming*) comble ce vide : c'est avant tout un **processus de développement**, qui pousse « à l'extrême » des pratiques de bon sens (tester, relire, intégrer souvent) et place l'équipe de développement au centre. Cette session en couvre le contexte, les valeurs, la mise en œuvre, la priorisation d'un backlog, la gestion d'équipe, et les critiques.
+
+## Contexte
+
+### Naissance d'XP
+
+- Méthode inventée par **Kent Beck**, aidé de **Ron Jeffries**, rejoints par **Ward Cunningham** : le trio fondateur.
+- Née sur le **projet C3 de Chrysler** (la paie).
+- Beck dit avoir été marqué par le **télescope Hubble**, bijou technologique bâti sur de mauvaises spécifications, aux conséquences désastreuses pour le contribuable.
+- Naissance officielle en **octobre 2000** avec le livre *Extreme Programming Explained*.
+
+Sources du support : extremeprogramming.org, xpprogramming.com, xp-france.net ; Kent Beck, *Extreme Programming Explained* ; Bénard, Bossavit, Médina et Williams, *L'Extreme Programming* (devenu *Gestion de projet eXtreme Programming*) ; Thierry Cros, *Maîtrisez les projets avec l'Extreme Programming*.
+
+### Ce qu'XP reproche au cycle en V
+
+Dans un cycle en V, l'effort de projet forme une cloche (analyse, spécification, conception, codage, mise au point, mise en service), puis vient la maintenance. Et **l'effort de maintenance (adaptative et évolutive) croît avec le temps** : le système se complexifie.
+
+<Compare leftTitle="Ce que le V exige" rightTitle="Ce que la réalité offre">
+  <Fragment slot="left">
+    - Un besoin **défini** et **stable** dès l'amont
+    - Une équipe qui tient une politique de développement **pérenne**
+    - Des outils de **planification précis**
+    - Un outil de *controlling* contre l'**effet tunnel**
+  </Fragment>
+  <Fragment slot="right">
+    - Des équipes pérennes : c'est **rare**
+    - Un bon développeur est un programmeur expérimenté… et rare
+    - Un développeur ou une équipe **se démotive**
+    - Une tendance aux intégrations, à l'approche par briques, à l'open source
+  </Fragment>
+</Compare>
+
+<Callout type="note" title="« Libre à vous d'y souscrire »">
+Le support présente cette critique comme le point de vue d'XP, pas comme une vérité établie.
+</Callout>
+
+### L'écueil des livraisons
+
+Trace la courbe des dates de livraison réelles autour de la date contractuelle : la **zone A** (en avance, jusqu'à la date optimiste) est bien plus petite que la **zone B** (en retard, jusqu'à la date pessimiste et au-delà). **B ≫ A** : les projets livrent plus souvent en retard qu'en avance, et souvent inadaptés au besoin. C'est l'écueil qu'XP cherche à résoudre.
+
+## Les principes et les valeurs
+
+### Ce qu'est XP
+
+<Callout type="definition" title="XP">
+Avant tout un **processus de développement** : ni une méthode de gestion de projet, ni une méthode de gestion du développement. XP vise à **produire un logiciel de qualité**, **réduire le coût** du développement et **garantir un délai**. Il met l'équipe de développement au centre, et lui impose des processus : tests, programmation en binôme, intégration permanente…
+</Callout>
+
+<CardGrid cols={2}>
+  <Card kicker="Le changement" title="On l'accompagne" tone="signal">
+    La résistance au changement est une réalité. De façon extrême, on ne lutte pas contre le changement, on l'accompagne : révolution des mentalités dans la relation client, la formation de l'équipe, les outils. D'où une **implication très forte du client**.
+  </Card>
+  <Card kicker="Les risques" title="Ancrés dans la méthode" tone="danger">
+    Retards, mécompréhension du besoin, changement de l'environnement économique, annulation, turnover, et le *false feature rich* : un effort disproportionné par rapport à la valeur attendue d'une fonctionnalité.
+  </Card>
+  <Card kicker="Le facteur humain" title="De la discipline" tone="amber">
+    Rigueur dans la programmation et la gestion d'équipe, règles de codage, application **stricte et intégrale** du processus, binômes, **copropriété du code** (« l'individu n'existe pas »), métaphores, 40 h par semaine, petites livraisons, client sur site, rôles identifiés, TODO list ou Kanban, et **pas de chef de projet mais un coach**.
+  </Card>
+  <Card kicker="La conception" title="Simple et refaisable" tone="synapse">
+    Conception par itérations successives, test et intégration rapides de tout changement, architecture **simple** (évolutive, ouverte, maintenable) : chasse aux usines à gaz. On n'hésite pas à défaire pour refaire.
+  </Card>
+</CardGrid>
+
+### Les itérations
+
+XP ne s'engage pas sur l'évolution future de l'environnement : on réalise « à date », en sachant qu'on modifiera plusieurs fois. Les fonctionnalités se priorisent de la même façon : **le plus important d'abord**.
+
+<KeyIdea>La vertu revendiquée : le coût d'une modification ne croît plus avec le temps (il devient « linéaire »), grâce à l'approche objet et à un test renforcé. À distinguer du coût global du projet.</KeyIdea>
+
+### Les quatre valeurs
+
+<CardGrid cols={2}>
+  <Card kicker="Valeur 1" title="Communication" tone="signal">
+    Le meilleur moyen d'éviter les erreurs. La conversation directe, en face à face, est privilégiée ; XP n'impose pas forcément de traces formelles tant que la communication clarifie. L'ambiance compte.
+  </Card>
+  <Card kicker="Valeur 2" title="Simplicité" tone="signal">
+    De tous les chemins vers le résultat, le plus simple est le meilleur : *the simplest thing that could possibly work*. Anticiper n'a pas de sens : *you ain't gonna need it*. Non aux modules génériques réutilisables… **a priori**.
+  </Card>
+  <Card kicker="Valeur 3" title="Courage" tone="signal">
+    Pour chaque rôle : proposer des idées créatives et audacieuses, faire face au changement tardif, jeter, défaire, refaire (vive la modestie). Le client doit **prioriser**, même si sa perception est floue.
+  </Card>
+  <Card kicker="Valeur 4" title="Feedback" tone="signal">
+    Le retour d'information affine les spécifications et recadre avec l'actualité économique du projet. Chaque itération se fonde sur le feedback du client, qui donne une perception de la valeur réalisée.
+  </Card>
+</CardGrid>
+
+<Callout type="tip" title="Remote XP">
+À l'origine, XP prône la **co-localisation** (*whole team*). Avec le télétravail, les équipes s'adaptent : outils de programmation partagée (Live Share, Tuple) et rituels pour garder la fluidité d'XP à distance.
+</Callout>
+
+<DeepDive title="La 2e édition : cinq valeurs" level="approfondissement">
+Dans la deuxième édition d'*Extreme Programming Explained* (2004), Kent Beck et Cynthia Andres ajoutent une cinquième valeur, le **respect** (des membres de l'équipe et de leur travail). Ils réorganisent aussi les pratiques en **pratiques primaires** (applicables seules, comme l'intégration continue ou le *test-first*) et **corollaires** (qui demandent les premières, comme le client réel ou le code partagé), et assouplissent le « tout ou rien » de la première édition.
+</DeepDive>
+
+<Quiz question="Un développeur propose de créer tout de suite un module générique, « au cas où on en aurait besoin pour d'autres clients ». Que répond XP ?" options={['Oui, la réutilisabilité est un critère de qualité', 'Non : YAGNI, on fait le plus simple qui marche aujourd’hui', 'Oui, mais seulement si le client est d’accord']} answer={1}>
+  **YAGNI** (*you ain't gonna need it*). XP refuse d'anticiper les évolutions : le générique coûte maintenant pour un bénéfice hypothétique, et la simplicité est la meilleure façon de rester extensible. Le piège : la réutilisabilité est bien un critère de qualité, mais XP dit « non au générique **a priori** » ; on refactorisera quand le besoin sera réel.
+</Quiz>
+
+## La mise en œuvre
+
+### Les tests au cœur
+
+- Le code est développé pour être **testable**.
+- **Tests testés** : un test dont le code n'existe pas encore est considéré échoué.
+- Tests **répétables**, voire automatisés.
+- Les tests **documentent le code** et sont eux-mêmes documentés.
+
+Les principes de développement XP : itérations courtes et rapides, implication forte du client, travail en équipe important. La méthode s'étudie selon trois axes : le **processus** (chaque phase du cycle), les **valeurs** (sous-jacentes à toute la démarche) et les **pratiques** (les règles à appliquer).
+
+### Le cycle de développement
+
+Le schéma du support relie six blocs par des flux ; l'itération est au centre, alimentée par le plan de livraison et relancée par les tests d'acceptance :
+
+| De | Vers | Ce qui circule |
+| --- | --- | --- |
+| Scénarios utilisateurs | Planification de release | Les spécifications |
+| Transition architecturale | Planification de release | La métaphore du système |
+| Planification de release | Transition (*spike*), puis retour | Des estimations incertaines, à lever |
+| Planification de release | **Itération** | Le plan de livraison |
+| Itération | Planification de release | Un nouveau scénario utilisateur |
+| Scénarios utilisateurs | Tests d'acceptance | Les scénarios de tests |
+| Itération | Tests d'acceptance | La dernière version |
+| Tests d'acceptance | **Itération** | Les bugs, et le feu vert pour la prochaine itération |
+
+Les quatre grandes phases et leurs pratiques :
+
+<CardGrid cols={2}>
+  <Card kicker="1" title="Planification" tone="signal">Scénarios utilisateurs · planification de livraison · facteur de charge · planification d'une itération</Card>
+  <Card kicker="2" title="Conception" tone="amber">Choix de la métaphore · cartes CRC · transition architecturale (*spike solution*)</Card>
+  <Card kicker="3" title="Programmation" tone="synapse">Standards de codage · programmation par paire · propriété du code</Card>
+  <Card kicker="4" title="Tests" tone="default">Tests fonctionnels (d'acceptance) · tests unitaires</Card>
+</CardGrid>
+
+### Les scénarios utilisateurs
+
+<Callout type="definition" title="User story (scénario utilisateur)">
+Même objectif qu'un **cas d'utilisation UML**, mais sert surtout à **estimer la charge** pour la réunion de planification de livraison, et aide à définir les tests d'acceptance. Écrite **pour le client**, en termes de **services** et non d'implémentation, plus largement que l'interface.
+</Callout>
+
+- **Formalisme** : 3 phrases conseillées, avec la terminologie du client.
+- **Difficulté** : proche d'une spécification ; on ajuste la granularité pour viser une charge (non calendaire) de **1 à 3 semaines**.
+- **Idéal** : 60 à 100 scénarios pour un plan de version (*release plan*).
+
+### Planifier la livraison
+
+<Steps>
+1. **Release planning meeting** : s'assurer que le produit développé est aligné sur les objectifs business du projet.
+2. L'équipe **évalue la charge en points** de chaque user story, sur des cartes (*planning poker*, *planning game*).
+3. Le **client définit les priorités** de la prochaine itération, en tenant compte des points de chaque histoire.
+4. On respecte quatre contraintes : le **périmètre** (charge), les **ressources** (nombre de personnes), le **temps** (délai) et la **qualité** (du logiciel et de la couverture de tests). Les itérations doivent être limitées et régulières.
+5. **Sortie : le release plan**, qui dit quelles stories vont dans quelles itérations et quand. Il alimente l'*iteration planning meeting* et rattache chaque story à des tâches individuelles (en paire) et à des scénarios de test pour sortir de l'itération.
+</Steps>
+
+### Le facteur de charge
+
+Le support définit le **facteur de charge** (ancêtre de la *project velocity*) comme le rapport entre le nombre de jours calendaires pour une tâche et le nombre de programmeurs estimé « idéal ». **De 2 (optimiste) à 5 (risque technologique)**, il est normal ; **3 est idéal**. Il sert à piloter le projet et à mesurer la productivité de l'équipe, plutôt qu'à s'en remettre à l'expérience du coach.
+
+<DeepDive title="Du facteur de charge à la vélocité" level="approfondissement">
+Dans l'XP d'origine, le *load factor* comparait le temps calendaire réel au temps de développement « idéal » (sans interruption) estimé : avec un facteur de 3, une tâche estimée à 1 jour idéal prend 3 jours du calendrier. Don Wells explique qu'il a été remplacé par la **project velocity** : on compte simplement les points des stories terminées à la dernière itération, et on en planifie autant pour la suivante. Plus de conversion entre temps idéal et temps réel : la mesure absorbe d'elle-même réunions, interruptions et imprévus.
+</DeepDive>
+
+### Concevoir : métaphore, spike, cartes CRC
+
+La **transition architecturale** (*architectural spike*) répond aux difficultés techniques de conception. La **métaphore du système** formalise la vision commune (le fil rouge du projet), un vocabulaire partagé, la créativité et une architecture à retenir. Exemples : le caddie électronique pour l'e-commerce, le courrier pour le mail, le bureau pour l'interface d'un OS, la **ligne de montage** pour la paie consolidée du projet C3. Risque : une métaphore trop faible, trop chargée de sens, ou abstraite.
+
+<Figure caption="Une carte CRC représente une classe en phase de conception · Source : support du cours">
+
+| **Classe de l'objet** | |
+| --- | --- |
+| Responsabilité 1 | Classe collaborative 1 (messages échangés a, b…) |
+|  | Classe collaborative 2 |
+|  | Classe collaborative 3 |
+| Responsabilité *x* | … |
+
+</Figure>
+
+**CRC** = *Class, Responsibilities, Collaborations* : la classe, ce dont elle est responsable, et avec quelles autres classes elle collabore.
+
+### Programmer l'itération
+
+Une itération dure **1 à 3 semaines** et commence par une *iteration planning meeting* : on rappelle et fixe le travail, on ordonne les tâches (avec leurs points) et on supprime les redondantes. Idéalement, une tâche fait **1 à 3 jours** : en dessous on regroupe, au-dessus on découpe. Puis… au travail !
+
+### Tests fonctionnels et tests unitaires
+
+<Compare leftTitle="Tests fonctionnels (acceptance)" rightTitle="Tests unitaires">
+  <Fragment slot="left">
+    - Construits à partir des **user stories**
+    - Spécifiés **par ou avec le client**, qui garantit leur signification
+    - En **boîte noire**, avec un résultat attendu pour chaque test
+    - Pas de test = la story est en **échec**
+    - L'équipe d'assurance qualité est impliquée dans le projet, pas externe
+  </Fragment>
+  <Fragment slot="right">
+    - Écrits par le **programmeur**, liés à une portion de code
+    - **Automatisés**, avec une plateforme de régression (ex. JUnit)
+    - Pour tout changement, même mineur, on vérifie qu'aucun effet de bord n'est introduit, sinon on sait jeter pour refaire
+    - Le code qu'on ne comprend plus, on le **refait** (*refactoring*) : il porte des fonctions inutiles, obsolètes, des risques et des coûts
+  </Fragment>
+</Compare>
+
+## Prioriser un backlog
+
+Tu gères une roadmap produit sous forme de **backlog d'exigences**. Quels critères considérer pour les prioriser ? Le support en cite de typiques : **valeur ajoutée**, **personas impactées**, *must-be*, **confiance / maturité**, **effort / complexité**, **risques**, **coût du retard**.
+
+### Un aperçu des méthodes
+
+Les points (●) indiquent la diffusion de la méthode, de 1 à 3.
+
+| Méthode | Critères | Pour · contre |
+| --- | --- | --- |
+| **RICE** ●●● | Reach, Impact, Confidence, Effort | + Simple et rapide, prend en compte impact et effort · − Peut être subjectif, demande des estimations précises |
+| **MoSCoW** ●●● | Must, Should, Could, Won't have | + Simple, catégorise clairement · − Peut ignorer l'impact ou l'effort |
+| **WSJF** ●●● | Valeur, temps, opportunité/risque, complexité | + Visuel, équilibre valeur et effort · − Peut être subjectif, demande des estimations précises |
+| **Weighted Scoring** ●● | Divers critères pondérés | + Plusieurs critères, flexible · − Complexe, demande des poids précis |
+| **Buyer Persona** ●● | Personas, besoins des utilisateurs | + Centré utilisateur · − Subjectif, demande des recherches utilisateurs |
+| **Impact Mapping** ●● | Objectifs, acteurs, impacts, exigences | + Aligne objectifs et exigences · − Complexe, demande une bonne compréhension des objectifs |
+| **Kano** ● | Attractive, one-dimensional, must-be, indifferent, reverse | + Prend en compte la satisfaction · − Complexe, demande des enquêtes utilisateurs |
+| **Cost of Delay** ● | Coût du retard, valeur économique | + Urgence et impact financier · − Complexe à calculer, demande des données financières |
+
+### RICE
+
+- **Reach** : nombre de personnes ou de communautés touchées par l'évolution, sur une période donnée.
+- **Impact** : degré d'impact de l'évolution pour l'utilisateur.
+- **Confidence** : confiance dans les scores de reach et d'impact (maturité des chiffres).
+- **Effort** : nombre de mois.homme pour développer l'évolution.
+
+Score RICE = Reach × Impact × Confidence ÷ Effort. On l'inscrit dans une **analyse de la valeur** : lister les problèmes (*pain points*, écarts avec la concurrence, impacts, évolutions d'architecture), scorer, définir des scénarios d'évolution, puis les présenter (*pitcher*) à la gouvernance et aux équipes.
+
+### MoSCoW
+
+<CardGrid cols={2}>
+  <Card kicker="Must" title="On ne peut s'en passer" tone="danger" />
+  <Card kicker="Should" title="Indispensable à long terme" tone="amber" />
+  <Card kicker="Could" title="Ajustement à faible coût" tone="synapse" />
+  <Card kicker="Won't" title="On y reviendra plus tard" tone="muted" />
+</CardGrid>
+
+Classification menée par le **Product Owner** sur l'urgence et l'importance, souvent arbitrée par une communauté de parties prenantes. Critiquée car on a tendance à **tout mettre en must**, à ne jamais engager le won't, et à ne pas tenir compte de l'effort (c'est pourtant possible).
+
+### WSJF
+
+**Weighted Shortest Job First** : WSJF = (Business value + Time criticality + Risk reduction / opportunity enablement) ÷ Job size.
+
+- **Business value** : la valeur ajoutée pour le produit.
+- **Risk reduction / opportunity enablement** : l'évolution en facilite une autre, atténue un risque, ouvre une opportunité commerciale ou concurrentielle.
+- **Time criticality** : le respect d'une échéance (légale ou contractuelle).
+
+La notation doit être **harmonisée** entre critères et appliquée à l'identique à toute évolution. Popularisée par SAFe pour séquencer epics, features ou backlog.
+
+<Figure caption="Le même backlog d'exemple classé par RICE puis par WSJF : clique sur une exigence pour régler ses critères · Formules : support du cours ; valeurs : exemple" wide>
+<Prioritize />
+</Figure>
+
+<Quiz question="Dans l'exemple, l'export comptable légal est 3e avec RICE mais 1er avec WSJF. Pourquoi ?" options={['RICE favorise les petits efforts', 'WSJF intègre la time criticality (échéance légale), que RICE ignore', 'WSJF ne tient pas compte de la taille du travail']} answer={1}>
+  **La time criticality.** RICE ne voit qu'une fonctionnalité utile à peu de monde (reach faible) ; WSJF compte l'échéance légale, qui coûte cher à rater. Le piège : croire qu'une méthode donne « la » bonne priorité. Chaque méthode encode une vision de la valeur ; le choix de la méthode est déjà une décision de priorisation.
+</Quiz>
+
+<DeepDive title="D'où vient RICE" level="best-practice">
+RICE a été formalisé chez Intercom par Sean McBride. Il y propose des échelles fixes pour limiter la subjectivité : impact de 0,25 (minimal) à 3 (massif), confidence de 50 % (faible) à 100 % (forte), effort en mois.personne. La consigne clé : la confidence sert à **pénaliser les idées enthousiasmantes mais mal étayées** ; en dessous de 50 %, c'est un « moonshot » à traiter à part.
+</DeepDive>
+
+### La matrice de Merrill et Covey
+
+Un principe d'organisation générale appliqué aux évolutions, qui croise **urgent / non urgent** et **important / non important** :
+
+<CardGrid cols={2}>
+  <Card kicker="Urgent · important" title="Nécessité : à prioriser" tone="danger">Crises, deadlines, problèmes, plaintes clients, réunions importantes.</Card>
+  <Card kicker="Non urgent · important" title="Proactivité : à programmer" tone="synapse">Relationnel, planification, team building, analyses et rétrospectives.</Card>
+  <Card kicker="Urgent · non important" title="Déception : à déléguer" tone="amber">Interruptions, réunions peu importantes, fausses urgences, tâches administratives.</Card>
+  <Card kicker="Non urgent · non important" title="Évitement : à repousser ou évacuer" tone="muted">Pertes de temps, divertissements, trivialités.</Card>
+</CardGrid>
+
+## Les pratiques d'or
+
+Avec les valeurs, les **pratiques** sont le fondement d'XP. Elles se rangent en trois groupes.
+
+<CardGrid cols={3}>
+  <Card kicker="Programmation" title="Le code" tone="signal">
+    - **Conception simple** : tout le code passe par les tests, concis, modulaire, cohérent, lisible
+    - **Refactoring** continu, sans changer le comportement
+    - **Tests unitaires** automatisés pour chaque classe ou méthode, objectif 100 %
+    - **Tests d'acceptance** : feedback rapide, à partir des critères du client
+  </Card>
+  <Card kicker="Collaboration" title="L'équipe" tone="amber">
+    - **Pair programming** : pilote et copilote, qui changent pendant le projet
+    - **Propriété collective du code** : à tous ou à personne
+    - **Convention de codage** (nommage, présentation)
+    - **Métaphore** : la vision du projet
+    - **Intégration continue** : tout assembler et tester une à plusieurs fois par jour
+    - **Mob programming** : situation extrême, toute l'équipe sur un même code
+  </Card>
+  <Card kicker="Gestion de projet" title="Le rythme" tone="synapse">
+    - **Livraisons fréquentes**, au rythme le plus soutenu possible
+    - **Jeu de planification** : le client priorise les stories, les développeurs en discutent le contenu
+    - **Client sur site** (*on-site customer*), communication interactive forte
+    - **Rythme soutenable** (*sustainable pace*, ex. 40 h/semaine) pour tenir dans la durée
+  </Card>
+</CardGrid>
+
+<Callout type="tip" title="XP et l'IA : le pair programming">
+Les outils de complétion, d'analyse et de production de code par IA (GitHub Copilot…) changent l'approche et **se positionnent en « pair »** : l'IA devient un troisième partenaire, sinon le second. C'est l'évolution directe du binômage.
+</Callout>
+
+## La gestion d'équipe
+
+### Propriété du code
+
+**Personne ne possède le code.** Il faut donc tenir le registre du dernier modificateur et organiser la répartition (temporaire) des modificateurs.
+
+| Point de résistance | Ce qui y répond |
+| --- | --- |
+| Sentimentalisme, émotion, fierté sur « son » code | L'équipe |
+| Responsabilité diluée, perte de motivation | Le binôme |
+| Difficulté à utiliser les expertises pointues | L'expertise approfondie (*deep expertise*) |
+| Code moins homogène | La norme de programmation |
+| Mise en séquence des développements difficile | L'intégration continue |
+
+### Rythme, espace et organisation
+
+- **Intégration** : en continu, au minimum une fois par jour, en fin de journée.
+- **Surcharge** : la *death march* (« je ne partirai pas tant que ça ne marche pas »)… mais **40 h par semaine maximum**.
+- **Espace** : proximité (bureau paysager, open space, flex office) ; difficile en multi-sites ou multi-partenaires.
+- **Organisation** : une norme de programmation acceptée par tous, des paires qui changent régulièrement, on change celui qui tient le clavier, **un seul propriétaire par tâche** (un membre de la paire), la difficulté de former les bonnes paires (âge…), et la « demi-productivité » apparente du binôme à gérer.
+
+### Les profils
+
+<CardGrid cols={3}>
+  <Card kicker="Programmeur" title="Code et estime" tone="signal">Code ; propose les estimations à la planification.</Card>
+  <Card kicker="Client" title="Achète et décide" tone="signal">Achète, (co-)écrit les tests, décide de la portée, définit les priorités.</Card>
+  <Card kicker="Testeur" title="Teste" tone="signal">(Co-)écrit et déroule les tests.</Card>
+  <Card kicker="Traceur (tracker)" title="Mesure" tone="amber">Archive les données de performance (vélocité, tests déroulés) pour affiner la capacité ; suit les plannings de livraison, d'itération, de validation et de tests.</Card>
+  <Card kicker="Coach" title="Guide" tone="amber">Un programmeur qui guide l'application des principes. Pas de chef en XP : trop éloigné du code.</Card>
+  <Card kicker="Manager" title="Représente" tone="muted">Représente le projet à l'extérieur, obtient les ressources, organise et administre ; rôle contractuel, sans rôle interne (ni priorités, ni affectations, ni estimations).</Card>
+</CardGrid>
+
+<Quiz question="Dans une équipe XP, qui décide de l'ordre des user stories dans la prochaine itération ?" options={['Le coach', 'Le manager', 'Le client', 'Les programmeurs']} answer={2}>
+  **Le client.** Il définit les priorités en tenant compte des points estimés par les programmeurs. Le piège du manager : il représente le projet et obtient les ressources, mais n'a explicitement aucun rôle interne sur les priorités ou les estimations. Et le coach guide la méthode, pas le contenu.
+</Quiz>
+
+## Quelques réflexions
+
+### Les qualités d'XP
+
+- Favorise les **échanges** entre les parties du projet.
+- La large place des **tests** sécurise à la fois la qualité et la validité du développement.
+- L'itération fait avancer **à pas mesuré** (limite l'investissement et les provisions pour risques).
+- **Adapté quand le besoin change.**
+- Le formalisme est réduit au strict nécessaire.
+
+### Les critiques, et leurs contre-arguments
+
+| Critique | Contre | Pour |
+| --- | --- | --- |
+| XP est trop **radical** | « Tout doit être appliqué » : contraire à l'esprit agile, qui prône la souplesse | Elle est peu contraignante, et la cadence des itérations impose une rigueur évidente |
+| XP est **absurde** pour un gestionnaire | L'avancée progressive ne permet pas de prévoir durée et coût | On n'avance peut-être pas par le plus court chemin, mais on avance, concentré sur le plus important : on « navigue à vue » |
+| XP, c'est pour les **petits projets** | Équipe de 8-10 maximum ; au-delà, le coach ne maîtrise plus et XP s'écroule sous les flux | Certains l'envisagent en pyramide, en « projet de projets » |
+| XP pose de gros soucis de **gestion d'équipe** | Il faut un coach expérimenté, une équipe rodée, un client constructif ; les meilleurs joueurs ne font pas la meilleure équipe | La communication aide à gommer les problèmes |
+
+### XP et le DevOps
+
+Les pratiques XP (**TDD**, **intégration continue**, **petites livraisons**) sont des leviers directs pour améliorer les **indicateurs DORA** utilisés en DevOps (*deployment frequency*, *lead time for changes*). On peut les relier au facteur de vélocité, ce qui donne une crédibilité « business » et industrielle aux pratiques techniques. Le cycle TDD l'illustre : **red** (un test qui échoue), **green** (le code minimal qui le fait passer), **refactor**.
+
+<DeepDive title="Les quatre indicateurs DORA" level="best-practice">
+Le programme de recherche DORA (DevOps Research and Assessment) mesure la performance de livraison avec quatre indicateurs : deux de **débit**, la fréquence de déploiement et le délai entre un commit et sa mise en production (*lead time for changes*), et deux de **stabilité**, le taux de changements qui provoquent un incident (*change failure rate*) et le temps de restauration après incident. Le point clé de ces études : les meilleures équipes sont bonnes **sur les quatre à la fois**, vitesse et stabilité ne s'opposent pas. Petites livraisons et tests automatisés améliorent les deux.
+</DeepDive>
+
+## À retenir
+
+<Takeaways>
+1. **XP est un processus de développement**, pas une méthode de gestion de projet : il complète Scrum sur le « comment coder ».
+2. **4 valeurs** : communication, simplicité (YAGNI), courage, feedback. Le client est sur site et priorise.
+3. **Le cycle** : user stories estimées en points, release plan, itérations de 1 à 3 semaines, tests d'acceptance qui renvoient bugs et itération suivante.
+4. **Prioriser** : RICE (R × I × C ÷ E), MoSCoW (attention au tout-must), WSJF (valeur + criticité + risque, ÷ taille).
+5. **Pratiques** de programmation (tests, refactoring), de collaboration (binôme, code collectif, intégration continue) et de gestion (livraisons fréquentes, 40 h) ; limites : équipes de 8-10, coach expérimenté indispensable.
+</Takeaways>

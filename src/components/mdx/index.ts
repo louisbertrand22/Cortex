@@ -38,6 +38,9 @@ import AzFailure from '../viz/AzFailure.astro';
 import SplitModels from '../viz/SplitModels.astro';
 import Availability from '../viz/Availability.astro';
 import IntegrationTiers from '../viz/IntegrationTiers.astro';
+import EffortRatios from '../viz/EffortRatios.astro';
+import Prioritize from '../viz/Prioritize.astro';
+import CmmiLevels from '../viz/CmmiLevels.astro';
 
 export const components = {
   Callout,
@@ -76,4 +79,7 @@ export const components = {
   SplitModels,
   Availability,
   IntegrationTiers,
+  EffortRatios,
+  Prioritize,
+  CmmiLevels,
 };

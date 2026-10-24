@@ -1,0 +1,284 @@
+---
+title: CMMI, la maturité des processus
+subtitle: Un modèle de bonnes pratiques, deux représentations, une démarche à construire
+subject: methodes
+session: 3
+description: "Ce qu'est un processus mature, d'où vient CMMI, ses 25 secteurs clés, ses représentations étagée (niveaux de maturité) et continue (niveaux de capacité), ses versions 2.0 et 3.0, et ses risques."
+tags: [CMMI, processus, maturité, capacité, représentation étagée, représentation continue, SEI, ISACA]
+objectives:
+  - Définir un processus et distinguer un processus mature d'un processus immature.
+  - Retracer l'histoire de CMMI, du CMM du DoD à la v3 de l'ISACA.
+  - Décrire les 5 niveaux de maturité de la représentation étagée et les secteurs clés de chacun.
+  - Comparer représentation étagée et représentation continue, et choisir selon l'organisation.
+  - Situer CMMI parmi ISO 9000, SPICE, Six Sigma, ITIL et COBIT.
+  - Expliquer pourquoi CMMI dit quoi faire mais pas comment.
+sources:
+  - label: Support de cours « Méthodes — CMMI » (2025) — Hervé Durand, EPITA
+  - label: CMMI Product Team, « CMMI for Development, Version 1.3 », Software Engineering Institute (CMU/SEI-2010-TR-033, 2010)
+    url: https://insights.sei.cmu.edu/library/cmmi-for-development-version-13/
+  - label: ISACA, « CMMI Performance Solutions »
+    url: https://cmmiinstitute.com/cmmi
+updated: 2026-10-24
+---
+
+Les sessions précédentes parlaient de méthodes pour mener **un** projet. CMMI change d'échelle : il évalue et fait progresser **l'organisation** qui mène tous ses projets. Son postulat tient en une phrase : « *The quality of a product is largely determined by the quality of the process that is used to develop and maintain it.* » Si les projets livrent en retard, c'est d'abord le processus qu'il faut regarder. Plan du support : le pourquoi et le contexte, les représentations, la démarche, la critique.
+
+## Pourquoi CMMI
+
+### Le contexte
+
+- Priorité donnée à la **maîtrise des coûts et des délais**.
+- Volonté de **rationaliser le processus** de développement.
+- Objectif d'**amélioration des organisations**.
+- **Qualification des fournisseurs**, internes et partenaires.
+
+### Processus et maturité
+
+<Callout type="definition" title="Processus">
+Un ensemble d'**activités**, de **pratiques**, d'**outils**, d'**équipements** et de **méthodes** mis en œuvre par des **acteurs formés** pour atteindre un **objectif** défini au préalable. Bénéfice attendu d'un bon processus : l'**industrialisation** et l'économie d'effort sur les tâches répétitives.
+</Callout>
+
+<Compare leftTitle="Processus immature" rightTitle="Processus mature">
+  <Fragment slot="left">
+    - Basé sur la **réaction**
+    - **Improvisé**
+    - Ni contrôlé, ni suivi, ni mesuré
+    - Ni soutenu, ni en voie d'amélioration
+  </Fragment>
+  <Fragment slot="right">
+    - **Consistant, défini, documenté**, en amélioration constante
+    - Communiqué, compris, utilisé, critiqué et amélioré **par les acteurs**
+    - Décidé et soutenu par le **management**, qui le contrôle et en apprécie les bénéfices
+  </Fragment>
+</Compare>
+
+### L'origine : la fiabilité des fournisseurs
+
+**Trop de projets sont livrés en retard.** Le manque de fiabilité porte sur le respect des délais et sur la qualité du produit. Résultat : au milieu des années 80, le **département de la Défense américain (DoD)** lance une initiative pour établir un **référentiel d'évaluation de ses fournisseurs**.
+
+## Du CMM à CMMI v3
+
+```mermaid
+flowchart TB
+  dod[Milieu des années 80 · initiative du US DoD] --> cmm[1991 · CMM v1, puis v1.1 en 1993 · Mitre et SEI]
+  cmm --> der[Dérivés : SW-CMM, SE-CMM, SA-CMM, IPD-CMM, People-CMM · en parallèle SPICE et SECAM]
+  der --> cmmi[CMMI · synthèse pour sortir de la confusion · 2004]
+  cmmi --> split[CMMI-DEV 2006 · CMMI-ACQ 2007 · CMMI-SVC 2009]
+  split --> v2[2018 · CMMI 2.0 · ISACA]
+  v2 --> v3[6 avril 2023 · CMMI v3]
+  classDef hot fill:var(--signal-soft),stroke:var(--signal);
+  class cmmi hot
+```
+
+### Le CMM
+
+Version 1 en **1991**, puis 1.1 en **1993** : le « modèle d'évolution des capacités logiciel » (*Capability Maturity Model*), conçu grâce à **Mitre Corporation** (organisation à but non lucratif) et au **SEI**. Sa structure :
+
+- une **méthode d'évaluation** du niveau de maturité d'une entreprise en développement logiciel ;
+- une **liste de pratiques classées** (gestion des exigences, planification de projet…) ;
+- des niveaux de maturité de **1 (initial) à 5 (en amélioration continue)**.
+
+Son succès le fait rebaptiser **SW-CMM** et décliner en SE-CMM (*system engineering*), SA-CMM (*software acquisition*), IPD-CMM (*integrated product development*), People-CMM (RH). En parallèle naissent **SPICE** (ISO) et **SECAM** (INCOSE).
+
+### CMMI, la synthèse
+
+Tous ces modèles engendrent une certaine **confusion**. Leur synthèse produit **CMMI** en 2004 (*Capability Maturity Model Integration*), à partir de SW-CMM v2 draft C (« modèle de référence, ensemble structuré de bonnes pratiques, destiné à appréhender, évaluer et améliorer les activités des entreprises d'ingénierie »), de l'EIA 731 (SECM) et d'IPD-CMM draft 0.98.
+
+### Institutions et versions
+
+- **2001** : le **SEI** (Software Engineering Institute, Carnegie Mellon) gère CMMI. Centre de R&D fédéral financé par le DoD, il vise l'amélioration du processus de développement logiciel.
+- CMMI se scinde en **CMMI-DEV** (développement de systèmes, 2006), **CMMI-ACQ** (achats, novembre 2007) et **CMMI-SVC** (services, février 2009). **60 % est commun** aux trois (le *core*) ; les différences portent surtout sur l'ingénierie.
+- **2016** : le CMMI Institute est intégré à l'**ISACA**, association professionnelle de la gouvernance des SI.
+- **2018** : CMMI **2.0** publié par l'ISACA.
+- **2023** : CMMI **v3**.
+
+<Stat value="10 000" label="organisations référencées" hint="dans 106 pays : Airbus, Boeing, Bosch, IBM, Infosys, NASA, Samsung, Tata, l'US Air Force…" />
+
+### Le paysage normatif
+
+<CardGrid cols={2}>
+  <Card kicker="ISO 9000" title="Management de la qualité" tone="default">Les fondamentaux du management de la qualité : normes et lignes directrices pour mettre en place un système de management de la qualité.</Card>
+  <Card kicker="ISO SPICE" title="Management des processus" tone="default">*Software Process Improvement and Capability dEtermination* : une dimension processus, une dimension capacité.</Card>
+  <Card kicker="Six Sigma" title="Contrôle statistique" tone="default">Qualité fondée sur l'étude d'indicateurs de variation : moins de rebuts, meilleure production, moins de stocks, plus de parts de marché.</Card>
+  <Card kicker="CMMI" title="Bonnes pratiques" tone="signal">Davantage un **modèle de bonnes pratiques**.</Card>
+</CardGrid>
+
+## La structure du modèle
+
+<KeyIdea>CMMI n'est pas une méthodologie mais un modèle.</KeyIdea>
+
+- **25 secteurs clés** (*process areas*) structurent le modèle, mais on peut en utiliser moins.
+- Pour chaque secteur, spécifiques ou communs à plusieurs secteurs : des **objectifs** et des **pratiques**.
+- **Deux représentations** coexistent et utilisent les secteurs différemment : **continue** (*continuous*) et **étagée** (*staged*).
+- CMMI s'applique surtout à trois domaines : le **développement**, l'**acquisition** et les **services**.
+
+Les deux représentations partagent le même contenu (introduction, structure, terminologie, composants génériques, utilisation du modèle) ; seule l'organisation des secteurs change.
+
+## La représentation étagée
+
+L'organisation se voit attribuer un **niveau global de maturité**, de 1 à 5. Les 25 secteurs sont répartis par niveau, et **tous les secteurs d'un niveau doivent être remplis** pour que l'organisation soit notée à ce niveau : pour passer du niveau 3 au niveau 4, il faut les 14 secteurs du niveau 3 !
+
+| Niveau (secteurs) | Description | Ce que ça apporte |
+| --- | --- | --- |
+| 1 · Initial (0) | Processus imprévisibles, peu contrôlés, réactifs | Réinvention permanente de l'eau tiède, incohérence |
+| 2 · Géré (7) | Processus caractérisés **pour les projets**, mode réactif | Planification, cycles de temps raccourcis |
+| 3 · Défini (14) | Processus définis **pour l'organisation**, mode proactif, expérience partagée | Coût, fonction, qualité, productivité |
+| 4 · Maîtrisé (quantitativement géré) (2) | Processus stables, **mesurés** et contrôlés, ajustements continus | Prédictibilité, réutilisation, qualité |
+| 5 · En optimisation (2) | Focus sur l'**amélioration continue** des processus | Contrôle du business et des changements |
+
+<Callout type="note" title="Une incohérence du support">
+Le support décrit aussi le niveau 1 par « objectifs associés à ce secteur clé non remplis » et le niveau 2 par « processus imprévisibles et incontrôlables » : ce sont les descriptions décalées d'un cran. La pyramide et le tableau ci-dessus, qui viennent aussi du support, donnent la lecture cohérente : imprévisible au niveau 1, géré par projet au niveau 2.
+</Callout>
+
+| Niveau | Focus | Secteurs clés |
+| --- | --- | --- |
+| 5 · Optimisation | Amélioration continue des processus | Organizational Innovation and Deployment · Causal Analysis and Resolution |
+| 4 · Maîtrisé | Gestion quantitative | Organizational Process Performance · Quantitative Project Management |
+| 3 · Défini | Standardisation des processus | Requirements Development · Technical Solution · Product Integration · Verification · Validation · Organizational Process Focus · Organizational Process Definition · Organizational Training · Integrated Project Management · Risk Management · Decision Analysis and Resolution · Integrated Supplier Management (SS) · Organizational Environment for Integration (IPPD) · Integrated Teaming (IPPD) |
+| 2 · Géré | Gestion de projet de base | Requirements Management · Project Planning · Project Monitoring and Control · Supplier Agreement Management · Measurement and Analysis · Process and Product Quality Assurance · Configuration Management |
+| 1 · Initial | — | — |
+
+## La représentation continue
+
+Les 25 secteurs sont regroupés en **quatre catégories** : gestion de processus (5), gestion de projet (8), ingénierie (6), support (6). À **chaque secteur** est associé un **niveau de capacité, de 0 à 5**.
+
+| Niveau de capacité | Description |
+| --- | --- |
+| 0 · Incomplet | Les objectifs du secteur ne sont pas remplis |
+| 1 · Réalisé | Objectifs atteints, mais surtout **grâce aux individus** |
+| 2 · Géré | Objectifs remplis grâce à des **plans préétablis** |
+| 3 · Défini | L'organisation a une politique de **normalisation** des processus |
+| 4 · Maîtrisé | L'organisation a une politique de **contrôle** des processus, pour agir en cas de déviation |
+| 5 · En optimisation | Les processus sont sans cesse **remis en question** pour rester en adéquation avec les objectifs |
+
+| Catégorie | Secteurs clés |
+| --- | --- |
+| Gestion de projet (8) | Project Planning · Project Monitoring and Control · Supplier Agreement Management · Integrated Project Management (IPPD) · Integrated Supplier Management (SS) · Integrated Teaming (IPPD) · Risk Management · Quantitative Project Management |
+| Support (6) | Configuration Management · Process and Product Quality Assurance · Measurement and Analysis · Causal Analysis and Resolution · Decision Analysis and Resolution · Organizational Environment for Integration (IPPD) |
+| Ingénierie (6) | Requirements Management · Requirements Development · Technical Solution · Product Integration · Verification · Validation |
+| Gestion de processus (5) | Organizational Process Focus · Organizational Process Definition · Organizational Training · Organizational Process Performance · Organizational Innovation and Deployment |
+
+Le résultat d'une évaluation continue est un **profil** : pour chaque secteur, le niveau atteint face à l'objectif visé.
+
+<Figure caption="Les mêmes 25 secteurs vus des deux façons. En étagée, clique sur un secteur pour le valider ou l'invalider ; en continue, pour monter sa capacité · Source : support du cours (CMMI v1.1)" wide>
+<CmmiLevels />
+</Figure>
+
+<Quiz question="Une organisation valide les 14 secteurs du niveau 3, mais pas Configuration Management (niveau 2). Quel est son niveau de maturité en représentation étagée ?" options={['Niveau 3, puisque tout le niveau 3 est validé', 'Niveau 2', 'Niveau 1']} answer={2}>
+  **Niveau 1.** L'escalier se monte marche à marche : le niveau 2 exige ses 7 secteurs, dont Configuration Management. Les secteurs du niveau 3 ne comptent pas tant que la marche du dessous est incomplète. Le piège : additionner les secteurs validés ; en étagée, seul compte le niveau complet le plus haut. En continue, au contraire, ce travail serait visible secteur par secteur.
+</Quiz>
+
+## Étagée ou continue ?
+
+<Compare leftTitle="Représentation étagée" rightTitle="Représentation continue">
+  <Fragment slot="left">
+    **Qualités**
+    - Un **guide** appréciable pour conduire l'amélioration : l'ordre des secteurs est imposé
+    - **Plus facile à mettre en œuvre** : pour chaque secteur, il suffit de savoir s'il est validé ou non
+
+    **Faiblesses**
+    - **Moins de détails** sur l'organisation : un seul niveau global est déterminé
+
+    **Pour qui** : les structures de **faible taille**, au fonctionnement maîtrisable
+  </Fragment>
+  <Fragment slot="right">
+    **Qualités**
+    - Une **grande liberté** dans le choix des secteurs à améliorer en priorité
+    - Une **finesse d'analyse** : chaque secteur est évalué à tout moment
+
+    **Faiblesses**
+    - « Un escalier se monte marche à marche » : à vouloir tout réformer, l'organisation risque de **s'effondrer sur elle-même**
+    - La détermination des niveaux de capacité peut être **subjective**
+
+    **Pour qui** : les **grandes structures**, pour sa vue d'ensemble et sa capacité de synthèse
+  </Fragment>
+</Compare>
+
+<Callout type="tip" title="On peut passer de l'une à l'autre">
+Il est toujours possible de passer de la représentation continue à l'étagée : on prend les secteurs d'un niveau de maturité donné, et on regarde si leur niveau de capacité est validé ou non.
+</Callout>
+
+## CMMI 2.0 et v3
+
+### CMMI 2.0 (décembre 2018)
+
+<CardGrid cols={2}>
+  <Card kicker="Évolutions" title="Ce qui change" tone="signal">
+    - Des **KPI orientés performance business**
+    - Les meilleures pratiques récentes, dont les modèles **agiles et SAFe**
+    - Un **benchmarking permanent**
+    - Des modèles avec KPI et bonnes pratiques pour le **développement**, les **services**, la **supply chain** et le **people management**
+  </Card>
+  <Card kicker="Structure" title="4 catégories, 12 capability areas" tone="signal">
+    - **Doing** : Ensuring Quality · Engineering & Developing Products · Delivering and Managing Services · Selecting & Managing Suppliers
+    - **Managing** : Planning and Managing Work · Managing Business Resilience · Managing the Workforce
+    - **Enabling** : Supporting Implementation · Managing Safety · Managing Security
+    - **Improving** : Sustaining Habit and Persistence · Improving Performance
+  </Card>
+</CardGrid>
+
+### CMMI v3 (6 avril 2023)
+
+Une **refonte stratégique** qui aligne l'amélioration des processus sur la performance commerciale, la résilience technologique et la transformation numérique. On passe de la « CMMI Product Suite » au **« CMMI Performance Solutions Ecosystem »** : une approche holistique, où l'amélioration n'est plus une suite d'étapes séquentielles mais une **transformation organisationnelle totale**. Une mise à jour intégrant l'**intelligence artificielle** est annoncée.
+
+| Domaine | Sigle | Focus |
+| --- | --- | --- |
+| Development | DEV | Ingénierie de produits et solutions logicielles et matérielles |
+| Services | SVC | Livraison et gestion de services clients et B2B |
+| Suppliers | SPM | Sélection et gestion des partenaires externes |
+| Data | DATA | Gouvernance, gestion et qualité des données |
+| People | PPL | Autonomisation, rétention et montée en compétences |
+| Virtual | VRT | Efficacité et sécurité du travail distribué |
+| Safety | SAF | Sécurité (sûreté) des produits et services |
+| Security | SEC | Résilience face aux menaces, renforcement des défenses |
+
+<DeepDive title="Le chaînon manquant : CMMI v1.2 et v1.3" level="approfondissement">
+Les 25 secteurs du support sont ceux de **CMMI v1.1**, avec les extensions IPPD (Integrated Teaming, Organizational Environment for Integration) et SS (Integrated Supplier Management). La v1.2 (2006) a simplifié le modèle de développement à **22 process areas** : IPPD devient une option portée par d'autres secteurs, Integrated Supplier Management est fondu dans Supplier Agreement Management. La v1.3 (2010) remplace Organizational Innovation and Deployment par **Organizational Performance Management**, et ramène les niveaux de capacité de la représentation continue à **0-3** : les niveaux 4 et 5 n'existent plus qu'en maturité. CMMI 2.0 remplace ensuite les *process areas* par des *practice areas* regroupées dans les 12 capability areas présentées plus haut.
+</DeepDive>
+
+## La démarche et la critique
+
+### Un modèle, pas une démarche
+
+CMMI propose **un modèle, pas une démarche** : il dit **quoi faire, pas comment**. L'implémentation se construit, selon deux types de parcours : **centré sur l'audit** ou **centré sur le déploiement**.
+
+### Les modèles à la mode
+
+- **ITIL, SPICE, COBIT et CMMI** sont à la mode.
+- Attention : ils deviennent des **conditions d'éligibilité** pour figurer au catalogue fournisseurs et partenaires de certains groupes (fort dynamisme en région PACA).
+- Le succès d'une organisation repose sur les **individus** : ce n'est pas une invitation à ne garder que des ressources peu compétentes avec d'excellents processus.
+- Non couvert : l'**exploitation** informatique.
+
+### Les risques d'une démarche CMMI
+
+<CardGrid cols={2}>
+  <Card kicker="Risques" title="Ce qui peut mal tourner" tone="danger">
+    - Modification de l'organisation
+    - Résistance au changement
+    - Relative complexité du modèle
+    - Une transition qui dure
+    - En cas d'échec, **peu de chances d'utiliser un autre modèle**
+  </Card>
+  <Card kicker="Pour l'entreprise" title="Ce qu'on y gagne, et les pièges" tone="synapse">
+    - L'occasion de se demander si chaque processus est **justifié, productif et optimal**
+    - Une remise à plat exigeante, mais une **meilleure organisation**
+    - Attention à la **perte de créativité et de polyvalence**
+    - Attention aux attitudes « **ceinture et bretelles** »
+  </Card>
+</CardGrid>
+
+On préconise souvent de **progresser par étapes successives**, pas forcément en un seul cycle.
+
+<Quiz question="Une équipe agile craint que CMMI l'oblige à abandonner Scrum. A-t-elle raison ?" options={['Oui : CMMI impose un cycle en V documenté', 'Non : CMMI dit quoi atteindre, pas comment ; une démarche agile peut satisfaire ses pratiques', 'Oui : CMMI et agilité sont incompatibles par nature']} answer={1}>
+  **Non.** CMMI est un modèle, pas une méthodologie : il fixe des objectifs et des pratiques attendues (planifier, suivre, gérer les exigences…), pas la façon de les mettre en œuvre. CMMI 2.0 intègre d'ailleurs explicitement les modèles agiles et SAFe. Le vrai risque est ailleurs : l'excès de formalisme « ceinture et bretelles » et la perte de créativité.
+</Quiz>
+
+## À retenir
+
+<Takeaways>
+1. **La qualité du produit dépend de la qualité du processus** : CMMI évalue et fait progresser l'organisation, né du besoin du DoD de qualifier ses fournisseurs.
+2. **Un modèle, pas une méthodologie** : 25 secteurs clés avec objectifs et pratiques ; il dit quoi faire, pas comment.
+3. **Étagée** : un niveau de maturité global de 1 à 5 (initial, géré, défini, maîtrisé, en optimisation), chaque marche exigeant tous ses secteurs (7, 14, 2, 2).
+4. **Continue** : un niveau de capacité de 0 à 5 par secteur, dans 4 catégories ; plus libre et plus fin, mais plus subjectif. Étagée pour les petites structures, continue pour les grandes.
+5. **CMMI 2.0** (2018) : 4 catégories (Doing, Managing, Enabling, Improving), 12 capability areas ; **v3** (2023) : 8 domaines et une approche holistique. Risques : résistance, complexité, perte de créativité.
+</Takeaways>

@@ -59,4 +59,6 @@ Dans une leçon (ou sur `/guide`) : build, puis rendu clair/sombre, 1440 px et 3
   serveur) · `AzFailure` (mono-AZ, multi-AZ, multi-région face à une panne).
 - **UBSI** : `SplitModels` (standard, ERP, data centric, micro services) · `Availability` (composants en série ou en
   parallèle) · `IntegrationTiers` (intégration manuelle, IHM, AS, batch, base de données).
+- **MÉTHODES** : `EffortRatios` (méthode des ratios : une estimation, toutes les phases) · `Prioritize` (backlog classé
+  par RICE ou WSJF) · `CmmiLevels` (CMMI étagé vs continu, les 25 secteurs clés).
 - **Génériques** : `Pipeline` · `BarChart`.

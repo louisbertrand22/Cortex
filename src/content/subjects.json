@@ -63,5 +63,16 @@
     "accent": "signal",
     "order": 4,
     "plannedSessions": 3
+  },
+  {
+    "id": "methodes",
+    "title": "Méthodes de développement",
+    "short": "MÉTHODES",
+    "description": "Du génie logiciel aux méthodes : cycles en V, spirale et itératifs, agilité avec Scrum et XP, priorisation d'un backlog, maturité des processus avec CMMI.",
+    "teacher": "Hervé Durand",
+    "domain": "genie-logiciel",
+    "accent": "signal",
+    "order": 5,
+    "plannedSessions": 3
   }
 ]
