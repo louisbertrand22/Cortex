@@ -1,0 +1,180 @@
+---
+title: C'est quoi, l'IA ?
+subtitle: Une machine qui apprend par l'exemple, pas un cerveau
+subject: ia-zero
+session: 1
+description: Repérer l'IA dans ta journée, comprendre la différence entre un programme classique et une IA, situer ChatGPT dans 75 ans d'histoire, et démêler la science-fiction de la réalité.
+tags: [définition, programme vs IA, histoire, IA faible, IA générale]
+objectives:
+  - Reconnaître au moins cinq IA que tu utilises déjà sans y penser.
+  - Expliquer avec tes mots la différence entre un programme classique et une IA.
+  - Situer ChatGPT dans l'histoire de l'IA, de Turing à aujourd'hui.
+  - Distinguer ce que l'IA sait faire aujourd'hui de ce qu'on voit dans les films.
+sources:
+  - label: Alan Turing, « Computing Machinery and Intelligence » (1950)
+    url: https://academic.oup.com/mind/article/LIX/236/433/986238
+  - label: CNIL — Glossaire de l'intelligence artificielle
+    url: https://www.cnil.fr/fr/intelligence-artificielle/glossaire-ia
+  - label: Elements of AI — cours en ligne gratuit (Université d'Helsinki), disponible en français
+    url: https://www.elementsofai.com/fr/
+updated: 2026-10-24
+---
+
+Tu utilises de l'intelligence artificielle des dizaines de fois par jour, souvent sans le savoir. Ce chapitre répond à une question simple : **qu'est-ce que c'est, au juste ?** Pas besoin de savoir coder ni d'être fort en maths. Il te faut juste de la curiosité.
+
+## L'IA est déjà dans ta poche
+
+Avant de définir quoi que ce soit, regarde ta journée d'hier. Tu as sûrement croisé tout ça :
+
+<CardGrid cols={3}>
+  <Card kicker="Le matin" title="Face ID">
+    Ton téléphone reconnaît ton visage, même avec une capuche, des lunettes ou une coupe différente. Personne ne lui a décrit ton nez : il a **appris** à quoi tu ressembles.
+  </Card>
+  <Card kicker="Dans le bus" title="Le fil TikTok ou YouTube">
+    Chaque vidéo que tu regardes jusqu'au bout, que tu likes ou que tu zappes est un indice. L'IA s'en sert pour deviner ce qui te gardera devant l'écran.
+  </Card>
+  <Card kicker="En cours" title="Le correcteur du téléphone">
+    Il te propose le mot suivant pendant que tu tapes. C'est un tout petit cousin de ChatGPT, et on verra au chapitre 3 que l'idée est exactement la même.
+  </Card>
+  <Card kicker="Après les cours" title="Google Maps">
+    Il prévoit les bouchons à partir des téléphones des autres conducteurs et des embouteillages des semaines passées.
+  </Card>
+  <Card kicker="Le soir" title="Le filtre anti-spam">
+    Ta boîte mail jette des centaines d'arnaques sans que tu les voies. Elle a appris à les reconnaître sur des millions d'exemples.
+  </Card>
+  <Card kicker="N'importe quand" title="ChatGPT, Gemini, Le Chat…" tone="signal">
+    La star du moment. Tu lui poses une question, il écrit une réponse. On lui consacre tout le chapitre 3.
+  </Card>
+</CardGrid>
+
+<Quiz question="Parmi ces objets, lequel n'utilise PAS d'intelligence artificielle ?" options={['Le déverrouillage par reconnaissance faciale', 'Une calculatrice de collège', 'Les suggestions de musique sur Spotify', 'La traduction d’une photo de menu avec Google Lens']} answer={1}>
+  **La calculatrice.** Elle applique des règles fixes écrites par un ingénieur : 2 + 2 donnera toujours 4, de la même façon, pour toujours. Elle n'a rien appris. C'est exactement la différence qu'on va voir juste après.
+</Quiz>
+
+## Programme classique contre IA
+
+### La recette de cuisine
+
+Un **programme** classique, c'est une recette ultra précise. Un humain écrit chaque étape et l'ordinateur les suit à la lettre, sans jamais s'en écarter :
+
+> SI le mail contient « gagnez un iPhone » ALORS c'est un spam.
+
+Ça marche… jusqu'au jour où l'arnaqueur écrit « gaaagnez un 1Phone ». La règle ne le reconnaît plus. Il faudrait écrire une règle pour chaque variante, et il y en a des millions.
+
+### Apprendre par l'exemple
+
+Une **IA** prend le problème à l'envers. Au lieu de lui donner les règles, on lui donne **des exemples avec la bonne réponse**. Par exemple, 100 000 mails étiquetés « spam » ou « pas spam ». Elle cherche toute seule ce qui les distingue. Elle fabrique ses propres règles, souvent trop nombreuses et trop subtiles pour qu'un humain les écrive.
+
+<Compare leftTitle="Programme classique" rightTitle="Intelligence artificielle">
+  <Fragment slot="left">
+    - Un humain écrit **les règles**
+    - L'ordinateur les applique à la lettre
+    - Toujours le même résultat, facile à vérifier
+    - Perdu dès qu'un cas n'était pas prévu
+    - Exemples : calculatrice, réveil, jeu de morpion
+  </Fragment>
+  <Fragment slot="right">
+    - Un humain donne **des exemples**
+    - La machine en déduit ses propres règles
+    - Se débrouille avec des cas jamais vus
+    - Peut se tromper, et on ne sait pas toujours pourquoi
+    - Exemples : Face ID, anti-spam, ChatGPT
+  </Fragment>
+</Compare>
+
+```mermaid title="Les deux façons de faire faire un travail à un ordinateur"
+flowchart TB
+  subgraph P["Programme classique"]
+    direction LR
+    R["Règles écrites par un humain"] --> O1(("Ordinateur"))
+    D1["Données"] --> O1
+    O1 --> A1["Réponses"]
+  end
+  subgraph M["Intelligence artificielle"]
+    direction LR
+    D2["Données"] --> O2(("Ordinateur"))
+    A2["Bonnes réponses"] --> O2
+    O2 --> R2["Règles apprises"]
+  end
+  P ~~~ M
+  classDef ia fill:var(--signal-soft),stroke:var(--signal);
+  class O2,R2 ia;
+```
+
+<KeyIdea>Un programme suit des règles. Une IA les fabrique à partir d'exemples.</KeyIdea>
+
+<Callout type="definition" title="Intelligence artificielle">
+  Une machine capable de faire une tâche qu'on croyait réservée aux humains (reconnaître un visage, comprendre une phrase, jouer aux échecs), en général parce qu'elle a **appris** à partir de beaucoup d'exemples.
+</Callout>
+
+<Callout type="warning" title="« Intelligence », vraiment ?">
+  Le mot est trompeur. Une IA ne comprend pas le monde comme toi, n'a pas d'envies, pas d'émotions, pas de conscience. Elle est très forte pour **repérer des régularités** dans des données. C'est impressionnant, mais c'est autre chose qu'être intelligent au sens humain.
+</Callout>
+
+<Quiz question="On veut un programme qui reconnaît les chats sur des photos. Quelle approche a le plus de chances de marcher ?" options={['Écrire des règles : « deux oreilles pointues + des moustaches + quatre pattes = chat »', 'Montrer à une IA des milliers de photos marquées « chat » ou « pas chat »', 'Les deux marchent aussi bien']} answer={1}>
+  **Les exemples.** Les règles écrites ratent un chat de dos, un chat roulé en boule, un chat dans un carton… et confondent avec un renard. C'est justement en essayant d'écrire ces règles que les chercheurs ont compris qu'il fallait laisser la machine apprendre.
+</Quiz>
+
+## 75 ans d'histoire en 2 minutes
+
+L'IA n'est pas née avec ChatGPT. L'idée a plus de 75 ans, et elle a connu des hauts et des bas.
+
+<Steps>
+1. **1950 · Le test de Turing.** Le mathématicien Alan Turing (celui qui a cassé le code Enigma des nazis) pose la question : « Une machine peut-elle penser ? » Il propose un jeu : si on discute par écrit avec une machine sans arriver à savoir que ce n'est pas un humain, alors elle est « intelligente ».
+2. **1956 · Le nom est inventé.** Des chercheurs américains se réunissent un été à l'université de Dartmouth et baptisent le domaine « intelligence artificielle ». Ils pensent tout résoudre en quelques années. Ils se trompent lourdement.
+3. **Années 1970 et 1980 · Les « hivers de l'IA ».** Les promesses ne sont pas tenues, les ordinateurs sont trop lents, l'argent s'arrête. L'IA passe pour une lubie.
+4. **1997 · Deep Blue bat Kasparov.** Un ordinateur d'IBM bat le champion du monde d'échecs. Mais il ne « réfléchit » pas : il calcule 200 millions de positions par seconde, avec des règles écrites par des humains.
+5. **2012 · Le grand réveil.** Une IA d'un nouveau genre, un **réseau de neurones**, écrase un concours de reconnaissance d'images. Le secret : beaucoup plus de photos (Internet) et des puces de jeux vidéo (les cartes graphiques) pour calculer vite.
+6. **2016 · AlphaGo bat Lee Sedol au jeu de go.** Le go a plus de parties possibles que d'atomes dans l'univers : impossible de tout calculer. AlphaGo a appris en jouant des millions de parties.
+7. **2022 · ChatGPT.** Le grand public découvre une IA qui écrit, explique, traduit et code. 100 millions d'utilisateurs en deux mois : du jamais vu.
+</Steps>
+
+<DeepDive title="Pourquoi tout a décollé vers 2012 ?" level="approfondissement">
+  Les idées des réseaux de neurones existent depuis les années 1950. Il manquait deux ingrédients, arrivés en même temps :
+
+  - **les données** : avec Internet et les smartphones, on a soudain des milliards de photos et de textes pour entraîner les IA ;
+  - **la puissance de calcul** : les cartes graphiques, conçues pour les jeux vidéo, savent faire des millions de petits calculs en même temps, exactement ce dont un réseau de neurones a besoin.
+
+  C'est pour ça que Nvidia, qui fabrique ces cartes graphiques, est devenue l'une des entreprises les plus chères du monde.
+</DeepDive>
+
+## Ce que l'IA n'est pas (encore)
+
+### Les IA d'aujourd'hui sont des spécialistes
+
+Toutes les IA qui existent aujourd'hui sont ce qu'on appelle des **IA faibles** (ou spécialisées). Celle qui joue au go ne sait pas reconnaître un chat. Celle qui conduit une voiture ne sait pas écrire un poème. Même ChatGPT, qui a l'air de tout savoir faire, ne fait en réalité qu'une seule chose : écrire du texte. On verra comment au chapitre 3.
+
+### Terminator, c'est du cinéma
+
+Une **IA générale**, capable de tout apprendre et de tout faire comme un humain, voire mieux, n'existe pas. Certains chercheurs pensent qu'elle arrivera dans quelques années, d'autres jamais. Personne ne le sait vraiment, et méfie-toi de ceux qui l'affirment avec certitude.
+
+<Compare leftTitle="Ce que tu vois dans les films" rightTitle="La réalité aujourd'hui">
+  <Fragment slot="left">
+    - Une IA qui **veut** quelque chose (dominer, survivre…)
+    - Une IA consciente qui ressent des émotions
+    - Un robot qui sait tout faire
+  </Fragment>
+  <Fragment slot="right">
+    - Une IA n'a **aucune envie** : elle fait ce pour quoi on l'a entraînée
+    - Aucune preuve de conscience, même si elle imite très bien nos phrases
+    - Des outils très forts sur une tâche, parfois ridicules sur une autre
+  </Fragment>
+</Compare>
+
+<Callout type="tip" title="Le vrai sujet">
+  Les risques réels de l'IA aujourd'hui ne ressemblent pas à Terminator. Ils sont plus terre à terre : fausses informations, fausses images (*deepfakes*), triche, données personnelles, emplois qui changent. On en parle au chapitre 4.
+</Callout>
+
+<Quiz question="ChatGPT écrit des réponses qui ont l'air très humaines. Ça veut dire qu'il est conscient." options={['Vrai', 'Faux']} answer={1}>
+  **Faux.** Il a lu des quantités énormes de textes écrits par des humains, donc il sait **imiter** la façon dont les humains parlent, y compris quand ils parlent de leurs émotions. Imiter n'est pas ressentir. Un perroquet qui dit « je t'aime » n'est pas amoureux.
+</Quiz>
+
+## À retenir
+
+<Takeaways>
+1. **L'IA est partout.** Face ID, TikTok, l'anti-spam, Google Maps, le correcteur : tu l'utilises tous les jours.
+2. **Un programme suit des règles, une IA les apprend.** On lui donne des exemples avec la bonne réponse, elle trouve seule ce qui les relie.
+3. **L'IA peut se tromper.** Elle ne suit pas une recette sûre : elle fait la meilleure supposition possible à partir de ce qu'elle a vu.
+4. **L'IA est vieille, son succès est récent.** Inventée dans les années 1950, elle a explosé après 2012 grâce aux données d'Internet et aux cartes graphiques.
+5. **Pas de Terminator.** Les IA actuelles sont des spécialistes sans envies ni conscience. Les vrais risques sont ailleurs.
+</Takeaways>

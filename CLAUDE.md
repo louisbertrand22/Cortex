@@ -23,7 +23,7 @@ Site de révision statique (Astro 7 + MDX + Tailwind 4 + Pagefind + Mermaid). To
 
 ## Composants MDX (sans import)
 
-`Callout` (note|tip|warning|danger|definition|exam) · `DeepDive` · `Steps` · `CardGrid`/`Card` · `Compare` (slots left/right)
+`Callout` (note|tip|warning|danger|definition|exam) · `DeepDive` · `Steps` · `CardGrid`/`Card` · `Compare` (props leftTitle/rightTitle, slots left/right)
 · `Takeaways` · `KeyIdea` · `Stat` · `Figure` · `Quiz` · `Pipeline` · `BarChart`. Démo vivante : `/guide`.
 
 ## Pièges Mermaid
@@ -36,6 +36,13 @@ Site de révision statique (Astro 7 + MDX + Tailwind 4 + Pagefind + Mermaid). To
 
 `AiNesting` · `Tokenizer` · `Temperature` · `PriorityMatrix` · `Maturity` · `Hosting` · `Tco` · `ContextWindow` · `EmbeddingMap`
 · `Chunking` · `RagTriangle` · `Layers` (bandeau TOGAF, prop `active`) · `ValueChain` (props `title`, `steps`).
+
+## Cours « L'IA expliquée de zéro » (`ia-zero`)
+
+Cours écrit pour un lycéen de seconde sans bagage technique : tutoiement, exemples du quotidien, aucun terme non
+expliqué. Pas de support source : tout est rédigé ; `<DeepDive>` sert aux « pour aller plus loin ».
+Composants : `Teach` (perceptron pommes/citrons) · `Neuron` (vote pondéré « aller au ciné ») · `NextWord` (mot suivant
++ température) · `PromptBuilder` (les 5 ingrédients d'un prompt).
 
 ## Conventions de design
 

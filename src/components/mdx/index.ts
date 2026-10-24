@@ -28,6 +28,10 @@ import PriorityMatrix from '../viz/PriorityMatrix.astro';
 import RagTriangle from '../viz/RagTriangle.astro';
 import Layers from '../viz/Layers.astro';
 import ValueChain from '../viz/ValueChain.astro';
+import Teach from '../viz/Teach.astro';
+import Neuron from '../viz/Neuron.astro';
+import NextWord from '../viz/NextWord.astro';
+import PromptBuilder from '../viz/PromptBuilder.astro';
 
 export const components = {
   Callout,
@@ -56,4 +60,8 @@ export const components = {
   RagTriangle,
   Layers,
   ValueChain,
+  Teach,
+  Neuron,
+  NextWord,
+  PromptBuilder,
 };

@@ -1,0 +1,171 @@
+---
+title: Comment ChatGPT écrit
+subtitle: Le champion du monde du « mot suivant »
+subject: ia-zero
+session: 3
+description: Comprendre le seul tour de magie de ChatGPT (prédire le mot suivant), comment on l'a entraîné en lui faisant lire une bonne partie d'Internet, et pourquoi il invente parfois des choses avec un aplomb total.
+tags: [ChatGPT, LLM, mot suivant, tokens, entraînement, température, hallucination]
+objectives:
+  - Expliquer en une phrase ce que fait ChatGPT quand il écrit.
+  - Comprendre ce qu'est un token et pourquoi l'IA découpe les mots.
+  - Raconter les deux étapes de l'entraînement d'un assistant comme ChatGPT.
+  - Expliquer pourquoi une IA peut inventer une réponse fausse sans « mentir ».
+sources:
+  - label: OpenAI — « Introducing ChatGPT » (novembre 2022)
+    url: https://openai.com/index/chatgpt/
+  - label: Meta AI — « Introducing Meta Llama 3 » (2024), corpus d'environ 15 000 milliards de tokens
+    url: https://ai.meta.com/blog/meta-llama-3/
+  - label: OpenAI Tokenizer — voir comment un texte est découpé en tokens
+    url: https://platform.openai.com/tokenizer
+  - label: 3Blue1Brown — « Les grands modèles de langage expliqués brièvement » (vidéo, sous-titres français)
+    url: https://www.youtube.com/watch?v=LPZh9BOjkQs
+updated: 2026-10-24
+---
+
+ChatGPT, Gemini, Claude, Le Chat de Mistral : ces IA qui discutent avec toi s'appellent des **grands modèles de langage** (en anglais *Large Language Models*, ou **LLM**). Elles ont l'air de tout savoir. Pourtant, elles ne font qu'une seule chose, encore et encore. Ce chapitre te montre laquelle.
+
+## Le jeu du mot suivant
+
+### Complète la phrase
+
+Lis cette phrase et complète-la sans réfléchir :
+
+> Il était une…
+
+Tu as pensé « fois », évidemment. Et pour « Joyeux anniver… », tu as pensé « saire ». Tu n'as pas eu besoin de réfléchir : tu as lu ces expressions tellement souvent que ton cerveau devine la suite tout seul.
+
+**ChatGPT ne fait que ça.** Il lit le début d'un texte et calcule, pour chaque mot possible, la probabilité que ce soit le suivant. Il en choisit un, l'ajoute au texte, et recommence. Mot après mot, jusqu'à la fin de la réponse.
+
+<Figure caption="Un modèle de langage miniature : choisis toi-même ou laisse l'IA piocher selon les probabilités">
+  <NextWord />
+</Figure>
+
+Essaie plusieurs fois le bouton « Finir la phrase d'un coup » : la phrase change à chaque fois. L'IA ne prend pas toujours le mot le plus probable, elle **tire au sort** en favorisant les mots probables. C'est pour ça que ChatGPT ne te répond jamais exactement la même chose deux fois.
+
+<Callout type="definition" title="Température">
+  Le réglage qui décide à quel point l'IA prend des risques. À 0, elle choisit toujours le mot le plus probable : c'est prévisible, parfois répétitif. Plus on monte, plus elle ose des mots rares : plus créatif, mais elle finit par dire n'importe quoi.
+</Callout>
+
+<KeyIdea>ChatGPT ne cherche pas la bonne réponse. Il cherche la suite la plus probable.</KeyIdea>
+
+### Et pour répondre à une question ?
+
+C'est le même jeu. Quand tu écris « Quelle est la capitale de l'Italie ? », l'IA voit le début d'une conversation. Dans tous les textes qu'elle a lus, après cette question, les mots qui venaient ensuite étaient presque toujours « La capitale de l'Italie est Rome ». Alors elle écrit ça.
+
+Elle ne va pas chercher « Rome » dans une encyclopédie. Elle **prédit** que « Rome » est la suite la plus probable. Ici, ça tombe juste. On verra plus bas que ce n'est pas toujours le cas.
+
+<Quiz question="Quand ChatGPT écrit une réponse de 200 mots, combien de fois fait-il son calcul de « mot suivant » ?" options={['Une seule fois, il écrit toute la réponse d’un coup', 'Environ 200 fois, une fois par mot (et même un peu plus)', 'Aucune, il recopie une réponse déjà écrite']} answer={1}>
+  **Environ une fois par mot, et même un peu plus.** C'est pour ça que tu vois la réponse s'afficher petit à petit : ce n'est pas une animation, il est vraiment en train de l'écrire mot après mot. Le « un peu plus » vient des tokens, juste en dessous.
+</Quiz>
+
+## Des morceaux de mots : les tokens
+
+En réalité, l'IA ne lit pas des mots entiers mais des **morceaux de mots**, qu'on appelle des **tokens**. Les mots courants font un seul token. Les mots longs ou rares sont coupés en plusieurs.
+
+<Figure caption="Comment un modèle découpe une phrase (exemple simplifié) : chaque couleur est un token">
+  <p class="flex flex-wrap gap-y-2 font-mono text-[1.05rem] leading-loose">
+    <span class="rounded px-1" style="background:var(--signal-soft)">Je</span>
+    <span class="rounded px-1" style="background:var(--synapse-soft)"> suis</span>
+    <span class="rounded px-1" style="background:var(--amber-soft)"> en</span>
+    <span class="rounded px-1" style="background:var(--info-soft)"> seconde</span>
+    <span class="rounded px-1" style="background:var(--signal-soft)"> et</span>
+    <span class="rounded px-1" style="background:var(--synapse-soft)"> j</span>
+    <span class="rounded px-1" style="background:var(--amber-soft)">'</span>
+    <span class="rounded px-1" style="background:var(--info-soft)">adore</span>
+    <span class="rounded px-1" style="background:var(--signal-soft)"> les</span>
+    <span class="rounded px-1" style="background:var(--synapse-soft)"> anti</span>
+    <span class="rounded px-1" style="background:var(--amber-soft)">constitution</span>
+    <span class="rounded px-1" style="background:var(--info-soft)">nell</span>
+    <span class="rounded px-1" style="background:var(--signal-soft)">ement</span>
+  </p>
+</Figure>
+
+Pourquoi découper ? Parce qu'il existe une infinité de mots possibles (fautes de frappe, noms propres, mots inventés, émojis…). Avec environ **100 000 morceaux**, l'IA peut tout écrire, comme toi tu peux écrire n'importe quel mot avec 26 lettres.
+
+<Callout type="tip" title="Le test de la fraise">
+  Pendant longtemps, si tu demandais aux IA combien il y a de « r » dans *strawberry* (« fraise » en anglais), elles répondaient souvent 2 au lieu de 3. La raison : elles ne voient pas les lettres, elles voient des tokens comme `str`, `aw` et `berry`. Compter des lettres, pour elles, c'est comme compter les lettres d'un mot sans avoir le droit de l'épeler.
+</Callout>
+
+## Comment on fabrique un ChatGPT
+
+### Étape 1 : lire (presque) tout Internet
+
+Pour devenir aussi fort au jeu du mot suivant, le modèle s'entraîne exactement comme l'IA des fruits du chapitre 2 : il devine, se trompe, corrige ses poids. Mais au lieu de 14 fruits, on lui donne **des quantités de texte colossales** : sites web, Wikipédia, livres, forums, code informatique…
+
+On cache le mot suivant, il devine, on lui montre la vraie réponse, il ajuste ses poids. Des milliers de milliards de fois, pendant des mois, sur des milliers de cartes graphiques.
+
+<CardGrid cols={3}>
+  <Stat value="15 000 Md" label="de tokens lus pendant l'entraînement (Md = milliards)" hint="Llama 3, un modèle de Meta (2024)" />
+  <Stat value="200 000 ans" label="pour qu'un humain lise autant" hint="à raison de 8 h de lecture par jour, tous les jours" />
+  <Stat value="2 mois" label="pour 100 millions d'utilisateurs" hint="ChatGPT, record à l'époque" />
+</CardGrid>
+
+À force, pour bien deviner la suite, le modèle a dû capter énormément de choses : la grammaire, des faits (« la capitale de l'Italie est… »), des raisonnements simples, le ton d'une lettre de motivation ou d'un message à un pote.
+
+### Étape 2 : apprendre à être un assistant
+
+Après l'étape 1, le modèle sait compléter du texte, mais ce n'est pas un bon assistant. Si tu lui écris « Comment faire des crêpes ? », il risque de continuer avec « Comment faire des gaufres ? Comment faire un gâteau ? », comme une liste de questions trouvée sur un forum.
+
+Alors on lui apprend à **répondre**. Des humains écrivent des milliers d'exemples de bonnes réponses, puis notent les réponses du modèle : celle-ci est meilleure que celle-là. Le modèle ajuste encore ses poids pour donner des réponses utiles, polies, et refuser les demandes dangereuses.
+
+<Figure caption="Les étapes de fabrication d'un assistant comme ChatGPT">
+  <Pipeline steps={[
+    { title: 'Des textes', caption: 'Web, livres, code', detail: 'Des milliers de milliards de mots, découpés en tokens.' },
+    { title: 'Pré-entraînement', caption: 'Deviner le mot suivant', detail: 'Le modèle apprend la langue et une foule de connaissances. Le plus long et le plus cher : des mois de calcul.' },
+    { title: 'Affinage', caption: 'Avec des humains', detail: 'Des personnes montrent de bonnes réponses et notent celles du modèle. Il apprend à être un assistant utile et prudent.', tone: 'synapse' },
+    { title: 'Utilisation', caption: 'Les poids sont figés', detail: 'Le modèle n’apprend plus rien de nouveau en te parlant. Il tourne dans d’énormes centres de données.', tone: 'muted' },
+  ]} />
+</Figure>
+
+<Callout type="warning" title="Il ne t'apprend rien de nouveau… et tu ne lui apprends rien non plus">
+  Une fois entraîné, le modèle est **figé**. Il a une date limite de connaissances : ce qui s'est passé après, il ne le sait pas, sauf si l'application va chercher sur Internet pour lui (beaucoup le font maintenant). Et quand tu le corriges dans une conversation, il ne s'en souviendra pas avec les autres utilisateurs.
+</Callout>
+
+<DeepDive title="Et les IA qui dessinent ?" level="approfondissement">
+  Les IA qui créent des images (Midjourney, DALL·E, Stable Diffusion…) fonctionnent différemment. On les entraîne à **nettoyer des images brouillées** : on prend une photo, on ajoute du « bruit » (comme la neige d'une vieille télé), et l'IA apprend à retrouver l'image d'origine, en s'aidant de sa légende.
+
+  Pour créer une image, on part d'un bruit totalement aléatoire et on lui demande de « nettoyer » en suivant ta description. Petit à petit, une image apparaît, qui n'a jamais existé. Ces IA s'appellent des **modèles de diffusion**.
+</DeepDive>
+
+## Pourquoi il invente des choses
+
+### Le « bon élève » qui ne dit jamais « je ne sais pas »
+
+Rappelle-toi : le modèle cherche la suite la **plus probable**, pas la suite **vraie**. La plupart du temps, c'est pareil. Mais quand il ne connaît pas la réponse, il écrit quand même ce qui *ressemble* à une bonne réponse.
+
+Demande-lui la biographie d'une personne peu connue : il peut inventer une date de naissance, un livre qu'elle n'a jamais écrit, un prix qu'elle n'a jamais reçu. Le tout avec un style parfaitement assuré. On appelle ça une **hallucination**.
+
+<Compare leftTitle="Ce qu'on croit" rightTitle="Ce qui se passe vraiment">
+  <Fragment slot="left">
+    - Il cherche la réponse dans une base de données
+    - S'il le dit avec assurance, c'est qu'il est sûr
+    - S'il cite un livre ou un site, ce livre existe
+  </Fragment>
+  <Fragment slot="right">
+    - Il écrit la suite qui ressemble le plus à une bonne réponse
+    - Il a **toujours** l'air sûr, même quand il invente
+    - Il peut inventer un titre, un auteur ou un lien qui n'existent pas
+  </Fragment>
+</Compare>
+
+<Callout type="danger" title="Ce n'est pas un mensonge, c'est pire">
+  Un menteur sait qu'il ment. Le modèle, lui, ne fait aucune différence entre ce qui est vrai et ce qui sonne juste. C'est pour ça que tu dois **vérifier** tout ce qui compte : un chiffre, une date, une citation, une source. On voit comment au chapitre 4.
+</Callout>
+
+<Quiz question="ChatGPT te donne une citation de Victor Hugo, avec le titre du livre et la page. Que peux-tu en conclure ?" options={['Elle est forcément vraie, il cite sa source', 'Elle est peut-être inventée, il faut la vérifier', 'Elle est forcément fausse, ChatGPT invente tout']} answer={1}>
+  **Peut-être inventée.** Les modèles sont très forts pour produire une citation « à la manière de Victor Hugo », avec une référence qui a l'air sérieuse. Souvent c'est juste, parfois c'est inventé, et rien dans le texte ne permet de faire la différence. Il faut aller voir la vraie source.
+</Quiz>
+
+<Quiz question="Pourquoi deux élèves qui posent exactement la même question à ChatGPT n'obtiennent-ils pas la même réponse ?" options={['Parce qu’il les reconnaît et s’adapte à chacun', 'Parce qu’il tire au sort parmi les mots probables, à chaque mot', 'Parce qu’il a appris de nouvelles choses entre les deux questions']} answer={1}>
+  **Il tire au sort à chaque mot.** Un mot différent au début, et toute la suite part dans une autre direction. C'est la température, que tu as pu tester dans la démo du mot suivant.
+</Quiz>
+
+## À retenir
+
+<Takeaways>
+1. **ChatGPT prédit le mot suivant.** Encore et encore, en tirant au sort parmi les mots les plus probables. C'est tout son secret.
+2. **Il lit des tokens, pas des lettres.** Des morceaux de mots, environ 100 000 différents. D'où ses difficultés à compter les lettres.
+3. **Deux étapes d'entraînement.** D'abord lire des quantités énormes de textes pour deviner la suite, puis apprendre avec des humains à répondre comme un assistant.
+4. **Il est figé.** Il a une date limite de connaissances et n'apprend rien en discutant avec toi.
+5. **Probable n'est pas vrai.** Quand il ne sait pas, il invente avec aplomb : c'est une hallucination. Vérifie ce qui compte.
+</Takeaways>

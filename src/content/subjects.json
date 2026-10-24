@@ -10,5 +10,17 @@
     "accent": "signal",
     "order": 1,
     "plannedSessions": 5
+  },
+  {
+    "id": "ia-zero",
+    "title": "L'IA expliquée de zéro",
+    "short": "IA 101",
+    "description": "Pour les curieux sans bagage technique : ce qu'est vraiment l'IA, comment une machine apprend, comment ChatGPT écrit, et comment s'en servir sans se faire avoir.",
+    "teacher": "Louis",
+    "semester": "Seconde",
+    "domain": "ia",
+    "accent": "signal",
+    "order": 2,
+    "plannedSessions": 4
   }
 ]

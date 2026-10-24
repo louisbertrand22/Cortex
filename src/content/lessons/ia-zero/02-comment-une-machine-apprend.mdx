@@ -1,0 +1,174 @@
+---
+title: Comment une machine apprend
+subtitle: Deviner, se tromper, corriger, recommencer
+subject: ia-zero
+session: 2
+description: Entraîner toi-même une IA à reconnaître des fruits, comprendre ce qu'est un neurone artificiel, et pourquoi les données d'entraînement décident de tout, y compris des erreurs et des injustices.
+tags: [apprentissage, données, entraînement, neurone, réseau de neurones, biais, par cœur]
+objectives:
+  - Décrire la boucle d'apprentissage d'une IA en quatre étapes.
+  - Expliquer ce que fait un neurone artificiel avec un exemple de la vie courante.
+  - Comprendre pourquoi une IA ne vaut pas mieux que les exemples qu'on lui a montrés.
+  - Faire la différence entre apprendre par cœur et vraiment comprendre, pour une machine comme pour toi.
+sources:
+  - label: Frank Rosenblatt, « The Perceptron » (1958) — le premier neurone artificiel qui apprend
+  - label: Joy Buolamwini et Timnit Gebru, « Gender Shades » (2018)
+    url: https://proceedings.mlr.press/v81/buolamwini18a.html
+  - label: Reuters, « Amazon scraps secret AI recruiting tool that showed bias against women » (2018)
+    url: https://www.reuters.com/article/us-amazon-com-jobs-automation-insight-idUSKCN1MK08G
+  - label: 3Blue1Brown — « Mais qu'est-ce qu'un réseau de neurones ? » (vidéo, sous-titres français)
+    url: https://www.youtube.com/watch?v=aircAruvnKk
+  - label: Elements of AI — chapitre « Réseaux de neurones »
+    url: https://www.elementsofai.com/fr/
+updated: 2026-10-24
+---
+
+Au chapitre 1, on a vu qu'une IA apprend « par l'exemple ». D'accord, mais **concrètement, comment une machine peut-elle apprendre ?** Elle n'a pas de cerveau, seulement des nombres et des calculs. Dans ce chapitre, tu vas entraîner une IA toi-même et voir ce qui se passe à l'intérieur.
+
+## La boucle d'apprentissage
+
+### Comme quand tu apprends à lancer au basket
+
+Au premier lancer, tu rates : trop court. Tu corriges, tu lances plus fort. Trop long. Tu corriges un peu moins. Au bout de cent lancers, tu marques presque à chaque fois. Personne ne t'a donné la formule : tu as **ajusté** à partir de tes erreurs.
+
+Une IA fait exactement la même chose, sauf qu'elle le fait des millions de fois, très vite.
+
+```mermaid title="La boucle d'apprentissage : on la répète des millions de fois"
+flowchart LR
+  E["1 · Un exemple"] --> D["2 · L'IA devine"]
+  D --> C{"3 · Elle compare avec la bonne réponse"}
+  C -- "juste" --> E
+  C -- "raté" --> A["4 · Elle ajuste ses réglages"]
+  A --> E
+  classDef err fill:var(--signal-soft),stroke:var(--signal);
+  class A err;
+```
+
+<Callout type="definition" title="Entraînement">
+  La phase où l'IA voit des exemples dont on connaît la réponse, et ajuste ses réglages à chaque erreur. Une fois l'entraînement fini, ses réglages sont figés et on peut l'utiliser.
+</Callout>
+
+### À toi de jouer : pomme ou citron ?
+
+Voici une IA minuscule qui doit trier des fruits. Elle ne connaît que deux choses sur chaque fruit : **sa couleur** (du jaune au rouge) et **son poids**. Au début, sa règle est tirée au hasard : elle se trompe souvent.
+
+Montre-lui les fruits un par un et regarde la frontière bouger à chaque erreur.
+
+<Figure caption="Une vraie IA, en tout petit : elle n'a que trois réglages, et elle les ajuste à chaque erreur">
+  <Teach />
+</Figure>
+
+Ce que tu viens de voir est **vraiment** de l'apprentissage automatique (en anglais *machine learning*). Personne n'a écrit « une pomme est rouge et lourde » : la machine a trouvé seule où tracer la frontière, juste en se corrigeant.
+
+Le plus important, c'est le **fruit mystère** : clique dans le graphique pour lui montrer un fruit qu'elle n'a jamais vu. Elle répond quand même, parce qu'elle a appris une règle générale, pas une liste de fruits. C'est tout l'intérêt de l'IA.
+
+<Quiz question="Dans la démo, que fait l'IA quand elle classe correctement un fruit ?" options={['Elle ajuste quand même sa frontière', 'Elle ne change rien', 'Elle retient ce fruit par cœur']} answer={1}>
+  **Elle ne change rien.** Elle n'ajuste ses réglages que quand elle se trompe : ce sont les erreurs qui la font progresser. Les vraies IA fonctionnent pareil, mais elles mesurent aussi « de combien » elles se sont trompées pour corriger plus ou moins fort.
+</Quiz>
+
+## À l'intérieur : des neurones artificiels
+
+### Un neurone, c'est un vote pondéré
+
+Tu te demandes si tu vas au cinéma ce soir. Plusieurs choses comptent, mais pas autant les unes que les autres :
+
+- ton meilleur ami vient : ça compte **beaucoup** pour ;
+- il pleut : ça compte **un peu** pour (de toute façon tu ne vas pas jouer dehors) ;
+- tu as un contrôle de maths demain : ça compte **beaucoup** contre.
+
+Tu additionnes tout ça dans ta tête, et si le total dépasse un certain seuil, tu y vas. Un **neurone artificiel** fait exactement ce calcul. Les « à quel point ça compte » s'appellent des **poids**.
+
+<Figure caption="Coche les entrées, change les poids et le seuil : le neurone décide">
+  <Neuron />
+</Figure>
+
+<KeyIdea>Apprendre, pour une IA, c'est trouver les bons poids.</KeyIdea>
+
+Dans la démo des fruits, l'IA avait trois poids (un pour la couleur, un pour le poids du fruit, et le seuil). L'entraînement consistait à les ajuster. Rien de plus.
+
+### Un réseau : des neurones en équipe
+
+Un seul neurone ne sait faire que des choses simples, comme tracer une ligne droite. Pour reconnaître un visage, on en relie des milliers, voire des milliards, en **couches** : chaque couche se sert de ce qu'a trouvé la précédente.
+
+```mermaid title="Un réseau de neurones qui reconnaît un chat : chaque couche voit des choses plus complexes"
+flowchart LR
+  I["Photo<br/>des milliers de pixels"] --> C1["Couche 1<br/>des bords, des taches de couleur"]
+  C1 --> C2["Couche 2<br/>des formes : un rond, un triangle"]
+  C2 --> C3["Couche 3<br/>des morceaux : une oreille, un œil, des moustaches"]
+  C3 --> R(["« Chat » à 97 %"])
+  classDef out fill:var(--signal-soft),stroke:var(--signal);
+  class R out;
+```
+
+Personne ne dit à la couche 3 de chercher des oreilles. Pendant l'entraînement, le réseau découvre tout seul que repérer des oreilles l'aide à moins se tromper. C'est ce qu'on appelle le **deep learning** (apprentissage profond) : « profond » parce qu'il y a beaucoup de couches.
+
+<CardGrid cols={3}>
+  <Stat value="3" label="poids" hint="L'IA des fruits, ci-dessus" />
+  <Stat value="~100 000" label="poids" hint="Un petit réseau qui lit des chiffres écrits à la main" />
+  <Stat value="1 000 Md" label="de poids et plus (Md = milliards)" hint="Les plus gros modèles comme ChatGPT (ordre de grandeur)" />
+</CardGrid>
+
+<Callout type="note" title="Pourquoi « neurone » ?">
+  Le nom vient d'une vague ressemblance avec les neurones du cerveau, qui reçoivent des signaux et « s'allument » au-delà d'un seuil. Mais un neurone artificiel est juste une petite formule de calcul. Ton cerveau, lui, est bien plus mystérieux.
+</Callout>
+
+<DeepDive title="Comment l'IA sait dans quel sens corriger ?" level="approfondissement">
+  Dans un réseau avec des milliards de poids, on ne peut pas essayer au hasard. L'IA calcule, pour chaque poids, s'il faut l'augmenter ou le diminuer pour réduire l'erreur. Imagine-toi perdu en montagne dans le brouillard, et tu veux descendre dans la vallée : tu tâtes le sol autour de toi et tu fais un pas dans le sens de la pente. Puis tu recommences.
+
+  Les chercheurs appellent ça la **descente de gradient**. C'est une technique mathématique que tu verras peut-être en terminale ou après le bac, avec les dérivées.
+</DeepDive>
+
+## Les données décident de tout
+
+### On ne récolte que ce qu'on sème
+
+Une IA ne sait que ce qu'on lui a montré. Si on ne lui montre que des pommes rouges, elle prendra une pomme verte pour un citron. Les informaticiens résument ça en une phrase : *garbage in, garbage out* (« des déchets en entrée, des déchets en sortie »).
+
+<Callout type="danger" title="Les biais : quand l'IA reproduit nos injustices">
+  En 2018, la chercheuse Joy Buolamwini teste les IA de reconnaissance faciale de grandes entreprises. Elles se trompent sur le genre de moins de 1 % des hommes à peau claire… et de jusqu'à **35 % des femmes à peau foncée**. La raison : elles avaient été entraînées surtout sur des photos d'hommes blancs. Personne ne l'avait fait exprès, mais le résultat était injuste.
+</Callout>
+
+L'IA n'est donc **pas neutre** : elle reflète les exemples qu'on lui a donnés, avec leurs trous et leurs préjugés. Si des CV d'hommes ont été plus souvent retenus dans le passé, une IA de recrutement entraînée dessus risque de continuer à préférer les hommes. C'est arrivé à Amazon, qui a dû abandonner son outil.
+
+### Par cœur contre compris
+
+Tu connais sûrement quelqu'un qui apprend les corrigés des exercices par cœur. Il a 20 si le contrôle reprend exactement les mêmes exercices, et il est perdu dès qu'on change un chiffre.
+
+Les IA ont le même défaut. Si on l'entraîne trop longtemps sur les mêmes exemples, elle finit par les **apprendre par cœur** au lieu de trouver la règle générale. Les spécialistes appellent ça le **surapprentissage** (*overfitting*).
+
+<Compare leftTitle="L'IA qui a appris par cœur" rightTitle="L'IA qui a compris">
+  <Fragment slot="left">
+    - 100 % de réussite sur les exemples d'entraînement
+    - Se trompe beaucoup sur des cas nouveaux
+    - Comme l'élève qui récite les corrigés
+  </Fragment>
+  <Fragment slot="right">
+    - Un peu moins parfaite à l'entraînement
+    - Fiable sur des cas jamais vus
+    - Comme l'élève qui a compris la méthode
+  </Fragment>
+</Compare>
+
+C'est pour ça qu'on garde toujours des exemples **cachés** pendant l'entraînement. À la fin, on fait passer à l'IA un « contrôle surprise » avec ces exemples qu'elle n'a jamais vus. C'est sa vraie note.
+
+<Callout type="tip" title="Ça marche aussi pour toi">
+  Pour réviser, refaire les exercices dont tu connais déjà la réponse te donne l'illusion de savoir. Essaie plutôt des exercices nouveaux, ou explique la notion à quelqu'un sans regarder ton cours. C'est ton « contrôle surprise » à toi.
+</Callout>
+
+<Quiz question="Une IA de tri de photos a été entraînée uniquement sur des photos de chiens prises en plein jour. Que va-t-il probablement se passer avec une photo de chien prise la nuit ?" options={['Elle la reconnaîtra parfaitement, un chien reste un chien', 'Elle risque de se tromper, elle n’a jamais vu ce genre de photo', 'Elle refusera de répondre']} answer={1}>
+  **Elle risque de se tromper.** Elle ne connaît que ce qu'on lui a montré. Et elle ne refusera pas : une IA répond presque toujours, même quand elle n'a aucune idée. C'est un piège qu'on retrouvera avec ChatGPT.
+</Quiz>
+
+<Quiz question="Quelle phrase décrit le mieux ce qu'apprend une IA pendant son entraînement ?" options={['Elle mémorise tous les exemples dans une grande base de données', 'Elle ajuste des nombres (les poids) pour faire de moins en moins d’erreurs', 'Un programmeur lui écrit de nouvelles règles après chaque erreur']} answer={1}>
+  **Elle ajuste ses poids.** À la fin, elle n'a pas besoin de garder les exemples : tout ce qu'elle a appris est « rangé » dans ses poids. Ce sont eux qu'on télécharge quand on installe un modèle d'IA.
+</Quiz>
+
+## À retenir
+
+<Takeaways>
+1. **Apprendre = deviner, comparer, corriger, recommencer.** Des millions de fois, sur des exemples dont on connaît la réponse.
+2. **Un neurone artificiel est un vote pondéré.** Il additionne des indices plus ou moins importants et décide selon un seuil.
+3. **Tout ce que l'IA sait est rangé dans ses poids.** L'entraînement consiste à trouver les bons poids. Un réseau, ce sont des neurones empilés en couches.
+4. **L'IA ne vaut pas mieux que ses données.** Des exemples incomplets ou injustes donnent une IA qui se trompe ou qui discrimine.
+5. **Par cœur n'est pas comprendre.** On juge une IA, comme un élève, sur des exemples qu'elle n'a jamais vus.
+</Takeaways>

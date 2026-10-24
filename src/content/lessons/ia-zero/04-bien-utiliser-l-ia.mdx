@@ -1,0 +1,209 @@
+---
+title: Bien utiliser l'IA
+subtitle: Un super outil, à condition de garder la main
+subject: ia-zero
+session: 4
+description: Écrire des demandes qui donnent de vraies réponses, vérifier ce que dit l'IA, t'en servir pour apprendre plutôt que pour tricher, protéger tes données et repérer les fausses images.
+tags: [prompt, vérifier, devoirs, données personnelles, deepfake, environnement]
+objectives:
+  - Écrire un prompt efficace avec ses cinq ingrédients.
+  - Appliquer trois réflexes pour vérifier une réponse d'IA.
+  - Utiliser l'IA comme un prof particulier, pas comme une machine à faire les devoirs.
+  - Savoir ce qu'il ne faut jamais confier à une IA.
+  - Repérer les fausses images et vidéos, et connaître les règles qui les encadrent.
+sources:
+  - label: CNIL — « Utiliser une IA générative, les bons réflexes »
+    url: https://www.cnil.fr/fr/intelligence-artificielle
+  - label: OpenAI — Conditions d'utilisation (âge minimum 13 ans, accord des parents avant 18 ans)
+    url: https://openai.com/policies/terms-of-use/
+  - label: Règlement européen sur l'IA (AI Act), 2024 — obligation de signaler les contenus truqués
+    url: https://eur-lex.europa.eu/eli/reg/2024/1689/oj
+  - label: Epoch AI, « How much energy does ChatGPT use? » (2025)
+    url: https://epoch.ai/gradient-updates/how-much-energy-does-chatgpt-use
+updated: 2026-10-24
+---
+
+Tu sais maintenant ce qu'est une IA, comment elle apprend et comment ChatGPT écrit. Il reste la question la plus utile au quotidien : **comment s'en servir intelligemment ?** Bien utilisée, c'est un prof particulier disponible jour et nuit. Mal utilisée, elle te fait perdre ton temps, te raconte des bêtises ou t'empêche d'apprendre.
+
+## Ce qu'elle fait bien, ce qu'elle fait mal
+
+<Compare leftTitle="Elle est très forte pour…" rightTitle="Elle est peu fiable pour…">
+  <Fragment slot="left">
+    - **Expliquer** une notion autrement que ton prof, autant de fois que tu veux
+    - **Reformuler**, résumer, simplifier un texte compliqué
+    - **T'interroger** pour réviser (« pose-moi 5 questions sur… »)
+    - **Trouver des idées** : un sujet d'exposé, un plan, un titre
+    - **Corriger** l'orthographe et la grammaire
+    - **Traduire** et t'aider en langues
+  </Fragment>
+  <Fragment slot="right">
+    - Les **faits précis** : dates, chiffres, citations, sources
+    - L'**actualité** récente, si elle ne cherche pas sur Internet
+    - Les **calculs** longs (elle prédit des chiffres, elle ne calcule pas toujours)
+    - Les **personnes peu connues** : elle invente volontiers
+    - Les **conseils importants** (santé, argent, droit) : demande à un vrai humain
+  </Fragment>
+</Compare>
+
+<KeyIdea>Utilise l'IA pour réfléchir mieux, pas pour ne plus réfléchir.</KeyIdea>
+
+## Bien lui parler : le prompt
+
+Ce que tu écris à l'IA s'appelle un **prompt** (« consigne », en anglais). Souviens-toi du chapitre 3 : elle écrit la suite la plus probable de ton texte. Si ta demande est vague, la suite la plus probable est une réponse vague, « moyenne », pensée pour personne en particulier.
+
+Plus tu lui donnes d'informations, plus la suite probable devient **ta** réponse. Clique sur les ingrédients pour construire un bon prompt :
+
+<Figure caption="Les cinq ingrédients d'un bon prompt">
+  <PromptBuilder />
+</Figure>
+
+<Steps>
+1. **Un rôle** : « Tu es un prof de SVT patient », « Tu es un correcteur du bac de français ».
+2. **Le contexte** : ton niveau, pourquoi tu demandes, ce que tu sais déjà.
+3. **La tâche précise** : pas « parle-moi de la Révolution », mais « explique-moi les trois causes principales de la Révolution française ».
+4. **Le format** : une liste, un tableau, 5 lignes maximum, un exemple concret…
+5. **Une vérification** : « pose-moi des questions », « dis-moi si tu n'es pas sûr ».
+</Steps>
+
+<Callout type="tip" title="Ce n'est pas un moteur de recherche">
+  Avec Google, tu tapes trois mots-clés. Avec une IA, écris comme si tu parlais à quelqu'un de très calé qui ne te connaît pas du tout. Et si la réponse ne te va pas, **continue la conversation** : « plus simple », « avec un exemple de foot », « tu peux détailler le point 2 ? ».
+</Callout>
+
+## Vérifier : les trois réflexes
+
+On l'a vu au chapitre 3 : l'IA a toujours l'air sûre d'elle, même quand elle invente. Avant d'utiliser une information importante (dans un exposé, un devoir, une discussion), passe-la au filtre.
+
+```mermaid title="Est-ce que je peux faire confiance à cette réponse ?"
+flowchart TB
+  Q["L'IA me donne une information"] --> I{"C'est important ?<br/>devoir, santé, argent, info à partager"}
+  I -- "non, juste pour comprendre" --> OK["Ok, avec un peu de recul"]
+  I -- "oui" --> S{"1 · Je trouve une vraie source ?<br/>manuel, site officiel, média connu"}
+  S -- "non" --> X["Je ne l'utilise pas"]
+  S -- "oui" --> C{"2 · Une deuxième source dit pareil ?"}
+  C -- "non" --> X
+  C -- "oui" --> B{"3 · Ça tient debout ?<br/>pas trop beau pour être vrai"}
+  B -- "oui" --> V["Je peux l'utiliser"]
+  B -- "non" --> X
+  classDef ok fill:var(--synapse-soft),stroke:var(--synapse);
+  classDef no fill:var(--signal-soft),stroke:var(--signal);
+  class V,OK ok;
+  class X no;
+```
+
+<Callout type="warning" title="« Tu es sûr ? » ne suffit pas">
+  Demander à l'IA si elle est sûre ne prouve rien : elle peut s'excuser et inventer une autre réponse fausse, ou maintenir une erreur. La vérification se fait **en dehors** de la conversation, avec de vraies sources.
+</Callout>
+
+## Apprendre avec l'IA, pas tricher
+
+### Le piège du devoir fait à ta place
+
+Faire écrire ta dissertation par une IA, c'est tentant. Mais il y a trois problèmes :
+
+- **les profs le voient souvent** : style trop lisse, vocabulaire qui n'est pas le tien, erreurs typiques des IA, et un écart énorme avec tes copies faites en classe ;
+- **c'est de la triche**, avec les sanctions qui vont avec ;
+- surtout, **tu n'apprends rien**. Le jour du contrôle sur table ou du bac, l'IA ne sera pas là.
+
+Un devoir maison n'est pas fait pour que le prof ait une copie. Il est fait pour que **ton** cerveau s'entraîne, exactement comme l'IA du chapitre 2 qui progresse en se trompant. Si quelqu'un d'autre fait les exercices, c'est lui qui progresse.
+
+### L'IA comme prof particulier
+
+<CardGrid cols={2}>
+  <Card kicker="Tu n'as pas compris" title="« Explique-moi autrement »" tone="synapse">
+    « Je n'ai pas compris les fonctions affines. Explique-moi avec un exemple de forfait de téléphone, comme si j'avais 12 ans. »
+  </Card>
+  <Card kicker="Tu révises" title="« Interroge-moi »" tone="synapse">
+    « Pose-moi 10 questions sur la Première Guerre mondiale, une par une, et corrige-moi après chaque réponse. »
+  </Card>
+  <Card kicker="Tu bloques" title="« Donne-moi un indice »" tone="synapse">
+    « Je bloque sur cet exercice. Ne me donne pas la solution, juste un indice pour démarrer. »
+  </Card>
+  <Card kicker="Tu as fini" title="« Relis-moi »" tone="synapse">
+    « Voici mon paragraphe. Ne le réécris pas : dis-moi ce qui n'est pas clair et où sont mes fautes. »
+  </Card>
+</CardGrid>
+
+<Callout type="note" title="Les règles changent d'un prof à l'autre">
+  Certains profs autorisent l'IA pour certains travaux, d'autres non. Dans le doute, demande. Et si tu t'en sers, le plus honnête est de le dire.
+</Callout>
+
+<Quiz question="Tu dois rédiger un paragraphe argumenté pour lundi. Quel usage de l'IA t'aide vraiment à progresser ?" options={['Lui demander d’écrire le paragraphe, puis le recopier', 'Lui demander d’écrire le paragraphe, puis changer quelques mots', 'Écrire ton paragraphe, puis lui demander ce qui pourrait être amélioré, sans qu’elle le réécrive']} answer={2}>
+  **Écrire d'abord, puis demander un avis.** C'est toi qui fais l'effort, donc c'est toi qui progresses. L'IA joue le rôle d'un relecteur qui te montre tes points faibles, ce qui t'aidera aussi le jour du contrôle.
+</Quiz>
+
+## Ce que tu ne lui confies jamais
+
+Ce que tu écris dans une IA part sur les serveurs de l'entreprise qui la fabrique. Selon les réglages, tes conversations peuvent être relues ou servir à entraîner les prochains modèles.
+
+<CardGrid cols={3}>
+  <Card kicker="Jamais" title="Tes infos perso" tone="danger">
+    Adresse, numéro de téléphone, mots de passe, nom de ton lycée associé à ton nom complet.
+  </Card>
+  <Card kicker="Jamais" title="Les infos des autres" tone="danger">
+    Photos de tes amis, captures de conversations privées, secrets qu'on t'a confiés.
+  </Card>
+  <Card kicker="Avec prudence" title="Tes problèmes perso" tone="amber">
+    L'IA peut écouter, mais ce n'est ni un ami ni un psy. Si ça va mal, parles-en à un humain : famille, infirmière scolaire, ou le **3018** (harcèlement en ligne, gratuit et anonyme).
+  </Card>
+</CardGrid>
+
+<Callout type="note" title="Une question d'âge">
+  La plupart des assistants (ChatGPT par exemple) sont interdits avant 13 ans et demandent l'accord des parents avant 18 ans. Ce n'est pas qu'une formalité : c'est lié à la protection de tes données.
+</Callout>
+
+## Fausses images, fausses voix
+
+Les IA savent maintenant créer des photos, des voix et des vidéos très réalistes de choses qui n'ont jamais eu lieu. On appelle ça des **deepfakes** (« hypertrucages »). Ça peut être drôle (le pape en doudoune blanche), mais aussi servir à arnaquer, à manipuler une élection ou à harceler quelqu'un.
+
+<Compare leftTitle="Les indices qui peuvent trahir une image d'IA" rightTitle="Le réflexe le plus fiable">
+  <Fragment slot="left">
+    - Des mains bizarres, des doigts en trop
+    - Des textes illisibles sur les panneaux
+    - Une peau trop lisse, un éclairage « trop parfait »
+    - Des bijoux ou lunettes qui se mélangent au visage
+    - Attention : les IA récentes font de moins en moins ces erreurs
+  </Fragment>
+  <Fragment slot="right">
+    - **D'où vient l'image ?** Qui l'a publiée en premier ?
+    - Est-ce qu'un média sérieux en parle ?
+    - Une recherche d'image inversée (Google Lens) retrouve-t-elle l'original ?
+    - Si ça te met très en colère ou t'émeut beaucoup : méfiance, c'est souvent le but
+  </Fragment>
+</Compare>
+
+<Callout type="danger" title="Ce n'est pas un jeu">
+  Créer ou partager un montage d'une vraie personne sans son accord, surtout humiliant ou à caractère sexuel, est **puni par la loi** en France. Et en Europe, le règlement sur l'IA oblige à signaler les contenus générés par IA qui imitent des personnes ou des événements réels.
+</Callout>
+
+<Quiz question="Tu vois passer sur les réseaux une vidéo choquante d'un homme politique qui dit quelque chose d'énorme. Quel est le meilleur réflexe ?" options={['La partager vite pour prévenir tout le monde', 'Chercher si des médias sérieux en parlent avant de la partager', 'Regarder si sa bouche bouge bien en rythme : si oui, elle est vraie']} answer={1}>
+  **Chercher une source fiable.** Les indices visuels ne suffisent plus : les deepfakes récents peuvent être parfaits. Une déclaration aussi énorme serait reprise par tous les médias si elle était vraie. S'ils n'en parlent pas, ou s'ils parlent d'un trucage, tu as ta réponse.
+</Quiz>
+
+## L'IA a un coût
+
+### L'énergie
+
+Chaque question posée à une IA fait travailler des cartes graphiques dans d'immenses centres de données, qu'il faut alimenter et refroidir. Une question simple consomme peu (de l'ordre d'une ampoule LED allumée quelques minutes, selon les estimations récentes), mais multipliée par des centaines de millions d'utilisateurs, ça finit par compter. Générer des images ou des vidéos consomme beaucoup plus, et l'entraînement des modèles encore davantage.
+
+Pas besoin de culpabiliser à chaque question. Mais pour une recherche simple, un moteur de recherche suffit souvent.
+
+### Les métiers
+
+L'IA va transformer beaucoup de métiers, y compris ceux de bureau qu'on croyait à l'abri. Certaines tâches vont disparaître, d'autres apparaître. La compétence la plus précieuse sera celle que ce cours t'a fait travailler : **comprendre comment ces outils marchent, savoir quand leur faire confiance, et garder ton propre esprit critique.**
+
+<DeepDive title="Pour aller plus loin, si ça t'a plu" level="approfondissement">
+  - **Elements of AI** : un cours en ligne gratuit, en français, fait par l'université d'Helsinki pour les débutants complets.
+  - **3Blue1Brown** sur YouTube : des vidéos animées magnifiques sur les réseaux de neurones (sous-titres français).
+  - **Scratch** ou **Python** : si l'envie te prend de programmer, l'option NSI en première permet de s'y mettre au lycée.
+  - Et ton grand frère, qui en a fait ses études.
+</DeepDive>
+
+## À retenir
+
+<Takeaways>
+1. **Un bon prompt a cinq ingrédients.** Un rôle, le contexte, une tâche précise, un format, une vérification. Et on peut continuer la conversation.
+2. **Vérifie tout ce qui compte.** Une vraie source, une deuxième source, et ton bon sens. « Tu es sûr ? » ne suffit pas.
+3. **Prof particulier, pas copie toute faite.** Fais-toi expliquer, interroger, relire. Si l'IA fait l'exercice, c'est elle qui progresse, pas toi.
+4. **Tes données, et celles des autres, restent privées.** Rien de perso, rien sur tes amis. Pour les vrais problèmes, parle à un humain.
+5. **Méfie-toi des images trop fortes.** Avant de partager, cherche d'où ça vient. Faire un deepfake de quelqu'un sans son accord est puni par la loi.
+</Takeaways>

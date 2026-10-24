@@ -1,11 +1,12 @@
 ---
-/** Deux colonnes face à face. Slots nommés : left, right. */
-interface Props { left: string; right: string; leftTone?: 'signal' | 'synapse' | 'muted'; rightTone?: 'signal' | 'synapse' | 'muted' }
-const { left, right, leftTone = 'signal', rightTone = 'synapse' } = Astro.props;
+/** Deux colonnes face à face. Titres : leftTitle, rightTitle ; slots nommés : left, right.
+ *  (Les titres ne s'appellent pas left/right : en MDX, un slot écrase la prop de même nom.) */
+interface Props { leftTitle: string; rightTitle: string; leftTone?: 'signal' | 'synapse' | 'muted'; rightTone?: 'signal' | 'synapse' | 'muted' }
+const { leftTitle, rightTitle, leftTone = 'signal', rightTone = 'synapse' } = Astro.props;
 const dot = { signal: 'bg-signal', synapse: 'bg-synapse', muted: 'bg-ink-3' };
 ---
 <div class="not-prose my-8 grid overflow-hidden rounded-2xl border border-line bg-surface shadow-card sm:grid-cols-2" data-reveal>
-  {[{ t: left, tone: leftTone, slot: 'left' }, { t: right, tone: rightTone, slot: 'right' }].map((c, i) => (
+  {[{ t: leftTitle, tone: leftTone, slot: 'left' }, { t: rightTitle, tone: rightTone, slot: 'right' }].map((c, i) => (
     <div class:list={['p-6', i === 1 && 'border-line max-sm:border-t sm:border-l']}>
       <p class="mb-3 flex items-center gap-2 font-semibold text-ink"><span class:list={['size-2 rounded-full', dot[c.tone]]} />{c.t}</p>
       <div class="text-[0.9375rem] leading-relaxed text-ink-2 [&_li]:ml-4 [&_li]:list-disc [&_p+p]:mt-2 [&_strong]:text-ink [&_ul]:space-y-1.5">
