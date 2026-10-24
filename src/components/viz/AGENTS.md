@@ -55,4 +55,6 @@ Dans une leçon (ou sur `/guide`) : build, puis rendu clair/sombre, 1440 px et 3
   · `EmbeddingMap` · `Chunking` · `RagTriangle` · `Layers` (bandeau TOGAF, prop `active`) · `ValueChain` (props `title`, `steps`).
 - **ia-zero** : `Teach` (perceptron pommes/citrons) · `Neuron` (vote pondéré « aller au ciné ») · `NextWord` (mot suivant
   + température) · `PromptBuilder` (les 5 ingrédients d'un prompt).
+- **ARCL** : `ServiceModels` (IaaS/PaaS/SaaS, qui gère quelle couche) · `Scaling` (scale out vs scale in, panne d'un
+  serveur) · `AzFailure` (mono-AZ, multi-AZ, multi-région face à une panne).
 - **Génériques** : `Pipeline` · `BarChart`.

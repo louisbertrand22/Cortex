@@ -1,0 +1,442 @@
+---
+title: Introduction au cloud
+subtitle: Définitions, modèles de service, maturité, et un premier regard sur OpenStack
+subject: arcl
+session: 1
+description: Ce qu'est le cloud (et ce qu'il n'est pas), IaaS, PaaS, SaaS et CMP, scale out contre scale in, le modèle de maturité IaaS, le TD de cloud hybride et les modules d'OpenStack.
+tags: [cloud computing, IaaS, PaaS, SaaS, CMP, scalabilité, design for failure, cloud hybride, OpenStack]
+objectives:
+  - Définir le cloud computing et distinguer cloud privé, public, hybride et managé.
+  - Situer IaaS, PaaS (xPaaS, aPaaS), SaaS et CMP, et dire qui gère quelle couche.
+  - Expliquer pourquoi le cloud est scale out, et pourquoi cela impose des applications stateless.
+  - Placer une application sur le modèle de maturité IaaS (Virtual 2 Virtual, Virtual 2 Cloud, Born 2 be Cloud).
+  - Nommer les modules d'OpenStack et le rôle de chacun.
+sources:
+  - label: Support de cours ARCL Cours 1 « Introduction générale » — Yannick Neff, EPITA SIGL
+  - label: "NIST SP 800-145, « The NIST Definition of Cloud Computing » (2011)"
+    url: https://csrc.nist.gov/pubs/sp/800/145/final
+  - label: "The Twelve-Factor App — VI. Processes"
+    url: https://12factor.net/processes
+  - label: "Règlement (UE) 2016/679 — RGPD"
+    url: https://eur-lex.europa.eu/eli/reg/2016/679/oj
+  - label: "ANSSI — référentiel SecNumCloud"
+    url: https://cyber.gouv.fr/secnumcloud-pour-les-fournisseurs-de-services-cloud
+  - label: "OpenStack Releases — calendrier des versions"
+    url: https://releases.openstack.org/
+updated: 2026-10-24
+---
+
+Tout le monde parle de cloud, personne ne le définit pareil. Cette première session pose le vocabulaire de l'UE : ce qu'est une **infrastructure**, ce que le cloud change (le **scale out**, le **self-service**, le **design for failure**), les modèles **IaaS / PaaS / SaaS** et la **CMP** qui les pilote. Elle présente ensuite le **TD** — construire un cloud hybride — et sa première brique : **OpenStack**.
+
+<Callout type="note" title="La philosophie du cours">
+  Il y a plusieurs visions d'un même sujet : le prof transmet la sienne, à toi de construire la tienne. Le support est là **pour provoquer des questions**. Le cours avance par **exemples** et par **définitions différentes** (Wikipedia, Google bien utilisé, l'expérience du terrain). Le prof n'a pas le savoir divin : **le doute doit subsister**.
+</Callout>
+
+Le cloud n'est pas un produit qu'on installe, c'est une **transformation** — un *journey* — avec « 152 cibles, 247 stratégies, 65 478 trajectoires, 565 698 scénarios… voire plus, voire moins ». Retiens l'idée : il n'existe pas **une** bonne trajectoire vers le cloud.
+
+### Le programme de l'UE
+
+| Cours | Sujet |
+| --- | --- |
+| 1 | Introduction et principes généraux, présentation du TD |
+| 2 | Technologies cloud privé : OpenStack et VMware |
+| 3 | Technologies cloud public : AWS, Azure et autres |
+| 4 | Cloud Management Platform |
+| 5 | Architecture applicative cloud-native |
+| 6 | Stratégie cloud du CAC 40, impacts du cloud sur les DSI |
+| — | Soutenance |
+
+Le cours se concrétise par des **cas pratiques**, pour prendre du recul sur chaque technologie, et par un TD fil rouge : construire un **cloud hybride OpenStack + cloud public** (AWS ou Azure)… « si vous y arrivez ! ».
+
+## Se mettre à niveau
+
+### Une application repose sur une infrastructure
+
+Une **application**, c'est de la présentation, du traitement, des données, et souvent un répartiteur de charge devant. En production, cela devient des briques bien concrètes : *load balancer*, serveurs web, serveurs d'application, bases de données. **Application + infrastructure** : l'une ne tourne pas sans l'autre.
+
+<Compare leftTitle="Vue logique · l'application" rightTitle="Vue infrastructure · ce qui la porte">
+  <Fragment slot="left">
+    1. Répartiteur
+    2. Présentation
+    3. Traitement
+    4. Donnée
+  </Fragment>
+  <Fragment slot="right">
+    1. Load balancer
+    2. Web server
+    3. App server
+    4. Database
+  </Fragment>
+</Compare>
+
+Une définition universelle de l'infrastructure est impossible. Wikipedia propose : « un ensemble d'éléments interconnectés qui fournissent le cadre pour supporter la totalité de la structure ». Le cours retient une définition opérationnelle, en trois verbes :
+
+<CardGrid cols={3}>
+  <Card kicker="Compute" title="Calculer">CPU, serveurs, instances : là où le code s'exécute.</Card>
+  <Card kicker="Storage" title="Persister">Disques, fichiers, objets : là où la donnée survit au redémarrage.</Card>
+  <Card kicker="Network" title="Échanger">Réseaux, routage, filtrage : ce qui relie tout le reste.</Card>
+</CardGrid>
+
+L'analogie du support : le **transport** est l'application, le métro, la route, l'avion sont l'infrastructure. Facebook sur ton mobile ? Le téléphone, la 4G, le DNS, les frontaux web, les serveurs de cache, les bases, le *middleware*.
+
+### Scalabilité : scale out contre scale in
+
+Quand la charge augmente, deux façons de suivre :
+
+<Compare leftTitle="Scale out · horizontal" rightTitle="Scale in · vertical">
+  <Fragment slot="left">
+    **Plein de petits** serveurs. On en ajoute ou on en retire.
+
+    Exige que chaque serveur soit **stateless** : il ne garde aucun état propre, donc il est interchangeable.
+
+    Typique des couches **web et applicatives**. **Le cloud = scale out !**
+  </Fragment>
+  <Fragment slot="right">
+    **Un seul gros** serveur, qu'on grossit (CPU, RAM).
+
+    Adapté au **stateful** : une base de données qui détient l'état.
+
+    Typique de la couche **base de données**. Plafond physique, et un point unique de panne.
+  </Fragment>
+</Compare>
+
+Dans les deux cas, on parle de **scale up** (à la hausse) et **scale down** (à la baisse).
+
+<Figure caption="Monte la charge, change de mode, puis fais tomber un serveur">
+  <Scaling />
+</Figure>
+
+<KeyIdea>Le cloud est scale out : il ajoute des serveurs plutôt que de les grossir, et cela n'est possible que si l'application est stateless.</KeyIdea>
+
+<DeepDive title="Stateless en pratique : où part l'état ?" level="best-practice">
+  « Stateless » ne veut pas dire « sans état » : l'application en a forcément (session utilisateur, panier, fichiers envoyés). Cela veut dire que **le processus ne le garde pas chez lui**. La méthode *Twelve-Factor App* le formule ainsi : les processus ne partagent rien, et toute donnée qui doit durer va dans un **service externe** — une base, un cache partagé, un stockage objet.
+
+  Concrètement : pas de session en mémoire locale (on la met dans un cache partagé ou dans un jeton signé), pas de fichier écrit sur le disque local de l'instance (on l'envoie dans un stockage objet), pas de *sticky session* sur le load balancer. À cette condition, tuer une instance ne perd rien, et en ajouter une suffit à absorber la charge — c'est exactement ce que fait un *autoscaling group* (session 3).
+</DeepDive>
+
+### Sécurité : quatre critères
+
+Le support rappelle les critères de sécurité d'un système :
+
+<CardGrid cols={4}>
+  <Card kicker="D" title="Disponibilité">Le service répond quand on en a besoin.</Card>
+  <Card kicker="C" title="Confidentialité">Seuls les ayants droit lisent la donnée.</Card>
+  <Card kicker="I" title="Intégrité">La donnée n'est pas altérée.</Card>
+  <Card kicker="T" title="Traçabilité / preuve">On sait qui a fait quoi, et on peut le prouver.</Card>
+</CardGrid>
+
+## Définir le cloud
+
+### La définition de Wikipedia et du NIST
+
+Wikipedia : le cloud computing est « l'exploitation de la puissance de calcul ou de stockage de serveurs informatiques distants par l'intermédiaire d'un réseau, généralement internet ». Les serveurs sont **loués à la demande**, à l'usage ou au forfait. Selon le niveau de compétence du client, il gère lui-même son serveur ou se contente d'utiliser des applications distantes en SaaS.
+
+<Callout type="definition" title="Cloud computing (NIST, cité par Wikipedia)">
+  L'accès via un réseau de télécommunications, **à la demande** et **en libre-service**, à des **ressources informatiques partagées configurables**. C'est donc une délocalisation de l'infrastructure informatique.
+</Callout>
+
+<DeepDive title="Les cinq caractéristiques du NIST" level="approfondissement">
+  La définition complète du NIST (SP 800-145) pose **cinq caractéristiques essentielles** — un bon test pour savoir si une offre est vraiment « cloud » :
+
+  1. **Libre-service à la demande** : le client obtient une ressource sans interaction humaine avec le fournisseur.
+  2. **Accès réseau large** : par des mécanismes standards, depuis tout type de client.
+  3. **Mutualisation des ressources** (*resource pooling*) : plusieurs clients sur le même parc, affectés dynamiquement.
+  4. **Élasticité rapide** : la capacité s'étend et se réduit vite, parfois automatiquement.
+  5. **Service mesuré** : la consommation est mesurée, ce qui permet la facturation à l'usage.
+
+  Elle définit aussi trois modèles de service (IaaS, PaaS, SaaS) et quatre modèles de déploiement (privé, communautaire, public, hybride). Une ferme VMware où il faut ouvrir un ticket pour obtenir une VM échoue au premier critère : c'est de la virtualisation, pas (encore) du cloud.
+</DeepDive>
+
+### La définition du prof
+
+Le cloud, ce sont des **services informatiques à la demande** — d'où le suffixe *as a Service*. Avec, selon les cas :
+
+- un **paiement à l'usage** (ou pas) ;
+- du **self-service**, par un portail et par des **API** ;
+- une **intelligence portée par les applications** (ou pas) ;
+- des **standards** ;
+- **énormément de bouleversements** au niveau de la DSI et de l'entreprise.
+
+Trois types : **infrastructure (IaaS)**, **plateforme (PaaS)**, **application (SaaS)**. Et plusieurs modes de déploiement, pour lesquels **aucune définition n'est évidente** :
+
+<CardGrid cols={2}>
+  <Card kicker="Privé" title="Pour toi seul">Chez toi ou chez un tiers, une infrastructure **pour toi**, accessible **que par toi**.</Card>
+  <Card kicker="Public" title="Chez un tiers">Chez un tiers, accessible **que par Internet**.</Card>
+  <Card kicker="Hybride" title="Les deux">Le meilleur (ou le pire) des deux !</Card>
+  <Card kicker="Managé" title="Avec infogérance">Un cloud opéré par un infogéreur, poussé par les acteurs de l'infogérance.</Card>
+</CardGrid>
+
+Les frontières sont floues : un **Amazon Virtual Private Cloud** relié par **Direct Connect** à ton datacenter, ou un **OVH Dedicated Cloud**, sont-ils privés ou publics ? Il existe aussi des clouds **communautaires**, **privatifs**…
+
+<Callout type="warning" title="Cassage de mythe">
+  Le cloud dans les grandes entreprises est souvent de la **« super virtualisation ++ »** : des VM servies plus vite, sans que les applications changent.
+</Callout>
+
+### IaaS, PaaS, SaaS : qui gère quoi
+
+Une application repose sur neuf couches, du réseau jusqu'à l'application. Chaque modèle de service déplace la frontière entre **ce que tu gères** et **ce que gère le fournisseur** :
+
+<Figure caption="Les neuf couches d'une application · choisis un modèle · Source : support ARCL cours 1">
+  <ServiceModels />
+</Figure>
+
+Précisions du support :
+
+- **IaaS** : serveurs, réseau, compute, et potentiellement les **services de base d'infrastructure** (DNS, supervision, logs, IAM). Questions ouvertes : le *bare metal* ? Les conteneurs ? C'est l'approche « virtualisation ++ ».
+- **PaaS** se décline en deux : **xPaaS** (DBaaS, MOMaaS, CacheaaS… le *middleware* à la demande) et **aPaaS** (un environnement de développement **et d'exécution** d'application).
+
+<Quiz question="Une entreprise migre sa base PostgreSQL sur AWS RDS sans toucher au code. Quel modèle ?" options={['IaaS', 'xPaaS', 'aPaaS', 'SaaS']} answer={1}>
+  **xPaaS** : c'est une couche *middleware* (la base) fournie as a Service, et le support insiste : cela **n'implique pas de réécrire l'application**. Le piège est **aPaaS**, qui est aussi du PaaS, mais une plateforme d'exécution du code lui-même (OpenShift, App Engine), qui demande une refonte.
+</Quiz>
+
+### Deux taxonomies : Forrester et la CMP
+
+La **taxonomie Forrester (2009)** croise deux axes : **ce qui est fourni** (infrastructure de base, serveur d'entreprise, plateforme, application) et **le degré de privacité** (public partagé, privé virtuel, privé). On y retrouve, du privé au public : les clouds privés et la virtualisation, les clouds privés virtuels, et en public les clouds *scale-out* (EC2), les serveurs (Azure, App Engine), le PaaS et le SaaS (Salesforce).
+
+Une autre vue empile le cloud en couches : les **infrastructures** (VMware, AWS, OpenStack, CloudStack, autres) en bas, le **cloud networking** dessous, le **cloud management** au-dessus, puis le **développement d'applications** au sommet. La couche de management a un nom :
+
+<Callout type="definition" title="Cloud Management Platform (CMP)">
+  Suite logicielle qui gère des environnements cloud **publics, privés et hybrides**. Pour être une CMP, elle doit offrir au minimum une **plateforme de self-service**, le **provisioning d'images**, des outils de **mesure et de facturation**, et un début d'**optimisation de la charge**. Les plus avancées se connectent aux outils de management du SI, incluent un **catalogue de services**, la configuration du réseau et du stockage.
+</Callout>
+
+Pour Gartner, **la CMP va gérer tout le SI cloud — donc tout le SI**. Ses fonctions : self-service et provisioning automatisé, catalogue de services, *chargeback* (refacturation), gestion de capacité, de performance, de configuration et des changements, du cycle de vie, orchestration, connexion aux clouds externes. La session 4 y est consacrée.
+
+## Zoom sur chaque modèle
+
+### IaaS : l'objet de l'UE
+
+**Infrastructure as a Service** = **compute** (CPU, serveur, instance) + **stockage** (block, file, object) + **réseau** (SDN, *security groups*).
+
+<Compare leftTitle="IaaS public" rightTitle="IaaS privé">
+  <Fragment slot="left">AWS, Azure, OVH, Google…</Fragment>
+  <Fragment slot="right">VMware (ex-virtualisation), OpenStack, Microsoft Hyper-V (ex-virtualisation)…</Fragment>
+</Compare>
+
+<Callout type="warning" title="Design for failure : le changement de paradigme (important !)">
+  **« Everything fails all the time. »** Dans le cloud, on ne cherche plus à rendre chaque serveur infaillible : on conçoit l'application pour qu'elle **survive à la panne** de n'importe quel composant. La suite d'ARCL est un focus sur l'IaaS.
+</Callout>
+
+### PaaS : un modèle en cours de maturation
+
+Gartner distingue deux approches :
+
+<Compare leftTitle="xPaaS · middleware as a Service" rightTitle="aPaaS · Application Platform as a Service">
+  <Fragment slot="left">
+    Bases de données (Oracle, MSSQL, PostgreSQL…), serveurs d'application (JBoss, Tomcat, WebLogic…), web (Nginx, Apache, IIS…).
+
+    En public : **AWS RDS**, **Azure SQL**.
+
+    **N'implique pas de réécrire l'application.** Schéma classique.
+  </Fragment>
+  <Fragment slot="right">
+    Une plateforme de développement **et** d'exécution.
+
+    **Red Hat OpenShift** (privé), **Google App Engine** (public).
+
+    Schéma innovant, mais immature, et qui demande une **refonte complète** des applications.
+  </Fragment>
+</Compare>
+
+### SaaS : l'application à la demande
+
+En général des **fonctions support et de gestion** et des applications métier : collaboratif et messagerie (Gmail, Office 365, WebEx, Dropbox, OneDrive), CRM (Salesforce), RH (paie, évaluation, notes de frais), achats, comptabilité, reporting. C'est l'évolution des **ASP** (*Application Service Providers*) et de l'« on demand ».
+
+Deux éléments clés : la **facturation à l'utilisateur**, et une **réversibilité délicate** — récupérer ses données et partir est rarement simple.
+
+### CMP : trois familles d'acteurs
+
+Marché (à la date du support) : VMware (vRealize), HP (CloudSystem), Red Hat CloudForms, IBM SmartCloud, BMC…
+
+<CardGrid cols={3}>
+  <Card kicker="ITSM" title="Acteurs historiques de l'ITSM">BMC (Cloud Lifecycle Management), IBM (SmartCloud), HP (Cloud Service Automation), CA.</Card>
+  <Card kicker="Pure players" title="Spécialistes de la CMP">ServiceMesh (Agility Platform), Scalr, RightScale, Dell Multi-Cloud Manager.</Card>
+  <Card kicker="Infra provider" title="Fournisseurs d'infrastructure">VMware (vCloud Suite), Red Hat (CloudForms), Microsoft (System Center) : une CMP pensée d'abord pour leurs propres infrastructures.</Card>
+</CardGrid>
+
+## Le modèle de maturité IaaS
+
+Toutes les applications « dans le cloud » n'en tirent pas le même parti. Le support propose trois niveaux, de gauche à droite :
+
+<Pipeline steps={[
+  { title: 'Virtual 2 Virtual', caption: 'DC as a Service', detail: 'Le cloud est vu comme un « virtual datacenter », sans transformation applicative. Solutions : vSphere, Hyper-V, RHEV — la virtualisation classique.', tone: 'muted' },
+  { title: 'Virtual 2 Cloud', caption: 'Cloud-Ready', detail: 'Les applications sont reconçues pour utiliser des briques de service cloud. Solutions : vCloud Suite, OpenStack + CMP, Hyper-V + System Center, RHEV + CloudForms, OVH Dedicated Cloud (vSphere as a Service).' },
+  { title: 'Born 2 be Cloud', caption: 'Cloud-Based', detail: 'Les applications sont recodées en se basant sur les briques de services cloud. Solutions : AWS, Azure, GCP — en public « nu », ou « managé » par un intégrateur ou un infogéreur.', tone: 'synapse' },
+]} />
+
+Le détail, dimension par dimension :
+
+| | Virtual 2 Virtual | Virtual 2 Cloud | Born 2 be Cloud |
+| --- | --- | --- | --- |
+| **Compute** | « Virtual Machine », VM as a Service | « Instance compute », autoscaling group 1:1, autoscaling sur statistiques d'usage ou prédiction (VM éteintes la nuit) | « Pool d'instances », autoscaling group 1:n, piloté par la **charge réelle** et l'application (*follow the sun*) |
+| **Stockage** | Block | Object | Object |
+| **Réseau** | VLAN et subnet /24, firewall dans la VM, network ACL | VLAN et subnet /21 + security groups | SDN, security groups, *application centric network* |
+| **Backup** | Intégré au plan de backup existant | Mécanismes intégrés (snapshots…) | Géré par l'application (journalisation intégrée) |
+| **Monitoring** | Alerte, puis traitement manuel | Alerte et prétraitement automatique | Alerte, puis **destruction et reconstruction automatique** |
+| **Patch management** | Plan de patch existant | Rebuild mensuel | Continuous delivery |
+| **Résilience et DRP** | Mono-AZ (un DC), DRP manuel | Dual-AZ, mono-région, tâches de DRP automatisées | Multi-AZ, multi-région, **test de DRP permanent** |
+| **Déploiement** | Manuel | Automatisé (compute), *user-data* et outils type Puppet | Automatisé (compute, stockage, réseau), templates de déploiement applicatif |
+| **Exploitation** | Infogérance | DevOps | NoOps |
+| **Middleware (DB…)** | Installé dans la VM | DBaaS | DBaaS |
+
+<Quiz question="Une application dont le monitoring détruit puis reconstruit automatiquement une instance en panne, sans intervention humaine, est au niveau…" options={['Virtual 2 Virtual', 'Virtual 2 Cloud', 'Born 2 be Cloud']} answer={2}>
+  **Born 2 be Cloud.** Reconstruire plutôt que réparer suppose des instances jetables, donc stateless : c'est le niveau des applications recodées pour le cloud. **Virtual 2 Cloud** attire parce qu'il automatise déjà un **prétraitement**, mais la décision de reconstruire n'y est pas encore automatique.
+</Quiz>
+
+<KeyIdea>Mettre une VM dans le cloud ne rend pas une application « cloud » : la maturité se lit dans la façon dont elle scale, se sauvegarde, survit à une panne et se déploie.</KeyIdea>
+
+## La sécurité dans le cloud
+
+Le support pose le sujet sous forme de **débats** :
+
+- Quelles sont les **menaces** à mettre des données dans un cloud public ?
+- Un cloud public certifié (PCI-DSS, SOC…) comme AWS n'est-il pas **plus sécurisé** que ton datacenter interne ?
+- Qu'est-ce qu'une **donnée confidentielle** ?
+
+Les règles « communes » : **auditabilité**, **réversibilité**, **localisation des données**, **traçabilité**.
+
+Dans les faits, à la date du support : une **absence de réglementation** (le sujet est nouveau et complexe, les instances réglementaires mettent du temps à légiférer) ; des entreprises qui **externalisent depuis longtemps** leurs fonctions RH (paie, évaluation, notes de frais) et leur CRM ; certains fournisseurs qui remplissent toutes les règles communes, d'autres non ; et certains **contrats d'infogérance équivalents à des services cloud**.
+
+<DeepDive title="Ce qui a changé depuis : la réglementation est arrivée" level="état-de-l-art">
+  Le constat « absence de réglementation » ne tient plus. Deux textes structurent aujourd'hui le choix d'un cloud en France :
+
+  - **RGPD** (applicable depuis mai 2018) : toute donnée personnelle hébergée dans le cloud reste sous la responsabilité de l'entreprise ; le fournisseur est un **sous-traitant** lié par contrat, et un transfert hors de l'UE doit être encadré.
+  - **SecNumCloud** (ANSSI) : une qualification exigeante, qui impose notamment l'immunité aux lois extra-européennes. Elle est requise pour les données sensibles de l'État et de ses opérateurs.
+
+  Les quatre règles communes du support (auditabilité, réversibilité, localisation, traçabilité) sont précisément ce que ces textes ont rendu obligatoire, ou vérifiable.
+</DeepDive>
+
+### Privé ou public : le face-à-face
+
+<Compare leftTitle="Cloud privé" rightTitle="Cloud public">
+  <Fragment slot="left">
+    **Pour** : plus facile de satisfaire les standards de sécurité et de conformité les plus stricts ; plus personnalisable (matériel, OS) ; les VPC et le cloud hybride apportent une partie de l'élasticité du public avec l'isolement du privé ; certains logiciels marchent mieux en environnement dédié.
+
+    **Contre** : investissement initial plus lourd ; plus lent à monter et à faire tourner ; demande plus d'administrateurs qualifiés ; même bien administré, il n'égale pas la scalabilité et l'élasticité du public.
+  </Fragment>
+  <Fragment slot="right">
+    **Pour** : pas d'investissement initial ; tarifs prévisibles à l'usage ; mise en place et scaling rapides ; infrastructure flexible face aux variations de charge.
+
+    **Contre** : le client gère ses besoins de sécurité spécifiques ; moins personnalisable ; ne garantit pas toujours la conformité réglementaire suffisante ; certains logiciels tournent mal en environnement mutualisé et virtualisé.
+  </Fragment>
+</Compare>
+
+Source du tableau : DZone, *Definitive Guide to Cloud Providers*, cité par le support.
+
+## Le TD : construire un cloud hybride
+
+### Objectif et démarche
+
+Construire un **cloud hybride basé sur OpenStack** pour mettre en pratique deux concepts : le **design for failure** et le **self-service**. Double objectif : construire le cloud hybride **et** une application cloud-native par-dessus.
+
+<Steps>
+1. **Installer un cloud privé** (OpenStack).
+2. **Installer une CMP** (optionnel).
+3. **Déployer une application cloud-native** en cloud privé et en cloud public.
+4. **Hybrider les clouds** : interconnecter privé et public.
+5. **Déployer une application en cloud hybride.**
+</Steps>
+
+### Les livrables, cours par cours
+
+| Cours | Démarche attendue |
+| --- | --- |
+| 1 | Aucune |
+| 2 | Prérequis, installation d'OpenStack multi-node (2 nœuds) |
+| 3 | Configuration multi-AZ, ajout d'une image Fedora dans Glance, configuration de Swift et création d'un bucket, déploiement d'OwnCloud ou WordPress en cloud interne |
+| 4 | Schéma d'architecture global, installer une CMP ? |
+| 5 | Déploiement d'OwnCloud ou WordPress sur AWS |
+| 6 | Déploiement en multi-AZ haute disponibilité, interconnexion privé / public |
+| Soutenance | Application cloud-native (HA) en hybride privé / public, portail self-service qui déploie un OwnCloud ou un WordPress |
+
+<Callout type="tip" title="Les conseils du prof">
+  - Ce TP reflète l'entreprise : **des moyens et des obstacles**. À toi de trouver les moyens d'y arriver.
+  - **Utilise une distribution OpenStack**, n'installe pas tout à la main : ce n'est vraiment ni simple ni sec !
+  - **Crée tes comptes AWS et Azure au plus vite** (cela prend du temps), et **surveille tes crédits AWS** : ils partent vite.
+  - Il te faut : des serveurs x86 (machines de l'EPITA ou les tiennes — un OpenStack virtualisé peut dépanner), une connexion idéalement **sans proxy**, un compte AWS ou Azure, une clé USB.
+</Callout>
+
+## OpenStack, première approche
+
+### Ce qu'est OpenStack
+
+Wikipedia : OpenStack est **un ensemble de logiciels open source** permettant de déployer des infrastructures de cloud computing (**IaaS**). Son architecture est **modulaire**, composée de **projets corrélés** (Nova, Swift, Glance…) qui contrôlent les ressources : calcul, stockage, réseau. Le projet est porté par la **Fondation OpenStack**, organisation non commerciale.
+
+La vision du prof :
+
+- Un ensemble de logiciels pour construire un **cloud privé modulaire** : une *cloud infrastructure*.
+- **OpenStack n'est pas une CMP**… même si la frontière n'est pas si évidente.
+- Il existe en **distributions open source** (Red Hat RDO, DevStack) et **entreprise** (HP Helion, VMware VIO, IBM Cloud Manager with OpenStack) : tout le monde se jette sur le marché.
+- **Une version tous les six mois environ** (Mitaka, avril 2016, au moment du support).
+- L'IaaS étant « fini », OpenStack s'attaque au **(x)PaaS** : DBaaS, MWaaS…
+
+<DeepDive title="OpenStack aujourd'hui" level="état-de-l-art">
+  Le rythme semestriel a tenu : depuis 2024, les versions sont nommées par année et par semestre (**2024.1 Caracal**, **2024.2 Dalmatian**, **2025.1 Epoxy**, **2025.2 Flamingo**…), toujours listées sur releases.openstack.org. La Fondation OpenStack est devenue l'**OpenInfra Foundation** en 2020. Plusieurs distributions entreprise du support (HP Helion, IBM Cloud Manager) ont disparu ; OpenStack reste très présent chez les opérateurs télécoms et les hébergeurs.
+</DeepDive>
+
+### Architecture
+
+Vue simple : un bloc **compute** (Nova), un bloc **networking** (Neutron), un bloc **storage** (Cinder, Swift), et un **dashboard** (Horizon), au-dessus de services partagés et du matériel standard.
+
+```mermaid title="OpenStack : des modules indépendants qui se parlent par API"
+flowchart TB
+  U[API · CLI · GUI Horizon]
+  subgraph S[Services OpenStack]
+    direction LR
+    K[Keystone]
+    N[Nova]
+    Ne[Neutron]
+    C[Cinder]
+    Sw[Swift]
+    G[Glance]
+  end
+  subgraph B[Socle partagé]
+    direction LR
+    Q[AMQP<br/>bus de messages]
+    DB[(MariaDB)]
+  end
+  U --> S
+  S --> B
+  S --> H[Hyperviseurs · disques · switchs]
+  classDef os fill:var(--signal-soft),stroke:var(--signal);
+  class K,N,Ne,C,Sw,G os;
+```
+
+Deux propriétés à retenir :
+
+- **Architecture modulaire** : tout peut être remplacé. Neutron, par exemple, peut céder la place à NSX ou Nuage.
+- **Architecture ouverte** : les modules communiquent par un bus **AMQP** (un MOM, *message-oriented middleware*) et s'appuient sur une base **MariaDB**.
+
+### Les modules
+
+| Module | Rôle |
+| --- | --- |
+| **Nova** | Gère les ressources de compute : les hyperviseurs (KVM ou Xen, ESX, Hyper-V, Docker) |
+| **Swift** | Gère et fournit le stockage **objet** (redondant, résilient) |
+| **Neutron** | Gère et fournit les services **réseau** (subnets, IP) : quasi *software-defined network* |
+| **Cinder** | Gère (ou gère et fournit) le stockage **block**, les snapshots |
+| **Glance** | Gère les **images disque**, instanciées par Nova |
+| **Horizon** | Dashboard web — **pas** un portail de self-service |
+| **Keystone** | Gestion des **identités et des accès** |
+| **Ceilometer** | **Télémétrie** : collecte de métriques pour la facturation, le reporting, l'orchestration (scale up, down) |
+| **Heat** | **Orchestration** : déploie des *stacks* à partir de templates (agrégation de composants) |
+| **Trove** | DBaaS |
+| **Sahara** | Hadoop dans OpenStack |
+| **Ironic** | Bare metal |
+
+<Quiz question="Tu veux offrir à tes utilisateurs un catalogue où ils commandent un WordPress en un clic. Horizon suffit-il ?" options={['Oui, c’est le portail self-service d’OpenStack.', 'Non, Horizon est une console d’administration ; le catalogue relève d’une CMP.']} answer={1}>
+  **Non.** Le support le dit deux fois : Horizon est un dashboard d'administration et d'utilisation, **pas un portail de self-service**. Le catalogue de services est une fonction de la **CMP** (session 4). On s'y trompe parce qu'Horizon permet bien de lancer des instances à la main.
+</Quiz>
+
+<Quiz question="Quel module stocke l'image Fedora que Nova va démarrer ?" options={['Cinder', 'Swift', 'Glance']} answer={2}>
+  **Glance** gère les images disque. **Cinder** attire parce qu'il gère des disques, mais ce sont les volumes block attachés aux instances, pas les images de départ. (Glance peut, lui, stocker ses images dans Swift.)
+</Quiz>
+
+## À retenir
+
+<Takeaways>
+1. **Le cloud, ce sont des services à la demande, en self-service, par API.** Privé, public, hybride, managé : aucune frontière n'est évidente.
+2. **IaaS, PaaS, SaaS déplacent la frontière de ce que tu gères.** Le xPaaS ne demande pas de réécrire l'application ; l'aPaaS, si.
+3. **Le cloud est scale out, donc stateless.** Plein de petits serveurs interchangeables plutôt qu'un gros.
+4. **Design for failure : « everything fails all the time ».** L'application survit à la panne au lieu de compter sur une infrastructure infaillible.
+5. **OpenStack est un IaaS privé modulaire, pas une CMP.** Nova, Neutron, Cinder, Swift, Glance, Keystone, Horizon, Heat : un module par ressource.
+</Takeaways>

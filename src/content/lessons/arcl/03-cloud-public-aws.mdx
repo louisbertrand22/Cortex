@@ -1,0 +1,245 @@
+---
+title: Cloud public — AWS
+subtitle: Régions, zones de disponibilité, services et haute disponibilité
+subject: arcl
+session: 3
+description: Ce qui définit une architecture sur AWS — régions, AZ, SLA et responsabilité partagée —, les services de base (EC2, VPC, S3, RDS…), et comment construire une haute disponibilité multi-AZ.
+tags: [AWS, région, availability zone, SLA, responsabilité partagée, EC2, autoscaling, VPC, haute disponibilité]
+objectives:
+  - Expliquer pourquoi la haute disponibilité sur AWS commence avec trois nœuds répartis sur plusieurs AZ.
+  - Répartir les responsabilités entre AWS et le client.
+  - Associer les services AWS de base à leur rôle (compute, réseau, stockage, base de données).
+  - Configurer un autoscaling group et expliquer pourquoi il impose le stateless.
+  - Concevoir un VPC multi-AZ avec ses accès (Internet Gateway, VPN Gateway).
+sources:
+  - label: Support de cours ARCL Cours 3 « Cloud publics » — Yannick Neff, EPITA SIGL
+  - label: "Werner Vogels, « 10 Lessons from 10 Years of Amazon Web Services » (2016)"
+    url: https://www.allthingsdistributed.com/2016/03/10-lessons-from-10-years-of-aws.html
+  - label: "AWS — Regions and Availability Zones"
+    url: https://aws.amazon.com/about-aws/global-infrastructure/regions_az/
+  - label: "AWS — Amazon Compute Service Level Agreement"
+    url: https://aws.amazon.com/compute/sla/
+  - label: "AWS — Shared Responsibility Model"
+    url: https://aws.amazon.com/compliance/shared-responsibility-model/
+  - label: "AWS Well-Architected Framework — Reliability Pillar"
+    url: https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html
+updated: 2026-10-24
+---
+
+La session 2 construisait un cloud chez soi. Celle-ci passe chez le plus gros acteur du **cloud public** : **AWS**. On y retrouve les mêmes briques (instances, AZ, régions, stockage objet, réseau virtuel), mais avec une règle qui change tout : le fournisseur ne garantit **pas** tes instances. La haute disponibilité, c'est **ton architecture** qui la construit — et c'est ce que la session t'apprend à faire.
+
+## AWS : la fiche signalétique
+
+### D'où vient AWS
+
+- Un cloud **public**, et un *Virtual Private Cloud*.
+- L'idée de départ : **vendre la capacité informatique non utilisée** d'Amazon.com.
+- **Lancé en 2006** (ou 2002, selon ce qu'on compte).
+- Services historiques : **S3** (*Simple Storage Service*) et **EC2** (*Elastic Compute Cloud*).
+
+<Figure caption="AWS à la date du support · Source : support ARCL cours 3">
+  <CardGrid cols={3}>
+    <Stat value="6 Md$" label="chiffre d'affaires officiel" />
+    <Stat value="> 51" label="baisses de prix consécutives" hint="face à Google, Microsoft… OVH" />
+    <Stat value="5×" label="la capacité de tous ses concurrents réunis" hint="« plus gros cloud public au monde »" />
+  </CardGrid>
+</Figure>
+
+AWS est présent dans le monde entier, découpé en **régions**, chacune comptant plusieurs **zones de disponibilité**.
+
+<DeepDive title="« Everything fails, all the time »" level="terrain">
+  La photo du support est celle de **Werner Vogels**, CTO d'Amazon, auteur de la phrase devenue le credo du cloud : *everything fails, all the time*. Dans son bilan des dix ans d'AWS, il en fait la première leçon : construire des systèmes qui **acceptent la panne comme un événement normal**, isoler les défaillances pour qu'elles ne se propagent pas, et automatiser la reprise.
+
+  À l'échelle d'AWS, des disques, des serveurs et des liens réseau tombent à chaque instant. Le service ne peut donc pas reposer sur la fiabilité d'un composant ; il repose sur la **redondance** et sur des applications conçues pour perdre un composant sans s'arrêter. C'est le *design for failure* de la session 1, appliqué à la plus grande échelle qui soit.
+</DeepDive>
+
+### AZ et région : ce qui définit l'architecture et les SLA
+
+<Callout type="definition" title="Availability Zone (AZ)">
+  Un ou plusieurs **datacenters**, distants de **moins de 50 km** des autres AZ de la même région : assez loin pour ne pas tomber ensemble.
+</Callout>
+
+Deux règles du support à retenir :
+
+- **Sur AWS, la haute disponibilité commence avec 3 nœuds.**
+- **Les SLA d'EC2 portent sur une région**, ni sur une AZ, ni sur une instance. Une région est déclarée indisponible quand **plus d'une AZ** où tu fais tourner des instances est indisponible.
+
+<KeyIdea>AWS ne promet pas qu'une instance ou qu'une AZ reste debout ; il promet qu'une région le reste. Si toutes tes instances sont dans une seule AZ, aucun SLA ne te couvre.</KeyIdea>
+
+<DeepDive title="Les chiffres ont bougé" level="état-de-l-art">
+  Deux nuances par rapport au support :
+
+  - AWS décrit aujourd'hui ses AZ comme séparées d'une « distance significative » mais situées **à moins de 100 km** les unes des autres, et les régions récentes en comptent au moins trois.
+  - Le SLA de calcul comporte désormais **deux niveaux** : un engagement au niveau de la **région** (99,99 % pour des instances réparties sur au moins deux AZ) et un engagement plus faible au niveau de **l'instance seule** (99,5 %). La logique du support reste juste : la vraie garantie suppose une architecture multi-AZ.
+</DeepDive>
+
+### Le périmètre de responsabilité
+
+<Compare leftTitle="AWS gère" rightTitle="Le client gère">
+  <Fragment slot="left">
+    - Les bâtiments (*facilities*)
+    - La sécurité physique
+    - L'infrastructure de calcul
+    - L'infrastructure de stockage
+    - L'infrastructure réseau
+    - La couche de virtualisation
+  </Fragment>
+  <Fragment slot="right">
+    - Le système d'exploitation
+    - Les applications
+    - Les security groups
+    - Les firewalls
+    - La configuration réseau
+    - La gestion des comptes
+  </Fragment>
+</Compare>
+
+<Quiz question="Une instance EC2 se fait compromettre à cause d'un OS jamais patché. Qui est en faute ?" options={['AWS : c’est son infrastructure.', 'Le client : l’OS est de son côté de la ligne.']} answer={1}>
+  **Le client.** En IaaS, AWS s'arrête à la couche de virtualisation : tout ce qui tourne **dans** l'instance (OS, applications, security groups) est à toi. On croit souvent que « c'est dans le cloud » veut dire « c'est sécurisé par le fournisseur » ; c'est vrai pour les murs, pas pour ce que tu y mets.
+</Quiz>
+
+<DeepDive title="La ligne bouge selon le service" level="best-practice">
+  AWS formule ce partage comme la sécurité **« du » cloud** (à sa charge) contre la sécurité **« dans » le cloud** (à la tienne). La ligne n'est pas fixe : elle dépend du modèle de service, exactement comme le schéma IaaS / PaaS / SaaS de la session 1.
+
+  Sur **EC2** (IaaS), tu patches l'OS. Sur **RDS** (xPaaS), AWS patche le moteur de base de données, et toi tu gères les comptes, le chiffrement et les règles d'accès. Sur **S3**, il ne te reste « que » les droits d'accès — et c'est justement là que se produisent la plupart des fuites : des buckets ouverts au public par erreur.
+</DeepDive>
+
+## Les services de base
+
+AWS propose des dizaines de services. Le support en retient une poignée, par famille :
+
+<CardGrid cols={2}>
+  <Card kicker="Compute" title="EC2 · Auto Scaling · ELB">**EC2** : des serveurs virtuels élastiques (Linux, Windows). **Auto Scaling** : ajuste automatiquement le nombre d'instances à la charge. **Elastic Load Balancing** : répartit dynamiquement le trafic.</Card>
+  <Card kicker="Networking" title="VPC · Direct Connect · Route 53">**VPC** : une section privée et isolée du cloud AWS. **Direct Connect** : une liaison privée entre AWS et ton datacenter. **Route 53** : le DNS, capable de router entre AZ.</Card>
+  <Card kicker="Storage" title="EBS · S3 · Glacier · Storage Gateway">**EBS** : du stockage **block** pour EC2. **S3** : du stockage **objet** à l'échelle d'Internet, via API. **Glacier** : l'archivage et le backup. **Storage Gateway** : relie le stockage sur site à AWS.</Card>
+  <Card kicker="Database" title="RDS · DynamoDB · ElastiCache">**RDS** : des bases **relationnelles** managées (Oracle, SQL Server, MySQL). **DynamoDB** : une base **NoSQL** managée. **ElastiCache** : du cache en mémoire.</Card>
+</CardGrid>
+
+Côté automatisation : **CloudFormation** déploie et gère des **templates** (application web, application d'entreprise, base de données) — l'équivalent de Heat, qui en est d'ailleurs compatible.
+
+<Quiz question="Tu remplaces ta base Swift du TD par son équivalent AWS. Lequel ?" options={['EBS', 'S3', 'Glacier']} answer={1}>
+  **S3** : du stockage objet par API HTTP, avec buckets — l'API S3 est même celle que Swift sait imiter. **EBS** attire parce que c'est « du stockage pour EC2 », mais c'est du **block**, l'équivalent de Cinder. **Glacier** est aussi de l'objet, mais pour l'archivage froid.
+</Quiz>
+
+### Focus EC2
+
+<Steps>
+1. **La scalabilité passe par l'autoscaling group (ASG).** C'est du scale out, donc **stateless** ! En 1:1, il relance une instance tombée (l'équivalent de VMware HA). En 1:n, il gère un **pool d'instances**, avec un minimum et un maximum.
+2. **Le gabarit** (39 au moment du support) fixe la taille et le type de machine : mémoire intensive, calcul intensif, réseau, GPU… avec la possibilité de faire du « dédié ».
+3. **L'AMI** (*Amazon Machine Image*) est l'image de départ de l'instance — l'équivalent d'une image Glance.
+4. **Les security groups** filtrent le trafic est-ouest : un « firewall devant les instances ».
+5. **L'IP et le hostname** sont publics.
+</Steps>
+
+Une architecture classique empile trois ASG : un pour le **tier web**, un pour le **tier applicatif**, et un tier **base de données**.
+
+## La haute disponibilité sur AWS
+
+### Les principes
+
+Le support liste les bonnes pratiques de disponibilité d'AWS. On part des **objectifs métier de RTO et de RPO**, dérivés de la stratégie de continuité et de reprise du client (BC/DR). Puis :
+
+- **Design for failure** ;
+- de la **redondance intégrée** ;
+- **plusieurs instances** ;
+- **plusieurs AZ**, et des **services résilients**.
+
+<Callout type="definition" title="RTO et RPO">
+  Le **RTO** (*Recovery Time Objective*) est la durée d'interruption acceptable. Le **RPO** (*Recovery Point Objective*) est la quantité de données qu'on accepte de perdre, exprimée en temps (« les 5 dernières minutes »).
+</Callout>
+
+### Les services tolérants aux pannes
+
+<Compare leftTitle="Tolérants aux pannes par nature" rightTitle="Tolérants avec la bonne architecture">
+  <Fragment slot="left">
+    S3, Glacier, SimpleDB, DynamoDB, CloudFront, SWF, SQS, SNS, SES, Route 53, Elastic Load Balancing, IAM, Elastic Beanstalk, ElastiCache, EMR, CloudSearch.
+
+    Ce sont des services managés : AWS les répartit lui-même sur plusieurs AZ.
+  </Fragment>
+  <Fragment slot="right">
+    **EC2**, **EBS**, **RDS**, **VPC**.
+
+    Ils vivent dans **une** AZ : c'est à toi de les répartir et de les doubler.
+  </Fragment>
+</Compare>
+
+### De la topologie à la panne
+
+Le « hello world » de la haute dispo : un **ELB** devant des instances EC2 réparties dans **deux AZ**. Une version plus complète, multi-région : **Route 53** route les utilisateurs (DNS directionnel) vers une région USA ou Europe ; dans chaque région, un ELB, un autoscaling group d'Apache sur deux AZ, des caches **Memcached**, une base **MySQL maître** dans une AZ et son **esclave** dans l'autre, **CloudFront** en CDN, et une synchronisation des données entre régions.
+
+<Figure caption="Choisis une topologie, puis provoque une panne · Inspiré des schémas du support ARCL cours 3 et du modèle de maturité du cours 1">
+  <AzFailure />
+</Figure>
+
+<Quiz question="Ton site tourne sur 2 instances EC2 derrière un ELB, toutes les deux dans eu-west-3a. Est-il hautement disponible ?" options={['Oui : deux instances et un load balancer.', 'Non : une seule AZ, donc la panne du datacenter coupe tout.']} answer={1}>
+  **Non.** Deux instances protègent contre la panne d'**une instance**, pas contre celle de l'**AZ**. Le SLA EC2 porte d'ailleurs sur la région et suppose plusieurs AZ. Le piège est de compter les instances au lieu de compter les zones de panne indépendantes.
+</Quiz>
+
+## VPC : le réseau privé virtuel
+
+### Ce qu'est un VPC
+
+Un **VPC** est un réseau privé virtuel **accessible que par un client**, en **adressage privé** (RFC 1918), par exemple `10.0.0.0/16`. Un VPC est inséré dans **une région** et il est **multi-AZ** : on le découpe en **subnets**, un subnet vivant dans une seule AZ (`10.0.100.0/24`, `10.0.150.0/24`, `10.0.200.0/24`…).
+
+Et comment on y accède ?
+
+<CardGrid cols={2}>
+  <Card kicker="IGW" title="Internet Gateway">La porte vers Internet.</Card>
+  <Card kicker="VGW" title="VPN Gateway">Un tunnel VPN vers le datacenter de l'entreprise (*corporate DC*). La table de routage d'un subnet envoie, par exemple, `172.16.0.0/16` vers la VGW.</Card>
+</CardGrid>
+
+### VPC et haute dispo
+
+```mermaid title="Une application web haute dispo dans un VPC"
+flowchart TB
+  U((Utilisateurs)) --> IGW[Internet Gateway] --> LB[Load balancer]
+  subgraph A[AZ a]
+    direction TB
+    wa[Subnet web<br/>EC2 · EC2] --> dm[(Subnet données<br/>DB maître)]
+  end
+  subgraph B[AZ b]
+    direction TB
+    wb[Subnet web<br/>EC2 · EC2] ~~~ ds[(Subnet données<br/>DB esclave)]
+  end
+  LB --> wa & wb
+  wb --> dm
+  dm -. réplication .-> ds
+  classDef web fill:var(--signal-soft),stroke:var(--signal);
+  class wa,wb web;
+```
+
+Le VPC englobe les deux AZ. Les instances web des deux AZ servent toutes les requêtes ; toutes écrivent dans la base **maître**, répliquée vers l'**esclave** de l'autre AZ, prête à prendre le relais. Une **VPN Gateway** peut relier ce VPC au datacenter de l'entreprise.
+
+<Callout type="tip" title="Côté TD">
+  C'est le schéma attendu pour la suite : déployer OwnCloud ou WordPress sur AWS (cours 5), puis en **multi-AZ haute dispo** avec une **interconnexion privé / public** (cours 6) — la VGW est la brique qui relie ton OpenStack à ton VPC.
+</Callout>
+
+## Les best practices AWS
+
+Le support termine sur les principes d'architecture d'AWS :
+
+<Steps>
+1. **Design for failure and nothing fails.** Prévois la panne de chaque composant.
+2. **Loose coupling sets you free.** Découple les composants, avec des **files de messages** et des **load balancers**.
+3. **Implement elasticity.** Ajuste la capacité à la charge, automatiquement.
+4. **Build security in every layer.** La sécurité à chaque couche, pas seulement au périmètre.
+5. **Don't fear constraints.** Une contrainte du cloud (pas de RAM géante, pas de disque partagé) pousse vers une meilleure architecture.
+6. **Think parallel.** Découpe le travail pour l'exécuter en parallèle.
+7. **Leverage different storage options.** Le bon stockage pour chaque donnée : block, objet, base relationnelle, NoSQL, cache.
+</Steps>
+
+<DeepDive title="Ces principes aujourd'hui : le Well-Architected Framework" level="best-practice">
+  AWS a depuis structuré ces principes dans le **Well-Architected Framework**, organisé en piliers (excellence opérationnelle, sécurité, fiabilité, performance, optimisation des coûts, durabilité). Le pilier **fiabilité** reprend presque mot pour mot le support : récupérer automatiquement d'une panne, **tester les procédures de reprise**, scaler horizontalement pour augmenter la disponibilité, arrêter de deviner la capacité, et gérer les changements par l'automatisation.
+
+  Le framework fournit un questionnaire de revue d'architecture : une bonne grille pour auditer le déploiement de ton TD avant la soutenance.
+</DeepDive>
+
+## À retenir
+
+<Takeaways>
+1. **Sur AWS, la haute dispo commence avec 3 nœuds sur plusieurs AZ.** Une AZ = un ou plusieurs datacenters, isolés mais proches.
+2. **Le SLA EC2 porte sur la région, pas sur l'instance.** Une architecture mono-AZ n'est pas couverte.
+3. **Responsabilité partagée : AWS jusqu'à la virtualisation, toi au-dessus.** OS, applications, security groups, comptes sont à toi.
+4. **Un autoscaling group, c'est du scale out, donc du stateless.** Il relance (1:1) ou dimensionne un pool (1:n), à partir d'une AMI.
+5. **Un VPC est régional et multi-AZ, un subnet vit dans une AZ.** On y entre par une Internet Gateway, on le relie à l'entreprise par une VPN Gateway.
+</Takeaways>

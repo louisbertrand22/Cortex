@@ -1,0 +1,218 @@
+---
+title: Cloud Management Platform
+subtitle: Le pilote au-dessus des clouds
+subject: arcl
+session: 4
+description: Ce qu'est une CMP selon Gartner, sa place entre ITSM et IaaS, puis deux exemples concrets, VMware vRealize (tenants, blueprints, Orchestrator) et ManageIQ / CloudForms.
+tags: [CMP, self-service, catalogue de services, chargeback, orchestration, vRealize, blueprint, ManageIQ, CloudForms]
+objectives:
+  - Définir une CMP et citer ses fonctions attendues.
+  - Situer la CMP entre l'ITSM, le monitoring et l'infrastructure IaaS.
+  - Dérouler le processus de configuration de vRealize, des endpoints aux blueprints.
+  - Expliquer le rôle d'un orchestrateur et lire un workflow.
+  - Distinguer ManageIQ et Red Hat CloudForms.
+sources:
+  - label: Support de cours ARCL Cours 4 « CMP » — Yannick Neff, EPITA SIGL
+  - label: "FinOps Foundation — FinOps Framework"
+    url: https://www.finops.org/framework/
+  - label: "ManageIQ — site du projet"
+    url: https://www.manageiq.org/
+  - label: "OpenTofu — Infrastructure as Code open source"
+    url: https://opentofu.org/
+  - label: "Backstage — plateforme de portail développeur (CNCF)"
+    url: https://backstage.io/
+updated: 2026-10-24
+---
+
+Un IaaS te donne des instances, du stockage et du réseau. Mais qui décide qu'un développeur a droit à trois VM et pas trente, qui lui présente un catalogue « WordPress en un clic », qui refacture la consommation à son service, qui pilote en même temps ton OpenStack et ton compte AWS ? C'est le rôle de la **Cloud Management Platform**. Côté TD, c'est la brique qui transforme ton cloud hybride en **portail self-service** : le livrable de la soutenance.
+
+## Rappel des fondamentaux
+
+### Où se place la CMP
+
+Dans la vue en couches du cloud, la CMP est **au-dessus des infrastructures** (VMware, AWS, OpenStack, CloudStack, autres) et du cloud networking, **sous le développement d'applications**.
+
+```mermaid title="La CMP pilote plusieurs infrastructures à la fois"
+flowchart TB
+  APP[Application development]
+  CMP[Cloud management · la CMP]
+  I[Infrastructures<br/>VMware · AWS · OpenStack · CloudStack · autres]
+  NET[Cloud networking]
+  APP --> CMP --> I --> NET
+  classDef cmp fill:var(--signal-soft),stroke:var(--signal);
+  class CMP cmp;
+```
+
+<Callout type="definition" title="Cloud Management Platform (CMP)">
+  Suite logicielle qui gère des environnements cloud **publics, privés et hybrides**. Minimum requis : une **plateforme de self-service**, le **provisioning d'images**, des outils de **mesure et de facturation**, et un début d'**optimisation de la charge**. Les CMP avancées ajoutent la connexion aux outils de management du SI, un **catalogue de services**, la configuration du réseau et du stockage, une gestion avancée des ressources.
+</Callout>
+
+Pour Gartner, **la CMP va gérer tout le SI cloud — donc tout le SI**. Ses fonctions :
+
+<CardGrid cols={3}>
+  <Card kicker="Consommer" title="Ce que voit l'utilisateur">Self-service et provisioning automatisé · catalogue de services · chargeback.</Card>
+  <Card kicker="Exploiter" title="Ce que voit l'exploitant">Gestion de la capacité · de la performance · de la configuration et des changements · du cycle de vie.</Card>
+  <Card kicker="Piloter" title="Ce qui relie tout">Orchestration · connexion aux clouds externes. Transverses : la gestion des identités et des accès, et le management des services.</Card>
+</CardGrid>
+
+<DeepDive title="Chargeback ou showback ?" level="approfondissement">
+  Le **chargeback** refacture réellement la consommation cloud à chaque service : le coût arrive dans son budget. Le **showback** se contente de la lui **montrer**, sans transfert d'argent. Beaucoup d'entreprises commencent par le showback : il crée la prise de conscience sans les débats comptables.
+
+  Ces deux pratiques sont aujourd'hui au cœur du **FinOps**, la discipline qui rend les équipes responsables de leurs dépenses cloud. Le FinOps Framework en fait une capacité à part entière (allocation des coûts, puis refacturation), et insiste sur un prérequis que la CMP doit fournir : un **étiquetage** (*tagging*) systématique des ressources par projet, équipe et environnement, sans quoi aucune refacture n'est possible.
+</DeepDive>
+
+### Le marché
+
+Marché (à la date du support) : **VMware** (vRealize), **HP** (CloudSystem), **Red Hat** CloudForms, **IBM** SmartCloud, **BMC**… Trois familles d'acteurs :
+
+<CardGrid cols={3}>
+  <Card kicker="ITSM" title="Acteurs historiques de l'ITSM">BMC (Cloud Lifecycle Management), IBM (SmartCloud), HP (Cloud Service Automation), CA Technologies.</Card>
+  <Card kicker="Pure players" title="Spécialistes de la CMP">ServiceMesh (Agility Platform), Scalr, RightScale, Dell Multi-Cloud Manager.</Card>
+  <Card kicker="Infra provider" title="Fournisseurs d'infrastructure">VMware (vCloud Suite), Red Hat (CloudForms), Microsoft (System Center) : une CMP développée d'abord pour leurs propres infrastructures.</Card>
+</CardGrid>
+
+### Une autre vision de la CMP
+
+Le support propose une vue d'architecture plus opérationnelle : la CMP est un **orchestrateur** au centre, entre l'ITSM, l'infrastructure et les outils d'exploitation.
+
+```mermaid title="La CMP au centre du SI d'exploitation"
+flowchart TB
+  ITSM[ITSM<br/>change · incident · problem · CMDB]
+  subgraph CMP[CMP]
+    direction TB
+    portal[Self-service portal + IAM] --> cat[Service catalogue] --> orch[Orchestrator]
+    orch --> mods[IPAM · repository · configuration<br/>CMDB · auto scaling · assembly]
+  end
+  OPS[Exploitation<br/>monitoring · backup · performance · archiving]
+  IAAS[IaaS infrastructure management<br/>compute · storage · network · security]
+  rep[Reporting<br/>chargeback · showback]
+  ITSM <--> orch
+  orch <--> OPS
+  mods --> IAAS --> rep
+  classDef core fill:var(--signal-soft),stroke:var(--signal);
+  class portal,cat,orch core;
+```
+
+<KeyIdea>La CMP ne remplace ni l'IaaS ni l'ITSM : elle les orchestre, et expose le tout à l'utilisateur sous forme de catalogue.</KeyIdea>
+
+<Quiz question="OpenStack fournit Horizon, Keystone et Ceilometer. Est-ce une CMP ?" options={['Oui : portail, identités et métriques, tout y est.', 'Non : c’est une cloud infrastructure ; il lui manque le catalogue, la refacturation, le pilotage multi-cloud et le lien avec l’ITSM.']} answer={1}>
+  **Non** — même si la frontière n'est pas si évidente, comme le disait la session 1. Horizon est une console d'administration, pas un catalogue de services ; Ceilometer collecte les métriques qui **permettent** la facturation, sans la faire ; et OpenStack ne pilote que lui-même. Le piège est de prendre des briques nécessaires pour la fonction complète.
+</Quiz>
+
+## VMware vRealize
+
+### Le résultat : un portail self-service
+
+Côté utilisateur, vRealize Automation (anciennement **vCloud Automation Center**) présente un **catalogue de services** : on choisit « Red Hat 7.0 sur AWS », « SUSE Linux Enterprise », « Web App » ou « Windows Server 2012 », on clique sur *Request*, et la machine est livrée. Le catalogue est rangé par catégories : développement agile, infrastructure, plateforme, services.
+
+### Le multi-tenant
+
+vRealize sépare deux niveaux de configuration :
+
+- la **configuration système**, gérée par l'administrateur système et l'administrateur IaaS : les *endpoints* (hyperviseurs, clouds publics, serveurs physiques) et l'*infrastructure fabric* découpée en **fabric groups** ;
+- la **configuration des tenants**, gérée par chaque administrateur de tenant : ses **business groups** et leurs **réservations** sur les fabric groups. Chaque tenant a son propre portail, à sa propre URL.
+
+### Le processus de configuration
+
+<Pipeline steps={[
+  { title: 'Endpoints', caption: 'Les ressources réelles', detail: 'Déclarer les ressources réelles que vRealize va piloter : un vCenter VMware, un OpenStack, un compte AWS.' },
+  { title: 'Fabrics', caption: 'Des sous-zones', detail: 'Découper chaque endpoint en fabrics : des sous-zones de ressources, gérées par un fabric admin.' },
+  { title: 'Tenants', caption: 'Les zones clientes', detail: 'Créer les tenants, une zone par client (d’où le multi-tenant), avec leur configuration SMTP et leur annuaire (AD).' },
+  { title: 'Réservations', caption: 'Fabric → tenant', detail: 'Affecter une sous-zone de fabric à un tenant : c’est la réservation, la quantité de ressources que le tenant a le droit de consommer.' },
+  { title: 'Business groups', caption: 'Les équipes', detail: 'Créer les business groups au sein de chaque tenant : les équipes qui demandent des ressources.' },
+  { title: 'Blueprints', caption: 'Le catalogue', detail: 'Créer les blueprints : les modèles de machines ou de services que les utilisateurs commandent dans le catalogue.', tone: 'synapse' },
+]} />
+
+### Les blueprints
+
+<Compare leftTitle="Blueprint simple" rightTitle="Blueprint complexe">
+  <Fragment slot="left">
+    Créé **depuis un template VMware** (vCenter) : un nom, une politique de réservation, un préfixe de machine, un nombre maximum par utilisateur, une durée d'archivage, un coût journalier.
+  </Fragment>
+  <Fragment slot="right">
+    Créé **depuis Orchestrator** : un enchaînement d'actions, par exemple une CentOS 6.4 sur laquelle on installe Apache puis une base PostgreSQL.
+  </Fragment>
+</Compare>
+
+### Orchestrator
+
+Orchestrator (**vRO**) est la partie **automatisation / orchestration** de la CMP. Il décrit **les différentes actions et l'ordre** dans lequel les effectuer pour réaliser une opération — provisionner une machine, créer un utilisateur, obtenir un ticket wifi.
+
+- Il offre une **vue graphique** (WYSIWYG) et une **vue script**.
+- Il peut être couplé à un **outil de gestion de configuration** (Chef, Puppet).
+
+L'exemple du support : un workflow d'**ajout de disque** à une VM.
+
+```mermaid title="Workflow Orchestrator : ajouter un disque à une VM"
+flowchart TB
+  r([Demande d'ajout<br/>de disque]) --> c[Vérifier l'espace<br/>de stockage]
+  c --> q{Assez<br/>d'espace ?}
+  q -->|oui| a[Ajouter<br/>le disque] --> u[Mettre à jour<br/>la CMDB] --> n[Notifier<br/>l'utilisateur] --> e([Fin])
+  q -->|non| ch[Créer une demande<br/>de changement] --> e
+  classDef ok fill:var(--synapse-soft),stroke:var(--synapse);
+  classDef ko fill:var(--amber-soft),stroke:var(--amber);
+  class a,u,n ok;
+  class ch ko;
+```
+
+Remarque le lien avec l'ITSM : la CMDB est mise à jour, et le manque de place ne fait pas échouer la demande, il ouvre un **changement**.
+
+<Quiz question="Dans le workflow, pourquoi « Créer une demande de changement » plutôt que « Refuser la demande » ?" options={['Parce qu’Orchestrator ne sait pas refuser.', 'Parce que la CMP s’intègre aux processus ITSM : un manque de capacité devient un changement traité par les équipes.']} answer={1}>
+  La CMP s'inscrit dans le SI d'exploitation : un besoin qu'elle ne peut pas satisfaire automatiquement est **routé vers le processus ITSM** (gestion des changements), au lieu d'être perdu. Le refus attire parce qu'il paraît plus simple, mais il laisse l'utilisateur sans solution et l'équipe d'exploitation sans visibilité sur le manque de capacité.
+</Quiz>
+
+### L'architecture de vRealize
+
+vRealize Automation 7 se déploie en haute disponibilité, derrière des load balancers, en plusieurs composants :
+
+<CardGrid cols={3}>
+  <Card kicker="vRA" title="Core services">Le cœur, et le moniteur transactionnel.</Card>
+  <Card kicker="vIDM" title="Identity Manager">La gestion des identités.</Card>
+  <Card kicker="vRO" title="Orchestrator">Les workflows.</Card>
+  <Card kicker="DB" title="vPostgres">La base de données.</Card>
+  <Card kicker="MOM" title="RabbitMQ">Le bus de messages.</Card>
+  <Card kicker="IaaS" title="Serveurs IaaS">Serveurs web, Manager Service, DEM et agents, qui parlent aux endpoints.</Card>
+</CardGrid>
+
+On retrouve le même socle qu'OpenStack : **une base relationnelle et un bus de messages** au centre. Pour aller plus loin, le support renvoie à la *vRealize Automation 6.2 Reference Architecture* de VMware.
+
+## ManageIQ et Red Hat CloudForms
+
+<Compare leftTitle="ManageIQ" rightTitle="Red Hat CloudForms">
+  <Fragment slot="left">
+    La version **communautaire**, **gratuite**.
+
+    Une **appliance** OpenStack ou VMware, à télécharger sur le site du projet.
+  </Fragment>
+  <Fragment slot="right">
+    La version **entreprise**, **payante**, supportée par Red Hat.
+  </Fragment>
+</Compare>
+
+CloudForms pilote un **cloud hybride** : un cloud privé fait de virtualisation (VMware, Red Hat Enterprise Virtualization) et d'OpenStack, plus du cloud public (Amazon Web Services). Il couvre les applications traditionnelles comme les applications « cloud-enabled ». Son interface (le *Management Engine*) liste les VM et instances de tous les fournisseurs, filtrables par environnement (dev, prod, test, UAT), par plateforme (Amazon, Microsoft, OpenStack, Red Hat, VMware) et par statut.
+
+<Callout type="tip" title="Côté TD">
+  « Installer une CMP ? » est le livrable optionnel du cours 4, et le **portail self-service** qui déploie un OwnCloud ou un WordPress est attendu à la soutenance. ManageIQ, gratuit et livré en appliance OpenStack, est le candidat naturel.
+</Callout>
+
+<DeepDive title="Que sont devenues les CMP ?" level="terrain">
+  Le marché des CMP « suites » s'est fortement recomposé depuis le support : la plupart des pure players ont été rachetés, vRealize Automation vit aujourd'hui dans VMware Cloud Foundation (voir session 2), et **ManageIQ** reste un projet communautaire actif.
+
+  Surtout, les fonctions de la CMP ont été **éclatées** entre plusieurs outils :
+
+  - le provisioning et les blueprints sont passés à l'**infrastructure as code** (Terraform, et son fork open source **OpenTofu**) : le « blueprint » est un fichier versionné dans Git ;
+  - le portail self-service et le catalogue sont devenus des **portails développeur** (*internal developer platforms*), comme **Backstage** ;
+  - le chargeback et l'optimisation des coûts relèvent du **FinOps**.
+
+  Le besoin décrit par Gartner — un point unique pour consommer, exploiter et refacturer tout le SI cloud — n'a pas disparu : il est aujourd'hui assemblé à partir de ces briques plutôt qu'acheté d'un bloc.
+</DeepDive>
+
+## À retenir
+
+<Takeaways>
+1. **La CMP gère des clouds publics, privés et hybrides.** Minimum : self-service, provisioning d'images, mesure et facturation, optimisation de la charge.
+2. **Elle orchestre, elle ne remplace pas.** Au centre, entre l'ITSM, l'exploitation et l'IaaS, avec un catalogue de services devant.
+3. **vRealize se configure de bas en haut.** Endpoints → fabrics → tenants → réservations → business groups → blueprints.
+4. **Un orchestrateur décrit les actions et leur ordre.** Vue graphique ou script, couplé à Chef ou Puppet, intégré à la CMDB et aux changements.
+5. **ManageIQ est la version communautaire et gratuite de CloudForms.** Une CMP hybride qui pilote VMware, OpenStack et AWS.
+</Takeaways>

@@ -32,6 +32,9 @@ import Teach from '../viz/Teach.astro';
 import Neuron from '../viz/Neuron.astro';
 import NextWord from '../viz/NextWord.astro';
 import PromptBuilder from '../viz/PromptBuilder.astro';
+import ServiceModels from '../viz/ServiceModels.astro';
+import Scaling from '../viz/Scaling.astro';
+import AzFailure from '../viz/AzFailure.astro';
 
 export const components = {
   Callout,
@@ -64,4 +67,7 @@ export const components = {
   Neuron,
   NextWord,
   PromptBuilder,
+  ServiceModels,
+  Scaling,
+  AzFailure,
 };

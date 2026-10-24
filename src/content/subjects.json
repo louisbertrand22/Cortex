@@ -29,5 +29,28 @@
         "description": "Aller plus loin que les cinq ingrédients : donner des exemples, faire raisonner l'IA étape par étape, itérer sur une réponse, et des modèles de prompts prêts à l'emploi pour les cours."
       }
     ]
+  },
+  {
+    "id": "arcl",
+    "title": "Architecture Cloud",
+    "short": "ARCL",
+    "description": "Du datacenter virtualisé au cloud hybride : IaaS, PaaS, SaaS, OpenStack et VMware en privé, AWS en public, et la CMP qui pilote le tout.",
+    "teacher": "Yannick Neff",
+    "domain": "infrastructure",
+    "accent": "signal",
+    "order": 3,
+    "plannedSessions": 6,
+    "upcoming": [
+      {
+        "session": 5,
+        "title": "Architecture applicative cloud-native",
+        "description": "Concevoir une application pour le cloud : stateless, scale-out, design for failure, déployée en multi-AZ."
+      },
+      {
+        "session": 6,
+        "title": "Stratégie cloud du CAC 40 et impacts sur les DSI",
+        "description": "Comment les grandes entreprises adoptent le cloud, et ce que cela change pour la DSI."
+      }
+    ]
   }
 ]
