@@ -15,6 +15,10 @@ const subjects = defineCollection({
     accent: z.string().default('signal'), // nom d'une couleur du thème
     order: z.number().default(0),
     plannedSessions: z.number().optional(), // nombre total de sessions prévues dans l'UE
+    // Sessions annoncées mais pas encore rédigées : affichées en pointillés sur la page de la matière
+    upcoming: z
+      .array(z.object({ session: z.number(), title: z.string(), description: z.string().optional() }))
+      .default([]),
   }),
 });
 

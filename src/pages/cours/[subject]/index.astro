@@ -10,7 +10,7 @@ interface Props { subject: Subject }
 const { subject } = Astro.props;
 const lessons = await getLessons(subject.id);
 const planned = Math.max(subject.data.plannedSessions ?? 0, lessons.length);
-const sessions = Array.from({ length: planned }, (_, i) => ({ n: i + 1, lesson: lessons.find((l) => l.data.session === i + 1) }));
+const sessions = Array.from({ length: planned }, (_, i) => ({ n: i + 1, lesson: lessons.find((l) => l.data.session === i + 1), next: subject.data.upcoming.find((u) => u.session === i + 1) }));
 ---
 <BaseLayout title={subject.data.title} description={subject.data.description}>
   <section class="border-b border-line">
@@ -23,7 +23,7 @@ const sessions = Array.from({ length: planned }, (_, i) => ({ n: i + 1, lesson: 
   </section>
   <section class="mx-auto max-w-[120rem] px-4 py-16 sm:px-6">
     <ol class="relative grid gap-4 before:absolute before:top-4 before:bottom-4 before:left-[1.4rem] before:w-px before:bg-line">
-      {sessions.map(({ n, lesson }, i) => (
+      {sessions.map(({ n, lesson, next }, i) => (
         <li class="relative grid grid-cols-[2.8rem_1fr] gap-5" data-reveal style={`--reveal-i:${i}`}>
           <span class:list={['relative z-10 mt-5 grid size-11 place-items-center rounded-full border font-mono text-sm', lesson ? 'border-signal bg-surface text-signal' : 'border-line bg-bg text-ink-3']}>{String(n).padStart(2, '0')}</span>
           {lesson ? (
@@ -38,8 +38,9 @@ const sessions = Array.from({ length: planned }, (_, i) => ({ n: i + 1, lesson: 
             </a>
           ) : (
             <div class="rounded-2xl border border-dashed border-line p-6 text-ink-3">
-              <p class="font-medium">Session {n} — à venir</p>
-              <p class="mt-1 text-sm">Sera ajoutée après le cours.</p>
+              <p class="font-mono text-xs tracking-[0.12em] uppercase">Session {n} · à venir</p>
+              <p class="mt-1 text-lg font-medium text-ink-2">{next?.title ?? 'Sera ajoutée après le cours.'}</p>
+              {next?.description && <p class="mt-1 text-sm">{next.description}</p>}
             </div>
           )}
         </li>

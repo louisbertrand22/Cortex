@@ -6,7 +6,8 @@ Site de révision statique (Astro 7 + MDX + Tailwind 4 + Pagefind + Mermaid). To
 
 1. **Lire** le support source en entier (les HTML de cours pèsent plusieurs Mo à cause des polices/images base64 :
    extraire le texte avec un parser HTML, ignorer `<script>`/`<style>`).
-2. **Matière** : ajouter une entrée dans `src/content/subjects.json` si elle n'existe pas (`id` = slug court, `plannedSessions`).
+2. **Matière** : ajouter une entrée dans `src/content/subjects.json` si elle n'existe pas (`id` = slug court, `plannedSessions`,
+   `upcoming` pour annoncer le titre des sessions pas encore rédigées ; retirer l'entrée une fois la leçon écrite).
 3. **Leçon** : `src/content/lessons/<subject-id>/<NN>-<slug>.mdx`, frontmatter validé par `src/content.config.ts`
    (`title`, `subtitle`, `subject`, `session`, `description`, `tags`, `objectives`, `sources`, `updated`).
 4. **Rédaction** en français, termes techniques anglais conservés. Structure : une `##` par grande partie du support,
