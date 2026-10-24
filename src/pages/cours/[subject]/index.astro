@@ -1,0 +1,49 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { domainLabels, getLessons, getSubjects, lessonUrl, type Subject } from '@/lib/content';
+
+export async function getStaticPaths() {
+  const subjects = await getSubjects();
+  return subjects.map((subject) => ({ params: { subject: subject.id }, props: { subject } }));
+}
+interface Props { subject: Subject }
+const { subject } = Astro.props;
+const lessons = await getLessons(subject.id);
+const planned = Math.max(subject.data.plannedSessions ?? 0, lessons.length);
+const sessions = Array.from({ length: planned }, (_, i) => ({ n: i + 1, lesson: lessons.find((l) => l.data.session === i + 1) }));
+---
+<BaseLayout title={subject.data.title} description={subject.data.description}>
+  <section class="border-b border-line">
+    <div class="mx-auto max-w-[90rem] px-4 py-16 sm:px-6">
+      <nav class="mb-8 text-sm text-ink-3"><a href="/cours/" class="hover:text-ink">Cours</a> / <span class="text-ink-2">{subject.data.short}</span></nav>
+      <p class="mb-3 font-mono text-xs tracking-[0.14em] text-ink-3 uppercase">{domainLabels[subject.data.domain]} · {subject.data.semester}{subject.data.teacher && ` · ${subject.data.teacher}`}</p>
+      <h1 class="max-w-3xl text-5xl leading-[1] font-semibold tracking-[-0.04em] text-balance sm:text-6xl">{subject.data.title}</h1>
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-2">{subject.data.description}</p>
+    </div>
+  </section>
+  <section class="mx-auto max-w-[90rem] px-4 py-16 sm:px-6">
+    <ol class="relative grid gap-4 before:absolute before:top-4 before:bottom-4 before:left-[1.4rem] before:w-px before:bg-line">
+      {sessions.map(({ n, lesson }, i) => (
+        <li class="relative grid grid-cols-[2.8rem_1fr] gap-5" data-reveal style={`--reveal-i:${i}`}>
+          <span class:list={['relative z-10 mt-5 grid size-11 place-items-center rounded-full border font-mono text-sm', lesson ? 'border-signal bg-surface text-signal' : 'border-line bg-bg text-ink-3']}>{String(n).padStart(2, '0')}</span>
+          {lesson ? (
+            <a href={lessonUrl(lesson)} class="group rounded-2xl border border-line bg-surface p-6 shadow-card transition-[border-color,transform] duration-500 ease-out-expo hover:-translate-y-0.5 hover:border-line-strong">
+              <div class="flex flex-wrap items-baseline justify-between gap-3">
+                <h2 class="text-xl font-semibold tracking-tight group-hover:text-signal">{lesson.data.title}</h2>
+                <span class="text-sm text-ink-3 transition-transform duration-500 ease-out-expo group-hover:translate-x-1">Réviser →</span>
+              </div>
+              {lesson.data.subtitle && <p class="mt-1 font-display text-lg text-ink-2 italic">{lesson.data.subtitle}</p>}
+              <p class="mt-3 leading-relaxed text-ink-2">{lesson.data.description}</p>
+              {lesson.data.tags.length > 0 && <ul class="mt-4 flex flex-wrap gap-1.5">{lesson.data.tags.map((t) => <li class="rounded-full bg-surface-2 px-2.5 py-0.5 font-mono text-xs text-ink-2">{t}</li>)}</ul>}
+            </a>
+          ) : (
+            <div class="rounded-2xl border border-dashed border-line p-6 text-ink-3">
+              <p class="font-medium">Session {n} — à venir</p>
+              <p class="mt-1 text-sm">Sera ajoutée après le cours.</p>
+            </div>
+          )}
+        </li>
+      ))}
+    </ol>
+  </section>
+</BaseLayout>

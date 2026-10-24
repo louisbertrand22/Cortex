@@ -1,0 +1,39 @@
+---
+/** Les 4 métriques d'évaluation d'un RAG, en triangle (+ vérité terrain). */
+const N = {
+  q: { x: 300, y: 50, t: 'Question', s: 'ce que demande l’utilisateur' },
+  c: { x: 110, y: 290, t: 'Contexte récupéré', s: 'passages renvoyés par la recherche' },
+  a: { x: 490, y: 290, t: 'Réponse générée', s: 'ce qu’écrit le modèle' },
+  g: { x: 490, y: 445, t: 'Vérité terrain', s: 'écrite à l’avance par une personne' },
+};
+const E = [
+  { a: N.q, b: N.c, n: '01', l: 'Context relevancy', side: 'Retrieval', c: 'var(--synapse)' },
+  { a: N.c, b: N.a, n: '02', l: 'Faithfulness', side: 'Génération', c: 'var(--signal)' },
+  { a: N.q, b: N.a, n: '03', l: 'Answer relevancy', side: 'Génération', c: 'var(--signal)' },
+  { a: N.a, b: N.g, n: '04', l: 'Answer correctness', side: 'vs vérité terrain', c: 'var(--amber)' },
+];
+---
+<svg viewBox="0 0 600 495" class="rag-tri w-full" role="img" aria-label="Triangle d'évaluation RAG">
+  {E.map((e, i) => {
+    const mx = (e.a.x + e.b.x) / 2, my = (e.a.y + e.b.y) / 2;
+    return (
+      <g style={`--i:${i}`}>
+        <line x1={e.a.x} y1={e.a.y} x2={e.b.x} y2={e.b.y} stroke={e.c} stroke-width="2.5" pathLength="1" class="edge" />
+        <rect x={mx - 74} y={my - 20} width="148" height="40" rx="10" fill="var(--surface)" stroke={e.c} />
+        <text x={mx} y={my - 3} text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)">{e.n} · {e.l}</text>
+        <text x={mx} y={my + 12} text-anchor="middle" font-size="10.5" fill="var(--ink-3)">{e.side}</text>
+      </g>
+    );
+  })}
+  {Object.values(N).map((n) => (
+    <g>
+      <circle cx={n.x} cy={n.y} r="9" fill="var(--ink)" />
+      <text x={n.x} y={n.y - 18} text-anchor="middle" font-size="14" font-weight="600" fill="var(--ink)" stroke="var(--surface)" stroke-width="5" paint-order="stroke">{n.t}</text>
+      <text x={n.x} y={n.y + 26} text-anchor="middle" font-size="11" fill="var(--ink-3)" stroke="var(--surface)" stroke-width="4" paint-order="stroke">{n.s}</text>
+    </g>
+  ))}
+</svg>
+<style>
+  .rag-tri .edge { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1s cubic-bezier(.16,1,.3,1) calc(var(--i) * 250ms + 200ms) forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+</style>

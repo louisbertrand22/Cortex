@@ -1,0 +1,16 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SubjectCard from '@/components/layout/SubjectCard.astro';
+import { getNavTree } from '@/lib/content';
+const tree = await getNavTree();
+---
+<BaseLayout title="Cours" description="Toutes les matières disponibles sur Cortex.">
+  <section class="mx-auto max-w-[90rem] px-4 py-16 sm:px-6">
+    <p class="mb-2 font-mono text-xs tracking-[0.14em] text-ink-3 uppercase">Bibliothèque</p>
+    <h1 class="text-5xl font-semibold tracking-[-0.04em]">Cours</h1>
+    <p class="mt-4 max-w-2xl text-lg text-ink-2">Toutes les matières traitées, session par session.</p>
+    <div class="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+      {tree.map(({ subject, lessons }, i) => <SubjectCard subject={subject} lessons={lessons} index={i} />)}
+    </div>
+  </section>
+</BaseLayout>

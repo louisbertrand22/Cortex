@@ -1,0 +1,60 @@
+---
+import { getNavTree, lessonUrl, subjectUrl } from '@/lib/content';
+const tree = await getNavTree();
+const path = Astro.url.pathname.replace(/\/?$/, '/');
+---
+<div data-sidebar-backdrop class="fixed inset-0 z-40 hidden bg-black/30 backdrop-blur-[2px] lg:hidden"></div>
+<aside
+  data-sidebar
+  class="fixed inset-y-0 left-0 z-50 w-[18rem] -translate-x-full overflow-y-auto border-r border-line bg-bg px-4 pt-6 pb-10 transition-transform duration-300 ease-out-expo data-[open]:translate-x-0 lg:sticky lg:top-16 lg:z-0 lg:h-[calc(100dvh-4rem)] lg:w-auto lg:translate-x-0 lg:border-r-0 lg:bg-transparent lg:px-0 lg:pt-10"
+  aria-label="Navigation des cours"
+>
+  <nav class="text-sm">
+    {tree.map(({ subject, lessons }) => {
+      const inSubject = path.startsWith(subjectUrl(subject));
+      return (
+        <div class="mb-8">
+          <a href={subjectUrl(subject)} class="mb-2 flex items-center gap-2 px-2 font-mono text-[0.7rem] tracking-[0.14em] text-ink-3 uppercase hover:text-ink">
+            <span class:list={['size-1.5 rounded-full', inSubject ? 'bg-signal' : 'bg-line-strong']} />
+            {subject.data.short} · {subject.data.semester}
+          </a>
+          <p class="mb-3 px-2 font-medium text-ink">{subject.data.title}</p>
+          <ol class="relative ml-2 border-l border-line">
+            {lessons.map((lesson) => {
+              const current = path === lessonUrl(lesson);
+              return (
+                <li>
+                  <a
+                    href={lessonUrl(lesson)}
+                    aria-current={current ? 'page' : undefined}
+                    class:list={[
+                      '-ml-px flex gap-3 border-l py-1.5 pr-2 pl-4 leading-snug transition-colors',
+                      current ? 'border-signal font-medium text-ink' : 'border-transparent text-ink-2 hover:border-line-strong hover:text-ink',
+                    ]}
+                  >
+                    <span class="font-mono text-xs text-ink-3 tabular-nums pt-0.5">{String(lesson.data.session).padStart(2, '0')}</span>
+                    <span>{lesson.data.title}</span>
+                  </a>
+                </li>
+              );
+            })}
+            {lessons.length === 0 && <li class="py-1.5 pl-4 text-ink-3 italic">Aucune session publiée</li>}
+          </ol>
+        </div>
+      );
+    })}
+  </nav>
+</aside>
+<script>
+  const sidebar = document.querySelector<HTMLElement>('[data-sidebar]');
+  const backdrop = document.querySelector<HTMLElement>('[data-sidebar-backdrop]');
+  const set = (open: boolean) => {
+    if (!sidebar || !backdrop) return;
+    sidebar.toggleAttribute('data-open', open);
+    backdrop.classList.toggle('hidden', !open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  document.querySelectorAll('[data-sidebar-toggle]').forEach((b) => b.addEventListener('click', () => set(!sidebar?.hasAttribute('data-open'))));
+  backdrop?.addEventListener('click', () => set(false));
+  window.addEventListener('keydown', (e) => e.key === 'Escape' && set(false));
+</script>

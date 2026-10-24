@@ -1,0 +1,28 @@
+---
+/**
+ * Encadré pédagogique.
+ * type : note | tip | warning | danger | definition | exam
+ */
+interface Props {
+  type?: 'note' | 'tip' | 'warning' | 'danger' | 'definition' | 'exam';
+  title?: string;
+}
+const { type = 'note', title } = Astro.props;
+const styles = {
+  note: { label: 'À noter', icon: 'i', box: 'border-info/30 bg-info-soft', badge: 'bg-info text-bg' },
+  tip: { label: 'Astuce', icon: '✦', box: 'border-synapse/30 bg-synapse-soft', badge: 'bg-synapse text-bg' },
+  warning: { label: 'Attention', icon: '!', box: 'border-amber/35 bg-amber-soft', badge: 'bg-amber text-bg' },
+  danger: { label: 'Piège', icon: '✕', box: 'border-danger/30 bg-danger-soft', badge: 'bg-danger text-bg' },
+  definition: { label: 'Définition', icon: '≡', box: 'border-line-strong bg-surface', badge: 'bg-ink text-bg' },
+  exam: { label: 'Au quiz', icon: '?', box: 'border-signal/35 bg-signal-soft', badge: 'bg-signal text-bg' },
+}[type];
+---
+<aside class:list={['not-prose my-7 rounded-2xl border p-5', styles.box]} data-reveal>
+  <div class="mb-2 flex items-center gap-2.5">
+    <span class:list={['grid size-5 place-items-center rounded-full font-mono text-[0.7rem] font-bold', styles.badge]} aria-hidden="true">{styles.icon}</span>
+    <p class="text-sm font-semibold text-ink">{title ?? styles.label}</p>
+  </div>
+  <div class="callout-body text-[0.975rem] leading-relaxed text-ink-2 [&_a]:underline [&_code]:rounded [&_code]:bg-surface-2 [&_code]:px-1 [&_code]:font-mono [&_code]:text-[0.85em] [&_li]:ml-5 [&_li]:list-disc [&_p+p]:mt-2 [&_strong]:font-semibold [&_strong]:text-ink [&_ul]:mt-2 [&_ul]:space-y-1">
+    <slot />
+  </div>
+</aside>

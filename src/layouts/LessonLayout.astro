@@ -1,0 +1,124 @@
+---
+import type { MarkdownHeading } from 'astro';
+import BaseLayout from './BaseLayout.astro';
+import Sidebar from '@/components/layout/Sidebar.astro';
+import Toc from '@/components/layout/Toc.astro';
+import Footer from '@/components/layout/Footer.astro';
+import { lessonUrl, subjectUrl, type Lesson, type Subject } from '@/lib/content';
+
+interface Props {
+  lesson: Lesson;
+  subject: Subject;
+  headings: MarkdownHeading[];
+  readingTime?: number;
+  diagramCount?: number;
+  prev?: Lesson;
+  next?: Lesson;
+}
+const { lesson, subject, headings, readingTime, diagramCount, prev, next } = Astro.props;
+const d = lesson.data;
+const updated = d.updated.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<BaseLayout title={d.title} description={d.description} bare sidebar>
+  <div class="fixed top-16 right-0 left-0 z-30 h-0.5 origin-left scale-x-0 bg-signal" data-progress aria-hidden="true"></div>
+  <div id="top" class="mx-auto grid max-w-[90rem] grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-[15rem_minmax(0,1fr)] xl:grid-cols-[15rem_minmax(0,1fr)_13rem]">
+    <Sidebar />
+
+    <div class="min-w-0 pt-8 lg:pt-10">
+      <article data-pagefind-body data-pagefind-meta={`subject:${subject.data.short} · S${d.session}`} class="mx-auto max-w-[46rem]">
+        <header class="mb-12" data-pagefind-ignore="all">
+          <nav class="mb-8 flex flex-wrap items-center gap-1.5 text-sm text-ink-3" aria-label="Fil d'Ariane">
+            <a href="/cours/" class="hover:text-ink">Cours</a><span>/</span>
+            <a href={subjectUrl(subject)} class="hover:text-ink">{subject.data.title}</a><span>/</span>
+            <span class="text-ink-2">Session {d.session}</span>
+          </nav>
+
+          <div class="flex items-start gap-5">
+            <span class="font-display text-[5.5rem] leading-[0.8] text-signal tabular-nums max-sm:hidden" aria-hidden="true">{String(d.session).padStart(2, '0')}</span>
+            <div>
+              <p class="mb-2 font-mono text-xs tracking-[0.14em] text-ink-3 uppercase">{subject.data.short} · Session {d.session}</p>
+              <h1 class="text-4xl leading-[1.05] font-semibold tracking-[-0.03em] text-balance sm:text-5xl" data-pagefind-meta="title">{d.title}</h1>
+              {d.subtitle && <p class="mt-3 font-display text-2xl text-ink-2 italic">{d.subtitle}</p>}
+            </div>
+          </div>
+
+          <p class="mt-6 text-lg leading-relaxed text-pretty text-ink-2">{d.description}</p>
+
+          <dl class="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-ink-3">
+            {readingTime && <div class="flex gap-1.5"><dt class="sr-only">Lecture</dt><dd>⏱ {readingTime} min de lecture</dd></div>}
+            {!!diagramCount && <div class="flex gap-1.5"><dt class="sr-only">Diagrammes</dt><dd>◇ {diagramCount} diagramme{diagramCount > 1 ? 's' : ''}</dd></div>}
+            <div class="flex gap-1.5"><dt class="sr-only">Mise à jour</dt><dd>Mis à jour le {updated}</dd></div>
+          </dl>
+
+          {d.tags.length > 0 && (
+            <ul class="mt-5 flex flex-wrap gap-2">
+              {d.tags.map((t) => <li class="rounded-full border border-line bg-surface px-2.5 py-0.5 font-mono text-xs text-ink-2">{t}</li>)}
+            </ul>
+          )}
+
+          {d.objectives.length > 0 && (
+            <section class="mt-10 rounded-2xl border border-line bg-surface p-6 shadow-card">
+              <h2 class="mb-4 font-mono text-xs tracking-[0.14em] text-ink-3 uppercase">À la fin de cette session, tu sais</h2>
+              <ol class="space-y-3">
+                {d.objectives.map((o, i) => (
+                  <li class="flex gap-4">
+                    <span class="font-mono text-sm text-signal tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+                    <span class="text-ink">{o}</span>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )}
+        </header>
+
+        <div class="prose prose-cortex">
+          <slot />
+        </div>
+
+        {d.sources.length > 0 && (
+          <section class="mt-16 border-t border-line pt-8" data-pagefind-ignore="all">
+            <h2 class="mb-4 font-mono text-xs tracking-[0.14em] text-ink-3 uppercase">Sources & références</h2>
+            <ul class="space-y-2 text-sm text-ink-2">
+              {d.sources.map((s) => (
+                <li class="flex gap-2">
+                  <span class="text-ink-3">↗</span>
+                  {s.url ? <a href={s.url} class="underline decoration-line-strong underline-offset-4 hover:decoration-signal" target="_blank" rel="noopener">{s.label}</a> : <span>{s.label}</span>}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </article>
+
+      <nav class="mx-auto mt-16 grid max-w-[46rem] gap-4 sm:grid-cols-2" aria-label="Sessions voisines" data-pagefind-ignore="all">
+        {prev ? (
+          <a href={lessonUrl(prev)} class="group rounded-2xl border border-line bg-surface p-5 transition-colors hover:border-line-strong">
+            <span class="text-xs text-ink-3">← Session {prev.data.session}</span>
+            <span class="mt-1 block font-medium group-hover:text-signal">{prev.data.title}</span>
+          </a>
+        ) : <span />}
+        {next && (
+          <a href={lessonUrl(next)} class="group rounded-2xl border border-line bg-surface p-5 text-right transition-colors hover:border-line-strong">
+            <span class="text-xs text-ink-3">Session {next.data.session} →</span>
+            <span class="mt-1 block font-medium group-hover:text-signal">{next.data.title}</span>
+          </a>
+        )}
+      </nav>
+      <div class="mt-16"><Footer /></div>
+    </div>
+
+    <Toc headings={headings} />
+  </div>
+</BaseLayout>
+<script>
+  const bar = document.querySelector<HTMLElement>('[data-progress]');
+  if (bar) {
+    const update = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      bar.style.transform = `scaleX(${max > 0 ? h.scrollTop / max : 0})`;
+    };
+    addEventListener('scroll', update, { passive: true });
+    update();
+  }
+</script>

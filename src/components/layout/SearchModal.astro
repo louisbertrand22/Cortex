@@ -1,0 +1,153 @@
+<dialog
+  id="search-dialog"
+  class="m-0 mx-auto mt-[10vh] w-[min(42rem,calc(100vw-2rem))] max-w-none overflow-hidden rounded-2xl border border-line bg-surface p-0 text-ink shadow-2xl backdrop:bg-black/40 backdrop:backdrop-blur-sm"
+  aria-label="Recherche"
+>
+  <div class="flex items-center gap-3 border-b border-line px-4">
+    <svg viewBox="0 0 24 24" class="size-5 shrink-0 text-ink-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+    <input
+      id="search-input"
+      type="search"
+      autocomplete="off"
+      spellcheck="false"
+      placeholder="RAG, tokens, SecNumCloud, chunking…"
+      class="h-14 w-full bg-transparent text-base outline-none placeholder:text-ink-3 [&::-webkit-search-cancel-button]:hidden"
+    />
+    <kbd class="rounded-md border border-line bg-surface-2 px-1.5 py-0.5 font-mono text-[0.7rem] text-ink-3">Échap</kbd>
+  </div>
+  <div id="search-results" class="max-h-[60vh] overflow-y-auto overscroll-contain p-2" role="listbox">
+    <p class="px-3 py-8 text-center text-sm text-ink-3" data-search-hint>Tape un concept, un acronyme ou une question.</p>
+  </div>
+  <div class="flex items-center gap-4 border-t border-line bg-surface-2/60 px-4 py-2 text-xs text-ink-3">
+    <span><kbd class="font-mono">↑↓</kbd> naviguer</span>
+    <span><kbd class="font-mono">↵</kbd> ouvrir</span>
+    <span class="ml-auto">Recherche plein texte · Pagefind</span>
+  </div>
+</dialog>
+
+<style>
+  #search-dialog[open] {
+    animation: pop 0.25s var(--ease-out-expo);
+  }
+  @keyframes pop {
+    from {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.98);
+    }
+  }
+  :global(#search-results mark) {
+    background: color-mix(in oklab, var(--signal) 22%, transparent);
+    color: var(--ink);
+    border-radius: 3px;
+    padding: 0 2px;
+  }
+</style>
+
+<script>
+  type PagefindSubResult = { title: string; url: string; excerpt: string };
+  type PagefindData = { url: string; excerpt: string; meta: { title?: string; subject?: string }; sub_results: PagefindSubResult[] };
+  type Pagefind = {
+    options: (o: Record<string, unknown>) => Promise<void>;
+    debouncedSearch: (q: string, o?: unknown, ms?: number) => Promise<{ results: { data: () => Promise<PagefindData> }[] } | null>;
+  };
+
+  const dialog = document.getElementById('search-dialog') as HTMLDialogElement;
+  const input = document.getElementById('search-input') as HTMLInputElement;
+  const list = document.getElementById('search-results') as HTMLDivElement;
+  let pagefind: Pagefind | null = null;
+  let active = 0;
+
+  async function load() {
+    if (pagefind) return pagefind;
+    try {
+      const path = '/pagefind/pagefind.js';
+      pagefind = (await import(/* @vite-ignore */ path)) as Pagefind;
+      await pagefind.options({ excerptLength: 22 });
+    } catch {
+      list.innerHTML = `<p class="px-3 py-8 text-center text-sm text-ink-3">L'index de recherche est généré au build.<br/>Lance <code class="font-mono">npm run build && npm run preview</code> pour tester.</p>`;
+    }
+    return pagefind;
+  }
+
+  function open() {
+    if (dialog.open) return;
+    dialog.showModal();
+    input.select();
+    load();
+  }
+
+  const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+
+  function render(items: PagefindData[], q: string) {
+    if (!items.length) {
+      list.innerHTML = `<p class="px-3 py-8 text-center text-sm text-ink-3">Aucun résultat pour « ${esc(q)} ».</p>`;
+      return;
+    }
+    list.innerHTML = items
+      .map((r) => {
+        const subs = (r.sub_results ?? []).filter((s) => s.url !== r.url).slice(0, 4);
+        const head = `
+          <a href="${r.url}" role="option" data-result class="block rounded-xl px-3 py-2.5 outline-none hover:bg-surface-2 aria-selected:bg-surface-2">
+            <div class="flex items-center gap-2 text-sm font-semibold text-ink">
+              <svg viewBox="0 0 24 24" class="size-4 text-signal" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/></svg>
+              ${esc((r.meta.title ?? r.url).replace(/ · Cortex$/, ""))}
+              ${r.meta.subject ? `<span class="ml-auto rounded-md bg-surface-2 px-1.5 py-0.5 font-mono text-[0.68rem] font-normal text-ink-3">${esc(r.meta.subject)}</span>` : ''}
+            </div>
+            <p class="mt-1 line-clamp-2 text-[0.8125rem] leading-relaxed text-ink-2">${r.excerpt}</p>
+          </a>`;
+        const children = subs
+          .map(
+            (s) => `
+          <a href="${s.url}" role="option" data-result class="ml-5 block border-l border-line py-2 pr-3 pl-4 outline-none hover:bg-surface-2 aria-selected:bg-surface-2 rounded-r-xl">
+            <div class="text-[0.8125rem] font-medium text-ink"># ${esc(s.title)}</div>
+            <p class="mt-0.5 line-clamp-1 text-[0.78rem] text-ink-3">${s.excerpt}</p>
+          </a>`,
+          )
+          .join('');
+        return `<div class="mb-1">${head}${children}</div>`;
+      })
+      .join('');
+    active = 0;
+    highlight();
+  }
+
+  function highlight() {
+    const items = [...list.querySelectorAll<HTMLAnchorElement>('[data-result]')];
+    items.forEach((el, i) => el.setAttribute('aria-selected', String(i === active)));
+    items[active]?.scrollIntoView({ block: 'nearest' });
+  }
+
+  input.addEventListener('input', async () => {
+    const q = input.value.trim();
+    if (!q) {
+      list.innerHTML = `<p class="px-3 py-8 text-center text-sm text-ink-3">Tape un concept, un acronyme ou une question.</p>`;
+      return;
+    }
+    const pf = await load();
+    if (!pf) return;
+    const search = await pf.debouncedSearch(q, {}, 150);
+    if (!search) return; // requête remplacée par une plus récente
+    const data = await Promise.all(search.results.slice(0, 8).map((r) => r.data()));
+    render(data, q);
+  });
+
+  input.addEventListener('keydown', (e) => {
+    const items = list.querySelectorAll<HTMLAnchorElement>('[data-result]');
+    if (!items.length) return;
+    if (e.key === 'ArrowDown') { e.preventDefault(); active = (active + 1) % items.length; highlight(); }
+    if (e.key === 'ArrowUp') { e.preventDefault(); active = (active - 1 + items.length) % items.length; highlight(); }
+    if (e.key === 'Enter') { e.preventDefault(); items[active]?.click(); }
+  });
+
+  dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+  list.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('a')) dialog.close(); });
+
+  document.querySelectorAll('[data-search-open]').forEach((b) => b.addEventListener('click', open));
+  window.addEventListener('keydown', (e) => {
+    const typing = (e.target as HTMLElement)?.closest('input, textarea, [contenteditable]');
+    if ((e.key === 'k' && (e.metaKey || e.ctrlKey)) || (e.key === '/' && !typing)) {
+      e.preventDefault();
+      open();
+    }
+  });
+</script>

@@ -1,0 +1,34 @@
+---
+import { getEntry, render } from 'astro:content';
+import LessonLayout from '@/layouts/LessonLayout.astro';
+import { components } from '@/components/mdx';
+import { getLessons, lessonSlug, type Lesson } from '@/lib/content';
+
+export async function getStaticPaths() {
+  const lessons = await getLessons();
+  return lessons.map((lesson) => {
+    const siblings = lessons.filter((l) => l.data.subject.id === lesson.data.subject.id);
+    const i = siblings.indexOf(lesson);
+    return {
+      params: { subject: lesson.data.subject.id, lesson: lessonSlug(lesson) },
+      props: { lesson, prev: siblings[i - 1], next: siblings[i + 1] },
+    };
+  });
+}
+
+interface Props { lesson: Lesson; prev?: Lesson; next?: Lesson }
+const { lesson, prev, next } = Astro.props;
+const subject = (await getEntry(lesson.data.subject))!;
+const { Content, headings, remarkPluginFrontmatter } = await render(lesson);
+---
+<LessonLayout
+  lesson={lesson}
+  subject={subject}
+  headings={headings}
+  readingTime={remarkPluginFrontmatter.readingTime}
+  diagramCount={remarkPluginFrontmatter.diagramCount}
+  prev={prev}
+  next={next}
+>
+  <Content components={components} />
+</LessonLayout>

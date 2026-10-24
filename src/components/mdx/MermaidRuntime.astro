@@ -1,0 +1,102 @@
+<script>
+  const nodes = () => [...document.querySelectorAll<HTMLElement>('.mermaid-diagram[data-mermaid]')];
+
+  async function renderAll() {
+    const targets = nodes();
+    if (!targets.length) return;
+    const { default: mermaid } = await import('mermaid');
+    const css = getComputedStyle(document.documentElement);
+    const v = (name: string) => css.getPropertyValue(name).trim();
+    const dark = document.documentElement.dataset.theme === 'dark';
+
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: 'strict',
+      theme: 'base',
+      fontFamily: 'Geist Variable, ui-sans-serif, system-ui',
+      themeVariables: {
+        darkMode: dark,
+        fontSize: '15px',
+        background: v('--surface'),
+        primaryColor: v('--surface-2'),
+        primaryTextColor: v('--ink'),
+        primaryBorderColor: v('--line-strong'),
+        secondaryColor: v('--synapse-soft'),
+        secondaryBorderColor: v('--synapse'),
+        secondaryTextColor: v('--ink'),
+        tertiaryColor: v('--signal-soft'),
+        tertiaryBorderColor: v('--signal'),
+        tertiaryTextColor: v('--ink'),
+        lineColor: v('--ink-3'),
+        textColor: v('--ink-2'),
+        mainBkg: v('--surface-2'),
+        nodeBorder: v('--line-strong'),
+        clusterBkg: v('--bg'),
+        clusterBorder: v('--line-strong'),
+        titleColor: v('--ink'),
+        edgeLabelBackground: v('--surface'),
+        actorBkg: v('--surface-2'),
+        actorBorder: v('--signal'),
+        actorTextColor: v('--ink'),
+        actorLineColor: v('--line-strong'),
+        signalColor: v('--ink-2'),
+        signalTextColor: v('--ink'),
+        labelBoxBkgColor: v('--signal-soft'),
+        labelBoxBorderColor: v('--signal'),
+        labelTextColor: v('--ink'),
+        loopTextColor: v('--ink-2'),
+        noteBkgColor: v('--amber-soft'),
+        noteBorderColor: v('--amber'),
+        noteTextColor: v('--ink'),
+        activationBkgColor: v('--synapse-soft'),
+        activationBorderColor: v('--synapse'),
+        sequenceNumberColor: v('--bg'),
+        classText: v('--ink'),
+      },
+      sequence: { mirrorActors: false, showSequenceNumbers: false, boxMargin: 8 },
+      flowchart: { curve: 'basis', padding: 14 },
+    });
+
+    let i = 0;
+    for (const el of targets) {
+      const id = `mmd-${Date.now()}-${i++}`;
+      try {
+        // Mermaid ne comprend pas var(--x) : on résout les tokens du thème avant le rendu
+        const source = el.dataset.mermaid!.replace(/var\((--[\w-]+)\)/g, (_, name) => v(name));
+        const { svg } = await mermaid.render(id, source);
+        el.innerHTML = svg;
+        el.dataset.rendered = '';
+      } catch (err) {
+        el.dataset.rendered = '';
+        el.innerHTML = `<pre class="text-xs text-danger whitespace-pre-wrap">Diagramme Mermaid invalide :\n${String(err)}</pre>`;
+      }
+    }
+  }
+
+  renderAll();
+  window.addEventListener('cortex:theme', () => renderAll());
+
+  // Zoom : un clic ouvre le diagramme en plein écran à sa taille naturelle
+  const close = () => {
+    document.querySelectorAll('.mermaid-figure.is-zoomed').forEach((f) => {
+      f.classList.remove('is-zoomed');
+      const svg = f.querySelector<SVGElement>('svg');
+      if (svg) { svg.style.width = ''; svg.style.maxWidth = svg.dataset.maxw ?? ''; }
+    });
+    document.body.style.overflow = '';
+  };
+  document.addEventListener('click', (e) => {
+    const fig = (e.target as HTMLElement).closest<HTMLElement>('.mermaid-figure');
+    if (!fig) return;
+    if (fig.classList.contains('is-zoomed')) return close();
+    const svg = fig.querySelector<SVGElement>('svg');
+    if (!svg) return;
+    svg.dataset.maxw = svg.style.maxWidth;
+    const natural = parseFloat(svg.style.maxWidth) || svg.getBoundingClientRect().width;
+    svg.style.maxWidth = 'none';
+    svg.style.width = `${Math.max(natural * 1.3, Math.min(window.innerWidth - 96, natural * 2))}px`;
+    fig.classList.add('is-zoomed');
+    document.body.style.overflow = 'hidden';
+  });
+  window.addEventListener('keydown', (e) => e.key === 'Escape' && close());
+</script>

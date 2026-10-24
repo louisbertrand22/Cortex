@@ -1,0 +1,5 @@
+---
+import BarChartIsland, { type Bar } from './BarChartIsland';
+interface Props { data: Bar[]; unit?: string; max?: number }
+---
+<BarChartIsland client:visible {...Astro.props} />

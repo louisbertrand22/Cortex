@@ -1,0 +1,22 @@
+---
+/** Une chaîne de valeur métier : chaque étape aide (ou pas) l'IA générative. */
+interface Step { title: string; helps: boolean; why: string; data?: string }
+interface Props { title: string; steps: Step[] }
+const { title, steps } = Astro.props;
+---
+<div class="not-prose my-8" data-reveal>
+  <p class="mb-3 text-sm font-semibold text-ink">{title}</p>
+  <ol class="grid gap-2 md:grid-cols-5">
+    {steps.map((s, i) => (
+      <li class:list={['relative rounded-xl border p-3 text-sm', s.helps ? 'border-synapse/40 bg-synapse-soft' : 'border-line bg-surface-2 opacity-80']}>
+        <p class="flex items-center justify-between font-mono text-[0.68rem]">
+          <span class="text-ink-3">{i + 1}</span>
+          <span class={s.helps ? 'text-synapse' : 'text-ink-3'}>{s.helps ? 'GenAI aide' : 'n’aide pas'}</span>
+        </p>
+        <p class="mt-1 font-semibold text-ink">{s.title}</p>
+        <p class="mt-1 text-[0.8rem] leading-snug text-ink-2">{s.why}</p>
+        {s.data && <p class="mt-2 border-t border-line pt-1.5 text-[0.75rem] text-ink-3">📄 {s.data}</p>}
+      </li>
+    ))}
+  </ol>
+</div>

@@ -1,0 +1,37 @@
+---
+import type { MarkdownHeading } from 'astro';
+interface Props { headings: MarkdownHeading[] }
+const headings = Astro.props.headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+{headings.length > 0 && (
+  <nav class="sticky top-16 hidden max-h-[calc(100dvh-4rem)] overflow-y-auto pt-10 pb-10 text-[0.8125rem] xl:block" aria-label="Sur cette page">
+    <p class="mb-3 font-mono text-[0.7rem] tracking-[0.14em] text-ink-3 uppercase">Sur cette page</p>
+    <ul class="space-y-0.5 border-l border-line" data-toc>
+      {headings.map((h) => (
+        <li>
+          <a
+            href={`#${h.slug}`}
+            data-toc-link={h.slug}
+            class:list={['-ml-px block border-l border-transparent py-1 leading-snug text-ink-3 transition-colors hover:text-ink data-[active]:border-signal data-[active]:text-ink', h.depth === 3 ? 'pl-7' : 'pl-4']}
+          >{h.text}</a>
+        </li>
+      ))}
+    </ul>
+    <div class="mt-6 border-t border-line pt-4">
+      <a href="#top" class="text-ink-3 hover:text-ink">↑ Haut de page</a>
+    </div>
+  </nav>
+)}
+<script>
+  const links = new Map([...document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]')].map((a) => [a.dataset.tocLink!, a]));
+  if (links.size) {
+    const targets = [...links.keys()].map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+    const update = () => {
+      let current = targets[0]?.id;
+      for (const t of targets) if (t.getBoundingClientRect().top < 120) current = t.id;
+      links.forEach((a, id) => a.toggleAttribute('data-active', id === current));
+    };
+    addEventListener('scroll', update, { passive: true });
+    update();
+  }
+</script>

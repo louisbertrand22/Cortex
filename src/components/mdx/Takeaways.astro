@@ -1,0 +1,36 @@
+---
+/** Les points clés de fin de session. Mettre une liste ordonnée dedans ; **gras** = l'énoncé. */
+interface Props { title?: string }
+const { title = 'À retenir' } = Astro.props;
+---
+<section class="takeaways not-prose my-12 rounded-3xl border border-line bg-ink p-7 text-bg sm:p-9" data-reveal>
+  <p class="mb-6 font-display text-3xl italic">{title}</p>
+  <div class="text-[0.975rem] leading-relaxed"><slot /></div>
+</section>
+<style>
+  .takeaways :global(ol) {
+    list-style: none;
+    counter-reset: k;
+    display: grid;
+    gap: 1.1rem;
+  }
+  .takeaways :global(li) {
+    counter-increment: k;
+    position: relative;
+    padding-left: 2.25rem;
+    color: color-mix(in oklab, var(--bg) 72%, transparent);
+  }
+  .takeaways :global(li::before) {
+    content: counter(k, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--signal);
+    padding-top: 0.2rem;
+  }
+  .takeaways :global(strong) {
+    color: var(--bg);
+    font-weight: 600;
+  }
+</style>

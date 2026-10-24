@@ -1,0 +1,5 @@
+---
+import PipelineIsland, { type PipelineStep } from './PipelineIsland';
+interface Props { steps: PipelineStep[]; loop?: boolean }
+---
+<PipelineIsland client:visible {...Astro.props} />

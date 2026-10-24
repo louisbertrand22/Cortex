@@ -1,0 +1,9 @@
+---
+/** Cadre pour un schéma / visualisation, avec légende. */
+interface Props { caption?: string; wide?: boolean }
+const { caption, wide = false } = Astro.props;
+---
+<figure class:list={['not-prose my-10', wide && 'lg:-mx-16']} data-reveal>
+  <div class="overflow-x-auto rounded-2xl border border-line bg-surface p-4 shadow-card sm:p-6"><slot /></div>
+  {caption && <figcaption class="mt-3 text-center text-[0.8125rem] text-ink-3">{caption}</figcaption>}
+</figure>

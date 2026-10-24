@@ -1,0 +1,14 @@
+[
+  {
+    "id": "aiad",
+    "title": "Architecture AI Driven",
+    "short": "AIAD",
+    "description": "Mettre en production une architecture logicielle dont le composant central est non déterministe : du modèle au système d'information, du RAG aux agents.",
+    "teacher": "Gabriel Lion",
+    "semester": "S9",
+    "domain": "ia",
+    "accent": "signal",
+    "order": 1,
+    "plannedSessions": 5
+  }
+]

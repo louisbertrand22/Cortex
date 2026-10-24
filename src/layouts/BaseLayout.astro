@@ -1,0 +1,68 @@
+---
+import '@fontsource-variable/geist';
+import '@fontsource-variable/geist-mono';
+import '@fontsource/instrument-serif/400.css';
+import '@fontsource/instrument-serif/400-italic.css';
+import '@/styles/global.css';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import SearchModal from '@/components/layout/SearchModal.astro';
+import MermaidRuntime from '@/components/mdx/MermaidRuntime.astro';
+import RevealRuntime from '@/components/layout/RevealRuntime.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Masque le pied de page (pages de leçon : il est rendu dans la colonne centrale). */
+  bare?: boolean;
+  /** Affiche le bouton d'ouverture de la navigation latérale sur mobile. */
+  sidebar?: boolean;
+}
+const { title, description = 'Cortex — mes cours EPITA SIGL, rendus visuels, enrichis et interactifs.', bare = false, sidebar = false } = Astro.props;
+const fullTitle = title ? `${title} · Cortex` : 'Cortex · Révisions SIGL';
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#f7f6f2" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0d0e11" media="(prefers-color-scheme: dark)" />
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        root.classList.add('js');
+        let theme;
+        try { theme = localStorage.getItem('theme'); } catch {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        root.dataset.theme = theme;
+      })();
+    </script>
+    <slot name="head" />
+  </head>
+  <body class="grain text-ink">
+    <a href="#contenu" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-surface focus:px-4 focus:py-2 focus:shadow-card">Aller au contenu</a>
+    <div class="relative z-10 flex min-h-dvh flex-col">
+      <Header showMenu={sidebar} />
+      <main id="contenu" class="flex-1">
+        <slot />
+      </main>
+      {!bare && <Footer />}
+    </div>
+    <SearchModal />
+    <MermaidRuntime />
+    <RevealRuntime />
+  </body>
+</html>

@@ -1,0 +1,27 @@
+---
+/**
+ * Enrichissement : contenu qui n'est PAS dans le support de cours
+ * (approfondissement, best practice, état de l'art). Visuellement distinct.
+ */
+interface Props { title: string; level?: 'approfondissement' | 'best-practice' | 'terrain' | 'état-de-l-art' }
+const { title, level = 'approfondissement' } = Astro.props;
+const labels = {
+  approfondissement: 'Pour aller plus loin',
+  'best-practice': 'Best practice',
+  terrain: 'Retour terrain',
+  'état-de-l-art': 'État de l’art',
+};
+---
+<section class="deep-dive relative my-10 overflow-hidden rounded-2xl border border-synapse/30 bg-surface shadow-card" data-reveal>
+  <div class="not-prose absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-synapse to-synapse/20" aria-hidden="true"></div>
+  <header class="not-prose flex items-center gap-3 border-b border-line px-6 py-4">
+    <svg viewBox="0 0 24 24" class="size-5 text-synapse" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3" /><circle cx="4" cy="6" r="1.6" /><circle cx="20" cy="6" r="1.6" /><circle cx="5" cy="19" r="1.6" /><circle cx="19" cy="18" r="1.6" /><path d="M9.5 10.5 5.3 7M14.5 10.5l4.2-3.5M10 14.5l-3.8 3.4M14.3 14.2l3.5 2.8" /></svg>
+    <div>
+      <p class="font-mono text-[0.68rem] tracking-[0.14em] text-synapse uppercase">{labels[level]} · enrichissement</p>
+      <h4 class="text-base font-semibold text-ink">{title}</h4>
+    </div>
+  </header>
+  <div class="prose prose-cortex px-6 py-5 text-[0.975rem] [&>:first-child]:mt-0 [&>:last-child]:mb-0">
+    <slot />
+  </div>
+</section>

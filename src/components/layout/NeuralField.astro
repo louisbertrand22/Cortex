@@ -1,0 +1,52 @@
+---
+/** Fond décoratif du hero : un petit réseau de neurones dont les synapses s'allument. */
+const nodes = [
+  [60, 80], [180, 40], [300, 110], [420, 60], [540, 130], [660, 70],
+  [110, 200], [250, 230], [380, 190], [500, 250], [620, 210],
+  [40, 320], [190, 330], [330, 300], [460, 350], [600, 320], [700, 280],
+];
+const edges = [
+  [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [0, 6], [1, 7], [2, 7], [2, 8], [3, 8], [4, 9], [5, 10], [4, 10],
+  [6, 7], [7, 8], [8, 9], [9, 10], [6, 11], [6, 12], [7, 12], [7, 13], [8, 13], [9, 14], [9, 15], [10, 15], [10, 16], [12, 13], [13, 14], [14, 15], [15, 16],
+];
+---
+<svg viewBox="0 0 740 380" class="h-full w-full" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+  <g stroke="var(--line-strong)" stroke-width="1">
+    {edges.map(([a, b]) => <line x1={nodes[a][0]} y1={nodes[a][1]} x2={nodes[b][0]} y2={nodes[b][1]} />)}
+  </g>
+  <g fill="none" stroke-width="1.5" stroke-linecap="round">
+    {edges.filter((_, i) => i % 3 === 0).map(([a, b], i) => (
+      <line
+        class="synapse"
+        x1={nodes[a][0]} y1={nodes[a][1]} x2={nodes[b][0]} y2={nodes[b][1]}
+        stroke={i % 2 ? 'var(--synapse)' : 'var(--signal)'}
+        style={`--d:${(i * 0.73) % 5}s`}
+        pathLength="1"
+      />
+    ))}
+  </g>
+  <g>
+    {nodes.map(([x, y], i) => <circle cx={x} cy={y} r={i % 4 === 0 ? 4 : 2.6} fill={i % 5 === 0 ? 'var(--signal)' : 'var(--ink-3)'} class="node" style={`--d:${(i * 0.41) % 4}s`} />)}
+  </g>
+</svg>
+<style>
+  .synapse {
+    stroke-dasharray: 0.18 1;
+    stroke-dashoffset: 1.18;
+    animation: fire 5s var(--d) infinite cubic-bezier(0.6, 0, 0.4, 1);
+  }
+  @keyframes fire {
+    0% { stroke-dashoffset: 1.18; opacity: 0; }
+    10% { opacity: 1; }
+    45% { stroke-dashoffset: 0; opacity: 1; }
+    55%, 100% { stroke-dashoffset: 0; opacity: 0; }
+  }
+  .node {
+    animation: pulse 4s var(--d) infinite ease-in-out;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  @keyframes pulse {
+    50% { transform: scale(1.6); opacity: 0.6; }
+  }
+</style>

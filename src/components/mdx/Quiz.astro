@@ -1,0 +1,43 @@
+---
+/**
+ * Question d'auto-évaluation. `answer` = index (0-based) de la bonne option.
+ * <Quiz question="…" options={['A', 'B', 'C']} answer={1}>Explication (MDX)</Quiz>
+ */
+interface Props { question: string; options: string[]; answer: number }
+const { question, options, answer } = Astro.props;
+const letters = 'ABCDEFGH';
+---
+<div class="quiz not-prose my-6 rounded-2xl border border-line bg-surface p-5 shadow-card" data-quiz data-answer={answer} data-reveal data-pagefind-weight="0.5">
+  <p class="mb-4 flex gap-3 font-medium text-ink">
+    <span class="grid size-6 shrink-0 place-items-center rounded-md bg-signal font-mono text-xs text-bg">?</span>
+    <span>{question}</span>
+  </p>
+  <div class="grid gap-2">
+    {options.map((o, i) => (
+      <button type="button" data-option={i} class="flex items-start gap-3 rounded-xl border border-line px-4 py-2.5 text-left text-[0.9375rem] text-ink-2 transition-colors hover:border-line-strong hover:bg-surface-2 disabled:cursor-default data-[state=correct]:border-synapse data-[state=correct]:bg-synapse-soft data-[state=correct]:text-ink data-[state=wrong]:border-danger/50 data-[state=wrong]:bg-danger-soft">
+        <span class="font-mono text-xs text-ink-3 pt-1">{letters[i]}</span><span>{o}</span>
+      </button>
+    ))}
+  </div>
+  <div class="mt-4 hidden border-t border-line pt-4 text-[0.9375rem] leading-relaxed text-ink-2 [&_strong]:text-ink" data-explain>
+    <slot />
+  </div>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-quiz]').forEach((quiz) => {
+    const answer = Number(quiz.dataset.answer);
+    const buttons = [...quiz.querySelectorAll<HTMLButtonElement>('[data-option]')];
+    buttons.forEach((btn) =>
+      btn.addEventListener('click', () => {
+        const picked = Number(btn.dataset.option);
+        buttons.forEach((b) => {
+          b.disabled = true;
+          const i = Number(b.dataset.option);
+          if (i === answer) b.dataset.state = 'correct';
+          else if (i === picked) b.dataset.state = 'wrong';
+        });
+        quiz.querySelector('[data-explain]')?.classList.remove('hidden');
+      }),
+    );
+  });
+</script>
