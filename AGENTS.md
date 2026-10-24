@@ -169,4 +169,5 @@ respect de `prefers-reduced-motion`. **Pas de dépendance réseau au runtime** (
 | --- | --- | --- | --- |
 | `aiad` | Architecture AI Driven (S9, Gabriel Lion) | Étudiants ingénieurs | Dérivé des supports du prof ; tutoiement, ton direct, termes anglais conservés |
 | `arcl` | Architecture Cloud (Yannick Neff) | Étudiants ingénieurs | Dérivé de supports PowerPoint datés (~2016) : les évolutions depuis (Broadcom/VMware, versions OpenStack, SLA AWS, réglementation) vont en `<DeepDive>` ; fil rouge TD « cloud hybride » en `<Callout type="tip" title="Côté TD">` |
+| `ubsi` | Urbanisation des SI (Jean-Christophe Ferry) | Étudiants ingénieurs | Dérivé de supports PowerPoint (urbanisation ~2017, middleware promo 2026) ; ordre des sessions : urbanisation, puis services, puis cadre d'intégration ; exemples « Du métier aux applications » en exercices |
 | `ia-zero` | L'IA expliquée de zéro (Seconde) | Lycéen non technique | Pas de support : tout est rédigé ; tutoiement ; aucun terme non expliqué |

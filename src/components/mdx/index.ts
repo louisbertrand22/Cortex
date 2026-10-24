@@ -35,6 +35,9 @@ import PromptBuilder from '../viz/PromptBuilder.astro';
 import ServiceModels from '../viz/ServiceModels.astro';
 import Scaling from '../viz/Scaling.astro';
 import AzFailure from '../viz/AzFailure.astro';
+import SplitModels from '../viz/SplitModels.astro';
+import Availability from '../viz/Availability.astro';
+import IntegrationTiers from '../viz/IntegrationTiers.astro';
 
 export const components = {
   Callout,
@@ -70,4 +73,7 @@ export const components = {
   ServiceModels,
   Scaling,
   AzFailure,
+  SplitModels,
+  Availability,
+  IntegrationTiers,
 };

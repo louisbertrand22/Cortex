@@ -1,0 +1,378 @@
+---
+title: Services et contrat de service
+subtitle: SOA, formats d'échange, performances, disponibilité et exploitation
+subject: ubsi
+session: 2
+description: "Ce qu'est un service et ce qui le définit (contrats fonctionnel, de données, d'interface et de service), puis les contraintes qui pèsent sur un middleware : performance, disponibilité, exploitation."
+tags: [service, SOA, contrat de service, XML, JSON, API, performances, disponibilité, SPOF]
+objectives:
+  - Définir un service et les quatre contrats qui le caractérisent.
+  - Comparer XML, JSON et les formats historiques pour un échange entre applications.
+  - Décrire un contrat de service selon ses quatre axes (usage, performances, risques, coûts).
+  - Identifier un goulet d'étranglement et le compromis performance, charge, ressources.
+  - Calculer la disponibilité de composants en série et en parallèle.
+sources:
+  - label: Support de cours « Middlewares pour les applications d'entreprise — notions de service et de contrat de service » (v1.2, promo 2026) — Jean-Christophe Ferry et Grégoire Barbier, EPITA SIGL
+  - label: Jeff Dean, « Latency Numbers Every Programmer Should Know » (version mise à jour par Jonas Bonér)
+    url: https://gist.github.com/jboner/2841832
+  - label: OpenAPI Initiative, « OpenAPI Specification »
+    url: https://spec.openapis.org/oas/latest.html
+  - label: Google, « Site Reliability Engineering », chapitre « Embracing Risk »
+    url: https://sre.google/sre-book/embracing-risk/
+updated: 2026-10-24
+---
+
+La session 1 découpait le SI en applications. Reste à les faire travailler ensemble. Le mot clé de cette session : le **service**. Un service se définit par des **contrats**, et un contrat engage sur des choses très concrètes : temps de réponse, charge tenue, disponibilité, coût. C'est ce qui distingue une démonstration qui marche d'une solution d'entreprise qui tient en production.
+
+<Callout type="note" title="Le plan du support">
+Objectifs : introduire la notion de service, faire percevoir les **contraintes clés pour choisir des solutions d'entreprise**, et donner des rudiments sur les performances, la disponibilité et l'exploitation. Plan : SOA, contrat de service, éléments sur les performances, éléments sur la disponibilité.
+</Callout>
+
+## La notion de service
+
+### Un fournisseur, un client, un contrat
+
+<Callout type="definition" title="Service">
+Une **tâche exécutée par un fournisseur** de service **pour le compte d'un client**. En informatique, elle se traduit par un **échange d'informations** entre fournisseur et client.
+</Callout>
+
+- Dans la vie courante : services de renseignement, de téléphonie…
+- Dans le cas général, le client **n'est pas toujours l'initiateur** de l'échange.
+- Le service **masque complètement** les moyens et ressources de sa mise en œuvre : c'est la notion de **couplage faible**.
+- Tout le service est défini par un **contrat**, qui détermine ce qui lie client et fournisseur.
+
+<KeyIdea>Plus le couplage est faible, plus la solution est robuste.</KeyIdea>
+
+### Les quatre éléments clés d'un service
+
+<CardGrid cols={2}>
+  <Card kicker="Quoi" title="Contrat fonctionnel" tone="signal">
+    L'**objectif** de l'échange : ce que fait le service. Un accès aux données, un calcul ou une mise à jour.
+  </Card>
+  <Card kicker="Avec quoi" title="Contrat de données" tone="signal">
+    Le **contenu** de l'échange : la structure des données **et leur sémantique**.
+  </Card>
+  <Card kicker="Comment" title="Contrat d'interface technique" tone="signal">
+    Les **modalités** : protocoles, formats de données, etc.
+  </Card>
+  <Card kicker="Engagements" title="Contrat de service" tone="amber">
+    L'engagement du fournisseur… **et du client**. Pense aux conditions d'usage que tu acceptes en souscrivant un forfait téléphonique, une messagerie ou un jeu vidéo.
+  </Card>
+</CardGrid>
+
+### SOA : décomposer en services
+
+Le principe d'une **architecture orientée services** (SOA) : décomposer un système complexe en services. Chaque composant **fournit ou consomme** des services aux autres. Pour des systèmes très complexes, l'approche s'applique à **plusieurs échelles**.
+
+<Compare leftTitle="Le « dogme » de la SOA" rightTitle="La réalité">
+  <Fragment slot="left">
+    Des services **(très) réutilisables** au niveau de l'entreprise : comptabilisation d'une facture, émission d'une commande, calcul d'un niveau de stock…
+  </Fragment>
+  <Fragment slot="right">
+    Beaucoup d'échanges **« uniques »** entre deux applications, avec peu ou pas de réutilisation.
+  </Fragment>
+</Compare>
+
+L'approche service reste en tout cas une **bonne méthode** pour aborder l'intégration des SI.
+
+### Deux grandes typologies de services
+
+<Compare leftTitle="Distribuer des traitements" rightTitle="Distribuer des données">
+  <Fragment slot="left">
+    Plus vraiment envisageable de tout faire dans un seul serveur ou process.
+    - Exécution **immédiate** d'un traitement (avec ou sans réponse)
+    - Exécution **différée** (avec ou sans réponse)
+    - Traitement limité à un simple **accès à une donnée**
+    - Traitement **unitaire ou de masse**
+  </Fragment>
+  <Fragment slot="right">
+    Souvent rendue nécessaire par la distribution des traitements.
+    - **Réplication** de données (full ou delta)
+    - **Diffusion** de données
+    - **Notification** d'événements
+    - **Concentration** de données
+  </Fragment>
+</Compare>
+
+## Contrat d'échange et formats
+
+### Entête et payload
+
+Indépendamment du protocole, les données échangées ont un **format technique** (ASCII ou binaire, par exemple) et un **format logique** (les informations échangées). On distingue habituellement :
+
+- une **entête** ;
+- une **payload**, qui porte effectivement les données.
+
+La payload est souvent structurée par un **contrat formel** : IDL, WSDL, format de fichier, voire une norme fonctionnelle (EDI, SWIFT…).
+
+<Compare leftTitle="Couplage fort" rightTitle="Couplage faible">
+  <Fragment slot="left">La description des données est connue **à 100 %** du client et du fournisseur.</Fragment>
+  <Fragment slot="right">La description n'est connue que **partiellement** par chacun : chacun ne dépend que de ce qu'il utilise.</Fragment>
+</Compare>
+
+### XML, JSON et les autres
+
+<Compare leftTitle="XML, l'espéranto des échanges" rightTitle="JSON, tiré par le digital">
+  <Fragment slot="left">
+    Techniquement neutre, **auto-décrit** via XSD et WSDL (SOAP) : une grammaire qui exprime la syntaxe et une partie de la sémantique.
+
+    **Forces** : interopérabilité sans éléments propriétaires incontrôlables ; synergie de multiples éditeurs.
+
+    **Limites** : **performances** (lourdeur), normes complexes rarement respectées à 100 %. XML est un langage et en porte toute la complexité, et il ne normalise **que la forme, pas le fond**.
+  </Fragment>
+  <Fragment slot="right">
+    Très empreint des besoins des fronts. Lui aussi neutre et auto-décrit.
+
+    **Forces** : beaucoup des qualités de XML, avec **beaucoup moins de complexité**.
+
+    **Limites** : simple… voire **simpliste**. La complexité revient par les initiatives qui réintroduisent du schéma dans le *schemaless* : **JSON Schema**, **Swagger (OpenAPI)**.
+  </Fragment>
+</Compare>
+
+Et la « préhistoire » est toujours là :
+
+- les **formats métier** (EDI, SWIFT), qui évoluent tous vers XML ou JSON ;
+- le **CSV**, encore très utilisé pour sa simplicité et sa densité ;
+- les formats de fichiers ou messages **spécifiques** (exemple : les IDOC du progiciel SAP).
+
+### Les API, quelque chose de nouveau ?
+
+« SOAP et la SOA sont morts, vive les API et les micro services ! » En quoi est-ce différent ? **Pas grand-chose.**
+
+- Une philosophie un peu différente, **plus pragmatique** et moins abstraite.
+- Une construction des services autour de la notion de **ressource** (REST), qui s'appuie plus fortement sur HTTP et sur la notion d'objets.
+- Mais **tout ne s'exprime pas (encore) en services**.
+
+<Quiz question="Une équipe remplace un web service SOAP par une API REST en JSON. Qu'est-ce qui change fondamentalement dans la relation entre client et fournisseur ?" options={['Le couplage disparaît : JSON est schemaless', 'Il faut toujours un contrat de données et un contrat de service, seul le contrat d’interface technique change', 'Le contrat de service n’a plus de sens avec REST']} answer={1}>
+  **Seul le contrat d'interface technique change** (protocole, format). Le client dépend toujours de la structure et de la sémantique des données, et des engagements de disponibilité et de performance. Le piège : croire que « schemaless » veut dire « sans contrat ». Le contrat devient implicite, et c'est pour ça qu'on réintroduit OpenAPI ou JSON Schema.
+</Quiz>
+
+<DeepDive title="OpenAPI, le WSDL du monde REST" level="approfondissement">
+  La spécification **OpenAPI** (ex-Swagger) décrit une API HTTP en YAML ou JSON : chemins, méthodes, paramètres, schémas des requêtes et réponses (en JSON Schema), codes d'erreur, sécurité. On en génère la documentation, des clients et des squelettes de serveur, et on peut valider les échanges en test. C'est exactement le « contrat formel de la payload » du support. La tendance *contract first* (écrire le contrat avant le code) reprend la discipline du WSDL, avec un format plus léger.
+</DeepDive>
+
+## Le contrat de service
+
+### Quatre axes, liés entre eux
+
+Un service informatique se caractérise par :
+
+<CardGrid cols={2}>
+  <Card kicker="1" title="Son cadre d'usage" tone="signal">Qui l'utilise, quand, avec quelle charge.</Card>
+  <Card kicker="2" title="Ses performances" tone="signal">Combien de travail, en combien de temps.</Card>
+  <Card kicker="3" title="Ses risques" tone="signal">Indisponibilité, perte, confidentialité, preuve.</Card>
+  <Card kicker="4" title="Son coût" tone="signal">Matériel, logiciel, projet, opération.</Card>
+</CardGrid>
+
+Un contrat de service définit des engagements sur ces axes, qui **ne sont pas indépendants** :
+
+- l'usage influe sur les performances ;
+- la couverture des risques se fait (souvent) **au détriment des performances** ;
+- le coût est évidemment lié à tous les axes précédents.
+
+<KeyIdea>Le contrat de service est essentiel pour toute solution informatique.</KeyIdea>
+
+### L'usage
+
+L'usage d'un service a plusieurs facettes :
+
+- les **plages de service** ;
+- la description de la **charge de travail** ;
+- la **répartition** du travail entre les clients ;
+- le comportement de la charge **dans le temps** ;
+- les **évolutions** de l'usage dans le temps.
+
+Exemples de charges : **interactive** ou **batch**. Pour les middlewares d'entreprise : charge de service **synchrone** ou **asynchrone**.
+
+### Les performances
+
+Les performances relient deux choses : le **travail à effectuer** et le **temps requis** pour le faire.
+
+- Le travail comprend le traitement de l'information, **plus les surcoûts** liés à la distribution des traitements et des données.
+- Le temps a trois aspects :
+
+<CardGrid cols={3}>
+  <Card kicker="Débit" title="La puissance" tone="signal">Combien de travail par unité de temps.</Card>
+  <Card kicker="Attente" title="La latence" tone="signal">Le temps d'attente pour avoir le résultat.</Card>
+  <Card kicker="Régularité" title="La constance" tone="signal">Le caractère régulier et prévisible des temps.</Card>
+</CardGrid>
+
+Ces mesures **n'ont de sens que dans le contexte d'un usage**.
+
+### Les risques (DICP)
+
+<CardGrid cols={2}>
+  <Card kicker="D" title="Indisponibilité" tone="danger">Le service ne répond plus.</Card>
+  <Card kicker="I" title="Perte ou corruption de données" tone="danger">La donnée est fausse ou a disparu.</Card>
+  <Card kicker="C" title="Confidentialité" tone="danger">La donnée est vue par qui ne devrait pas.</Card>
+  <Card kicker="P" title="Preuve" tone="danger">Impossible de prouver ce qui s'est passé.</Card>
+</CardGrid>
+
+Le risque nul n'existe pas, **encore moins dans un système distribué**. Les middlewares jouent un rôle clé dans leur maîtrise :
+
+- l'intégrité du système global doit s'appuyer sur un comportement **déterministe et fiable** du middleware ;
+- mais les produits tiennent rarement un contrat de service **sans hypothèses fortes sur l'usage** ;
+- car dans le cas général, couvrir le risque d'un système logiquement ou physiquement distribué est très complexe.
+
+### Les coûts
+
+- **Matériel et logiciel** : liés à la puissance développée. Le coût de la puissance **n'est pas linéaire**, et il induit des coûts récurrents (maintenance).
+- **Projet** : mise en œuvre initiale, et coûts récurrents qui en découlent.
+- **Opération** : liés surtout au **nombre d'objets** à opérer et à la **complexité de l'architecture**.
+
+<Callout type="warning" title="Pas de solution sans évaluation des coûts">
+Et ce sont les **coûts récurrents** qui sont souvent prépondérants, pas l'investissement initial.
+</Callout>
+
+## Performances
+
+### Idées reçues
+
+- La performance d'un système est **relative** : aucun n'est performant ou lent dans l'absolu.
+- Il reste des **limites physiques** difficiles, voire impossibles, à franchir. Un échange réseau a une latence **1 000 fois supérieure** à un échange intra-machine ; un accès disque prend **quelques millisecondes**.
+- Le but n'est **jamais** d'être le plus performant possible, mais de **satisfaire les besoins**.
+- On peut néanmoins vouloir connaître les performances **maximales** d'un système, pour de bonnes raisons (*capacity planning*…).
+
+<DeepDive title="Les ordres de grandeur à connaître" level="approfondissement">
+  La liste popularisée par **Jeff Dean** (Google) donne des repères : une référence en cache L1 ≈ 1 ns, un accès mémoire ≈ 100 ns, un aller-retour dans un même datacenter ≈ 0,5 ms, une lecture aléatoire sur disque dur ≈ 10 ms (bien moins sur SSD, autour de 0,1 ms), un aller-retour Europe–Californie ≈ 150 ms. Le rapport mémoire/réseau du support se lit directement : chaque appel distant coûte des milliers d'accès mémoire. D'où la règle pratique : **minimiser le nombre d'allers-retours** entre applications (appels en masse, pagination, cache) plutôt que d'optimiser le code local.
+</DeepDive>
+
+### Un compromis à trois pôles
+
+Optimiser un système, c'est chercher un **compromis** entre :
+
+1. la **performance élémentaire** (exemple : temps de réponse) ;
+2. la **tenue de charge** (exemple : nombre d'utilisateurs concurrents) ;
+3. la **consommation de ressources** (exemple : secondes CPU cumulées).
+
+<KeyIdea>Un curseur à trois pôles : favoriser un axe en défavorise au moins un des deux autres.</KeyIdea>
+
+<Compare leftTitle="Oracle, petite charge" rightTitle="Oracle, forte charge">
+  <Fragment slot="left">**1 écriture par commit.** Favorise le temps de réponse, au détriment de la charge et du coût.</Fragment>
+  <Fragment slot="right">**1 écriture pour plusieurs commits.** Favorise la tenue de charge, au détriment du temps de réponse et du coût.</Fragment>
+</Compare>
+
+### Le goulet d'étranglement
+
+<Callout type="definition" title="Goulet d'étranglement">
+Le **facteur limitant**, ou ressource critique : dans des conditions données, l'élément qui définit les performances globales, parce que **tous les autres l'attendent**.
+</Callout>
+
+Quatre grandes familles : **mémoire**, **CPU**, **entrées/sorties** (disques, réseau, imprimantes…), **ressources de synchronisation** (verrous : des processus qui s'attendent les uns les autres).
+
+<Callout type="warning" title="Le piège classique">
+Un goulet d'étranglement ne se manifeste **que s'il n'y en a pas un plus fort qui le masque**. Supprime le premier, le suivant apparaît.
+</Callout>
+
+<Quiz question="Une application est lente. On double les CPU du serveur : rien ne change. Quelle est l'explication la plus probable ?" options={['Le serveur est mal configuré', 'Le CPU n’était pas le goulet d’étranglement : une autre ressource (disque, réseau, verrou) limite le système', 'Il fallait quadrupler les CPU']} answer={1}>
+  **Le CPU n'était pas le facteur limitant.** Tant qu'une autre ressource fait attendre tout le monde, ajouter de la puissance ailleurs ne sert à rien. D'où l'intérêt de **mesurer** (voir les points de mesure) avant d'acheter. Quadrupler les CPU attire parce que « plus de puissance » semble toujours aider : c'est faux en présence d'un autre goulet.
+</Quiz>
+
+### Où mesurer
+
+<Figure caption="Exemples de points de mesure · Source : support UBSI, « Performances : points de mesure »">
+| Ressource | Ce qu'on mesure |
+| --- | --- |
+| Mémoire | Mémoire physique et virtuelle disponible/utilisée, activité de pagination (swap) |
+| E/S disque | Débit par périphérique (regroupé par axe, décomposé par système de fichiers), latence |
+| E/S réseau | Débit (donc saturation), latence |
+| CPU | Répartition système / utilisateur / inactif / périphériques, répartition entre CPU (tous actifs ?), changements de contexte |
+| Verrous | Échecs d'acquisition, temps de rétention, durées d'attente |
+</Figure>
+
+Pour les verrous, malheureusement, il n'est pas forcément évident de **connaître tous les verrous** d'un système.
+
+## Disponibilité
+
+### Quelques définitions
+
+La disponibilité traite du **comportement d'un système face à des pannes**. En cas de sinistre majeur, on parle plutôt de **continuité**.
+
+<CardGrid cols={3}>
+  <Card kicker="Taux" title="Disponibilité" tone="signal">La part du temps où le service est rendu.</Card>
+  <Card kicker="Délai" title="RTO" tone="signal">Mesure le **délai de remise en service**.</Card>
+  <Card kicker="Données" title="RPO" tone="signal">Mesure la **perte de données**.</Card>
+</CardGrid>
+
+### Des probabilités
+
+- **MTBF** : *Mean Time Between Failures*, le temps moyen entre deux pannes.
+- Le taux de disponibilité intègre les incidents matériels, mais aussi **tous les autres arrêts**, y compris planifiés.
+- La première cause d'indisponibilité est… **humaine** !
+
+Le support pose deux questions. Le calcul :
+
+<Compare leftTitle="Deux composants en série" rightTitle="Deux composants en parallèle">
+  <Fragment slot="left">
+    Il faut que **les deux** marchent : la disponibilité est le **produit** des deux disponibilités.
+
+    `A = A1 × A2` (99 % × 99 % = 98,01 %)
+  </Fragment>
+  <Fragment slot="right">
+    Il suffit qu'**un seul** marche : on multiplie les **indisponibilités**.
+
+    `A = 1 − (1 − A1) × (1 − A2)` (99 % et 99 % → 99,99 %)
+  </Fragment>
+</Compare>
+
+<Figure caption="Composants en série ou en parallèle : bouge les curseurs, ajoute des composants">
+<Availability />
+</Figure>
+
+<KeyIdea>Dans un système complexe, le plus souvent, les composants fonctionnent… en série !</KeyIdea>
+
+<DeepDive title="Les « neuf » et le budget d'erreur" level="best-practice">
+  On exprime souvent la disponibilité en nombre de « 9 » : 99 % ≈ 3,7 jours d'arrêt par an, 99,9 % ≈ 8,8 heures, 99,99 % ≈ 53 minutes, 99,999 % ≈ 5 minutes. Le livre **Site Reliability Engineering** de Google en tire le **budget d'erreur** : si l'objectif est 99,9 %, les 0,1 % restants sont un budget qu'on peut « dépenser » en déploiements et en expérimentations. Viser 100 % est une erreur : chaque « 9 » supplémentaire coûte beaucoup plus cher, et l'utilisateur ne le perçoit pas si son propre accès (réseau, terminal) est moins disponible. On retrouve le lien entre risques et coûts du contrat de service.
+</DeepDive>
+
+### Les mécanismes
+
+Le cœur de la disponibilité, c'est l'**élimination des SPOF** (*Single Point of Failure*).
+
+- Éliminer les SPOF **réduit** les risques, sans les éliminer : les « gros » incidents sont souvent des **défaillances multiples**.
+- Deux méthodes principales :
+
+<Compare leftTitle="Bascule" rightTitle="Répartition">
+  <Fragment slot="left">Bascule d'un système sur un autre, **de secours**.</Fragment>
+  <Fragment slot="right">Répartition des traitements sur **plusieurs systèmes** actifs.</Fragment>
+</Compare>
+
+- Les **stocks de données** sont toujours un problème : très difficiles à dupliquer.
+- En cas d'incident, le comportement doit être **connu** : le traitement a été effectué, ou non.
+
+## Exploitabilité
+
+### Le métier de l'exploitation
+
+L'exploitation (ou production) ressemble beaucoup à la **production industrielle**, même si l'informatique n'en est pas encore à l'ère industrielle. Son rôle : assurer le bon fonctionnement de la chaîne de production.
+
+<Steps>
+1. Assurer la **maintenance**.
+2. Gérer les **pannes et incidents**.
+3. **Superviser** la production.
+4. **Planifier** la production et la capacité.
+5. Faire **évoluer** les processus et les gammes avec un impact minimal sur la production.
+</Steps>
+
+### Les points d'attention
+
+L'exploitation d'un SI se complexifie avec l'intégration de tous ses composants. Côté middleware, les facteurs de complexité :
+
+- les **probabilités sont contre nous** (nombre de systèmes) ;
+- la difficulté de maîtriser les **interactions entre systèmes**, avant, pendant ou après un incident ;
+- l'**hétérogénéité** technologique et applicative des composants ;
+- l'absence d'**outils communs et transverses** pour analyser et corriger les anomalies.
+
+<Callout type="tip" title="À retenir pour la conception">
+On ne conçoit pas un système uniquement pour le fonctionnement « normal », mais pour **pallier les différents types d'incidents** et **aider les exploitants** à assurer le service.
+</Callout>
+
+## À retenir
+
+<Takeaways>
+1. **Un service = un fournisseur, un client et des contrats** : fonctionnel, de données, d'interface technique, de service. Plus le couplage est faible, plus c'est robuste.
+2. **XML, JSON, REST : l'interface change, le besoin de contrat reste.** La complexité chassée revient par les schémas (XSD, JSON Schema, OpenAPI).
+3. **Un contrat de service engage sur l'usage, les performances, les risques (DICP) et les coûts**, quatre axes liés ; les coûts récurrents dominent.
+4. **La performance est un compromis** entre temps de réponse, tenue de charge et ressources, limité par un goulet d'étranglement qui peut en masquer un autre.
+5. **En série, les disponibilités se multiplient** : supprimer les SPOF et concevoir pour l'incident, pas seulement pour le cas nominal.
+</Takeaways>
