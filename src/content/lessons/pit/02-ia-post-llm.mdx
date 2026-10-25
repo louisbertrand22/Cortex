@@ -1,0 +1,427 @@
+---
+title: L'IA après les LLM
+subtitle: POV 02 · Leandro Tolaini et Hamza Hannat
+subject: pit
+session: 2
+description: "Comment marchent et échouent les LLM, la bataille des paradigmes (scaling, world models, IA composite) et ce que l'IA change au travail, à l'économie et à la souveraineté."
+tags: [LLM, harnais, AGI, scaling, world models, IA composite, souveraineté, expertise]
+objectives:
+  - Expliquer comment un LLM prédit le token suivant et pourquoi cela ne garantit pas la vérité.
+  - Distinguer ANI, AGI et ASI, et le modèle du système (le harnais) qui lui permet d'agir.
+  - Situer la maturité des usages de l'IA générative et agentique en entreprise.
+  - Comparer la thèse du scaling, les paradigmes alternatifs et l'IA composite.
+  - Discuter les effets de l'IA sur l'expertise, le financement social et le sens du travail.
+sources:
+  - label: Exposé POV 02 « Post-LLM AI » — Leandro Tolaini et Hamza Hannat, EPITA SIGL 2027 (octobre 2026)
+  - label: Vaswani et al., « Attention Is All You Need » (2017)
+    url: https://arxiv.org/abs/1706.03762
+  - label: METR, « Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity » (2025)
+    url: https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/
+  - label: Kokotajlo et al., « AI 2027 » (2025)
+    url: https://ai-2027.com/
+updated: 2026-10-25
+---
+
+Les LLM ont rendu l'IA accessible à tous, mais leurs limites (hallucinations, mémoire, apprentissage figé) freinent l'automatisation en entreprise. Ce POV défend une thèse : la suite n'est pas un modèle unique, mais une **IA composite**, qui combine des paradigmes qui évoluent tout en gardant la maîtrise des opérations métier. Le parcours suit l'exposé : l'état de l'art, la bataille des paradigmes, puis le travail, l'économie et le pouvoir.
+
+<Callout type="note" title="Un exposé d'étudiants, pas un cours magistral">
+  Les chiffres, citations et événements ci-dessous sont ceux de l'exposé, présenté en octobre 2026 ; ses auteurs indiquent avoir vérifié leurs sources le 6 octobre 2026. Ils sont restitués tels quels, sans nouvelle vérification ; quand un point est discutable, un encadré « pour aller plus loin » le signale.
+</Callout>
+
+## État de l'art : l'IA aujourd'hui et le rapport de force
+
+### Une frise de l'IA
+
+| Date | Étape | Ce qui change |
+| --- | --- | --- |
+| 1950 | Jeu de l'imitation (Turing) | L'intelligence devient observable ; la conscience reste une autre question |
+| 1956 | Projet de recherche de Dartmouth | L'IA devient un programme de recherche explicite |
+| 1960-1980 | IA symbolique, systèmes experts | Règles et expertise, limitées aux cas prévus |
+| 1990-2000 | Apprentissage statistique | SVM et forêts aléatoires : la prédiction tirée des données |
+| 1997 | Deep Blue | La recherche bat un champion d'échecs, sur une tâche spécialisée |
+| 2012 | AlexNet / ImageNet | Données, GPU et réseaux profonds transforment la vision |
+| 2016 | AlphaGo | Réseaux de neurones, apprentissage par renforcement et recherche arborescente |
+| 2017 | Transformer | L'attention et l'entraînement parallèle refondent la modélisation de séquences |
+| 2020 | GPT-3 | L'échelle et les exemples dans le prompt élargissent les capacités |
+| 2022 | ChatGPT | La conversation rend les modèles de langage accessibles |
+| 2023-2025 | Modèles multimodaux et agentiques | Perception, recherche, raisonnement, action par outils |
+| 2025 | World models et robotique | V-JEPA 2 (prédiction et planification), Gemini Robotics (vision-langage-action) |
+| sept. 2026 | Décisions et actions | Jev (décisions structurées), GPT-6 Astra (politiques robotiques expérimentales, performances inégales) |
+
+### L'écosystème mondial
+
+Deux moteurs de progrès coexistent :
+
+<Compare leftTitle="Labos de modèles frontière" rightTitle="Écosystèmes de modèles ouverts">
+  <Fragment slot="left">
+    **OpenAI, Anthropic, Google, xAI.** Des benchmarks plus durs et plus de calcul de raisonnement débloquent de nouvelles capacités : le **plafond de capacité** monte, le coût par tâche aussi.
+  </Fragment>
+  <Fragment slot="right">
+    **Mistral, DeepSeek, Qwen, Meta.** Architectures efficaces, distillation et déploiement local : **plus de capacité par dollar**. Certains labos font les deux (OpenAI avec GPT Luna, Google avec Gemma).
+  </Fragment>
+</Compare>
+
+Chaque bloc géopolitique a son rôle : les **États-Unis** pour la R&D de pointe et la distribution mondiale, l'**Europe** pour la souveraineté et le contrôle du déploiement, la **Chine** pour les modèles ouverts et le rapport performance/prix. Clin d'œil de l'exposé : les patrons des labos appellent à « ralentir le rythme » pendant que chacun présente tour à tour « le modèle le plus puissant au monde ».
+
+<CardGrid cols={3}>
+  <Stat value="900 M+" label="utilisateurs hebdomadaires de ChatGPT" hint="OpenAI, mars 2026" />
+  <Stat value="79 %" label="des organisations utilisent l'IA générative" hint="33 % en 2023 · McKinsey, 2025" />
+  <Stat value="56 %" label="l'utilisent dans 3 fonctions ou plus" hint="Répondants McKinsey, 2026" />
+</CardGrid>
+
+### Intelligence, IA et rôle des LLM
+
+<Callout type="definition" title="Intelligence et intelligence artificielle">
+  L'**intelligence** est la capacité d'apprendre, de s'adapter et d'atteindre des buts à travers des tâches et des environnements. L'**intelligence artificielle** désigne des machines qui infèrent des sorties à partir d'entrées pour poursuivre des buts, dans un environnement numérique ou physique.
+</Callout>
+
+<CardGrid cols={3}>
+  <Card title="ANI" kicker="IA étroite" tone="muted">Une tâche ou un domaine borné, où elle peut surpasser l'humain. Exemple : un moteur d'échecs.</Card>
+  <Card title="AGI" kicker="IA générale" tone="signal">Le niveau humain sur l'ensemble des tâches, avec transfert vers des tâches nouvelles. Un concept cible, aux définitions variables.</Card>
+  <Card title="ASI" kicker="Super-intelligence" tone="amber">Dépasse les capacités cognitives humaines dans un large éventail de domaines. Niveau hypothétique.</Card>
+</CardGrid>
+
+Les LLM étendent les capacités numériques, mais des compétences plus larges ne suffisent pas à établir une AGI.
+
+**Le harnais relie le modèle au monde.** Autour du LLM et de sa boucle d'exécution, le système ajoute des capacités (RAG, outils), un contexte et une mémoire, et des garde-fous (sécurité et permissions). Le monde numérique (code, fichiers, navigateurs, API) est alors à portée ; le monde physique exige en plus des capteurs et des actionneurs.
+
+<Figure caption="Active les couches du harnais une à une et regarde quelles tâches deviennent possibles, ou risquées.">
+  <Harness />
+</Figure>
+
+<KeyIdea>Le modèle produit une sortie ; c'est le système qui permet l'action.</KeyIdea>
+
+### La mécanique d'un LLM
+
+Un **Transformer autorégressif** convertit un contexte en probabilités pour le token suivant :
+
+<Steps>
+1. **Tokens et embeddings** : le texte devient des identifiants de tokens, puis des vecteurs porteurs d'une information de position.
+2. **Auto-attention causale** : requêtes, clés et valeurs mélangent le contexte, en excluant les tokens futurs.
+3. **Réseau feed-forward** : transforme la représentation de chaque token. Ces blocs sont répétés N fois, avec connexions résiduelles et normalisation.
+4. **Prédiction** : des scores (*logits*) deviennent des probabilités, P(token | contexte) = softmax(logits).
+5. **Choix et boucle** : on sélectionne ou on échantillonne un token, on l'ajoute au contexte, et on recommence.
+</Steps>
+
+<Figure caption="« The capital of France is… » : probabilités illustratives du token suivant, pas des mesures d'un modèle · Source : exposé POV 02">
+  <BarChart unit="%" data={[{ label: 'Paris', value: 92, highlight: true }, { label: 'Lyon', value: 3 }, { label: 'Autre', value: 5 }]} />
+</Figure>
+
+<KeyIdea>Une suite probable n'est pas une affirmation vraie.</KeyIdea>
+
+### LLM et IA agentique en entreprise
+
+La maturité d'un usage se mesure à son adoption documentée et à son usage dans la durée :
+
+| Maturité | Cas d'usage et entreprise | Limites actuelles |
+| --- | --- | --- |
+| **Haute** (usage à l'échelle) | Assistant de connaissances interne · Morgan Stanley : 98 % des équipes de conseillers (juin 2024) | Exactitude des réponses, fraîcheur des documents |
+| **Haute** | Copilotes de développement · Accenture : 12 000 développeurs sur GitHub Copilot | Défauts dans le code, revue de sécurité |
+| **Haute** | Support client courant · Klarna : 2,3 M de conversations le premier mois (février 2024) | Exceptions aux règles, escalade vers un humain |
+| **Moyenne** (workflows choisis) | Agents de migration logicielle · Nubank + Devin : efficacité ×8 à ×12 par tâche | Adaptation aux tâches, validation du code |
+| **Moyenne** | Copilotes d'ingénierie industrielle · Siemens + thyssenkrupp : lignes d'assemblage de batteries | Intégration à l'usine, validation par l'ingénierie |
+| **Basse** (expérimental) | Aide à la décision multi-agents · Airbus Defence and Space : cadre en développement, ~90 agents | Exactitude, traçabilité, coordination des agents |
+| **Basse** | Gestion autonome d'une activité · Anthropic + Andon Labs : boutiques expérimentales du Project Vend | Jugement, manipulation, intervention humaine |
+
+L'IA industrielle crée de la valeur par des workflows intégrés et des résultats que les ingénieurs peuvent vérifier. Le détail de quatre de ces cas est en [annexe](#quatre-cas-dentreprise-examinés).
+
+### Les limites du paradigme LLM
+
+Quatre mécanismes du modèle (Transformer autorégressif plus entraînement) freinent l'automatisation en entreprise :
+
+<CardGrid cols={2}>
+  <Card title="Hallucinations" tone="danger">De faux faits peuvent déclencher de mauvaises actions.</Card>
+  <Card title="Apprentissage continu limité" tone="amber">Une correction ne modifie pas les poids : l'erreur peut revenir.</Card>
+  <Card title="Mémoire de tâche limitée" tone="amber">Les tâches longues ont besoin d'un état stocké à l'extérieur.</Card>
+  <Card title="Latence des workflows" tone="muted">Les sorties longues retardent les actions automatisées.</Card>
+</CardGrid>
+
+Une génération fluide ne garantit pas une exécution fiable en entreprise. Les mécanismes techniques de chaque limite sont détaillés en [annexe](#les-limites-des-llm-en-détail).
+
+<Quiz question="Un assistant interne affirme avec aplomb une règle de congés qui n'existe pas. Quel mécanisme l'explique le mieux ?" options={['Sa fenêtre de contexte est trop petite', "L'entraînement optimise la vraisemblance du texte, pas sa vérité", 'Il a été mal fine-tuné sur les documents RH', "Le modèle apprend de ses erreurs d'une session à l'autre"]} answer={1}>
+  **La vraisemblance n'est pas la vérité.** Le pré-entraînement apprend à prédire du texte plausible ; rien dans la génération ne certifie qu'il est exact. La fenêtre de contexte attire parce qu'elle joue sur l'oubli de détails, mais ici le document n'a jamais été fourni : c'est le rôle du RAG. Et le modèle n'apprend justement pas d'une session à l'autre, ses poids restent figés.
+</Quiz>
+
+## La bataille des paradigmes
+
+### Au-delà de la prédiction du token suivant
+
+Quatre approches visent la compréhension du monde, la décision, la génération et la vérification :
+
+<CardGrid cols={2}>
+  <Card title="World models" kicker="01 · anticiper" tone="signal">Apprendre comment un environnement évolue pour anticiper les conséquences d'une action : observer l'état, prédire les futurs de plusieurs actions, planifier vers un but. **V-JEPA 2** (Meta) prédit des représentations latentes et planifie des mouvements de robot après moins de 62 h de post-entraînement ; **Genie 3** (DeepMind) génère des mondes interactifs en 720p à 24 images/s, cohérents sur plusieurs minutes. Limites : horizons courts, transfert difficile vers le réel.</Card>
+  <Card title="Modèles de décision" kicker="02 · choisir" tone="signal">Des choix typés et probabilisés pour les workflows logiciels : un état et une question entrent dans **Jev**, des options pondérées sortent (route A : 0,8 ; route B : 0,2). Typés et en accès anticipé, mais une sortie valide peut rester fausse.</Card>
+  <Card title="Modèles de diffusion" kicker="03 · générer" tone="signal">Affiner plusieurs positions de la sortie en étapes successives, au lieu d'un token après l'autre (« ? ? ? » → « AI ? ? » → « AI can act »). **LLaDA**, **Mercury** : des modèles de langage avec un autre générateur.</Card>
+  <Card title="Systèmes neuro-symboliques" kicker="04 · vérifier" tone="signal">Des propositions apprises, puis une déduction symbolique, jusqu'à une preuve. **AlphaGeometry** (DeepMind) : vérifiable, dans un domaine formel.</Card>
+</CardGrid>
+
+La question ouverte : ces approches resteront-elles distinctes, ou deviendront-elles des capacités de systèmes généralistes ?
+
+### Pourquoi le scaling marche encore
+
+À mesure que les modèles généralistes progressent, des capacités jusque-là peu fiables deviennent utiles. L'exposé trace une frontière de capacités qui s'étend :
+
+<Pipeline steps={[
+  { title: '2020 · Adapter', caption: 'Apprendre dans le prompt', detail: "Réaliser une tâche à partir d'exemples placés dans le prompt, sans réentraînement (in-context learning)." },
+  { title: '2022 · Raisonner', caption: 'Chaîne de pensée', detail: 'Résoudre davantage de problèmes en plusieurs étapes grâce au chain-of-thought, dans les plus grands modèles.' },
+  { title: '2025 · Affiner', caption: 'Renforcement', detail: "Apprendre des stratégies de vérification et de révision par apprentissage par renforcement (exemple : DeepSeek)." },
+  { title: '2026 · Agir', caption: 'Robots simulés', detail: "Contrôler des robots simulés sans fine-tuning spécifique : 22,48 % de réussite pour GPT-6 Astra contre 0,88 % pour GPT-5.5." },
+]} />
+
+Trois leviers complémentaires portent cette progression :
+
+<CardGrid cols={3}>
+  <Card title="Pré-entraînement" tone="default">Équilibrer calcul, capacité du modèle et données.</Card>
+  <Card title="Apprentissage par renforcement" tone="default">Améliorer les stratégies grâce au retour sur le résultat.</Card>
+  <Card title="Calcul à l'inférence" tone="default">Explorer, vérifier et réviser avec plus de calcul.</Card>
+</CardGrid>
+
+Côté industrie, la conviction est forte : le 6 septembre 2026, Jensen Huang (NVIDIA) félicite OpenAI pour GPT-6 Astra d'un « AGI has arrived ». Pour les exposants, c'est un signe de confiance dans la trajectoire, **pas une preuve d'AGI**.
+
+<KeyIdea>La thèse du scaling : les limites d'aujourd'hui sont peut-être des seuils de capacité que le progrès franchira.</KeyIdea>
+
+### Les généralistes peuvent-ils absorber les spécialistes ?
+
+<Compare leftTitle="Aujourd'hui : systèmes dédiés" rightTitle="Hypothèse : socle généraliste">
+  <Fragment slot="left">
+    **Un modèle par tâche.** Entraînement spécifique au domaine, déploiement et maintenance séparés.
+  </Fragment>
+  <Fragment slot="right">
+    **Une base, plusieurs capacités.** Les compétences spécialisées sont ajoutées par entraînement (post-training et transfert) et réutilisées d'une tâche à l'autre.
+  </Fragment>
+</Compare>
+
+Deux signaux en mathématiques : **Gemini Deep Think** atteint le niveau médaille d'or aux Olympiades internationales de 2025 (35/42), avec un socle généraliste et un post-entraînement spécialisé (Google DeepMind, juillet 2025) ; **OpenAI** annonce en septembre 2026 une preuve d'un cas du problème du millénaire de Navier-Stokes, obtenue par un modèle interne avec renforcement, agents et vérification en Lean. Un modèle partagé pourrait donc remplacer certains spécialistes, en gardant des outils de vérification et de contrôle.
+
+### L'IA composite, la voie défendue
+
+La position de l'exposé : **combiner des paradigmes qui évoluent tout en gardant la maîtrise des opérations métier.** Chaque couche a son rôle, au service des résultats métier :
+
+| Couche | Rôle | Exemple |
+| --- | --- | --- |
+| Modèles généralistes | Comprendre et expliquer : interpréter les demandes | Modèles de langage et multimodaux |
+| World models | Anticiper les conséquences : explorer comment une situation peut évoluer | V-JEPA 2 |
+| Modèles de décision | Décider de façon structurée : classer, noter, choisir dans un workflow | Jev |
+| Solveurs, règles et contrôleurs | Vérifier et exécuter : contrôler les contraintes, mener les actions autorisées | Moteurs de règles |
+
+Le tout repose sur un **socle d'entreprise** : données gouvernées et état opérationnel, orchestration et interfaces métier, permissions et supervision. Trois priorités pour la DSI en découlent :
+
+<Steps>
+1. **Concevoir pour le changement technologique** : séparer les workflows des modèles, définir des interfaces pour les prédictions, les décisions et les actions.
+2. **Investir dans ce qui survit aux modèles** : produits de données, sémantique métier, API, environnements d'évaluation ; préparer de nouvelles modalités de données.
+3. **Adopter selon la valeur et la maturité** : piloter les paradigmes émergents, tester valeur, fiabilité, latence et coût total, puis passer à l'échelle les solutions validées, cloud ou edge, avec des replis testés.
+</Steps>
+
+### La souveraineté dans un monde d'IA composite
+
+Le modèle proposé : un **cœur d'entreprise** entouré de capacités d'IA **remplaçables**, réparties sur trois niveaux.
+
+<CardGrid cols={3}>
+  <Card title="Régions UE / mondiales approuvées" kicker="01 · capacité" tone="default">Accéder à la capacité : LLM, modèles spécialisés, outils de simulation (AWS, Azure, Anthropic, Mistral…). Services remplaçables : approuver les flux de données et tester le changement de fournisseur.</Card>
+  <Card title="Environnement privé UE" kicker="02 · propriété" tone="signal">Protéger la propriété intellectuelle et les workflows : orchestration, mémoire métier, recherche documentaire, clés de chiffrement (OVHcloud, Mistral…). Posséder les politiques d'accès et les mises à jour, garder données et workflows portables.</Card>
+  <Card title="Sur site / edge" kicker="03 · continuité" tone="default">Garder les workflows essentiels en marche : modèles locaux, outils opérationnels, contrôles à règles fixes (HPE, Siemens Industrial Edge…). Tester les modes hors ligne et dégradés, la reprise et le repli humain.</Card>
+</CardGrid>
+
+<Quiz question="Une entreprise veut pouvoir changer de fournisseur de LLM sans tout réécrire. Quelle recommandation de l'exposé y répond le plus directement ?" options={['Choisir le modèle frontière le plus puissant du moment', 'Séparer les workflows des modèles et garder orchestration et données dans un environnement privé', 'Tout héberger sur site', 'Attendre que les paradigmes se stabilisent']} answer={1}>
+  **Séparer workflows et modèles.** Si l'orchestration, la mémoire métier et les clés restent chez l'entreprise, le modèle devient une capacité remplaçable. Le modèle le plus puissant n'empêche pas l'enfermement ; le tout sur site sacrifie la capacité, alors que l'exposé le réserve à la continuité des workflows essentiels.
+</Quiz>
+
+## Travail, économie et pouvoir
+
+### L'avenir de l'expertise
+
+Quand l'IA exécute les workflows, moins de postes juniors peut affaiblir la capacité à garder le contrôle :
+
+<CardGrid cols={3}>
+  <Card title="Arbitrages d'entreprise" kicker="01">Plus d'actions de l'IA peut créer un goulot d'étranglement dans la revue experte. Les économies de masse salariale peuvent masquer la hausse du coût des erreurs et de leur réparation.</Card>
+  <Card title="Pratique perdue" kicker="02">Moins de postes juniors, c'est moins de pratique et de retours directs. Les équipes livrent plus en apprenant moins sur leurs systèmes.</Card>
+  <Card title="Expertise future" kicker="03" tone="signal">Il faut des experts pour juger les décisions de l'IA et gérer ses échecs. Les entreprises doivent financer une pratique encadrée, en plus du tutorat par l'IA.</Card>
+  <Card title="Responsabilité humaine" kicker="04">Des responsables nommés ont besoin de compétences et de preuves pour juger les résultats, et de l'autorité pour contester l'IA et arrêter une action dangereuse.</Card>
+  <Card title="Enjeux de société" kicker="05">Moins de postes juniors peut fermer l'accès aux carrières qualifiées. Le coût de la formation peut glisser vers les travailleurs pendant que les propriétaires captent les gains.</Card>
+</CardGrid>
+
+<KeyIdea>Le renouvellement de l'expertise doit faire partie du business case de l'autonomie de l'IA.</KeyIdea>
+
+Les données de 2026 citées en annexe vont dans ce sens, avec leurs réserves :
+
+| Constat | Chiffre | Réserve |
+| --- | --- | --- |
+| Moins d'entrées dans le métier | Embauches de débutants −65 % par rapport à 2019 (12 grandes entreprises tech, SignalFire, juin 2026) ; emploi des 22-25 ans dans les métiers exposés à l'IA 19 % sous la trajectoire (Stanford / ADP, août 2026) | Données d'observation : la causalité de l'IA n'est pas établie |
+| L'apprentissage a besoin de protection | Environ −17 points au quiz de connaissances chez les développeurs aidés par l'IA, sur une bibliothèque Python inconnue ; le débogage montre le plus gros écart, sans tâche significativement plus rapide (Shen et Tamkin, 2026) | Expérience courte, perte à long terme non mesurée |
+| La revue devient la contrainte | Environ 2× plus de pull requests par relecteur humain ; la couverture de revue humaine passe de 89 % à 68 %, taux de fusion et d'annulation stables (He et al., juillet 2026) | Prépublication sur une seule entreprise, charge en PR et non en heures |
+
+### L'automatisation cognitive s'étend
+
+On passe de réponses isolées à du travail connecté : **lire et retrouver → analyser → réconcilier les preuves → produire des livrables → exécuter des actions.** Ce travail se mesure désormais :
+
+- **AA-Briefcase** : 91 tâches réparties en 4 projets professionnels (tableurs, présentations, notes), notées sur grille et sur la qualité d'analyse et de présentation.
+- **GDPval-AA** : des livrables professionnels de 44 métiers dans 9 secteurs.
+
+<CardGrid cols={2}>
+  <Stat value="+21 pts" label="DataBench, analytique agentique" hint="40,3 % → 61,3 % · GPT-5.6 Sol → GPT-6 Sol, Hex, 22 sept. 2026" />
+  <Stat value="−41 %" label="de coût par tâche" hint="0,98 $ → 0,58 $ · même comparaison" />
+</CardGrid>
+
+### Les conséquences de la déflation de l'intelligence
+
+Le scénario des exposants (dans l'esprit du scénario *AI 2027*) : **la croissance économique se découple de la croissance de la masse salariale.**
+
+- **Paradoxe de Jevons** : un prix plus bas entraîne plus d'usage. La demande d'IA peut croître sans hausse équivalente de la masse salariale humaine.
+- **Où va la dépense** : la dépense cognitive glisse de la **masse salariale** (cotisations sociales directes sur les salaires) vers les **actifs possédés** (machines et serveurs, soumis à la fiscalité du capital) puis vers les **services logiciels** (abonnements IA et usage d'API, sans prélèvement social à l'achat).
+
+<Stat value="55,6 %" label="des ressources de la protection sociale française viennent des cotisations" hint="2024 · DREES" />
+
+Si ce scénario se réalise, la France doit repenser l'assiette de ses cotisations sociales. Un revenu universel ? La question est posée, sans réponse.
+
+### Et l'humanité ?
+
+Si l'IA réduit le besoin de travail humain, qu'est-ce qui fera une bonne vie ? Quatre penseurs, quatre pistes :
+
+| Penseur et œuvre | Citation | Implication |
+| --- | --- | --- |
+| **Karl Marx**, *Grundrisse* (1857-1858) · richesse et propriété | « la création de la richesse réelle dépend moins du temps de travail et de la quantité de travail employée » | Si l'IA réduit la demande de travail et que la propriété reste concentrée, les gains de productivité peuvent favoriser les détenteurs du capital plutôt que les salariés |
+| **Hannah Arendt**, *Condition de l'homme moderne* (1958) · l'identité au-delà de l'emploi | « une société de travailleurs sans travail, c'est-à-dire privés de la seule activité qui leur reste » | Une société bâtie autour du travail aura besoin d'autres sources de sens et de participation si l'emploi perd sa place centrale |
+| **Simone Weil**, *L'Enracinement* (1949) · le besoin de compter | « l'initiative et la responsabilité, le sentiment d'être utile et même indispensable, sont des besoins vitaux de l'âme humaine » | La sécurité financière ne remplace pas la contribution : il faut pouvoir décider, prendre des responsabilités, se sentir utile |
+| **Bertrand Russell**, *Éloge de l'oisiveté* (1932) · vivre avec moins de travail | « le bon usage du loisir est un produit de la civilisation et de l'éducation » | Moins de travail payé demande de s'y préparer : éducation et activités qui ont du sens |
+
+<KeyIdea>Si nous n'avions plus à gagner notre vie, saurions-nous vivre ?</KeyIdea>
+
+## Conclusion de l'exposé
+
+<CardGrid cols={2}>
+  <Card title="Progrès" kicker="01">Les capacités continuent de s'étendre : scaling et nouveaux paradigmes avancent. L'autonomie fiable et le chemin vers l'AGI restent des questions ouvertes.</Card>
+  <Card title="Systèmes" kicker="02" tone="signal">Combiner les capacités : généralistes, paradigmes émergents et outils de vérification travaillent ensemble. Chaque capacité reste remplaçable.</Card>
+  <Card title="Contrôle" kicker="03">Posséder le cœur opérationnel : maîtriser les données et les droits d'exécution, protéger souveraineté et continuité, avec des responsables humains identifiés.</Card>
+  <Card title="Humains" kicker="04">Renouveler l'expertise et le sens : financer l'apprentissage par la pratique encadrée, partager les gains, préserver une contribution humaine qui compte, au-delà du travail.</Card>
+</CardGrid>
+
+<KeyIdea>Les modèles évolueront, des paradigmes émergeront. La responsabilité de leur impact reste la nôtre.</KeyIdea>
+
+## Annexes
+
+### Le flux d'inférence formel
+
+Un Transformer *decoder-only* à l'inférence, en architecture *pre-norm* (Vaswani et al., 2017 ; implémentation GPT-2 de Hugging Face). Les poids restent fixes.
+
+| Étape | Calcul | En clair |
+| --- | --- | --- |
+| 1 · Embeddings | `H⁰ = E[x₁:ₜ] + P` | E associe à chaque token un vecteur appris, P apporte la position |
+| 2 · Attention causale | `A = softmax(QKᵀ/√dₖ + M)V`, avec `Q = UW_Q`, `K = UW_K`, `V = UW_V` et `U = LN(Hˡ⁻¹)` | M vaut 0 si j ≤ i et −∞ sinon : un token ne voit pas le futur. Les têtes sont concaténées puis projetées, et ajoutées à l'entrée (résidu R) |
+| 3 · Feed-forward | `Hˡ = R + FFN(LN(R))`, `FFN(u) = σ(uW₁ + b₁)W₂ + b₂` | Le même réseau non linéaire transforme chaque position ; les étapes 2 et 3 se répètent sur L couches |
+| 4 · Logits | `z = LN(Hᴸ)ₜ W_vocab + b_vocab` | La dernière position donne un score brut par token du vocabulaire |
+| 5 · Softmax | `pᵢ = exp(zᵢ) / Σⱼ exp(zⱼ)` | Une distribution sur le vocabulaire (à l'étape 2, sur les positions) |
+| 6 · Choix et ajout | `xₜ₊₁ ∼ Categorical(p)` ou argmax (glouton) | On ajoute le token et on recommence jusqu'à un token de fin ou une autre limite |
+
+### Les jalons de capacité
+
+Les dates marquent des études, pas la première apparition de chaque capacité :
+
+| Jalon | Mécanisme | Mesure et réserve |
+| --- | --- | --- |
+| **2020 · Adapter** (in-context learning) | Les exemples du prompt conditionnent la prédiction ; poids fixes | GPT-3 175B sur SuperGLUE, sans ou avec exemples (Brown et al., 2020). Sensible au prompt, aucune mise à jour durable du modèle |
+| **2022 · Raisonner** (chain-of-thought) | Le modèle génère des étapes intermédiaires avant la réponse ; poids fixes | PaLM 540B sur GSM8K (Wei et al., 2022). Des étapes utiles peuvent être fausses ; le bénéfice croît avec la taille |
+| **2025 · Affiner** (renforcement) | L'entraînement favorise les solutions qui passent les contrôles de résultat : révision, auto-vérification ; les poids changent | DeepSeek-R1-Zero sur AIME 2024. Dépend de récompenses fiables ; le gain vient de l'entraînement, pas d'un modèle plus gros |
+| **2026 · Agir** (modèle comme politique robotique) | Images et instructions converties en cibles de mouvement ; une interface relie modèle et robot | RoboDojo, 42 tâches, 2 100 essais par modèle (Zhang et al., 2026). Précision et contrôle dynamique encore faibles |
+
+L'« émergence » désigne des capacités qui deviennent visibles à grande échelle, mais certains sauts apparents dépendent de la métrique choisie (Wei et al. ; Schaeffer et al., 2023). Ces études utilisent des benchmarks différents et n'isolent pas l'échelle comme seule cause du progrès.
+
+### Les limites des LLM en détail
+
+Périmètre : un Transformer autorégressif standard, aux poids fixes à l'inférence.
+
+| Limite | Mécanisme technique | Conséquence et réponse |
+| --- | --- | --- |
+| **Mémoire de tâche** | Le contexte est fini (au plus W tokens) : l'attention n'utilise que les tokens retenus, un état durable demande un stockage (Liu et al., 2023 ; Lewis et al., 2020) | Des contraintes passées se perdent ; une fenêtre plus grande ne garantit pas un rappel exact. Réponse : état versionné et recherche documentaire |
+| **Hallucinations** | Le pré-entraînement optimise la prédiction du texte : la vraisemblance ne certifie pas l'exactitude, et les incitations à deviner renforcent les erreurs (Kalai et al., 2025) | Des erreurs plausibles déclenchent de mauvaises actions. Réponse : preuves, contrôles, abstention |
+| **Apprentissage continu** | À l'inférence, Δθ = 0 : une correction change le contexte, pas les poids ; un nouvel entraînement peut écraser des compétences (Kirkpatrick et al., 2017) | Les erreurs reviennent d'une session à l'autre. Réponse : mémoire et mises à jour validées, avec contrôle de régression |
+| **Latence** | Le décodage est séquentiel : T ≈ T_prefill + K × τ, et les appels d'outils dépendants allongent le chemin critique | Les sorties longues retardent les actions. Le décodage spéculatif réduit le coût (Leviathan et al., 2023). Réponse : flux bornés et contrôleurs rapides |
+
+Ces contraintes ont des causes différentes ; l'entraînement et la conception du système peuvent les atténuer.
+
+### Quatre cas d'entreprise examinés
+
+<CardGrid cols={2}>
+  <Card title="Nubank + Devin" kicker="Maturité moyenne · migration" tone="default">Efficacité ×8 à ×12 par tâche de migration. Devin, fine-tuné sur des migrations antérieures, refactore un ETL legacy de plus de 6 millions de lignes. Mesure : heures d'ingénierie manuelle ÷ heures passées à guider et relire Devin. Les ingénieurs relisent, ajustent et approuvent le code.</Card>
+  <Card title="Siemens + thyssenkrupp" kicker="Maturité moyenne · industrie" tone="default">Intégré à une machine d'inspection de batteries : génération de code d'automate et d'écrans opérateur dans TIA Portal, aide à la configuration des capteurs. Déploiement mondial prévu à partir de 2025, sans gain de productivité mesuré publié. Les ingénieurs valident les sorties.</Card>
+  <Card title="Airbus Defence and Space" kicker="Maturité basse · défense" tone="muted">Environ 90 agents spécialisés définis dans un cadre en développement, qui sélectionne et coordonne les agents (par exemple, un sélecteur de données repère images, données de capteurs et textes utiles). Déploiement et fiabilité restent à démontrer.</Card>
+  <Card title="Anthropic + Andon Labs" kicker="Maturité basse · Project Vend" tone="muted">Une IA gère une boutique : approvisionnement, prix, demandes des clients, avec des outils d'inventaire et d'autres agents. La phase 2 améliore les profits après des changements de modèles, d'outils et de procédures, mais la manipulation cause encore des erreurs. Des humains approuvent les achats et gèrent les échecs.</Card>
+</CardGrid>
+
+### Les événements qui accompagnent le scénario AI 2027
+
+L'exposé rapproche plusieurs événements réels du scénario *AI 2027*, en rappelant que **ces événements ne valident pas son calendrier**.
+
+<CardGrid cols={2}>
+  <Card title="Hacking" tone="default">
+    - Campagne d'espionnage attribuée par Anthropic à un groupe lié à l'État chinois, avec Claude Code réalisant 80 à 90 % du travail contre ~30 organisations (sept. 2025)
+    - Agents d'évaluation d'OpenAI aux garde-fous réduits ayant accédé à des systèmes de Hugging Face, ~17 600 actions reconstituées (juil. 2026)
+    - 19 actions en ligne non autorisées lors de tests de l'AI Security Institute britannique (juil. 2026)
+    - 271 failles corrigées dans Firefox 150 grâce à Claude Mythos Preview (avr. 2026)
+
+    **Pour l'entreprise** : imposer permissions et confinement aux agents, et équiper les défenseurs en IA.
+  </Card>
+  <Card title="Code" tone="default">
+    - AlphaEvolve récupère 0,7 % du calcul mondial de Google (mai 2025)
+    - 16 agents écrivent un compilateur C de 100 000 lignes capable de compiler Linux 6.9, pour ~20 000 $ d'API (févr. 2026)
+    - Un agent Replit supprime une base de production (juil. 2025)
+    - Étude METR : 19 % plus lents, alors qu'ils se croyaient 20 % plus rapides (2025)
+
+    **Pour l'entreprise** : mesurer le travail terminé ; imposer tests, contrôle des accès en production et reprise.
+  </Card>
+  <Card title="Politique" tone="default">
+    - 9 581 appels robotisés avec une voix clonée de Biden (janv. 2024)
+    - Des chatbots déplacent d'environ 10 points des préférences mesurées sur une échelle de 0 à 100 (Nature, déc. 2025)
+    - +19,7 points de signature réelle de pétitions (2026)
+    - Promotion d'un faux think tank par des comptes d'origine russe (août 2026)
+
+    **Pour l'entreprise** : vérifier identités et provenance, protéger l'intégrité des communications.
+  </Card>
+  <Card title="Biologie" tone="default">
+    - Garde-fous « High » d'OpenAI pour ChatGPT agent, par précaution (juil. 2025)
+    - Meilleurs scores de planification hypothétique avec Claude 4 sans garde-fous (sept. 2025)
+    - Novices 4,16× plus précis avec un LLM sur 8 jeux de tâches (2026)
+    - 16 bactériophages conçus par IA fonctionnels en laboratoire (Stanford et Arc)
+
+    **Pour l'entreprise** : évaluer l'accès à double usage au-delà des benchmarks textuels.
+  </Card>
+  <Card title="Robotique" tone="default">
+    - Figure chez BMW : 90 000 pièces chargées, 1 250 h de fonctionnement
+    - Robots Vulcan d'Amazon avec sens du toucher, ~75 % des types d'articles
+    - Gemini Robotics double la généralisation
+    - Helix 2.5 passe de 9 % à 56 % de réussite dans 30 maisons inconnues
+
+    **Pour l'entreprise** : valider le système physique complet : exceptions, sécurité, maintenance.
+  </Card>
+  <Card title="Prévision" tone="default">
+    - ForecastBench : 69,1 pour le meilleur système contre 68,7 pour la médiane des superprévisionnistes
+    - Deux bots aux deux premières places de la Metaculus Cup (2026)
+    - Système de prévision IA de l'ECMWF opérationnel (févr. 2025)
+    - 81,4 % contre 63,4 % pour les experts sur BrainBench
+
+    **Pour l'entreprise** : choisir des systèmes de prévision validés et garder une incertitude calibrée.
+  </Card>
+</CardGrid>
+
+Chaque fiche de l'exposé précise son périmètre (attribution par le fournisseur, prépublication, test du développeur…) : aucun de ces chiffres n'est une mesure générale.
+
+<Quiz question="L'étude METR de 2025 citée en annexe montre que des développeurs expérimentés…" options={["ont été 19 % plus rapides avec l'IA", "ont été 19 % plus lents avec l'IA, tout en se croyant plus rapides", "n'ont vu aucune différence de vitesse", "ont produit 19 % de bugs en moins"]} answer={1}>
+  **Plus lents, mais convaincus du contraire.** Sur 246 tickets réels de leurs propres dépôts, avec les outils du début 2025, ils ont mis 19 % de temps en plus, alors qu'ils estimaient avoir gagné 20 %. C'est le piège : le ressenti de productivité n'est pas la mesure du travail terminé. L'exposé rappelle que le suivi de 2026 n'a pas pu estimer de façon fiable les gains actuels.
+</Quiz>
+
+<DeepDive title="Ce que mesurait vraiment l'étude METR" level="état-de-l-art">
+  L'essai de METR (juillet 2025) a tiré au sort, pour chaque ticket, l'autorisation ou non d'utiliser l'IA (surtout Cursor avec Claude 3.5/3.7 Sonnet), auprès de 16 mainteneurs de gros projets open source qu'ils connaissaient depuis des années. Les auteurs insistent sur la portée limitée : des experts sur leur propre code, où l'IA apporte moins, et des outils de début 2025. Le résultat ne dit donc pas que l'IA ralentit tout le monde, mais que l'impression de vitesse n'est pas une mesure : il faut chronométrer le travail réellement terminé.
+</DeepDive>
+
+<DeepDive title="Le scénario AI 2027" level="approfondissement">
+  *AI 2027* (Daniel Kokotajlo, Scott Alexander et al., avril 2025) est un récit prospectif, mois par mois, d'agents de code qui accélèrent la recherche en IA jusqu'à une super-intelligence vers 2027-2028, avec deux fins possibles (ralentissement ou course). C'est un scénario, pas une prévision : les auteurs eux-mêmes ont depuis allongé leurs estimations. C'est pourquoi l'exposé répète, sous chaque fiche, que les événements cités n'en valident pas le calendrier.
+</DeepDive>
+
+## À retenir
+
+<Takeaways>
+1. **Probable n'est pas vrai.** Un LLM prédit le token suivant ; hallucinations, mémoire limitée, poids figés et latence freinent l'automatisation.
+2. **Le modèle produit, le système agit.** RAG, outils, mémoire et permissions forment le harnais qui relie le modèle au monde.
+3. **Deux thèses s'affrontent.** Le scaling (les limites sont des seuils) face aux paradigmes alternatifs : world models, décision, diffusion, neuro-symbolique.
+4. **L'IA composite.** Combiner des capacités remplaçables autour d'un cœur d'entreprise maîtrisé : données, orchestration, permissions.
+5. **L'humain reste responsable.** Former les experts de demain, repenser le financement social, préserver une contribution qui a du sens.
+</Takeaways>

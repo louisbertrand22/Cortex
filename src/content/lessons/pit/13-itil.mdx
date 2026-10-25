@@ -1,0 +1,271 @@
+---
+title: ITIL à l'ère du tout agile et du tout automatique
+subtitle: POV 13 · Stanislas Beguin et Antoine Blumenroeder
+subject: pit
+session: 13
+description: "Ce qu'est ITIL (incidents, changements, SLA), pourquoi on le dit dépassé face à l'agilité et à l'automatisation, ce qu'il coûte et rapporte, et pourquoi il pourrait redevenir utile."
+tags: [ITIL, ITSM, gestion des incidents, gestion des changements, SLA, CAB, SRE, agilité]
+objectives:
+  - Définir ITIL et le situer face à l'agilité et à l'automatisation.
+  - Décrire la gestion des incidents et des changements, les niveaux de support et les SLA.
+  - Expliquer les critiques adressées à ITIL (lourdeur, généricité, silos).
+  - Estimer le coût d'une mise en œuvre d'ITIL et les gains annoncés.
+  - Argumenter la place d'ITIL comme couche de gouvernance quand tout s'accélère.
+sources:
+  - label: Exposé POV 13 « À l'ère du tout agile et du tout automatique, quelle place pour l'ITIL en entreprise ? » — Stanislas Beguin et Antoine Blumenroeder, EPITA SIGL 2027 (octobre 2026)
+  - label: AXELOS, « ITIL Foundation, ITIL 4 edition » (2019)
+  - label: Microsoft, « Helping our customers through the CrowdStrike outage » (20 juillet 2024)
+    url: https://blogs.microsoft.com/blog/2024/07/20/helping-our-customers-through-the-crowdstrike-outage/
+  - label: Beyer, Jones, Petoff et Murphy, « Site Reliability Engineering », Google / O'Reilly (2016)
+    url: https://sre.google/sre-book/table-of-contents/
+updated: 2026-10-25
+---
+
+Tout le monde se dit agile, tout s'automatise, et ITIL passe pour une relique de l'époque du cycle en V. Pourtant, rappellent les exposants, les entreprises qui paient 1 000 € par jour s'attendent à ce que tu saches ce que c'est, et ITIL pourrait t'éviter de brûler 50 M€ en six mois. Ce POV pose la question franchement : **à l'ère du « tout agile » et du « tout automatique », quelle place pour ITIL en entreprise ?**
+
+<Callout type="note" title="Un exposé d'étudiants, pas un cours magistral">
+  Les chiffres cités sont ceux de l'exposé, présenté en octobre 2026 ; ils sont restitués tels quels. Quand un point mérite d'être nuancé, un encadré « pour aller plus loin » le signale.
+</Callout>
+
+L'exposé vise deux objectifs : comprendre ce qu'est ITIL et quand il est utile, et avoir une vision plus large de la gestion des services IT. Il avance en cinq temps : définitions, exemple réel, ITIL relique du passé, coûts et revenus, pertinence aujourd'hui.
+
+## Définitions : agile, automatisation, ITIL
+
+### L'agilité
+
+Le **Manifeste agile** (2001) privilégie les individus et leurs interactions, le logiciel qui fonctionne, la collaboration avec le client et l'adaptation au changement. Selon l'exposé, l'agilité concerne **86 % du développement logiciel**.
+
+| Cadre | Échelle | Ce qui le caractérise |
+| --- | --- | --- |
+| **Scrum** | Équipe | Itératif et timeboxé, rôles et cérémonies forts ; idéal pour un développement complexe avec retours fréquents |
+| **Kanban** | Équipe | Piloté par le flux, limite le travail en cours (WIP) ; adapté au support, à l'exploitation, au travail interrompu |
+| **XP** | Équipe | Centré ingénierie : TDD, binômage, CI/CD ; complète Scrum plus qu'il ne le remplace |
+| **SAFe** | Entreprise | Riche en rôles, planification centralisée, vision entreprise |
+| **LeSS** | Entreprise | Minimaliste, décisions décentralisées, simplicité structurelle |
+
+### L'automatisation
+
+Elle touche tous les métiers : production et logistique, service client, finance et comptabilité, ressources humaines, analyse de données et reporting, marketing et ventes. **70 % des entreprises** y ont recours selon l'exposé. Prochaine étape annoncée : l'**hyperautomatisation**, qui automatise les processus de bout en bout.
+
+### ITIL
+
+<Callout type="definition" title="ITIL (Information Technology Infrastructure Library)">
+  Un **ensemble de bonnes pratiques** pour la gestion des services IT (ITSM). Ce n'est **pas** un cadre de méthodes et d'outils : ITIL dit quoi organiser, pas avec quel logiciel.
+</Callout>
+
+<CardGrid cols={3}>
+  <Stat value="50 000+" label="organisations utilisatrices dans le monde" />
+  <Stat value="82 %" label="des entreprises du Fortune 500" />
+  <Stat value="2021" label="PeopleCert rachète Axelos, propriétaire d'ITIL" />
+</CardGrid>
+
+Parmi les utilisateurs cités : HPE, Airbus, IBM, Spotify. L'exposé illustre ITIL par son cycle de vie : une **stratégie de service** au centre, puis **conception**, **transition** et **exploitation** des services, le tout entouré par l'**amélioration continue**.
+
+Concrètement, ITIL n'a pas le même visage pour tout le monde :
+
+<Compare leftTitle="Pour la DSI et les dirigeants" rightTitle="Pour les employés">
+  <Fragment slot="left">
+    Des **KPI** : la qualité de service se mesure et se pilote.
+  </Fragment>
+  <Fragment slot="right">
+    Un point d'entrée **centralisé** qui donne accès au **catalogue de services**, au **centre de services** (*service desk*) et à la **base de connaissances**.
+  </Fragment>
+</Compare>
+
+### Exploitation, support et SLA
+
+L'exploitation regroupe trois pratiques : la **gestion des incidents** (rétablir le service), la **gestion des problèmes** (traiter les causes) et la **gestion des changements**. Le support est organisé en **niveaux**, de L0 (self-service) à L4, chaque niveau traitant ce que le précédent n'a pas pu résoudre.
+
+Les **SLA** (*Service Level Agreements*) encadrent la relation :
+
+<CardGrid cols={2}>
+  <Card title="Engagements mesurables" tone="signal">Disponibilité, temps de réponse, temps moyen de résolution (MTTR).</Card>
+  <Card title="Priorisation" tone="default">Service indisponible, service dégradé, impact mineur.</Card>
+  <Card title="Pénalités" tone="amber">Remboursements partiels, frais liés aux retards.</Card>
+  <Card title="Gestion de la relation" tone="default">Un Business Relationship Manager côté métier, un Supplier Manager côté fournisseurs.</Card>
+</CardGrid>
+
+### La gestion des changements
+
+Tout changement suit le même fil : **demande → évaluation → approbation → mise en œuvre → revue**. Mais l'approbation dépend du risque : un changement à **faible risque** est approuvé automatiquement, un changement à **risque moyen** passe par le manager, un changement à **risque élevé** passe devant le **CAB** (*Change Advisory Board*).
+
+<Figure caption="Choisis un changement : la validation suit son risque. Coche ensuite le circuit unique « alourdi » que critique la suite de l'exposé.">
+  <ChangeRisk />
+</Figure>
+
+<Quiz question="Une équipe déploie dix fois par jour de petites modifications de configuration, testées et réversibles. Que prévoit la gestion des changements d'ITIL ?" options={['Chaque déploiement passe devant le CAB', 'Ces changements à faible risque peuvent être approuvés automatiquement', "ITIL interdit les déploiements fréquents", 'Le manager doit signer chaque modification']} answer={1}>
+  **Approbation automatique.** ITIL proportionne la validation au risque : le CAB est réservé aux changements à risque élevé. L'image d'un ITIL qui fait tout passer en comité vient d'implémentations lourdes, celles que l'exposé critique ensuite, pas du principe.
+</Quiz>
+
+<DeepDive title="Cycle de vie v3 ou système de valeur ITIL 4 ?" level="approfondissement">
+  La roue stratégie, conception, transition, exploitation et amélioration continue montrée dans l'exposé est celle d'**ITIL v3** (2007). **ITIL 4** (2019) l'a remplacée par le **système de valeur des services** (SVS) : une chaîne de valeur à six activités (planifier, améliorer, engager, concevoir et faire la transition, obtenir ou construire, délivrer et soutenir), 7 principes directeurs et **34 pratiques de management**. Ce que ITIL 4 appelle « gestion des changements » s'appelle d'ailleurs aujourd'hui *change enablement* : faciliter le changement plutôt que le contrôler, avec des changements standard pré-autorisés, ce qui rejoint l'approbation automatique des changements à faible risque.
+</DeepDive>
+
+## Un exemple réel : tirer parti des trois
+
+Comment une entreprise peut-elle combiner ITIL, agilité et automatisation ? L'exposé suit un incident de bout en bout.
+
+### La gestion de l'incident, côté ITIL
+
+<Pipeline steps={[
+  { title: 'Panne', caption: 'Le service tombe', detail: "L'incident est détecté." },
+  { title: 'Ticket', caption: 'Créé et tracé', detail: "Un ticket est ouvert : l'incident existe officiellement." },
+  { title: 'Niveau de support', caption: 'Routage', detail: "Le ticket est orienté vers le niveau de support adapté." },
+  { title: "Incident manager", caption: 'Un responsable', detail: "Un responsable d'incident est désigné." },
+  { title: 'War room', caption: 'Mobilisation', detail: "Une cellule de crise est ouverte et le SLA s'applique." },
+  { title: 'Client informé', caption: 'Communication', detail: "Le client est tenu au courant ; une chronologie documentée est tenue." },
+  { title: 'Après résolution', caption: 'Apprendre', detail: "Rapport, analyse de la cause racine (RCA) et mise à jour de la base de connaissances.", tone: 'synapse' },
+]} />
+
+### La revue post-incident, côté agile
+
+L'équipe analyse comment corriger son code, ajoute le **travail préventif au backlog**, et obtient un **code plus robuste**. Les frontières sont nettes : l'agilité joue le rôle d'initiateur d'innovation, de système d'apprentissage et de priorisation des tâches ; ITIL garde la **responsabilité du service** (*service ownership*) et les **SLA**.
+
+<KeyIdea>ITIL rétablit et trace le service, l'agilité transforme l'incident en amélioration du produit.</KeyIdea>
+
+## ITIL, une relique du passé ?
+
+Comment la structure peut-elle ralentir l'innovation ? Les exposants jouent l'avocat du diable.
+
+### Des processus boursouflés
+
+« Plus de processus que de progrès » : ITIL est né quand les budgets IT étaient surdimensionnés et que le cycle en cascade était la norme, et la bureaucratie crée du délai. L'adoption prend **3 à 12 mois**. Sur la balance, d'un côté la structure (34 principes de management, outillage coûteux, workflow de changement, formations), de l'autre un seul avantage mis en avant : l'automatisation.
+
+Le circuit de changement type de l'exposé enchaîne **six étapes** : demande, validation du manager, comité des risques, documentation, comité de mise en œuvre, déploiement.
+
+### Taille unique, qui ne va à personne
+
+- Des pratiques **précises mais génériques**.
+- Des spécifications qui paraissent **déconnectées de la réalité**.
+- L'illusion du **« plug and play »** : il faut un consultant coûteux pour adapter.
+
+Les entreprises tech se construisent donc leur propre ITSM :
+
+<Compare leftTitle="Google · Site Reliability Engineering" rightTitle="Microsoft Operations Framework">
+  <Fragment slot="left">
+    Des principes d'ingénierie d'abord, la **fiabilité comme fonctionnalité**, une exploitation pensée pour l'automatisation.
+  </Fragment>
+  <Fragment slot="right">
+    **Fortement inspiré d'ITIL** : changements et mises en production selon le risque, accent sur la **préparation opérationnelle**.
+  </Fragment>
+</Compare>
+
+L'exposé ajoute une démonstration vécue : « 20 secondes pour un paquet de madeleines ».
+
+### Les frictions d'aujourd'hui
+
+<CardGrid cols={2}>
+  <Card title="Des équipes en silos" tone="default">ITIL découpe l'organisation en équipes cloisonnées.</Card>
+  <Card title="La vitesse est la nouvelle sécurité" tone="default">Penser vite, échouer vite, corriger vite.</Card>
+  <Card title="Des métriques en conflit" tone="amber">Vélocité et volume de fonctionnalités d'un côté, disponibilité et respect des SLA de l'autre.</Card>
+  <Card title="Des outils incompatibles" tone="amber">Pipelines agentiques d'un côté, CMDB et tickets de l'autre.</Card>
+</CardGrid>
+
+Et une question sans réponse évidente : **qui porte l'échec**, le manager, le développeur, ou l'agent IA qui a écrit le code ?
+
+<DeepDive title="34 principes ou 34 pratiques ?" level="approfondissement">
+  Les « 34 management principles » de l'exposé correspondent aux **34 pratiques** d'ITIL 4 (14 de management général, 17 de gestion des services, 3 de gestion technique). ITIL 4 n'a que **7 principes directeurs** : privilégier la valeur, commencer là où l'on est, progresser par itérations avec du feedback, collaborer et rendre visible, penser et travailler de façon holistique, rester simple et pratique, optimiser et automatiser. Plusieurs de ces principes sont très proches de l'agilité, ce qui relativise l'opposition entre les deux.
+</DeepDive>
+
+## Coûts et revenus
+
+### Ce que coûte une mise en œuvre
+
+| Poste | Coût annoncé |
+| --- | --- |
+| Formation | 500 à 3 500 $ par personne, pour 20 à 100 employés en général |
+| Outils (Freshworks, BMC Remedy, ServiceNow) | 10 000 à 100 000 € et plus par an de licences, plus 5 000 à 50 000 € d'implémentation |
+| Manager dédié | 80 000 à 150 000 € par an et par rôle |
+| Documentation et consultant | 20 000 à 100 000 € et plus |
+
+Conclusion de la diapositive : « beaucoup d'argent ».
+
+### Pourquoi payer ?
+
+Parce que **80 % du budget IT** sert à maintenir les opérations existantes, et que l'exposé annonce **20 à 40 % d'effort opérationnel en moins** grâce à ITIL. Une étude IDC citée chiffre le retour :
+
+<Figure caption="Retour sur investissement d'ITIL, en millions d'euros · Source : étude IDC citée dans l'exposé POV 13">
+  <BarChart unit=" M€" data={[{ label: 'Investissement', value: 1.1 }, { label: 'Économies la 1re année', value: 7.7 }, { label: 'Économies sur 3 ans', value: 14.1, highlight: true }]} />
+</Figure>
+
+### Le cas HPE
+
+HPE, multinationale des solutions IT pour entreprises (9,7 Md$ de chiffre d'affaires en 2025 selon l'exposé), affiche ces résultats avec ITIL :
+
+<CardGrid cols={3}>
+  <Stat value="−50 %" label="d'incidents majeurs" />
+  <Stat value="−25 %" label="de MTTR (temps moyen de résolution)" />
+  <Stat value="+5,3 %" label="d'indice de qualité de service" />
+  <Stat value="98,7 %" label="de rétention client" />
+  <Stat value="+3,5 %" label="de taux de succès des changements" />
+  <Stat value="−15 %" label="de changements d'urgence" />
+</CardGrid>
+
+Plus une livraison accélérée grâce aux changements standard.
+
+<Quiz question="Avec les chiffres IDC de l'exposé, au bout de combien de temps l'investissement dans ITIL est-il remboursé ?" options={['Dès la première année', 'Au bout de trois ans', "Jamais : c'est un coût de conformité", 'Au bout de dix ans']} answer={0}>
+  **Dès la première année** : 7,7 M€ d'économies pour 1,1 M€ investi, soit environ sept fois la mise. Le piège est de raisonner sur le cumul à trois ans (14,1 M€), qui mesure l'ampleur du gain, pas le délai de retour. Garde en tête qu'il s'agit d'une étude commanditée, dont les chiffres valent pour les organisations étudiées.
+</Quiz>
+
+## La pertinence d'ITIL aujourd'hui
+
+ITIL pourrait être la réponse aux problèmes de demain.
+
+### Où se placent ITIL et l'agilité ?
+
+Dans la pyramide de l'entreprise, **ITIL couvre le pilotage et le management** (*leading*, *managing*), **l'agilité couvre le management et l'exécution** (*managing*, *doing*). Les deux se recouvrent au niveau du management : ils ne se concurrencent pas, ils opèrent à des niveaux différents.
+
+### L'évolution d'ITIL
+
+| Version | Apport |
+| --- | --- |
+| ITIL v1 (1989) | Standardisation des processus |
+| ITIL v2 (2000) | Service Support et Service Delivery |
+| ITIL v3 (2007) | Modèle de cycle de vie du service |
+| ITIL 4 (2019) | Système de valeur des services (SVS) |
+| **ITIL 5 (2026)** | Recommandations intégrant l'IA, expérience client et employé, certification alignée sur les rôles, pratique par scénarios, rôles et résultats définis |
+
+### Plus d'incidents, et plus graves
+
+- **Plus de code, plus de problèmes** : une création sans friction appelle plus de gouvernance et de maintenance.
+- **Quand tout est automatisé, le jugement humain disparaît** : ITIL apporte la supervision et la gouvernance.
+- **Aller vite, c'est bien, sauf si on fonce dans un mur** : le développement rapide produit des systèmes fragiles. L'exposé cite **CrowdStrike** en exemple.
+
+<DeepDive title="La panne CrowdStrike du 19 juillet 2024" level="terrain">
+  Une mise à jour de configuration défectueuse du capteur CrowdStrike Falcon, poussée d'un coup à tous les clients Windows, a planté environ **8,5 millions de machines** selon Microsoft : compagnies aériennes, hôpitaux, banques, médias. La correction exigeait souvent une intervention manuelle sur chaque poste. C'est le scénario que la gestion des changements cherche à éviter : un changement jugé anodin, sans déploiement progressif ni retour arrière rapide, qui touche toute la production en même temps.
+</DeepDive>
+
+### La valeur à l'ère des buzzwords
+
+« On a besoin d'IA », « on a besoin de plus d'agilité », « il faut casser les silos », « il faut passer au low-code » : les cycles de hype se succèdent. Les entreprises regardent les **outputs** (ce qui est produit), ITIL regarde les **outcomes** (le résultat obtenu). La valeur est une boussole durable pour décider, et ce sont les **KPI** qui la rendent mesurable.
+
+<Stat value="95 %" label="des projets pilotes d'IA sans impact financier mesurable" hint="Étude du MIT sur 300 déploiements publics d'IA, citée dans l'exposé" />
+
+<KeyIdea>Les nouvelles technologies sont bienvenues, quand elles apportent de la valeur.</KeyIdea>
+
+<Quiz question="Une équipe annonce fièrement « 40 fonctionnalités livrées ce trimestre ». Quelle question ITIL poserait d'abord ?" options={['Combien de story points ont été livrés ?', 'Quel résultat ces fonctionnalités ont-elles produit pour le service et ses utilisateurs ?', 'Le CAB a-t-il validé chaque fonctionnalité ?', 'Quel framework agile a été utilisé ?']} answer={1}>
+  **L'outcome, pas l'output.** Quarante fonctionnalités sont un volume produit ; ITIL demande ce qu'elles ont changé : disponibilité, satisfaction, incidents évités. Les story points mesurent eux aussi un output, et le CAB n'a rien à voir avec la valeur.
+</Quiz>
+
+## Conclusion de l'exposé
+
+La réponse des exposants : **utile, et plus que jamais.**
+
+- ITIL est un ensemble de bonnes pratiques de gestion des services IT, surtout précieux dans les organisations qui ont besoin de **stabilité, de gouvernance et de responsabilité**.
+- ITIL, agilité et automatisation **ne sont pas concurrents** : ils opèrent à des niveaux différents et fonctionnent mieux ensemble.
+- Plus les systèmes vont vite et se complexifient, plus le risque de défaillance catastrophique grandit : ITIL fournit la **couche de gouvernance** qui l'évite.
+- Il ne convient pas à toutes les entreprises, mais pour une organisation mature, **adopter ITIL avec pragmatisme n'est pas un coût, c'est un investissement**.
+
+<DeepDive title="SRE et ITIL, moins opposés qu'il n'y paraît" level="best-practice">
+  Le livre SRE de Google traite les mêmes questions qu'ITIL avec d'autres outils : des **SLO** (objectifs internes) en dessous des SLA contractuels, un **budget d'erreur** qui arbitre entre vitesse et fiabilité (tant qu'il reste du budget, on livre ; s'il est épuisé, on stabilise), des **postmortems sans reproche** qui jouent le rôle de l'analyse de cause racine, et des déploiements progressifs plutôt qu'un comité. C'est une gestion des changements proportionnée au risque, automatisée, qui répond aux mêmes questions de gouvernance.
+</DeepDive>
+
+## À retenir
+
+<Takeaways>
+1. **ITIL = bonnes pratiques d'ITSM**, pas une méthode ni un outil : incidents, problèmes, changements, niveaux de support, SLA.
+2. **La validation suit le risque** : approbation automatique, manager ou CAB. La lourdeur vient d'implémentations à taille unique.
+3. **Les critiques sont réelles** : processus lourds, pratiques génériques, silos, métriques qui s'opposent à la vélocité.
+4. **Le coût est élevé, le retour annoncé aussi** : formation, outils et rôles dédiés, contre 20 à 40 % d'effort opérationnel en moins.
+5. **ITIL et agilité se complètent** : l'agilité pour faire et améliorer, ITIL pour gouverner et mesurer la valeur, surtout quand tout s'accélère.
+</Takeaways>

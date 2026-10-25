@@ -1,0 +1,247 @@
+---
+title: La course aux méga-datacenters pour l'IA, jusqu'où ?
+subtitle: POV 16 · Victor Biancini et Romane Masset
+subject: pit
+session: 16
+description: "Ce que l'IA change aux datacenters, les grands projets (Stargate, Colossus, InvestAI) et leurs acteurs, les cinq murs que la course rencontre, et ce qui vient après : photonique, quantique."
+tags: [datacenter, IA, Stargate, Colossus, InvestAI, énergie, photonique, quantique]
+objectives:
+  - Expliquer en quoi un datacenter pour l'IA diffère d'un datacenter classique (densité, refroidissement, réseau).
+  - Situer un méga-datacenter par sa puissance électrique.
+  - Comparer Stargate, Colossus et InvestAI, et cartographier les acteurs de la course.
+  - Analyser les cinq murs physiques, économiques, environnementaux, de marché et technologiques.
+  - Discuter les pistes d'après, la photonique et le quantique.
+sources:
+  - label: Exposé POV 16 « Course aux méga-datacenters pour l'IA, jusqu'où ? » — Victor Biancini et Romane Masset, EPITA SIGL 2027 (octobre 2026)
+  - label: DeepSeek-AI, « DeepSeek-R1 » (janvier 2025)
+    url: https://arxiv.org/abs/2501.12948
+  - label: Agence internationale de l'énergie, « Energy and AI » (2025)
+    url: https://www.iea.org/reports/energy-and-ai
+  - label: Google, « Meet Willow, our state-of-the-art quantum chip » (décembre 2024)
+    url: https://blog.google/technology/research/google-willow-quantum-chip/
+updated: 2026-10-25
+---
+
+Un datacenter pour l'IA consomme-t-il autant qu'une centrale nucléaire ? La question, posée en ouverture, n'est plus une boutade : les projets se chiffrent désormais en gigawatts et en centaines de milliards de dollars. Ce POV explique ce que l'IA change aux datacenters, qui construit quoi et pourquoi, puis jusqu'où la course peut aller.
+
+<Callout type="note" title="Un exposé d'étudiants, pas un cours magistral">
+  Les chiffres et événements ci-dessous sont ceux de l'exposé, présenté en octobre 2026 ; ils sont restitués tels quels. Quand un point mérite d'être corrigé ou nuancé, un encadré « pour aller plus loin » le signale.
+</Callout>
+
+## L'IA et les datacenters
+
+### Le boom de l'IA
+
+<CardGrid cols={2}>
+  <Stat value="2,5 Md" label="de prompts envoyés chaque jour à ChatGPT" hint="+150 % depuis fin 2024 · ~3 fois la population de l'Europe" />
+  <Stat value="71 %" label="des organisations utilisent l'IA générative" hint="dans au moins une fonction" />
+  <Stat value="1 500 Md$" label="de dépenses mondiales en IA en 2025" hint="plus de 2 000 Md$ attendus en 2026" />
+  <Stat value="650 Md$" label="de dépenses en datacenters prévues" hint="2026" />
+</CardGrid>
+
+Avec l'essor de l'IA, l'investissement dans l'infrastructure explose.
+
+### Ce que l'IA change dans un datacenter
+
+| Dimension | Le standard actuel | Ce que l'IA exige |
+| --- | --- | --- |
+| **Densité électrique** | 3 à 10 kW par rack, à base de CPU | 40 à 132 kW par rack aujourd'hui, 1 MW par rack d'ici 2027, à base de GPU |
+| **Refroidissement** | Par air, suffisant jusqu'à ~15 kW par rack | Liquide : direct-to-chip obligatoire au-delà de 30 kW par rack |
+| **Réseau** | Ethernet nord-sud : les serveurs parlent aux clients, des pertes de paquets sont tolérées | InfiniBand ou RoCE sur fibre, zéro perte de paquets, 3,2 Tb/s par serveur GPU, racks à moins de ~150 m les uns des autres |
+
+<Figure caption="Fais monter la puissance d'un rack : regarde à partir de quand l'air ne suffit plus et le réseau change de nature · Source : exposé POV 16">
+  <RackDensity />
+</Figure>
+
+<KeyIdea>L'IA n'a pas besoin de « plus de la même chose » : elle exige une infrastructure fondamentalement différente.</KeyIdea>
+
+<DeepDive title="Pourquoi le réseau doit être sans perte" level="approfondissement">
+  Un entraînement distribue un même modèle sur des milliers de GPU qui doivent échanger leurs gradients à chaque étape (opérations collectives de type *all-reduce*). Le pas suivant attend le plus lent : un paquet perdu et retransmis bloque tout le monde. D'où des réseaux « est-ouest » (de serveur à serveur) sans perte, comme InfiniBand ou RoCE (RDMA sur Ethernet convergé), et des distances courtes pour limiter la latence. Un datacenter classique, lui, sert surtout du trafic « nord-sud » vers des clients, où TCP absorbe les pertes.
+</DeepDive>
+
+### Du datacenter simple au méga-datacenter
+
+Il n'existe pas de définition formelle du méga-datacenter : son trait le plus déterminant aujourd'hui est sa **consommation électrique**.
+
+| Catégorie | Puissance | Rôle |
+| --- | --- | --- |
+| Datacenter standard | 1 à 10 MW | Sert une grande entreprise ou une région |
+| Datacenter hyperscale | 40 à 100 MW | Seuil d'entrée des géants du cloud |
+| **« Méga » ou « campus IA »** | 0,25 à 1 GW et plus | Infrastructure d'échelle nationale |
+
+À l'échelle du gigawatt, un datacenter **cesse d'être un bâtiment informatique** : il implique directement les États et les collectivités dans les négociations, façonne l'industrie qui l'entoure et oblige les autorités à créer de nouvelles règles et de nouvelles lois. Il devient une **infrastructure d'échelle nationale**.
+
+<Quiz question="Un projet annonce un campus de 800 MW. Dans la classification de l'exposé, c'est…" options={['un datacenter standard', 'un datacenter hyperscale', 'un méga-datacenter, ou campus IA', "impossible : aucun site n'atteint cette taille"]} answer={2}>
+  **Un méga-datacenter.** Le seuil hyperscale s'arrête vers 100 MW ; au-delà de 250 MW on parle de campus IA. Le piège : croire que « hyperscale » désigne le plus grand niveau, alors que c'est seulement le seuil d'entrée des géants du cloud. Et ces tailles existent déjà : Colossus 2 dépasse le gigawatt.
+</Quiz>
+
+## Qui construit quoi, et pourquoi ?
+
+### Stargate, le plus gros
+
+**Un pari de 500 Md$ sur le calcul pour l'IA**, le plus gros investissement d'infrastructure de l'histoire de l'informatique :
+
+- **100 Md$** investis d'emblée, plus de **400 Md$** engagés ;
+- environ **10 GW** de capacité prévue ;
+- plus de **6 sites** en construction aux États-Unis, dont le campus phare d'**Abilene**, au Texas.
+
+C'est une coentreprise mise en scène géopolitiquement : **OpenAI, Oracle, SoftBank et MGX**, annoncée à la **Maison-Blanche le 21 janvier 2025**.
+
+### Colossus, le plus rapide
+
+Le plus grand supercalculateur du monde, monté en **122 jours**, financé par **xAI** (Elon Musk) : 3 bâtiments sur un campus entre Memphis (Tennessee) et Southaven (Mississippi), environ **40 Md$** d'investissement total pour une cible de **2 GW**.
+
+<Compare leftTitle="Colossus 1 (280 MW)" rightTitle="Colossus 2 (plus de 1 GW)">
+  <Fragment slot="left">
+    - **100 000 GPU H100** opérationnels en 122 jours, contre 4 ans en moyenne.
+    - Porté à **230 000 GPU** en 92 jours.
+    - En juin 2026, **entièrement loué à Anthropic**, un concurrent direct.
+  </Fragment>
+  <Fragment slot="right">
+    - Lancé en mars 2025, en service en **6 mois**, deux fois plus vite que le campus d'Abilene de Stargate.
+    - **550 000 GPU GB200**, environ 18 Md$ de matériel.
+    - Le **premier datacenter à l'échelle du gigawatt** de l'histoire.
+  </Fragment>
+</Compare>
+
+**Construit vite, autorisé plus tard** : le site est alimenté par **35 turbines à gaz** qui rejettent **2 000 tonnes d'oxydes d'azote par an**, et **33** ont fonctionné sans permis fédéral, en contournant le Clean Air Act. Le Southern Environmental Law Center annonce des poursuites contre une « centrale électrique illégale ».
+
+### InvestAI, les gigafactories européennes
+
+« Ni la plus grosse, ni la plus rapide. La plus… européenne ? »
+
+<Compare leftTitle="La réponse de l'Europe" rightTitle="Ce qui existe aujourd'hui">
+  <Fragment slot="left">
+    - Annoncée au **sommet pour l'action sur l'IA de Paris** (11 février 2025).
+    - **20 Md€** de fonds publics, pour un programme global de **200 Md€**.
+    - **4 à 5 gigafactories** de 100 000 puces IA chacune.
+    - **76 candidatures** venues de 16 États membres.
+    - Mise en service visée : **2027-2028**.
+  </Fragment>
+  <Fragment slot="right">
+    - **0** gigafactory sélectionnée, **0** en construction, **0** GW opérationnel.
+    - Objectif 2028 : environ **400 000 GPU** pour toute l'Europe.
+    - En face : plus de 450 000 pour Stargate, **550 000 pour Colossus 2 à lui seul**.
+  </Fragment>
+</Compare>
+
+<Figure caption="Nombre de GPU, en milliers · Source : exposé POV 16">
+  <BarChart unit=" k" data={[{ label: 'Europe entière (objectif 2028)', value: 400 }, { label: 'Stargate', value: 450 }, { label: 'Colossus 2 seul', value: 550, highlight: true }]} />
+</Figure>
+
+<KeyIdea>Aujourd'hui, l'Europe vise moins que ce qu'une seule entreprise privée américaine a déjà construit.</KeyIdea>
+
+### La carte des acteurs
+
+Autour du méga-datacenter, l'infrastructure de calcul, gravitent six familles d'acteurs :
+
+<CardGrid cols={3}>
+  <Card title="Hyperscalers" tone="default">AWS, Azure, Google, Meta.</Card>
+  <Card title="Pure players de l'IA" tone="signal">OpenAI, xAI, Anthropic.</Card>
+  <Card title="Acteurs financiers" tone="amber">Fonds, fonds souverains, obligations.</Card>
+  <Card title="Fabricants de puces" tone="default">NVIDIA (~80 %), AMD.</Card>
+  <Card title="Fournisseurs d'énergie" tone="synapse">Opérateurs, nucléaire, gaz.</Card>
+  <Card title="Entités politiques" tone="danger">États-Unis, Union européenne, Chine.</Card>
+</CardGrid>
+
+### Pourquoi cette course ?
+
+Chacun court pour une raison différente :
+
+- **Les labos d'IA** : plus de calcul, de meilleurs modèles, donc la survie.
+- **Les hyperscalers** : plus d'infrastructure, plus d'enfermement des clients dans leur cloud, donc plus de revenus.
+- **Les entités politiques** : qui construit l'infrastructure sur ton sol décide quelles **lois et politiques de données** s'appliquent.
+
+| Terrain | Ressource disputée |
+| --- | --- |
+| Financier | Le capital |
+| Technologique | L'accès aux GPU |
+| Énergétique | Les mégawatts |
+| Géopolitique | L'infrastructure stratégique |
+| Réglementaire | Le permis de construire |
+| Industriel | La vitesse de construction |
+
+<KeyIdea>Pour chaque acteur, prendre du retard sur l'infrastructure, c'est perdre sa pertinence.</KeyIdea>
+
+## Jusqu'où irons-nous ?
+
+### Les cinq murs de la course
+
+Ce n'est pas un obstacle unique, mais la **convergence de cinq contraintes structurelles** :
+
+<CardGrid cols={2}>
+  <Card title="Physique" kicker="01" tone="danger">Électricité, eau, terres rares, capacité du réseau. L'Uptime Institute prédit une crise énergétique à partir de 2026. Dans l'Ohio, il faut **7 à 10 ans** pour répondre à la demande électrique, contre **18 mois** pour construire un datacenter.</Card>
+  <Card title="Économique" kicker="02" tone="amber">Stargate : 500 Md$ ; Meta : 70 Md$ de capex en 2025. La demande B2B n'en est qu'à ses débuts : risque de datacenters construits et payés, mais **sans clients**.</Card>
+  <Card title="Environnemental" kicker="03" tone="synapse">Hyperion (Meta) : **4 à 10 Mt de CO₂ par an**. Émissions de Google : **+48 % en cinq ans**. En Irlande, les datacenters consomment 17 % de l'électricité nationale : un moratoire a été imposé.</Card>
+  <Card title="Marché" kicker="04" tone="default">AWS, Azure et GCP détiennent **65 %** du cloud mondial ; NVIDIA dégage ~**80 %** de marge sur les GPU IA. L'Europe pèse **moins de 5 %** du calcul IA mondial. Moratoire dans le Maine, et 11 autres États américains.</Card>
+  <Card title="Technologique" kicker="05" tone="signal">Toute la course suppose que plus d'IA = plus de calcul = plus de datacenters. Or DeepSeek atteint la qualité de GPT-4 pour **1/100 du coût**. Si cela se vérifie à grande échelle, les méga-datacenters sont des investissements surdimensionnés.</Card>
+</CardGrid>
+
+<KeyIdea>La vraie question n'est plus « qui gagne » mais « combien de temps ce modèle peut durer ». La limite n'est plus l'IA, c'est le monde physique qui dit non.</KeyIdea>
+
+<DeepDive title="DeepSeek : quelle date, quel chiffre ?" level="approfondissement">
+  L'exposé date l'annonce de DeepSeek de janvier 2026 ; le modèle qui a secoué le marché, **DeepSeek-R1**, est sorti en **janvier 2025** (le 27 janvier 2025, NVIDIA perdait près de 600 Md$ de capitalisation en une séance). Le coût souvent cité, environ 5,6 M$, ne concerne que le calcul de l'entraînement final du modèle de base DeepSeek-V3, hors recherche, essais et matériel : le « 100 fois moins cher » compare donc des choses différentes. L'argument de fond tient : l'efficacité algorithmique progresse vite, et elle peut rendre une partie de la capacité construite moins nécessaire qu'annoncé, ou au contraire, par effet rebond, en faire consommer davantage.
+</DeepDive>
+
+<DeepDive title="Combien consomment vraiment les datacenters ?" level="état-de-l-art">
+  Selon l'Agence internationale de l'énergie (rapport *Energy and AI*, 2025), les datacenters ont consommé environ **415 TWh** en 2024, soit à peu près 1,5 % de l'électricité mondiale, et cette consommation pourrait plus que doubler d'ici 2030, autour de 945 TWh, l'IA en étant le premier moteur. La part reste modeste à l'échelle mondiale, mais très concentrée localement : c'est pourquoi des réseaux comme celui de l'Irlande ou de certains États américains saturent bien avant le reste du monde.
+</DeepDive>
+
+### La photonique
+
+Utiliser la **lumière plutôt que l'électricité** pour transporter les données à l'intérieur des datacenters. Aujourd'hui, les GPU les plus chers du monde passent **30 à 50 % de leur temps à attendre leurs données**, faute de bande passante.
+
+**Lightmatter, avec sa puce Passage M1000**, leader mondial valorisé 4,4 Md$ en 2024 et déployé chez des hyperscalers fin 2025, annonce :
+
+<CardGrid cols={3}>
+  <Stat value="×100" label="plus rapide que l'électrique" />
+  <Stat value="÷2,7" label="sur le temps d'entraînement" />
+  <Stat value="NVIDIA" label="intègre des commutateurs photoniques" hint="dans ses gammes de produits" />
+</CardGrid>
+
+Pourquoi c'est stratégique : c'est une **évolution incrémentale**. On garde les GPU existants et on remplace la « plomberie » qui les relie. Pas de rupture brutale, une transition progressive déjà en cours en 2026-2027. Une technologie réelle, **disponible aujourd'hui**, pas seulement une promesse.
+
+### Le quantique
+
+Des **qubits** qui valent 0, 1, ou les deux à la fois, capables de résoudre en minutes ce qu'un supercalculateur mettrait des milliers d'années à calculer. Pour les exposants, ce n'est plus de la science-fiction : en 2026, la bascule est engagée.
+
+<Pipeline steps={[
+  { title: 'Déc. 2024 · Google Willow', caption: 'Seuil franchi', detail: "Premier franchissement du seuil critique : les erreurs diminuent quand on ajoute des qubits." },
+  { title: 'Avr. 2026 · NVIDIA Ising', caption: "L'IA au service du quantique", detail: "Un modèle open source qui accélère d'un facteur 2,5 la correction d'erreurs quantiques." },
+  { title: 'Fin 2026 · IBM Nighthawk', caption: 'Avantage quantique', detail: "Première démonstration vérifiée d'un avantage quantique ciblé." },
+  { title: '2029 · IBM Starling', caption: 'Tolérant aux fautes', detail: "Premier ordinateur quantique tolérant aux fautes : 200 qubits logiques, 100 millions de portes par circuit." },
+]} />
+
+NVIDIA ne construit pas de technologie quantique, il fait le **pont entre IA et calcul quantique**. Jensen Huang, en avril 2026 : « l'IA est indispensable pour rendre le calcul quantique praticable. Avec Ising, l'IA devient le plan de contrôle, le système d'exploitation des machines quantiques. » Les applications industrielles à grande échelle sont attendues vers **2030-2032** : pas demain, mais dans la décennie.
+
+<DeepDive title="Ce que Willow a vraiment démontré" level="approfondissement">
+  Un qubit physique est trop bruité pour calculer longtemps : on en regroupe plusieurs en un **qubit logique** protégé par un code correcteur. Cela n'a d'intérêt que si le taux d'erreur logique **baisse** quand on agrandit le code. Avec Willow, Google a montré exactement cela : en passant d'une grille de 3×3 à 5×5 puis 7×7 qubits physiques, l'erreur logique est divisée par deux à chaque étape. C'est le seuil « sous le seuil » dont parle l'exposé, condition nécessaire pour viser les centaines de qubits logiques d'IBM Starling.
+</DeepDive>
+
+<Quiz question="Pourquoi les exposants présentent-ils la photonique comme une évolution plus sûre que le quantique ?" options={["Parce qu'elle remplace les GPU par des puces optiques", 'Parce qu’elle garde les GPU et remplace seulement les liaisons qui les relient', 'Parce qu’elle consomme zéro énergie', "Parce que le quantique n'existera jamais"]} answer={1}>
+  **Elle change la plomberie, pas le moteur.** Les GPU restent, seules les interconnexions passent à la lumière : la transition est progressive et déjà en cours. Le piège est de croire que la photonique remplace les GPU. Le quantique, lui, n'est pas jugé impossible : ses applications industrielles sont simplement attendues vers 2030-2032.
+</Quiz>
+
+## L'avis des exposants
+
+Trois convictions :
+
+<Steps>
+1. **Cette course n'est pas soutenable sous sa forme actuelle.** Cinq murs convergent en même temps : énergie, argent, climat, politique et technologie. DeepSeek vient de montrer qu'on peut faire aussi bien pour cent fois moins : le modèle du « toujours plus gros » a ses limites.
+2. **Le vrai goulot n'est plus l'IA, c'est le monde physique.** Il ne manque pas seulement de la puissance de calcul, mais aussi de l'électricité, de l'eau, du foncier et de l'acceptation publique. 2026 est l'année où le monde physique commence à dire non.
+3. **Le méga-datacenter est une rampe de lancement, pas une ligne d'arrivée.** Pendant que ces géants se construisent, l'industrie prépare déjà la suite : photonique, hybrides IA-quantique. Les gagnants de demain ne seront pas ceux qui dépensent le plus, mais ceux qui construisent le plus intelligemment.
+</Steps>
+
+<KeyIdea>Nous irons moins loin en taille, mais beaucoup plus loin en intelligence.</KeyIdea>
+
+En conclusion : l'IA change la donne pour l'infrastructure ; de grands projets sont en cours pour en profiter ; cette course implique de nombreux acteurs, qui ne poursuivent pas tous les mêmes buts ; elle se heurte à des limites sérieuses, **déjà effectives aujourd'hui** et pas seulement des menaces ; et ce paysage évolue vite, les acteurs doivent se préparer à s'adapter. Demain, cette course pourrait avoir un tout autre visage.
+
+## À retenir
+
+<Takeaways>
+1. **Une autre infrastructure.** Un rack IA consomme 40 à 132 kW (contre 3 à 10), impose le refroidissement liquide et un réseau sans perte.
+2. **Le méga-datacenter se définit par sa puissance** : 0,25 à 1 GW et plus, à l'échelle d'une infrastructure nationale.
+3. **Trois projets, trois stratégies** : Stargate le plus gros, Colossus le plus rapide, InvestAI encore sur le papier.
+4. **Chaque acteur court pour sa raison** : survie des labos, enfermement cloud des hyperscalers, souveraineté des États.
+5. **Cinq murs** physiques, économiques, environnementaux, de marché et technologiques : la limite devient le monde physique, et la suite se joue sur l'efficacité (photonique, quantique).
+</Takeaways>

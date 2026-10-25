@@ -41,6 +41,9 @@ import IntegrationTiers from '../viz/IntegrationTiers.astro';
 import EffortRatios from '../viz/EffortRatios.astro';
 import Prioritize from '../viz/Prioritize.astro';
 import CmmiLevels from '../viz/CmmiLevels.astro';
+import Harness from '../viz/Harness.astro';
+import RackDensity from '../viz/RackDensity.astro';
+import ChangeRisk from '../viz/ChangeRisk.astro';
 
 export const components = {
   Callout,
@@ -82,4 +85,7 @@ export const components = {
   EffortRatios,
   Prioritize,
   CmmiLevels,
+  Harness,
+  RackDensity,
+  ChangeRisk,
 };
