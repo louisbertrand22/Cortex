@@ -62,5 +62,6 @@ Dans une leçon (ou sur `/guide`) : build, puis rendu clair/sombre, 1440 px et 3
 - **MÉTHODES** : `EffortRatios` (méthode des ratios : une estimation, toutes les phases) · `Prioritize` (backlog classé
   par RICE ou WSJF) · `CmmiLevels` (CMMI étagé vs continu, les 25 secteurs clés).
 - **PIT** : `Harness` (le harnais autour du LLM : quelles tâches deviennent possibles) · `RackDensity` (densité d'un rack,
-  refroidissement et réseau imposés) · `ChangeRisk` (changement ITIL validé selon le risque vs circuit unique alourdi).
+  refroidissement et réseau imposés) · `ChangeRisk` (changement ITIL validé selon le risque vs circuit unique alourdi)
+  · `WorkloadPlacement` (quelle charge, où : cloud, CapEx sur site/HaaS, edge ou hybride).
 - **Génériques** : `Pipeline` · `BarChart`.

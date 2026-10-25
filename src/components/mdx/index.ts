@@ -44,6 +44,7 @@ import CmmiLevels from '../viz/CmmiLevels.astro';
 import Harness from '../viz/Harness.astro';
 import RackDensity from '../viz/RackDensity.astro';
 import ChangeRisk from '../viz/ChangeRisk.astro';
+import WorkloadPlacement from '../viz/WorkloadPlacement.astro';
 
 export const components = {
   Callout,
@@ -88,4 +89,5 @@ export const components = {
   Harness,
   RackDensity,
   ChangeRisk,
+  WorkloadPlacement,
 };

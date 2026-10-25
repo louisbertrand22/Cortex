@@ -1,0 +1,346 @@
+---
+title: Après l'ère du tout soft, la revanche du hard ?
+subtitle: POV 19 · Djessen Frair et Erwen Beauvinon-Petitjean
+subject: pit
+session: 19
+description: "Comment le logiciel a rendu le matériel invisible, ce qui le ramène au centre (énergie, latence, IA, fin de Moore) et pourquoi la valeur se crée désormais dans le co-design matériel-logiciel."
+tags: [hardware, cloud, CapEx, OpEx, co-design, CUDA, edge computing, souveraineté]
+objectives:
+  - Expliquer la doctrine du tout logiciel et les hypothèses sur lesquelles elle repose.
+  - Identifier les évolutions qui ramènent le matériel au centre (énergie, géographie, fabrication, latence, IA).
+  - Expliquer pourquoi la fin de Moore mène à des architectures spécialisées.
+  - Juger si « revanche » est le bon mot, ou s'il s'agit de convergence.
+  - Choisir le bon modèle (cloud, sur site, HaaS, edge, hybride) pour une charge de travail donnée.
+sources:
+  - label: Exposé POV 19 « Après l'ère du tout Soft, la revanche du Hard ? » — Djessen Frair et Erwen Beauvinon-Petitjean, EPITA SIGL 2027 (mars 2026)
+  - label: John Hennessy et David Patterson, « A New Golden Age for Computer Architecture », Communications of the ACM (2019)
+    url: https://cacm.acm.org/research/a-new-golden-age-for-computer-architecture/
+  - label: Google, « New nuclear clean energy agreement with Kairos Power » (14 octobre 2024)
+    url: https://blog.google/outreach-initiatives/sustainability/google-kairos-power-nuclear-energy-agreement/
+  - label: Talen Energy, cession du campus de datacenters Cumulus à Amazon Web Services, communiqué du 4 mars 2024
+  - label: GHG Protocol, « Corporate Accounting and Reporting Standard »
+    url: https://ghgprotocol.org/corporate-standard
+updated: 2026-10-25
+---
+
+Pendant vingt ans, le matériel est devenu « le problème de quelqu'un d'autre » : on loue du calcul, on paie une facture, on se concentre sur le code. Derrière la question de ce POV se cache un choix pour l'entreprise : **l'infrastructure de calcul doit-elle rester une chose qu'on abstrait, ou redevenir une chose qu'on possède et qu'on maîtrise ?** L'exposé avance en quatre temps : avons-nous vraiment vécu dans un monde tout logiciel, la fin d'un déni, le co-design matériel-logiciel, puis l'impact concret pour l'entreprise.
+
+<Callout type="note" title="Un exposé d'étudiants, pas un cours magistral">
+  Les chiffres et événements ci-dessous sont ceux de l'exposé, présenté en mars 2026 ; ils sont restitués tels quels. Quand un point mérite d'être corrigé ou nuancé, un encadré « pour aller plus loin » le signale.
+</Callout>
+
+Quatre objectifs : comprendre la doctrine du tout logiciel et ses hypothèses, identifier ce qui ramène le matériel au centre, juger si « revanche » est le bon mot, et te positionner comme décideur face à ce dilemme.
+
+### Définitions
+
+<Callout type="definition" title="Système informatique">
+  Un ensemble cohérent de ressources physiques et logiques qui fonctionnent ensemble.
+</Callout>
+
+<Compare leftTitle="Hardware : la couche physique" rightTitle="Software : les couches logiques">
+  <Fragment slot="left">
+    Ce qui **exécute, stocke et relie**.
+
+    - **Calcul et mémoire** : traite les instructions et conserve les données, au plus bas niveau.
+    - **Infrastructure** : fournit la connectivité, l'énergie et l'hébergement physique.
+  </Fragment>
+  <Fragment slot="right">
+    Ce qui **abstrait, orchestre et pilote** le matériel.
+
+    - **Logiciel système** : gère les ressources et expose une interface stable vers le matériel.
+    - **Logiciel applicatif** : crée la valeur métier en s'appuyant sur la couche système.
+  </Fragment>
+</Compare>
+
+## Avons-nous vraiment vécu dans un monde tout logiciel ?
+
+### L'histoire du matériel
+
+| Année | Jalon | Ce qui change |
+| --- | --- | --- |
+| 1964 | IBM System/360 | Premier mainframe universel. La valeur est dans la machine, le logiciel est livré avec, verrouillé sur l'architecture propriétaire du constructeur |
+| 1977 | DEC VAX | L'ère des mini-ordinateurs : l'informatique sort de la salle machine, mais reste chère, propriétaire et intégrée verticalement |
+| 1987 | Sun Microsystems / SPARC | Le client-serveur s'impose. Chaque constructeur a son silicium, son OS, son écosystème : l'enfermement est total |
+| 1993 | Intel Pentium / x86 | Le x86 banalise le matériel grand public, mais l'entreprise reste sur de lourdes architectures serveur propriétaires, cœur de l'investissement de la DSI |
+| 2000 | Le bilan du tout matériel | Puissant, mais cycles d'investissement de 3 à 5 ans, CapEx massif, enfermement sans issue : cette rigidité appelle une rupture |
+| 2001 | VMware ESX | La première fissure : une couche logicielle abstrait le serveur physique. Le matériel devient invisible, et ce qui est invisible devient le problème de quelqu'un d'autre |
+
+<KeyIdea>Le matériel ne s'est pas défendu : il a financé sa propre disparition.</KeyIdea>
+
+### Le matériel a payé sa propre insignifiance
+
+Quatre arguments ont rendu le matériel inutile à comprendre :
+
+<CardGrid cols={2}>
+  <Card title="Le cloud gère le reste" tone="default">Pourquoi posséder des serveurs quand AWS passe à l'échelle à l'infini pour toi ? Zéro CapEx, zéro maintenance, zéro expertise.</Card>
+  <Card title="Le matériel s'améliore tout seul" tone="default">Tous les 18 mois, deux fois plus de puissance pour le même prix, sans effort : il suffit d'attendre la génération suivante. La loi de Moore s'en charge.</Card>
+  <Card title="Le matériel devient invisible" tone="default">Et c'est une qualité, pas un défaut : moins tu penses au matériel, plus tu te concentres sur ce qui crée de la valeur, le produit, le code, l'utilisateur.</Card>
+  <Card title="Le logiciel capte les gains" tone="signal">Chaque nouveau cycle finance une nouvelle couche d'abstraction. Les développeurs vont plus vite, construisent plus gros, se soucient moins de ce qu'il y a dessous.</Card>
+</CardGrid>
+
+Pourquoi passer du temps à comprendre une chose qui se gère toute seule ?
+
+### Le logiciel a gagné en apportant une valeur inégalée
+
+<Pipeline steps={[
+  { title: '2001 · VMware ESX', caption: 'Le serveur se virtualise', detail: "Le premier serveur disparaît derrière une couche logicielle : le matériel devient virtuel." },
+  { title: '2006 · AWS EC2', caption: 'Le datacenter devient une API', detail: "Le CapEx devient de l'OpEx. Une startup peut rivaliser avec une grande entreprise dès le premier jour." },
+  { title: '2013 · Docker', caption: "L'OS ne compte plus", detail: "Le code est livré avec son environnement. Le mot « serveur » commence à disparaître des offres d'emploi." },
+  { title: '2020 · Serverless', caption: 'Plus de serveur du tout', detail: "Les fonctions remplacent entièrement les serveurs. L'infrastructure est totalement abstraite : le matériel n'est plus qu'une ligne sur la facture cloud." },
+]} />
+
+Trois entreprises l'illustrent :
+
+- **Google, 2003** : lance Gmail sur son propre cluster de matériel banalisé, et prouve qu'une infrastructure définie par le logiciel bat les machines propriétaires à toute échelle.
+- **Netflix, 2008** : commence sa migration vers AWS et ferme son dernier datacenter en 2016. La plus grande plateforme vidéo du monde ne possède aucun serveur.
+- **Airbnb, 2019** : premier acteur mondial de l'hébergement, 150 millions d'utilisateurs, zéro hôtel, zéro serveur, entièrement sur AWS.
+
+<KeyIdea>Le logiciel n'a pas seulement gagné : il a rendu la question du matériel hors sujet.</KeyIdea>
+
+### Pourquoi le tout logiciel domine aujourd'hui
+
+<CardGrid cols={3}>
+  <Stat value="5 ans" label="de cycle d'investissement matériel moyen avant le cloud" />
+  <Stat value="20 %" label="de gain d'EBITDA moyen grâce au cloud" hint="75 % de la valeur attendue vient de l'innovation · McKinsey, 2023" />
+  <Stat value="−5,1 %" label="de dépenses en matériel en 2023" hint="contre +11,3 % pour le logiciel · Gartner, 2023" />
+</CardGrid>
+
+<CardGrid cols={3}>
+  <Card title="Le problème résolu" tone="default">Le matériel enfermait les entreprises dans des cycles de 3 à 5 ans ; seules les grandes pouvaient s'offrir l'échelle ; l'infrastructure était un rempart pour les acteurs en place ; les équipes logicielles attendaient les achats de matériel.</Card>
+  <Card title="Le cloud a levé la barrière" tone="signal">Des cycles d'itération produit plus rapides, une échelle mondiale dès le premier jour, aucun investissement d'infrastructure initial ; l'attention passe de l'exploitation au produit.</Card>
+  <Card title="Capital et talents ont suivi" tone="default">Le capital-risque investit 80 % dans le logiciel contre 20 % dans le matériel ; les métiers de l'infrastructure sont supprimés ou externalisés ; on ne recrute plus d'expertise matérielle ; le DSI devient gestionnaire de fournisseurs.</Card>
+</CardGrid>
+
+<KeyIdea>Chaque directeur financier, chaque DSI, chaque investisseur a fait le même pari : le matériel est un coût, le logiciel un investissement.</KeyIdea>
+
+### « Oui, mais… » : les objections, et leurs réponses toutes faites
+
+L'exposé joue le défenseur du cloud, qui balaie trois objections :
+
+| Objection | Réponse du tout logiciel | En résumé |
+| --- | --- | --- |
+| **Énergie** : « Les datacenters consomment énormément » | Les hyperscalers tournent aux renouvelables ; AWS, Google et Microsoft sont les plus gros acheteurs d'énergie propre de la planète. C'est leur investissement, pas le tien | Pas ton problème |
+| **Géographie** : « Où sont mes données, exactement ? » | Les déploiements multi-régions gèrent la latence, les régions de cloud souverain gèrent la conformité. AWS exploite 33 régions sur 6 continents | Déjà résolu par conception |
+| **Approvisionnement** : « Pénurie de puces, TSMC, géopolitique… » | La logistique de quelqu'un d'autre. Tu consommes du calcul, tu ne le fabriques pas : c'est tout l'intérêt de l'abstraction. Ton métier, c'est le produit | L'abstraction s'en charge |
+
+Le tout se conclut, en clin d'œil, sur les paroles de *Never Gonna Give You Up* : le cloud ne te laissera jamais tomber. La suite de l'exposé démonte précisément ces trois réponses.
+
+## La fin d'un déni : déconstruire les hypothèses du logiciel
+
+### Le monde physique reprend ses droits
+
+<CardGrid cols={3}>
+  <Card title="Énergie" kicker="01" tone="amber">Les serveurs ont besoin d'énergie : nucléaire, pétrole, gaz. Microsoft relance la centrale nucléaire de Three Mile Island (20/09/2024) ; Google construit des petits réacteurs modulaires (SMR) avec Kairos Power (30/07/2024) ; Amazon achète une centrale nucléaire de 960 MW (4/03/2024).</Card>
+  <Card title="Géographie" kicker="02" tone="amber">Un serveur a une localisation physique, dans un pays : il est soumis à une juridiction et aux tensions géopolitiques. Audits de la chaîne d'approvisionnement, DORA, NIS2.</Card>
+  <Card title="Fabrication" kicker="03" tone="amber">Un serveur exige des composants : TSMC fabrique 90 % des puces avancées mondiales. Le silicium est devenu un actif stratégique : EU Chips Act de 43 Md€, US Chips Act de 52 Md$.</Card>
+</CardGrid>
+
+<KeyIdea>Pour tourner, le code a besoin de matériel. Et donc de tout ce qui va avec.</KeyIdea>
+
+<DeepDive title="Les accords nucléaires, à la lettre" level="approfondissement">
+  Deux précisions sur les dates et la nature des accords. L'accord entre Google et Kairos Power, qui prévoit jusqu'à 500 MW de petits réacteurs modulaires d'ici 2035, a été annoncé le **14 octobre 2024**. Et Amazon n'a pas acheté la centrale de Susquehanna (Pennsylvanie) : AWS a racheté à Talen Energy, pour 650 M$, le **campus de datacenters** Cumulus adossé à la centrale, avec un contrat d'alimentation pouvant atteindre **960 MW**. Le fond de l'argument ne change pas : les géants du cloud sécurisent désormais eux-mêmes leur électricité, au plus près de la source.
+</DeepDive>
+
+### Vitesse et proximité : le monde du matériel
+
+Pour gagner en vitesse, les traitements sont gravés au plus près du silicium. Trois exemples :
+
+<CardGrid cols={3}>
+  <Card title="Edge computing" tone="signal">Sur une ligne d'assemblage industrielle, la boucle caméra-robot prend **200 ms** via un cloud ou un datacenter distant, contre **20 ms** en edge.</Card>
+  <Card title="Télécoms : MEC" tone="signal">Avec le passage de la 4G à la 5G, le calcul (*Multi-access Edge Computing*) se rapproche de l'antenne au lieu de remonter jusqu'au cœur du réseau.</Card>
+  <Card title="Trading haute fréquence" tone="signal">Aller plus vite, c'est gagner plus. En 2009, 400 M$ investis pour relier Chicago et New York : 13 ms en ligne droite contre 16 ms par le chemin habituel.</Card>
+</CardGrid>
+
+<KeyIdea>Le cloud est trop loin quand chaque milliseconde compte.</KeyIdea>
+
+### L'IA comme catalyseur
+
+L'exposé représente la création de valeur comme un entonnoir, de l'idée jusqu'au résultat, avec un goulot d'étranglement qui se déplace :
+
+<Compare leftTitle="Le code perd de sa valeur" rightTitle="Le matériel devient le goulot">
+  <Fragment slot="left">
+    Du compilateur à l'industrialisation de la production logicielle, puis à l'IA : l'IA **génère du code en masse**, et la valeur unitaire du code baisse. GitLab se prépare à **dix fois plus de commits**.
+  </Fragment>
+  <Fragment slot="right">
+    Des charges de travail massives rendent l'abstraction impossible : elles sont **limitées par la mémoire**, **sensibles à la latence**, **gourmandes en calcul** et **en énergie**.
+  </Fragment>
+</Compare>
+
+<KeyIdea>L'IA n'a pas créé cette rupture, elle l'a accélérée.</KeyIdea>
+
+### La fin de Moore, vraiment ?
+
+Rappel de l'exposé : la loi de Moore dit que la performance mono-thread double tous les deux ans à coût constant. Or le rythme s'est effondré :
+
+<Figure caption="Gain annuel de performance mono-thread d'un processeur · Source : exposé POV 19 (courbe de Hennessy et Patterson)">
+  <BarChart unit=" %/an" data={[{ label: '1986-2003', value: 52, highlight: true }, { label: 'Après 2015', value: 3.5 }]} />
+</Figure>
+
+Pourtant, les serveurs sont toujours obsolètes au bout de trois ans. Pourquoi ? **La spécialisation des processeurs.** Dès la fin des années 1980 et le début des années 1990, deux philosophies s'opposent :
+
+<Compare leftTitle="CISC" rightTitle="RISC">
+  <Fragment slot="left">
+    Forte densité d'instructions, donc moins de mémoire vive utilisée ; mais gourmand en énergie et générateur de chaleur.
+  </Fragment>
+  <Fragment slot="right">
+    Faible densité d'instructions, donc plus de mémoire vive utilisée ; mais économe en énergie et peu de chaleur.
+  </Fragment>
+</Compare>
+
+Aujourd'hui, la spécialisation va plus loin : **CPU, GPU, NPU, TPU**, chacun taillé pour un type de calcul, et des architectures pensées autour du réseau, du CPU ou des données (*network centric*, *CPU centric*, *data centric*).
+
+<KeyIdea>C'est la fin de la loi de Moore et le début des architectures spécialisées.</KeyIdea>
+
+<DeepDive title="Moore, Dennard et la performance mono-thread" level="approfondissement">
+  À la lettre, la **loi de Moore** (1965, révisée en 1975) porte sur le **nombre de transistors** par puce, qui double environ tous les deux ans ; les « 18 mois » et le doublement de la performance sont des raccourcis courants. Ce qui a vraiment cassé vers 2005, c'est le **scaling de Dennard** : jusque-là, des transistors plus petits consommaient proportionnellement moins, ce qui permettait de monter la fréquence. Sans lui, la chaleur plafonne la fréquence, d'où le passage au multicœur, puis le ralentissement mesuré par Hennessy et Patterson (52 %/an, puis 23 %, 12 % et 3,5 %). Leur conclusion rejoint celle de l'exposé : le prochain gain viendra d'**architectures spécialisées par domaine** (GPU, TPU…) conçues avec leur logiciel.
+</DeepDive>
+
+<Quiz question="Si la performance mono-thread ne progresse presque plus, pourquoi un serveur est-il encore obsolète au bout de trois ans ?" options={['Parce que les composants s’usent physiquement en trois ans', 'Parce que des processeurs spécialisés (GPU, NPU, TPU) font bien mieux sur les charges qui comptent', 'Parce que la loi de Moore continue de doubler la fréquence', 'Parce que les éditeurs cessent le support logiciel']} answer={1}>
+  **La spécialisation.** Le gain ne vient plus d'un CPU généraliste plus rapide, mais de puces taillées pour un type de calcul : un GPU ou un TPU récent écrase l'ancien sur l'IA. Le piège est de croire que la fréquence double encore : c'est justement ce qui s'est arrêté.
+</Quiz>
+
+## Le co-design matériel-logiciel : la convergence plutôt que la revanche
+
+### NVIDIA et CUDA : l'intégration matériel-logiciel
+
+<CardGrid cols={2}>
+  <Stat value="90 %+" label="de part de marché de NVIDIA sur les GPU d'entraînement IA" />
+  <Stat value="100 Md$+" label="de chiffre d'affaires datacenter de NVIDIA" hint="2025" />
+</CardGrid>
+
+<Steps>
+1. **1993** : création de NVIDIA par Jensen Huang, Chris Malachowsky et Curtis Priem.
+2. **1993-2005** : le marché du jeu vidéo et de la conception 3D.
+3. **2006** : création de **CUDA**, qui ouvre le GPU au calcul généraliste. Suivent 20 ans d'optimisation : calcul scientifique, simulation physique, cryptographie, quantique ; des bibliothèques comme cuFFT (télécoms, traitement du signal, imagerie médicale) ou cuRAND (simulation de Monte-Carlo, trading haute fréquence et finance).
+4. **2012** : le GPU et CUDA rencontrent l'IA.
+</Steps>
+
+<KeyIdea>Le produit NVIDIA n'est pas le GPU, c'est le GPU plus CUDA.</KeyIdea>
+
+### « Revanche » n'est pas le bon mot
+
+Ce que tu voyais : la console AWS ou le portail Azure, un tableau de bord SaaS, des appels d'API, une facture OpEx mensuelle. Ce qu'il y avait derrière :
+
+<CardGrid cols={2}>
+  <Stat value="630 Md$" label="de CapEx matériel en 2026 pour Amazon, Google, Meta et Microsoft" hint="+62 % par rapport à 2025" />
+  <Stat value="75 %" label="de ce CapEx consacrés à l'infrastructure IA" hint="GPU, datacenters, refroidissement liquide" />
+  <Stat value="60 %+" label="du marché mondial du cloud entre trois mains" hint="AWS, Azure, GCP" />
+  <Stat value="Des milliers" label="de datacenters physiques" />
+</CardGrid>
+
+<KeyIdea>Le matériel n'a jamais vraiment perdu. C'est seulement la fin d'une séparation artificielle.</KeyIdea>
+
+### Le logiciel s'adapte au métier, le matériel l'accélère
+
+Le **métier** (règles de gestion, processus, utilisateurs) s'appuie sur le **logiciel** (applications, API, microservices), qui repose sur le **matériel** (puces, connectivité, architecture). Aucune couche ne crée seule la valeur : **matériel + logiciel = valeur ajoutée.**
+
+<KeyIdea>C'est en concevant matériel et logiciel ensemble, et non séparément, qu'on crée de la valeur ajoutée.</KeyIdea>
+
+### Le début d'une nouvelle ère
+
+| Ère | Valeur et relation matériel-logiciel | Modèle, DSI, exemple |
+| --- | --- | --- |
+| **Tout matériel** | Dans la machine ; le logiciel s'adapte au matériel | CapEx lourd · opérateur technique · mainframe IBM |
+| **Tout logiciel** | Dans le code ; le matériel est abstrait | OpEx flexible · courtier cloud · AWS, Azure, GCP |
+| **Convergence** | Dans le couplage ; matériel et logiciel conçus ensemble | Hybride stratégique · architecte de la convergence · GPU NVIDIA + CUDA |
+
+<Quiz question="Pour les exposants, pourquoi « revanche du hard » est-il un titre trompeur ?" options={['Parce que le logiciel reste dominant et le matériel marginal', "Parce que le matériel n'a jamais disparu : il était seulement caché derrière l'abstraction", 'Parce que le cloud va disparaître', "Parce que la loi de Moore a repris"]} answer={1}>
+  **Le matériel n'a jamais perdu.** Derrière la console et la facture OpEx, 630 Md$ de CapEx et des milliers de datacenters : l'abstraction l'a rendu invisible, pas inutile. Il n'y a donc pas de revanche, mais la fin d'une séparation artificielle, et la valeur se déplace vers le couplage des deux. Le cloud, lui, ne disparaît pas : il devient un choix parmi d'autres.
+</Quiz>
+
+## De la théorie au terrain : l'impact pour l'entreprise
+
+### Gagnants et perdants
+
+Les exposants classent les entreprises selon deux axes : maîtrise du logiciel ou du matériel, simple création ou solution complète.
+
+<CardGrid cols={2}>
+  <Card title="Solution complète, matériel + logiciel" kicker="Le facteur différenciant" tone="synapse">**NVIDIA** (GPU + CUDA), **Apple** (Apple Silicon + iOS), **AWS** (Graviton + Nitro).</Card>
+  <Card title="Expertise logicielle et métier" kicker="Sans prise sur le matériel" tone="default">**SAP**, **OpenAI** : une forte expertise métier, mais aucune implication dans le matériel.</Card>
+  <Card title="Création de matériel" kicker="Les fondations" tone="default">**ASML**, **TSMC**, **Micron**, **SK Hynix**.</Card>
+  <Card title="Interchangeables" kicker="Les perdants" tone="danger">**Dell**, **Lenovo** et les SaaS tiers : ni l'avantage du matériel, ni celui de l'intégration.</Card>
+</CardGrid>
+
+<KeyIdea>Les profils capables de descendre dans la pile technique jusqu'au matériel sont ceux qui font la différence.</KeyIdea>
+
+### Le retour du CapEx, une opportunité
+
+<CardGrid cols={3}>
+  <Card title="OpEx variable" kicker="Cloud" tone="default">
+
+  Pour les charges élastiques et imprévisibles : le cloud gagne quand la charge varie, que le time-to-market compte et qu'aucune contrainte de souveraineté ne s'applique.
+
+  - Élasticité portée par l'IA : les hyperscalers ont gardé une croissance à deux chiffres en 2025.
+  - Pas d'exode : seulement ~8 % des entreprises prévoient de quitter entièrement le cloud public (IDC, 2025).
+  - EU Data Act (septembre 2025) : frais de sortie et de changement interdits d'ici janvier 2027, s'engager dans le cloud devient moins risqué.
+  </Card>
+  <Card title="CapEx stratégique" kicker="Sur site ou HaaS" tone="signal">
+
+  Pour les charges IA intensives, critiques en latence ou souveraines : 30 à 60 % de TCO en moins sur 18 mois et plus, face au cloud équivalent.
+
+  - 37signals économise plus d'1 M$ par an en quittant AWS ; Dropbox ~75 M$ en revenant sur site.
+  - L'inférence IA se privatise : 56 % la font tourner en cloud privé contre 41 % en public, −15 points sur un an (Broadcom, 2025).
+  - 86 % des DSI prévoient de rapatrier des charges, un record (Barclays, T4 2024).
+  </Card>
+  <Card title="Hybride" kicker="Une discipline" tone="amber">
+
+  Le bon modèle pour la bonne charge : une discipline, pas un compromis. « Quelle charge, où ? » redevient une compétence d'ingénierie.
+
+  - Panne d'AWS us-east-1 (20 octobre 2025) : ~15 h d'arrêt, plus de 1 000 entreprises et 197 SaaS touchés. La résilience exige un hybride conçu dès le départ.
+  - 40 % des entreprises en calcul hybride pour leurs workflows critiques fin 2026, contre 8 % avant (Gartner).
+  - La réglementation l'ancre : DORA (janvier 2025) impose des stratégies de sortie du cloud, le Data Act fait de la réversibilité un droit.
+  </Card>
+</CardGrid>
+
+<Figure caption="Coche les caractéristiques d'une charge de travail : le modèle conseillé suit la logique de l'exposé.">
+  <WorkloadPlacement />
+</Figure>
+
+<KeyIdea>Le cloud par défaut, c'est fini : l'infrastructure redevient une décision d'ingénierie.</KeyIdea>
+
+### Green-Ops : le retour du matériel, c'est aussi une responsabilité
+
+Le **GHG Protocol** classe les émissions en trois scopes, et le même poste ne tombe pas dans le même scope selon que tu es fournisseur ou client du cloud :
+
+| Poste d'émission | Côté fournisseur cloud | Côté client cloud |
+| --- | --- | --- |
+| Fuites de fluide frigorigène, groupes électrogènes, flotte de véhicules | Scope 1 | Scope 3 (achats de biens et services) |
+| Électricité des équipements IT et hors IT (refroidissement, éclairage) | Scope 2 | Scope 3, ou scope 2 si l'électricité est refacturée au client |
+| Fabrication des équipements IT (serveurs, baies, commutateurs) | Scope 3 (achats) | Scope 3 (achats) |
+| Construction des bâtiments | Scope 3 (biens d'équipement) | Scope 3 (achats) |
+| Amont de l'électricité (installations, pertes en ligne) | Scope 3 (énergie) | Scope 3 (achats), ou énergie si l'électricité est refacturée |
+
+Deux leviers cités : le **green coding** (98 % ; 10 à 30 % d'économie d'énergie) et le **recyclage du matériel**, à 95 % chez HPE.
+
+<KeyIdea>Le regain d'intérêt pour le matériel ne signifie pas forcément un retour à de lourds impacts environnementaux.</KeyIdea>
+
+<DeepDive title="Pourquoi louer du cloud ne fait pas disparaître tes émissions" level="approfondissement">
+  Le GHG Protocol range en **scope 1** les émissions directes d'une organisation, en **scope 2** celles de l'énergie qu'elle achète, et en **scope 3** toutes les autres émissions de sa chaîne de valeur. Pour un client, les serveurs du fournisseur cloud tombent presque entièrement dans son scope 3 : l'abstraction ne les supprime pas, elle les déplace dans la catégorie la plus difficile à mesurer. C'est pourquoi un rapatriement sur site rend ces émissions visibles (scopes 1 et 2) sans forcément les augmenter : le bilan dépend surtout de l'électricité utilisée et de la durée de vie du matériel.
+</DeepDive>
+
+### Une stratégie différente selon la taille
+
+<CardGrid cols={3}>
+  <Card title="La startup" kicker="01 · digital natives" tone="default">**Cloud d'abord, portable dès le premier jour.** Éviter l'enfermement, prévoir la migration si besoin.</Card>
+  <Card title="L'ETI pragmatique" kicker="02 · PME et ETI industrielles" tone="default">**HaaS (Hardware as a Service) et edge ciblé.** Ni tout cloud, ni tout sur site : un réglage par charge de travail.</Card>
+  <Card title="Le géant souverain" kicker="03 · champions nationaux régulés" tone="signal">**Re-matérialisation sélective.** L'infrastructure critique sur site, le cloud pour le reste : la souveraineté des données n'est pas négociable.</Card>
+</CardGrid>
+
+<KeyIdea>Cloud d'abord, HaaS ou souverain : la stratégie suit la taille, pas la mode.</KeyIdea>
+
+## Conclusion de l'exposé
+
+- **Oui, nous étions dans une ère du logiciel**, mais le cloud n'a pas supprimé le matériel, il l'a seulement abstrait.
+- **Ce n'est pas une revanche** : le matériel n'a jamais perdu.
+- **Ce n'est pas un retour en arrière** : le matériel est redevenu indispensable à l'entreprise.
+- **C'est une nouvelle voie** : la valeur ajoutée ne reste plus dans le code seul, mais dans l'intégration matériel-logiciel. Un trésor de nouvelles possibilités.
+
+## À retenir
+
+<Takeaways>
+1. **Le tout logiciel reposait sur des hypothèses** : le cloud gère tout, Moore améliore le matériel tout seul, le matériel peut rester invisible.
+2. **Le monde physique revient** : énergie, géographie et juridiction, fabrication des puces, latence, et l'IA qui fait du matériel le goulot.
+3. **La fin de Moore mène à la spécialisation** : CPU, GPU, NPU, TPU, conçus avec leur logiciel, comme NVIDIA avec CUDA.
+4. **Pas de revanche, une convergence** : la valeur est dans le couplage matériel-logiciel, et le DSI devient architecte de cette convergence.
+5. **Quelle charge, où ?** Cloud pour l'élastique, CapEx ou HaaS pour l'IA intensive et le souverain, edge pour la latence, hybride pour la résilience.
+</Takeaways>
