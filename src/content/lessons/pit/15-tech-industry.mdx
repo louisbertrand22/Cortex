@@ -1,0 +1,281 @@
+---
+title: Quel avenir pour les citoyens dans un monde gouverné par la tech ?
+subtitle: POV 15 · Joe Bejjani et Arthur Presle
+subject: pit
+session: 15
+description: "Ce qu'est la tech industry, comment elle tient les entreprises, les États et les citoyens (cloud, matières premières, algorithmes, données, défense), et ce que l'avenir promet ou menace."
+tags: [tech industry, Big Tech, algorithmes, dépendance, Cambridge Analytica, matières premières, défense, citoyens]
+objectives:
+  - Définir la tech industry et situer ses acteurs dominants.
+  - Retracer l'évolution du regard porté sur la technologie, de la peur à l'opportunité.
+  - Analyser la dépendance des entreprises et des États à la tech (cloud, matières premières, défense).
+  - Évaluer l'effet des algorithmes sur les émotions, les opinions et l'attention des citoyens.
+  - Peser les opportunités et les risques d'un avenir façonné par la tech.
+sources:
+  - label: Exposé POV 15 « Quel avenir pour les citoyens dans un monde gouverné par la tech industry ? » — Joe Bejjani et Arthur Presle, EPITA SIGL 2026 (avril 2026)
+  - label: Information Commissioner's Office, « Investigation into the use of data analytics in political campaigns », lettre de conclusion (2 octobre 2020)
+    url: https://ico.org.uk/action-weve-taken/investigation-into-data-analytics-for-political-purposes/
+  - label: Semiconductor Industry Association et BCG, « Strengthening the Global Semiconductor Supply Chain in an Uncertain Era » (2021)
+    url: https://www.semiconductors.org/strengthening-the-global-semiconductor-supply-chain-in-an-uncertain-era/
+  - label: Dassault Aviation, programme SCAF (Système de combat aérien du futur) et son pilier NGF
+updated: 2026-10-25
+---
+
+Quelques entreprises fabriquent les moteurs de recherche, les réseaux sociaux, le cloud, l'IA et les puces que tout le monde utilise. Les entreprises en dépendent pour fonctionner, les États pour gouverner et se défendre, les citoyens pour s'informer et travailler. Ce POV pose la question : **quel avenir pour les citoyens dans un monde gouverné par la tech industry ?**
+
+<Callout type="note" title="Un exposé d'étudiants, pas un cours magistral">
+  Les chiffres et événements ci-dessous sont ceux de l'exposé, présenté en avril 2026 ; ils sont restitués tels quels. Quand un point mérite d'être corrigé ou nuancé, un encadré « pour aller plus loin » le signale.
+</Callout>
+
+Trois objectifs : **comprendre le pouvoir** de la tech industry, **analyser son impact sur les entreprises** (IT, données, dépendance), et **évaluer les risques et les opportunités** pour les citoyens.
+
+## Qu'est-ce que la tech industry ?
+
+<Callout type="definition" title="Tech industry">
+  L'ensemble des entreprises qui créent, développent et contrôlent les technologies numériques : logiciels, plateformes, cloud, IA, semi-conducteurs.
+</Callout>
+
+<CardGrid cols={3}>
+  <Card title="Google" kicker="moteurs de recherche" tone="default">**90 %** des recherches mondiales ; YouTube : 2,5 milliards d'utilisateurs par mois.</Card>
+  <Card title="Meta" kicker="réseaux sociaux" tone="default">**3 milliards** d'utilisateurs (Instagram, Facebook, WhatsApp).</Card>
+  <Card title="Amazon" kicker="cloud et e-commerce" tone="default">Leader mondial du e-commerce ; AWS détient **environ 30 %** du marché du cloud.</Card>
+  <Card title="OpenAI" kicker="intelligence artificielle" tone="default">Leader de l'intelligence artificielle.</Card>
+  <Card title="NVIDIA" kicker="matériel" tone="signal">Leader des puces pour l'IA : **environ 80 %** des GPU utilisés pour l'IA.</Card>
+</CardGrid>
+
+## Comment notre regard sur la technologie a changé
+
+De la peur des machines à un monde façonné par l'intelligence artificielle, en trois temps.
+
+<Pipeline steps={[
+  { title: "La menace", caption: "1927 – 1984", detail: "Metropolis (1927), 2001 : l'Odyssée de l'espace (1968), Blade Runner (1982), Terminator (1984) : la machine devient plus puissante que l'humain.", tone: "default" },
+  { title: "Les règles", caption: "1942 – 1950", detail: "Isaac Asimov introduit les lois de la robotique dans la nouvelle « Runaround » (1942), reprises dans « I, Robot » (1950). L'humain tente de contrôler la technologie par des règles, qui ne marchent pas toujours.", tone: "default" },
+  { title: "L'opportunité", caption: "2005", detail: "Ray Kurzweil, « The Singularity Is Near » : la technologie pourrait augmenter les capacités humaines.", tone: "signal" }
+]} />
+
+Aujourd'hui, nous interagissons en permanence avec des technologies qui **apprennent, s'adaptent et influencent nos comportements** : IA, cloud, réseaux sociaux, objets connectés, robots, blockchain.
+
+## Comment la tech tient les autres entreprises
+
+<Compare leftTitle="Cloud et données" rightTitle="Automatisation et robotique">
+  <Fragment slot="left">
+    - AWS, Microsoft Azure, Google Cloud
+    - L'infrastructure numérique est externalisée
+    - Les données clients y sont stockées
+    - Risque : une panne, et l'activité s'arrête
+  </Fragment>
+  <Fragment slot="right">
+    - Des robots dans les entrepôts et l'industrie (Kiva Systems en logistique, ABB dans l'industrie)
+    - L'IA intégrée aux entreprises prend des décisions
+    - Une dépendance aux systèmes automatisés
+  </Fragment>
+</Compare>
+
+<Callout type="warning" title="20 octobre 2025 : us-east-1 indisponible">
+  Une panne de la région AWS us-east-1 rend indisponibles Airbnb, Reddit, Zoom, Signal, Duolingo, Roblox, Ring, la banque Lloyds, les paiements Venmo…
+</Callout>
+
+<KeyIdea>Si les entreprises dépendent de la tech pour fonctionner, les entreprises de la tech détiennent un pouvoir caché mais immense sur la société.</KeyIdea>
+
+### Les fondations physiques du numérique
+
+L'explosion des technologies repose sur des matériaux **rares et limités**, ce qui crée des conflits d'intérêts.
+
+<CardGrid cols={2}>
+  <Card title="Ce dont on a besoin" kicker="matières premières" tone="default">
+
+  - **Silicium de haute pureté** : la base de toutes les puces (NVIDIA, Intel).
+  - **Lithium et cobalt** : « l'or blanc », le cœur des batteries pour le stockage et la mobilité.
+  - **Terres rares** (lanthane, néodyme…) : aimants des moteurs de drones, composants de précision.
+  - **Microcontrôleurs** : de ta machine à laver à ta clé de voiture, jusqu'aux missiles.
+
+  </Card>
+  <Card title="Qui le contrôle" kicker="géopolitique" tone="signal">
+
+  - **La Chine** pèse lourd sur les terres rares et le raffinage du lithium.
+  - **Taïwan**, avec TSMC, fournit le monde en puces.
+  - D'autres puissances (États-Unis, Chine, UE) se disputent les contrats d'extraction, par exemple en RDC.
+
+  </Card>
+</CardGrid>
+
+<DeepDive title="TSMC, les puces avancées et les microcontrôleurs" level="approfondissement">
+  L'exposé dit que Taïwan fournit le monde « en microcontrôleurs ». La dépendance à Taïwan est surtout forte sur les **puces les plus avancées** : selon la SIA et BCG (2021), environ 92 % des capacités de production sous 10 nm sont à Taïwan, chez TSMC. Les microcontrôleurs de l'électroménager ou de l'automobile utilisent des gravures plus anciennes ; ils sont conçus par NXP, Infineon, Renesas, STMicroelectronics ou Microchip, et fabriqués dans leurs propres usines comme chez des fondeurs (dont TSMC). La pénurie de 2021 a montré que cette chaîne plus large est fragile elle aussi.
+</DeepDive>
+
+## Les citoyens face aux algorithmes
+
+### Pouvoir, contrôle et addiction
+
+Les algorithmes des réseaux sociaux **suivent le comportement**, **construisent un profil**, **recommandent du contenu similaire** et **maximisent l'engagement**. Le but : garder l'utilisateur sur la plateforme le plus longtemps possible.
+
+```mermaid
+flowchart LR
+  A["Suivre le comportement"] --> B["Construire un profil"]
+  B --> C["Recommander du contenu similaire"]
+  C --> D["Maximiser l'engagement"]
+  D --> A
+  classDef hot fill:var(--signal-soft),stroke:var(--signal);
+  class D hot;
+```
+
+### Les émotions
+
+<Compare leftTitle="Ce que les algorithmes apportent" rightTitle="Ce qu'ils abîment">
+  <Fragment slot="left">
+    - Ils montrent du contenu qu'on aime
+    - Ils rendent l'expérience plus engageante
+    - Ils font découvrir de nouveaux centres d'intérêt
+  </Fragment>
+  <Fragment slot="right">
+    - Ils ne comprennent ni les émotions ni le bien-être, ils amplifient ce qu'on regarde
+    - Exposition à des contenus négatifs
+    - Renforcement des sentiments négatifs
+    - Sentiment d'isolement
+  </Fragment>
+</Compare>
+
+### L'influence
+
+<CardGrid cols={2}>
+  <Card title="Opinion" kicker="01" tone="default">Le contenu est sélectionné et personnalisé ; l'émotionnel est priorisé ; certaines idées sont plus amplifiées que d'autres ; l'exposition répétée forge les opinions.</Card>
+  <Card title="Normalisation" kicker="02" tone="default">L'exposition fréquente rend les idées familières ; des idées marginales deviennent normales avec le temps ; la perception de la réalité change.</Card>
+  <Card title="Influence politique" kicker="03" tone="signal">Contenus ciblés à partir des données personnelles ; messages politiques personnalisés.</Card>
+  <Card title="Attention" kicker="04" tone="default">Les formats courts réduisent la capacité d'attention ; le défilement infini limite la réflexion ; l'utilisateur devient passif.</Card>
+</CardGrid>
+
+<Quiz question="Pourquoi un algorithme de recommandation peut-il enfermer un utilisateur dans des contenus négatifs, sans que personne ne l'ait voulu ?" options={["Parce qu'il est programmé pour rendre les gens tristes", "Parce qu'il optimise l'engagement et amplifie ce que l'utilisateur regarde, sans notion de bien-être", "Parce que les contenus négatifs sont les seuls disponibles", "Parce que l'utilisateur l'a configuré ainsi"]} answer={1}>
+  La boucle profil-recommandation-engagement amplifie ce qui retient l'attention. Elle ne « veut » rien : elle n'a simplement aucune mesure du bien-être. Le piège est de chercher une intention là où il y a une fonction d'optimisation.
+</Quiz>
+
+## Qui détient vraiment le pouvoir ?
+
+<Compare leftTitle="Les dirigeants de la tech" rightTitle="Les États">
+  <Fragment slot="left">
+    - Un petit nombre d'entreprises domine le monde numérique
+    - Les décisions sont prises par quelques individus
+    - La technologie reflète leur vision et leurs valeurs
+    - Elon Musk veut coloniser Mars, développer des interfaces cerveau-machine, et influence des plateformes comme X
+  </Fragment>
+  <Fragment slot="right">
+    - Les plateformes opèrent à l'échelle mondiale
+    - La donnée est une ressource stratégique
+    - Les règles diffèrent selon les pays
+    - Des inquiétudes sur l'influence et le contrôle, avec TikTok en exemple
+  </Fragment>
+</Compare>
+
+### Données et influence politique : Cambridge Analytica
+
+Cambridge Analytica a **collecté des données personnelles** sur les réseaux sociaux, **construit des profils psychologiques** et **envoyé des messages politiques ciblés**. L'affaire est liée à la présidentielle américaine de 2016 et à des groupes de campagne du Brexit.
+
+<KeyIdea>Données personnelles et algorithmes peuvent servir à influencer les électeurs.</KeyIdea>
+
+<DeepDive title="Cambridge Analytica et le Brexit : ce qu'a conclu l'enquête" level="approfondissement">
+  Le lien avec la présidentielle américaine de 2016 est établi : l'entreprise a travaillé pour la campagne Trump, à partir de données Facebook collectées via une application de quiz (jusqu'à 87 millions de profils selon Facebook). Pour le Brexit, l'enquête de l'ICO britannique (conclusion d'octobre 2020) n'a trouvé **aucune preuve d'implication au-delà de travaux préliminaires** pour Leave.EU ; les soupçons portaient surtout sur AggregateIQ, une société liée, qui a travaillé pour Vote Leave. La formule de l'exposé, « liée à des groupes de campagne du Brexit », est juste ; « a influencé le Brexit » ne l'est pas.
+</DeepDive>
+
+### Tech et armée : quand la technologie façonne la guerre
+
+<CardGrid cols={2}>
+  <Card title="Palantir" kicker="big data militaire et renseignement" tone="default">Gotham (plateforme de défense) et AIP (plateforme d'IA pour la gestion du champ de bataille). Utilisé par les forces armées ukrainiennes pour orchestrer en temps réel réponses tactiques et logistique face à la Russie.</Card>
+  <Card title="Anduril" kicker="startup « defense tech »" tone="default">Applique les méthodes d'innovation rapide de la Silicon Valley à la guerre. Lattice OS, un système d'exploitation de défense piloté par IA, déployé pour la surveillance automatisée de la frontière américaine et utilisé par les forces spéciales britanniques.</Card>
+</CardGrid>
+
+La tech se développe aussi côté militaire : elle renforce son influence sur les États et crée des systèmes de contrôle de masse.
+
+### Des entreprises plus grosses que des pays ?
+
+- Elles valent des milliards et créent beaucoup d'emplois.
+- Elles influencent les citoyens.
+- Les États utilisent aussi le cloud pour leurs données et leurs applications.
+- Les industriels militaires sont essentiels à la sécurité d'un pays.
+
+L'exemple des exposants : un projet d'avion de combat franco-allemand de **100 milliards d'euros**, annulé selon eux à cause d'un désaccord entre Airbus et Dassault, partenaire principal de la France.
+
+<DeepDive title="SCAF : Dassault Aviation, pas Dassault Systèmes" level="approfondissement">
+  Le projet est le **SCAF** (Système de combat aérien du futur), lancé par la France et l'Allemagne en 2017, rejoint par l'Espagne. Le désaccord porte sur le pilier de l'avion de combat (NGF), dont le maître d'œuvre côté français est **Dassault Aviation**, l'avionneur du Rafale. **Dassault Systèmes**, l'éditeur de logiciels de CAO (CATIA, 3DEXPERIENCE), est une autre entreprise du même groupe. L'exemple garde son sens : le sort d'un programme stratégique entre deux États dépend du rapport de force entre deux industriels.
+</DeepDive>
+
+## L'impact économique sur les citoyens
+
+Quel métier feras-tu, et auras-tu accès à la technologie dont tu as besoin ?
+
+<CardGrid cols={2}>
+  <Card title="Automatisation et emploi" kicker="métiers remplacés" tone="signal">
+
+  - Ouvriers de chaîne et préparateurs de commandes, par des robots autonomes.
+  - Agents de centre d'appels et support de premier niveau, par des chatbots et assistants vocaux.
+  - Transport, par des camions autonomes et des drones ou robots de livraison.
+  - Inspecteurs industriels, par la vision par ordinateur et les drones.
+
+  </Card>
+  <Card title="Dépendance" kicker="abonnements" tone="default">
+
+  - On s'abonne à beaucoup d'outils qu'on ne possède pas.
+  - Certaines technologies sont devenues indispensables, comme le smartphone.
+
+  </Card>
+</CardGrid>
+
+Le marché du travail change en profondeur au contact des nouvelles technologies, et les compétences nécessaires pour rester compétitif changent avec lui.
+
+## Les promesses de l'innovation
+
+<CardGrid cols={2}>
+  <Card title="Santé" kicker="01" tone="synapse">Technologies médicales avancées, meilleurs diagnostics et traitements, télémédecine.</Card>
+  <Card title="Travail et économie" kicker="02" tone="synapse">Télétravail, outils de collaboration, continuité d'activité en temps de crise.</Card>
+  <Card title="Connectivité" kicker="03" tone="synapse">Accès à l'information partout dans le monde, communication globale.</Card>
+  <Card title="Maison connectée" kicker="04" tone="synapse">Les objets automatisent les tâches du quotidien, améliorent le confort, peuvent réduire la consommation d'énergie.</Card>
+</CardGrid>
+
+### L'impact environnemental
+
+<Compare leftTitle="Effets positifs" rightTitle="Effets négatifs">
+  <Fragment slot="left">
+    - Moins de papier (documents numériques)
+    - Moins de déplacements (communication en ligne, télétravail)
+    - Consommation d'énergie optimisée
+    - Soutien aux énergies renouvelables
+  </Fragment>
+  <Fragment slot="right">
+    - Consommation d'énergie des datacenters
+    - Pollution des appareils électroniques
+    - Contribution au changement climatique
+  </Fragment>
+</Compare>
+
+## La vie demain
+
+<Compare leftTitle="Pour" rightTitle="Contre">
+  <Fragment slot="left">
+    - Des assistants IA qui libèrent du temps en prenant les tâches répétitives
+    - Chirurgie robotique, diagnostic par IA, capteurs portés
+    - Des « smart cities » et maisons connectées qui facilitent la vie
+    - Des systèmes autonomes qui transforment le transport et accélèrent les secours
+  </Fragment>
+  <Fragment slot="right">
+    - Un état de surveillance permanent
+    - Si l'IA décide, on peut perdre l'humanité de certaines décisions
+    - Tout dans le cloud : une cyberattaque ou une panne électrique géante peut paralyser un pays
+    - Plus connectés, mais plus seuls, accros à des interfaces conçues pour la dopamine
+  </Fragment>
+</Compare>
+
+<Quiz question="Quel risque relie la panne d'us-east-1, les terres rares et Cambridge Analytica ?" options={["Le coût élevé de la technologie", "La concentration : quelques acteurs dont dépendent entreprises, États et citoyens", "La lenteur de l'innovation", "Le manque de réglementation en Chine"]} answer={1}>
+  Une région cloud, un pays raffineur, une plateforme qui détient les données : à chaque fois, un point unique dont dépend une foule d'acteurs. C'est le fil rouge de l'exposé, le pouvoir de la tech vient de cette dépendance.
+</Quiz>
+
+## Conclusion des exposants
+
+Les entreprises de la tech jouent un rôle majeur : leurs produits sont utilisés par presque tout le monde, ce qui accroît leur pouvoir sur les citoyens, par les réseaux sociaux comme par la technologie. Elles pèsent aussi sur les États et les entreprises qui dépendent d'elles pour le cloud ou la technologie militaire. **L'avenir des citoyens sera étroitement lié à la technologie et aux décisions de quelques grandes entreprises.**
+
+## À retenir
+
+<Takeaways>
+1. **La tech industry** crée et contrôle logiciels, plateformes, cloud, IA et puces ; quelques acteurs dominent chaque domaine.
+2. **Le regard a changé** : de la peur des machines (Metropolis, Terminator) aux règles d'Asimov, puis à l'opportunité (Kurzweil).
+3. **La dépendance fait le pouvoir** : une panne cloud arrête des milliers d'entreprises, les matières premières et les puces sont des enjeux géopolitiques.
+4. **Les algorithmes** optimisent l'engagement : ils peuvent abîmer les émotions, façonner les opinions et servir l'influence politique (Cambridge Analytica).
+5. **L'avenir est ambivalent** : santé, travail et confort d'un côté ; surveillance, emplois remplacés et fragilité d'un monde tout cloud de l'autre.
+</Takeaways>

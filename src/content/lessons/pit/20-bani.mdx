@@ -1,0 +1,208 @@
+---
+title: Quelle stratégie IT dans un monde post-VUCA, désormais BANI ?
+subtitle: POV 20 · Hugo Spyropoulos et Henri-Gabriel Dongmo
+subject: pit
+session: 20
+description: "Pourquoi le monde est passé de VUCA à BANI, pourquoi chaque choc finit sur le SI, et comment une DSI résiste : quatre stratégies de risque, trois capacités (absorber, recomposer, apprendre)."
+tags: [BANI, VUCA, résilience, minimum viable company, multisourcing, antifragilité, DORA]
+objectives:
+  - Expliquer le passage de VUCA à BANI et ce qu'il change pour la stratégie IT.
+  - Expliquer pourquoi tout choc, quelle que soit sa nature, atterrit sur le SI.
+  - Choisir une stratégie de risque par risque (éviter, accepter et préparer, absorber, s'adapter).
+  - Décrire les trois capacités d'un SI résilient (absorber, recomposer, apprendre).
+  - Évaluer le coût de la résilience face à ce qu'elle protège.
+sources:
+  - label: Exposé POV 20 « Which IT strategy for the company in a post-VUCA, now-BANI world? » — Hugo Spyropoulos et Henri-Gabriel Dongmo, EPITA SIGL 2027 (2026)
+  - label: Jamais Cascio, « Facing the Age of Chaos » (2020)
+    url: https://medium.com/@cascio/facing-the-age-of-chaos-b00687b1f51d
+  - label: ISO 31000:2018, « Management du risque — Lignes directrices »
+    url: https://www.iso.org/standard/65694.html
+  - label: Netflix Technology Blog, « The Netflix Simian Army » (2011)
+    url: https://netflixtechblog.com/the-netflix-simian-army-16e57fbab116
+  - label: Nassim Nicholas Taleb, « Antifragile » (2012)
+updated: 2026-10-25
+---
+
+Incendie de datacenter, faille logicielle mondiale, mise à jour qui paralyse des millions de machines, guerre, nouvelle réglementation, modèles d'IA chinois qui cassent les prix : ces chocs n'ont rien en commun, sauf leur point d'arrivée, **le système d'information**. Ce POV demande : **quelle stratégie IT adopter quand le monde n'est plus seulement instable, mais fracturé ?**
+
+<Callout type="note" title="Un exposé d'étudiants, pas un cours magistral">
+  Les chiffres et événements ci-dessous sont ceux de l'exposé, présenté en 2026 ; ils sont restitués tels quels. Quand un point mérite d'être corrigé ou nuancé, un encadré « pour aller plus loin » le signale.
+</Callout>
+
+Les exposants ouvrent sur un mème connu : deux boutons, « Bon week-end » et « Déployer en prod un vendredi ». Trois objectifs : comprendre **pourquoi le monde est passé de VUCA à BANI** et pourquoi chaque menace atterrit sur le SI, connaître **les quatre stratégies de risque et les trois capacités** qui font survivre un SI, et savoir **qui peut aider** à construire cette résilience.
+
+## Le monde BANI
+
+### Tout devient une menace
+
+<CardGrid cols={3}>
+  <Card title="OVHcloud" kicker="2021" tone="default">L'incendie d'un datacenter.</Card>
+  <Card title="Log4Shell" kicker="2021" tone="default">Une faille dans une bibliothèque présente partout.</Card>
+  <Card title="CrowdStrike" kicker="2024" tone="default">Une mise à jour qui fait tomber des millions de machines.</Card>
+  <Card title="Guerres en cours" kicker="géopolitique" tone="default">Routes, énergie, sanctions.</Card>
+  <Card title="Règlement DORA" kicker="2023" tone="default">De nouvelles obligations de résilience pour la finance.</Card>
+  <Card title="Modèles chinois" kicker="DeepSeek, GLM" tone="default">Une concurrence qui casse les prix de l'IA.</Card>
+</CardGrid>
+
+Ce ne sont pas des incidents IT isolés : c'est un seul monde, et tout frappe les DSI. Selon les exposants, **plus de 70 % des DSI placent la gestion des risques au-dessus de l'innovation pure**.
+
+### De VUCA à BANI
+
+<Compare leftTitle="VUCA · années 1990, armée américaine" rightTitle="BANI · 2020, Jamais Cascio">
+  <Fragment slot="left">
+    Un monde **turbulent mais encore prévisible**. On accumule des données, on planifie, on **analyse pour prédire**.
+  </Fragment>
+  <Fragment slot="right">
+    Un monde **fracturé** : causes et effets se séparent. On **conçoit pour absorber**, pas pour prédire.
+  </Fragment>
+</Compare>
+
+| VUCA | Ce qui change | BANI |
+| --- | --- | --- |
+| Volatilité | des variations qu'on ne peut plus amortir | **Brittle** (fragile) |
+| Incertitude | des signaux auxquels on ne peut plus se fier | **Anxious** (anxieux) |
+| Complexité | des chaînes sans proportion entre cause et effet | **Non-linear** (non linéaire) |
+| Ambiguïté | des événements qu'on ne sait plus lire | **Incomprehensible** |
+
+<KeyIdea>VUCA : analyser pour prédire. BANI : concevoir pour absorber.</KeyIdea>
+
+### Le spectre des menaces
+
+Les menaces BANI sont polymorphes, mais elles atterrissent toutes sur l'IT.
+
+<CardGrid cols={3}>
+  <Card title="Géopolitiques" kicker="01" tone="default">Détroits bloqués, contrôles à l'export, droits de douane.</Card>
+  <Card title="Techniques" kicker="02" tone="default">Pannes de cloud et de SaaS, cyberattaques.</Card>
+  <Card title="Réglementaires" kicker="03" tone="default">DORA, NIS2, RGPD, AI Act.</Card>
+  <Card title="Physiques et énergie" kicker="04" tone="default">Incendie de datacenter, pression énergétique.</Card>
+  <Card title="Concurrentielles" kicker="05" tone="default">Prix des télécoms cassés, IA open source.</Card>
+  <Card title="Un seul point d'arrivée" kicker="le SI" tone="signal">Tout devient une menace, et tout atterrit sur l'IT.</Card>
+</CardGrid>
+
+### Pourquoi tout atterrit sur le DSI
+
+<Steps>
+1. **Les entreprises tournent sur du SaaS, des hyperscalers et de l'IA** : quand ils s'arrêtent, l'entreprise s'arrête.
+2. **La réglementation devient de la donnée** : de nouveaux champs, de nouveaux reportings, des pénalités en cas de retard.
+3. **La géopolitique devient de la simulation** : dérouter le navire ? changer de fournisseur ? trois mois de délai en plus ? C'est le SI qui calcule.
+</Steps>
+
+Le SI n'est plus un support : c'est là que chaque choc est absorbé et simulé.
+
+### Qui est concerné
+
+Chaque secteur rencontre BANI sous un visage différent. Les exposants prennent quatre fleurons français, un par dimension.
+
+<CardGrid cols={2}>
+  <Card title="BNP Paribas · Brittle" kicker="banque" tone="default">Sous DORA, aucune tolérance à l'interruption.</Card>
+  <Card title="SNCF · Anxious" kicker="transport" tone="default">Opérations en temps réel, fatigue des alertes.</Card>
+  <Card title="Renault · Non-linear" kicker="automobile" tone="default">Véhicule défini par logiciel, mises à jour OTA à l'échelle d'une flotte.</Card>
+  <Card title="Orange · Incomprehensible" kicker="télécoms" tone="default">Réseaux virtualisés, contraintes de souveraineté.</Card>
+</CardGrid>
+
+## Quatre stratégies de risque
+
+On ne peut pas tout esquiver : il faut choisir, **risque par risque**, la stratégie qu'on joue. Les exposants placent les risques selon leur **impact métier** et leur **probabilité**.
+
+<CardGrid cols={2}>
+  <Card title="Éviter" kicker="impact fort · probabilité faible" tone="signal">Sortir de la dépendance avant qu'elle ne frappe.</Card>
+  <Card title="Accepter et préparer" kicker="impact fort · probabilité forte" tone="signal">Planifier dès maintenant le mode dégradé.</Card>
+  <Card title="Absorber" kicker="impact faible · probabilité faible" tone="default">Encaisser le coup et continuer de tourner.</Card>
+  <Card title="S'adapter" kicker="impact faible · probabilité forte" tone="default">Se reconfigurer vite quand les règles changent.</Card>
+</CardGrid>
+
+<DeepDive title="Une matrice qui s'écarte de la lecture classique" level="approfondissement">
+  Dans une matrice de risques classique, on **évite** (on supprime l'activité ou la dépendance) d'abord ce qui est à la fois très probable et très grave, et on **accepte** ce qui est peu probable et peu grave. La matrice de l'exposé place « éviter » sur l'improbable grave et « accepter et préparer » sur le probable grave : sa logique est que ce qui va très probablement arriver ne peut plus être évité, seulement préparé. L'ISO 31000 parle, elle, de **traitement du risque** : refuser le risque, le réduire (sur la probabilité ou l'impact), le partager (assurance, contrat, second fournisseur) ou le conserver en connaissance de cause. Quel que soit le vocabulaire, l'idée de l'exposé tient : une stratégie par risque, pas une posture unique.
+</DeepDive>
+
+## Trois capacités d'un SI qui survit
+
+### 1. Absorber : la minimum viable company
+
+<Callout type="definition" title="Minimum viable company (MVC)">
+  Selon KPMG : « la plus petite version possible de votre organisation qui peut encore fonctionner et servir ses clients quand une partie des systèmes est en panne ».
+</Callout>
+
+La MVC, c'est la version de ton entreprise qui survit quand tout le reste est tombé : ce qui doit continuer à tourner en mode dégradé. La leçon d'OVHcloud, selon les exposants : l'option existait, personne ne l'avait cochée.
+
+### 2. Recomposer : ne jamais dépendre d'un seul
+
+- **Multisourcing** : deux fournisseurs par brique critique.
+- **Réversibilité** : négociée avant de signer, avec des plans de sortie et la portabilité des données.
+
+| Option souveraine | État |
+| --- | --- |
+| BNP Paribas × IBM | Zone dédiée visée pour 2028 |
+| S3NS (Thales × Google) | Certifiée SecNumCloud |
+| Bleu (Orange × Capgemini) | En cours |
+
+<KeyIdea>La sortie se conçoit le premier jour, pas pendant la crise.</KeyIdea>
+
+### 3. Apprendre : l'antifragilité
+
+Nassim Taleb : « le fragile casse, le robuste résiste, l'**antifragile** se renforce sous le choc ». En IT, cela passe par les **budgets d'erreur** et les **postmortems sans reproche** : chaque panne devient une donnée d'entraînement. Les exposants illustrent avec la **Simian Army** de Netflix, une armée de « singes » qui provoquent volontairement des pannes en production.
+
+<DeepDive title="La Simian Army, singe par singe" level="terrain">
+  Netflix a présenté sa Simian Army en 2011, après sa migration vers AWS. **Chaos Monkey** éteint au hasard des instances de production ; **Chaos Gorilla** simule la perte de toute une zone de disponibilité (et **Chaos Kong**, ajouté ensuite, celle d'une région entière) ; **Latency Monkey** injecte de la latence ; **Conformity**, **Doctor**, **Janitor** et **Security Monkey** traquent les instances non conformes, en mauvaise santé, inutilisées ou vulnérables. Le principe : si une panne doit arriver, autant qu'elle arrive un mardi à 10 h, quand l'équipe est là pour apprendre.
+</DeepDive>
+
+Le but n'est pas zéro incident, mais **un SI qui se renforce à chaque incident**.
+
+<Quiz question="Une entreprise a tout migré chez un seul hyperscaler, avec une redondance multi-zones parfaite. Quelle capacité BANI lui manque surtout ?" options={["Absorber : elle n'a pas de mode dégradé", "Recomposer : elle dépend d'un seul fournisseur, sans sortie préparée", "Apprendre : elle ne fait pas de postmortems", "Aucune : le multi-zones suffit"]} answer={1}>
+  Le multi-zones protège d'une panne **à l'intérieur** du fournisseur, pas d'une rupture **avec** lui (prix, sanctions, panne globale, droit étranger). Le piège : confondre redondance technique et indépendance.
+</Quiz>
+
+## Passer à l'exécution
+
+« Si je suis Danone, je fais des yaourts : qui construit ma MVC ? » La MVC reste une théorie ; des cabinets et des outils l'industrialisent.
+
+<CardGrid cols={2}>
+  <Card title="Conseil" kicker="cabinets" tone="default">KPMG, PwC, Deloitte, Wavestone.</Card>
+  <Card title="Outillage" kicker="par besoin" tone="default">
+
+  - **GRC** : IBM, LogicGate
+  - **Chaîne d'approvisionnement** : Interos.ai, Everstream Analytics
+  - **Cyber et MVC** : Cohesity, Veeam
+  - **Chaos engineering** : Gremlin
+
+  </Card>
+</CardGrid>
+
+### Forces et coûts
+
+<Compare leftTitle="Forces" rightTitle="Coûts">
+  <Fragment slot="left">
+    - Survie sous le choc
+    - Conformité DORA et NIS2 intégrée
+    - Une vitesse d'innovation durable
+  </Fragment>
+  <Fragment slot="right">
+    - Un CapEx initial plus élevé
+    - Une architecture plus complexe
+    - Un time-to-market peut-être plus lent
+  </Fragment>
+</Compare>
+
+<KeyIdea>La résilience est une prime d'assurance, calculée face à des pertes asymétriques.</KeyIdea>
+
+## Le point de vue des exposants
+
+<Steps>
+1. **Dans un monde BANI, l'efficacité sans résilience est une dette cachée.**
+2. **La résilience doit être calibrée sur le risque, pas maximaliste** : protéger le critique, accepter le reste.
+3. **Les gagnants traitent chaque choc comme une donnée d'entraînement.**
+</Steps>
+
+« Trop cher » ? Une seule panne mondiale efface des années d'économies marginales.
+
+**Leur réponse** : dans un monde BANI, la stratégie IT gagnante n'est pas la moins chère, c'est celle qui **absorbe, recompose et apprend**. Résilience calibrée sur le risque, souveraineté sur le critique, apprentissage continu : la prochaine décennie appartient aux entreprises qui s'entraînent sur leurs chocs. **La résilience n'est pas l'ennemie de la performance, c'en est la condition.**
+
+## À retenir
+
+<Takeaways>
+1. **VUCA → BANI** : d'un monde turbulent mais prévisible (analyser pour prédire) à un monde fracturé (concevoir pour absorber).
+2. **Tout atterrit sur le SI** : l'entreprise tourne sur le SaaS et le cloud, la réglementation devient de la donnée, la géopolitique devient de la simulation.
+3. **Une stratégie par risque** : éviter, accepter et préparer, absorber ou s'adapter, selon l'impact et la probabilité.
+4. **Trois capacités** : absorber (minimum viable company), recomposer (multisourcing, réversibilité, options souveraines), apprendre (antifragilité, postmortems, chaos engineering).
+5. **La résilience est une assurance** calibrée sur le critique : plus chère au départ, rentable à la première panne mondiale.
+</Takeaways>

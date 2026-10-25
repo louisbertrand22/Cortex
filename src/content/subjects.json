@@ -79,10 +79,10 @@
     "id": "pit",
     "title": "Perspective IT",
     "short": "PIT",
-    "description": "Les points de vue des étudiants SIGL sur l'actualité de l'IT : IA après les LLM, ITIL face à l'agilité, méga-datacenters, retour du hardware.",
+    "description": "Les points de vue des étudiants SIGL sur l'actualité de l'IT : guerre de l'IA, ITIL, AIOps, vendor lock-in, résilience, datacenters, retour du hardware.",
     "domain": "autre",
     "accent": "signal",
     "order": 6,
-    "plannedSessions": 19
+    "plannedSessions": 24
   }
 ]

@@ -1,0 +1,254 @@
+---
+title: Les nouveaux eldorados du vendor lock-in ?
+subtitle: POV 18 · Alexandre Girold et Maxime Himeno
+subject: pit
+session: 18
+description: "Ce qu'est le vendor lock-in, ses quatre leviers, où il prospère aujourd'hui (cloud, ERP, MedTech, terminaux financiers), pourquoi l'IA générative est le prochain piège, et comment s'en protéger."
+tags: [vendor lock-in, cloud, portabilité, Data Act, IA générative, souveraineté, réversibilité]
+objectives:
+  - Définir le vendor lock-in et distinguer ses quatre leviers (technique, données, contractuel, écosystème).
+  - Retracer l'évolution de sa logique, du mainframe au cloud.
+  - Comparer la position des États-Unis, de l'Union européenne, de la Chine et de l'Inde.
+  - Expliquer pourquoi l'IA générative enferme plus profondément qu'un logiciel classique.
+  - Appliquer les règles d'or pour décider si une dépendance est acceptable.
+sources:
+  - label: Exposé POV 18 « Les nouveaux el-dorado du Vendor Lock-in ? » — Alexandre Girold et Maxime Himeno, EPITA SIGL 2026 (avril 2026)
+  - label: Broadcom, « VMware by Broadcom Business Transformation » (11 décembre 2023)
+    url: https://news.broadcom.com/news/vmware-by-broadcom-business-transformation
+  - label: Microsoft, « The next chapter of the Microsoft–OpenAI partnership » (28 octobre 2025)
+    url: https://blogs.microsoft.com/blog/2025/10/28/the-next-chapter-of-the-microsoft-openai-partnership/
+  - label: Commission européenne, ouverture d'enquêtes de marché sur le cloud au titre du DMA (18 novembre 2025)
+    url: https://ec.europa.eu/commission/presscorner/home/en
+  - label: Règlement (UE) 2023/2854 (Data Act), chapitre VI et article 29 sur les frais de changement
+    url: https://eur-lex.europa.eu/eli/reg/2023/2854/oj
+updated: 2026-10-25
+---
+
+On parle beaucoup de souveraineté et de multicloud, mais la plupart des entreprises découvrent leur dépendance le jour où elles veulent partir. Ce POV pose la question : **où le vendor lock-in prospère-t-il aujourd'hui, et quels seront ses prochains eldorados ?** Il le définit, fait le tour des domaines et des régions où il est le plus fort, montre pourquoi l'IA générative pousse le piège plus loin, et propose des règles pour s'en protéger.
+
+<Callout type="note" title="Un exposé d'étudiants, pas un cours magistral">
+  Les chiffres et événements ci-dessous sont ceux de l'exposé, présenté en avril 2026 ; ils sont restitués tels quels. Quand un point mérite d'être corrigé ou nuancé, un encadré « pour aller plus loin » le signale.
+</Callout>
+
+## Qu'est-ce que le vendor lock-in ?
+
+<Callout type="definition" title="Vendor lock-in">
+  La situation où l'on est obligé de continuer à utiliser un produit ou un service, quelle que soit sa qualité, parce qu'en changer n'est pas réaliste.
+</Callout>
+
+L'image des exposants : passer d'un iPhone à Android. Rien ne l'interdit, mais tout ce qui a été construit autour (applications, données, habitudes) rend le départ coûteux.
+
+<KeyIdea>Le lock-in ne commence pas le jour où tu décides de partir : il commence le jour où tu choisis un outil sans penser à ta stratégie de sortie.</KeyIdea>
+
+### Quatre leviers, un piège
+
+<CardGrid cols={2}>
+  <Card title="Technique" kicker="01" tone="default">Dépendance à des technologies, API, outils ou formats **propriétaires**.</Card>
+  <Card title="Données" kicker="02" tone="default">Les données sont difficiles à **exporter, transformer ou réutiliser** hors de la plateforme.</Card>
+  <Card title="Contractuel" kicker="03" tone="default">Changer coûte cher **juridiquement, financièrement ou contractuellement**.</Card>
+  <Card title="Écosystème" kicker="04" tone="default">Plusieurs produits et intégrations dépendent **du même écosystème** de fournisseur.</Card>
+</CardGrid>
+
+### Trois exemples, un résultat : impossible de partir
+
+<CardGrid cols={3}>
+  <Card title="VMware" kicker="contractuel + technique" tone="signal">
+
+  - Plus de 20 ans dans les infrastructures ; l'hyperviseur ESXi détient **~72 %** du marché sur site (IDC, 2024).
+  - Fin des licences perpétuelles, passage forcé à l'abonnement (novembre 2023).
+  - Hausses de prix de **+300 %** rapportées ; 88 % des DSI jugent le changement perturbant.
+
+  </Card>
+  <Card title="Salesforce" kicker="données" tone="signal">
+
+  - CRM n°1 mondial (**~21 %** de part de marché), objets propriétaires personnalisés dans tous les processus.
+  - L'export natif se limite à des CSV bruts : ni relations, ni automatisations, ni métadonnées.
+  - Les données à forte valeur (scoring Einstein, pistes d'audit) ne s'exportent pas du tout.
+
+  </Card>
+  <Card title="Microsoft" kicker="écosystème" tone="signal">
+
+  - M365, Teams, SharePoint, Entra ID, Azure, Power Platform et Copilot deviennent les outils du quotidien.
+  - Partir, c'est remplacer documents, communication, identité, workflows, cloud et IA.
+  - La dépendance passe d'un logiciel à tout un écosystème d'entreprise.
+
+  </Card>
+</CardGrid>
+
+<DeepDive title="VMware : la date exacte de la bascule" level="approfondissement">
+  Novembre 2023 est la date de la **finalisation du rachat** de VMware par Broadcom (22 novembre). La fin des licences perpétuelles et le passage aux abonnements groupés ont été annoncés quelques semaines plus tard, le **11 décembre 2023**. L'enchaînement montre bien le mécanisme : un acquéreur rachète une base installée captive, puis change les conditions.
+</DeepDive>
+
+## Le vendor lock-in dans l'histoire
+
+La logique a connu trois phases, et deux grands basculements.
+
+<Pipeline steps={[
+  { title: "Phase physique", caption: "« Leur infrastructure est figée, je suis tranquille. »", detail: "1965, IBM System/360 : du logiciel écrit pour un mainframe. Migrer voulait dire réécrire des millions de lignes de code.", tone: "default" },
+  { title: "Phase commerciale", caption: "« Entrée à perte, revenu récurrent premium. »", detail: "1995, Microsoft Office et le .doc : la valeur vient du nombre d'utilisateurs, quitter le standard isole. Protocoles propriétaires.", tone: "default" },
+  { title: "Phase technique", caption: "« L'intégration profonde rend la sortie coûteuse. »", detail: "2012, les fournisseurs cloud : frais élevés pour sortir les données, applications bâties sur des services qui n'existent que chez un cloud, et une masse de données trop lente ou trop chère à déplacer.", tone: "signal" }
+]} />
+
+<KeyIdea>La valeur d'un client ne se mesure plus à ce qu'il achète, mais à l'impossibilité pour lui de partir.</KeyIdea>
+
+## Les eldorados actuels
+
+<CardGrid cols={2}>
+  <Card title="Cloud" kicker="dépense publique 2025 : 723,4 Md$ (Gartner)" tone="signal">Leaders : AWS, Azure, Google Cloud. Services managés, API, IAM et outils propriétaires sont profondément intégrés ; migrer les données est lent et coûteux.</Card>
+  <Card title="ERP et systèmes cœur" kicker="marché ERP : 66 Md$ (Gartner 2024)" tone="signal">Oracle, SAP, Microsoft. Les processus cœur et les données de référence vivent dans le système : le remplacer menace la continuité de l'activité.</Card>
+  <Card title="MedTech" kicker="Intuitive Surgical, Illumina, Elekta" tone="default">Appareil et logiciel sont **validés et réglementés ensemble** : changer de fournisseur peut déclencher une revalidation, une recertification et une reformation.</Card>
+  <Card title="Terminaux financiers" kicker="Bloomberg, Refinitiv Eikon, FactSet" tone="default">Traders et analystes construisent leurs habitudes, raccourcis et circuits de communication autour de la plateforme : les alternatives sont difficiles à adopter.</Card>
+</CardGrid>
+
+## Où le lock-in prospère, où il est contenu
+
+Les exposants comparent quatre pôles.
+
+### Les États-Unis : le lock-in conçu et exporté
+
+- **63 %** du cloud mondial contrôlé par AWS, Azure et GCP.
+- Des services **sans équivalent portable** : DynamoDB, BigQuery, Lambda.
+- **100 000 à 500 000 $** de crédits cloud offerts aux startups créent une dépendance dès le premier jour.
+- Aucune règle dédiée : pas de droit au changement, pas d'interdiction des frais de sortie, pas d'obligation de portabilité. La FTC a documenté le problème (consultation cloud en 2023, étude IA en janvier 2025) sans imposer de remède, et les parts de marché des hyperscalers ont continué de croître (+2 points en 2024).
+
+**Pour l'entreprise** : les acteurs américains sont libres de concevoir des architectures captives. Si tu achètes un service américain pour un usage américain, ta protection doit être **contractuelle et architecturale**, pas réglementaire.
+
+### L'Union européenne : le paradoxe
+
+<CardGrid cols={3}>
+  <Card title="Un marché captif" kicker="01" tone="default">**70 %** du cloud européen chez AWS, Azure et GCP ; **13 %** pour l'ensemble des fournisseurs européens ; **83 %** des dépenses cloud et logiciel partent vers des entreprises américaines.</Card>
+  <Card title="Le premier régulateur anti-lock-in" kicker="02" tone="synapse">Data Act (septembre 2025) : droit au changement, fin des frais de sortie, portabilité obligatoire. **Effet Bruxelles** : AWS et Microsoft ont étendu ces standards au monde entier pour éviter deux modèles de conformité.</Card>
+  <Card title="Un lock-in par la conformité" kicker="03" tone="amber">SecNumCloud, C5, ENS réduisent le choix à 4 ou 5 fournisseurs ; RGPD, NIS2, DORA et AI Act renforcent les hyperscalers, seuls à absorber les coûts de conformité.</Card>
+</CardGrid>
+
+**Le paradoxe** : une réglementation pensée pour libérer devient un nouveau vecteur d'enfermement. Les parts de marché n'ont pas encore bougé (SAP reste autour de 2 % dans le cloud). Les exposants citent aussi le **DMA**, au titre duquel AWS et Azure sont examinés comme contrôleurs d'accès potentiels.
+
+**Pour l'entreprise** : tu as des droits, alors exige des clauses de changement et conteste les frais de sortie. Dans les secteurs régulés (santé, finance, défense), les certifications de souveraineté restreignent ton choix : intègre-les tôt à ta stratégie.
+
+<DeepDive title="DMA et Data Act : les dates exactes" level="approfondissement">
+  L'exposé date l'enquête DMA de « novembre 2026 », ce qui est impossible pour une présentation d'avril 2026 : la Commission européenne a ouvert ses **enquêtes de marché sur AWS et Azure le 18 novembre 2025**, pour savoir s'ils doivent être désignés contrôleurs d'accès pour le cloud. Côté Data Act, les obligations s'appliquent depuis le 12 septembre 2025, mais la suppression des frais de changement est progressive : jusqu'au **12 janvier 2027**, les fournisseurs peuvent encore facturer ces frais au coût réel ; ils sont interdits ensuite.
+</DeepDive>
+
+### La Chine : un lock-in souverain organisé par l'État
+
+- Un système fortement isolé : le **Grand Firewall** bloque Google, Facebook, YouTube, ChatGPT ; la **localisation des données** est stricte (PIPL, 2021).
+- Un lock-in planifié : Alibaba Cloud **~37 %**, Huawei **~18 %**, Tencent **~16 %**, moins de 5 % pour les étrangers. Une **interopérabilité forcée** entre acteurs nationaux depuis 2021 (Alibaba et Tencent doivent s'ouvrir l'un à l'autre).
+- Des tensions : la reprise en main de 2020-2022 a effacé **1 500 Md$** de valorisation ; toute entreprise devenue trop puissante est recadrée par l'État. Les succès mondiaux (TikTok, DeepSeek, BYD) déclenchent des réactions à l'étranger.
+
+**Pour l'entreprise** : opérer en Chine, c'est une pile séparée, **+30 à 50 %** de coûts IT, sans les outils occidentaux habituels. Choisir un fournisseur local est autant politique que technique, et toute donnée qui entre en Chine relève du PIPL, potentiellement accessible à l'État.
+
+### L'Inde : une double stratégie (en annexe)
+
+<Compare leftTitle="Un bâtisseur d'anti-lock-in public" rightTitle="Un marché captif du lock-in occidental">
+  <Fragment slot="left">
+    - **Aadhaar** : identité biométrique de 1,4 milliard de personnes, API publique.
+    - **UPI** (NPCI) : 14 milliards de transactions par mois, une infrastructure de paiement à but non lucratif.
+    - **ONDC** : un réseau ouvert pour casser le duopole Amazon/Flipkart.
+    - Le modèle d'infrastructure publique numérique est adopté ou étudié par plus de 50 pays.
+  </Fragment>
+  <Fragment slot="right">
+    - AWS, Azure et GCP détiennent **~65 %** du cloud ; le SaaS d'entreprise est dominé par les Américains.
+    - 2,2 millions d'ingénieurs IT, **n°1 mondial** des certifications AWS, Azure et Salesforce : l'Inde propage aussi le lock-in.
+    - DPDP Act (2023) : un premier vrai cadre de protection des données, déployé progressivement.
+  </Fragment>
+</Compare>
+
+**Pour l'entreprise** : en B2C ou avec le secteur public indien, s'appuyer sur l'India Stack est un avantage ; en B2B, ce sont les mêmes hyperscalers qu'ailleurs. Le DPDP Act va mûrir vite : anticipe les obligations de localisation.
+
+<Quiz question="Pourquoi les exposants parlent-ils d'un « paradoxe européen » ?" options={["Parce que l'UE n'a aucune réglementation sur le cloud", "Parce que ses règles anti-lock-in coexistent avec une conformité si coûteuse qu'elle renforce les plus gros fournisseurs", "Parce que les fournisseurs européens dominent le marché européen", "Parce que le Data Act interdit le multicloud"]} answer={1}>
+  L'UE est le régulateur anti-lock-in le plus offensif (Data Act, DMA), mais certifications et conformité réduisent le choix à quelques acteurs capables d'en absorber le coût, souvent les hyperscalers. Le piège : croire que plus de règles veut forcément dire plus de concurrence.
+</Quiz>
+
+## L'IA générative, le prochain grand piège
+
+Le lock-in de l'IA ne viendra pas seulement des API, mais de **toute la chaîne de valeur** : modèles, données, calcul, contrats, droits de propriété intellectuelle, outils d'évaluation, plateformes de déploiement, intégrations.
+
+<CardGrid cols={2}>
+  <Card title="Technique" kicker="01" tone="signal">**Avant** : migrer le code, les API, les connecteurs. **Avec l'IA** : tu perds aussi le réglage des prompts, le comportement propre au modèle, les agents et les workflows RAG.</Card>
+  <Card title="Données" kicker="02" tone="signal">**Avant** : exporter enregistrements et fichiers. **Avec l'IA** : embeddings, données de fine-tuning, bases vectorielles et mémoire ne se transfèrent pas proprement.</Card>
+  <Card title="Contrat et PI" kicker="03" tone="signal">**Avant** : prix et clauses de sortie. **Avec l'IA** : usage des sorties restreint, propriété des poids fine-tunés floue, droits du fournisseur sur tes données d'entraînement.</Card>
+  <Card title="Écosystème" kicker="04" tone="signal">**Avant** : dépendre d'une plateforme. **Avec l'IA** : dépendre du modèle **et** du cloud ; on migre l'intelligence.</Card>
+</CardGrid>
+
+### Microsoft et OpenAI : quand l'accès au modèle devient une dépendance au cloud
+
+<CardGrid cols={3}>
+  <Card title="Exclusivité de l'API sur Azure" kicker="01" tone="signal">L'API d'OpenAI est exclusive à Azure. Tu veux GPT dans ton produit ? Signe d'abord un contrat Azure.</Card>
+  <Card title="Droits exclusifs de PI" kicker="02" tone="signal">Microsoft a des droits sur la PI d'OpenAI (modèles et infrastructure) pour ses produits comme Copilot, jusqu'en 2030 selon l'annonce de janvier 2025.</Card>
+  <Card title="250 Md$ d'engagement Azure" kicker="03" tone="signal">OpenAI est elle-même liée contractuellement à l'infrastructure Azure : même le fournisseur est enfermé.</Card>
+</CardGrid>
+
+<KeyIdea>Pour l'IA, le lock-in est plus subtil et plus dangereux : dépendre d'une API, c'est plier ton architecture aux choix d'un seul fournisseur.</KeyIdea>
+
+<DeepDive title="Le partenariat Microsoft–OpenAI a changé en octobre 2025" level="approfondissement">
+  L'exposé mélange deux annonces. Celle de **janvier 2025** maintenait l'exclusivité de l'API sur Azure et les droits de PI de Microsoft jusqu'en 2030. Celle du **28 octobre 2025**, lors de la restructuration d'OpenAI, prolonge les droits de PI de Microsoft **jusqu'en 2032**, garde l'API sans état exclusive à Azure jusqu'à l'AGI, et c'est elle qui ajoute l'engagement d'OpenAI d'acheter **250 Md$** de services Azure, en échange de la fin du droit de préemption de Microsoft sur le calcul d'OpenAI.
+</DeepDive>
+
+## Gagnants et perdants
+
+<CardGrid cols={3}>
+  <Card title="Perdants" kicker="PME, secteur public" tone="danger">Pas de sortie, peu de levier (sauf l'État). *Exemple : les clients VMware, prix +300 %.*</Card>
+  <Card title="Moins exposés" kicker="startups, grands comptes, acheteurs inattentifs" tone="amber">Par la vitesse, la valeur ou l'ignorance. *Exemple : la startup native AWS qui grandit vite.*</Card>
+  <Card title="Gagnants" kicker="éditeurs, fonds, acquéreurs" tone="synapse">Un revenu captif. *Exemple : Microsoft Cloud, 36,8 Md$ au T4 de l'exercice 2024, +21 % sur un an.*</Card>
+</CardGrid>
+
+## Faut-il toujours éviter le lock-in ?
+
+<Compare leftTitle="Raisons de l'accepter" rightTitle="Risques">
+  <Fragment slot="left">
+    - Time-to-market plus court
+    - Développeurs plus productifs
+    - Un écosystème fort
+    - Une infrastructure et un support matures
+  </Fragment>
+  <Fragment slot="right">
+    - Portabilité réduite
+    - Coûts de changement élevés
+    - Dépendance stratégique
+    - Perte du pouvoir de négociation
+  </Fragment>
+</Compare>
+
+Pour trancher entre innovation et lock-in, les exposants posent quatre questions.
+
+<Figure caption="Réponds aux quatre questions des exposants : le verdict et les règles d'or à appliquer suivent.">
+  <LockInCheck />
+</Figure>
+
+<KeyIdea>L'innovation crée de la valeur ; le lock-in apparaît quand cette valeur crée une dépendance.</KeyIdea>
+
+### Les cinq règles d'or
+
+<Steps>
+1. **Concevoir la portabilité dès le premier jour.**
+2. **Garder la logique métier hors du fournisseur.**
+3. **Tester la portabilité régulièrement.**
+4. **Négocier la sortie avant de signer.**
+5. **Choisir l'open source pour les couches critiques.**
+</Steps>
+
+Le lock-in n'est évitable que si la portabilité est prévue avant que la dépendance grandisse.
+
+<Quiz question="Une équipe adopte un service managé propriétaire en sachant qu'il n'a pas d'équivalent ailleurs, avec un plan d'export documenté et testé. Pour les exposants, c'est…" options={["Du vendor lock-in, puisque le service est propriétaire", "Un choix d'innovation acceptable : la dépendance est intentionnelle et la sortie maîtrisée", "Interdit par le Data Act", "Sans risque, puisque tout cloud est portable"]} answer={1}>
+  Propriétaire ne veut pas dire piège : ce qui fait le lock-in, c'est une dépendance **subie** et une sortie **non maîtrisée**. Ici, le compromis est compris et la sortie est préparée.
+</Quiz>
+
+## Conclusion des exposants
+
+- Le vendor lock-in est devenu une **dépendance stratégique**, présente partout, du cloud aux données et jusqu'à l'IA.
+- Ses domaines les plus forts aujourd'hui : **cloud, ERP et systèmes cœur, MedTech, plateformes financières**.
+- Il repose sur **quatre leviers** : technique, données, contractuel, écosystème.
+- **L'IA générative est le prochain grand piège** : migrer touche désormais les prompts, les embeddings, le fine-tuning, les agents et les workflows, pas seulement le code et les données.
+- La réponse n'est pas de l'éviter à tout prix, mais **la lucidité et la régulation** : portabilité dès la conception, logique métier hors du fournisseur, tests de sortie réguliers, open source.
+
+**La seule question qui compte : peux-tu partir quand tu en as besoin ?**
+
+## À retenir
+
+<Takeaways>
+1. **Le lock-in commence au choix de l'outil**, pas au départ : sans stratégie de sortie, la dépendance s'installe dès le premier jour.
+2. **Quatre leviers** : technique (formats, API), données (export impossible), contractuel (coût de sortie), écosystème (tout dépend du même fournisseur).
+3. **Quatre pôles** : les États-Unis conçoivent et exportent le lock-in, l'UE régule mais reste captive, la Chine organise un lock-in souverain, l'Inde combine infrastructure publique ouverte et dépendance occidentale.
+4. **L'IA générative enferme plus profondément** : prompts, embeddings, agents et contrats sur les données ne migrent pas comme du code.
+5. **Le lock-in peut être un choix** s'il apporte de la valeur, reste intentionnel et garde une sortie maîtrisée.
+</Takeaways>

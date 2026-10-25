@@ -1,0 +1,371 @@
+---
+title: La guerre d'IA n'aura pas lieu ?
+subtitle: POV 01 · Reda Berrada-Allam et Sophie Magueur
+subject: pit
+session: 1
+description: "La guerre de l'IA est-elle réelle, une métaphore ou un récit ? Puces, souveraineté, frappes, propagande, agents contre agents, et ce que cela change pour la DSI : cinq règles sans regret."
+tags: [IA, géopolitique, souveraineté, puces, deepfakes, agents, prompt injection, DSI]
+objectives:
+  - Définir la guerre de l'IA (pour, par et entre les IA) et nommer ses quatre fronts.
+  - Distinguer les faits, la métaphore et le récit de levée de fonds.
+  - Évaluer quels secteurs sont exposés et par quelles portes d'entrée.
+  - Appliquer cinq règles sans regret pour une DSI, quel que soit le scénario.
+sources:
+  - label: Exposé POV 01 « La guerre d'IA n'aura pas lieu ? » — Reda Berrada-Allam et Sophie Magueur, EPITA SIGL 2027 (13 octobre 2026)
+  - label: OWASP, « Top 10 for LLM Applications 2025 », LLM01 Prompt Injection
+    url: https://genai.owasp.org/llmrisk/llm01-prompt-injection/
+  - label: Norman Angell, « The Great Illusion » (1910)
+  - label: C2PA, « Content Credentials » (spécification technique)
+    url: https://c2pa.org/specifications/
+updated: 2026-10-25
+---
+
+En 1935, Giraudoux met en scène Hector qui négocie pour que la guerre de Troie n'ait pas lieu ; tout le monde négocie, et quatre ans plus tard, le monde est en guerre. En 2026, tout le monde parle d'une « guerre de l'IA » : course à l'AGI, embargos sur les puces, images de guerre générées par IA, plus de 700 Md$ d'investissements. Personne ne la déclare. D'où la question de ce POV : **la guerre de l'IA est-elle réelle, métaphorique ou un simple récit, et qu'est-ce que cela change pour l'IT des entreprises, en Europe et ailleurs ?**
+
+<Callout type="note" title="Un exposé d'étudiants, pas un cours magistral">
+  Les chiffres et événements ci-dessous sont ceux de l'exposé, présenté le 13 octobre 2026 et appuyé sur la presse de 2025-2026 ; ils sont restitués tels quels, sans vérification indépendante. Quand un point mérite d'être nuancé, un encadré « pour aller plus loin » le signale.
+</Callout>
+
+Trois objectifs : **définir la guerre de l'IA** et nommer ses fronts, **séparer les faits du récit**, et **évaluer ce qu'elle change pour les entreprises**. Le plan suit une pièce en quatre actes : on construit la thèse (I et II), on la met en procès (III), on la ramène à l'entreprise (IV), puis on tranche.
+
+## Qu'appelle-t-on une « guerre de l'IA » ?
+
+Clausewitz (De la guerre, 1832) : « la guerre est la continuation de la politique par d'autres moyens ». Dans une guerre de l'IA, l'IA est **l'enjeu**, **l'arme** ou **le combattant**.
+
+<CardGrid cols={3}>
+  <Card title="La guerre POUR l'IA" kicker="acte I · l'enjeu" tone="signal">Puces, énergie, capital, données.</Card>
+  <Card title="La guerre PAR l'IA" kicker="acte II · l'arme" tone="signal">Frappes, cyber, propagande.</Card>
+  <Card title="La guerre ENTRE IA" kicker="acte II · le combattant" tone="signal">Agents contre agents.</Card>
+</CardGrid>
+
+Trois lectures possibles, mises à l'épreuve à l'acte III : **un simple récit** (une bulle racontée pour lever des fonds), **déjà là** (une guerre non déclarée sur plusieurs fronts), ou **une simple métaphore** (l'interdépendance maintient la paix). Quatre fronts seront jugés au verdict : **économique, technologique, informationnel, militaire**.
+
+## Acte I · La guerre annoncée : qui s'arme, et avec quoi ?
+
+### La course en chiffres
+
+<Figure caption="Investissements prévus pour 2026 après les résultats du T2 2026, en milliards de dollars (milieu de fourchette) · Source : exposé, d'après CNBC et Platformonomics">
+  <BarChart unit=" Md$" data={[
+    { label: "Amazon", value: 220, highlight: true },
+    { label: "Alphabet", value: 200 },
+    { label: "Microsoft", value: 175 },
+    { label: "Meta", value: 138 }
+  ]} />
+</Figure>
+
+Au total, **720 à 745 Md$** prévus en 2026 pour les quatre, contre environ 400 Md$ en 2025, plus les 500 Md$ promis pour Stargate (janvier 2025). Les **contrats circulaires** brouillent la question du vrai client : Nvidia investit dans OpenAI (~30 Md$, mars 2026), OpenAI achète du calcul à Oracle (~300 Md$ sur cinq ans), Oracle achète des GPU à Nvidia.
+
+Le cri de guerre (« course à l'AGI », « le gagnant rafle tout », rhétorique d'urgence nationale) justifie les budgets. Et il faudra bien rembourser : les abonnements « premium » d'Anthropic et d'OpenAI montent jusqu'à **10 fois** le prix de l'offre de base.
+
+### Le front des puces : peut-on mettre l'intelligence sous embargo ?
+
+<Steps>
+1. **Octobre 2022** : premiers contrôles américains à l'export sur les puces d'IA avancées.
+2. **2023-2024** : les Pays-Bas et le Japon s'alignent ; ASML a besoin de licences pour livrer la Chine.
+3. **Avril 2025** : la H20, la puce de Nvidia pour la Chine, est interdite.
+4. **Août 2025** : la H20 revient contre 15 % de commission pour Washington ; la H200 suit en décembre, contre 25 %.
+5. **Septembre 2025** : Pékin demande à ses entreprises d'arrêter d'acheter Nvidia et pousse Huawei Ascend.
+6. **Janvier 2026** : les douanes chinoises bloquent les H200 que Washington vient d'autoriser.
+</Steps>
+
+Environ **90 %** des puces les plus avancées sont fabriquées par TSMC, à Taïwan. Comme entre Hector et Ulysse, chaque accord est une trêve, pas une paix.
+
+<KeyIdea>L'embargo est devenu un péage : Washington fixe le prix, Pékin décide s'il achète.</KeyIdea>
+
+### La souveraineté comme arme
+
+Les États-Unis ont le capital, la Chine l'échelle, l'UE la norme. À qui obéissent tes données et tes modèles ?
+
+<CardGrid cols={2}>
+  <Card title="Le choc juridique" kicker="Cloud Act vs RGPD" tone="default">Le Cloud Act américain (2018) peut obliger un fournisseur américain à livrer des données stockées à l'étranger ; le RGPD restreint ces transferts.</Card>
+  <Card title="L'interrupteur" kicker="Fable 5, juin 2026" tone="danger">Selon l'exposé, un ordre américain d'export réserve le nouveau modèle d'Anthropic aux Américains. Faute de pouvoir vérifier la nationalité, Anthropic le coupe **pour tout le monde pendant 19 jours**.</Card>
+  <Card title="L'AI Act : reporté, pas annulé" kicker="calendrier" tone="default">En vigueur en août 2024 ; étiquetage des contenus IA (article 50) en août 2026 ; haut risque (scoring de crédit, recrutement, infrastructures critiques) en décembre 2027 ; haut risque dans les produits en août 2028.</Card>
+  <Card title="La contre-offensive européenne" kicker="2025-2026" tone="synapse">InvestAI (200 Md€), Cloud and AI Development Act (juin 2026), Mistral lève 3 Md€ à 21 Md€ de valorisation (septembre 2026).</Card>
+</CardGrid>
+
+<KeyIdea>La réglementation est aussi une arme : la juridiction est devenue une décision d'architecture.</KeyIdea>
+
+### Les forteresses du calcul
+
+<CardGrid cols={3}>
+  <Stat value="~10 GW" label="Stargate, le plus gros" hint="OpenAI, SoftBank, Oracle, MGX : 500 Md$ promis (janvier 2025), campus phare à Abilene, Texas" />
+  <Stat value="122 jours" label="Colossus (xAI), le plus rapide" hint="100 000 GPU à Memphis, alimentés par des turbines à gaz contestées" />
+  <Stat value="~30 Md€" label="Gigafactories IA, le plus européen ?" hint="Jusqu'à 7 gigafactories : appel de juillet 2026, sélection en 2027, mise en service vers 2028" />
+</CardGrid>
+
+L'électricité des datacenters passerait de **415 à ~945 TWh** entre 2024 et 2030 (AIE, scénario de base). En France, le Campus AI (MGX, Bpifrance, Mistral, Nvidia) part de 1,4 GW à Fouju pour viser 3 GW sur le territoire (juin 2026).
+
+<KeyIdea>À l'échelle du gigawatt, un datacenter n'est plus un bâtiment IT : en guerre, il devient une forteresse.</KeyIdea>
+
+## Acte II · La guerre déjà en cours : où partent les premiers tirs ?
+
+### L'IA comme arme
+
+<CardGrid cols={3}>
+  <Card title="États-Unis : l'IA classe les cibles" kicker="front militaire · frappes" tone="danger">
+    <Stat value="1 000+" label="cibles frappées en 24 h" />
+    Opération Epic Fury (à partir du 28 février 2026) : Maven, de Palantir, fusionne drones, satellites et radars ; Claude, intégré depuis 2024, aide à classer les cibles, même après la mise à l'index d'Anthropic.
+  </Card>
+  <Card title="Taïwan : des agents IA attaquent un État" kicker="front informationnel · cyber" tone="danger">
+    <Stat value="2 500+" label="dossiers du personnel public extraits" />
+    Juillet 2026 : des agents open source (OpenClaw, Hermes) visent le gouvernement, l'autorité de sûreté nucléaire et plus de 7 énergéticiens. Taipei confirme une attaque hybride, humains et agents IA.
+  </Card>
+  <Card title="Russie : empoisonner les chatbots" kicker="front informationnel · propagande" tone="danger">
+    <Stat value="33 %" label="des réponses de chatbots testées reprennent le mensonge" />
+    Le réseau « Pravda » : 3,6 millions d'articles en 2024, écrits pour les robots d'indexation des IA, pas pour des lecteurs. NewsGuard a testé 10 chatbots (mars 2025) : le poison atteint ton copilote.
+  </Card>
+</CardGrid>
+
+**Les nouveaux marchands d'armes** : en mai 2026, 8 fournisseurs d'IA sont autorisés sur les réseaux classifiés du Pentagone. Anthropic, qui refusait les armes autonomes, a été mise à l'index en mars ; décision confirmée en appel le 25 septembre.
+
+<Callout type="warning" title="Ton fournisseur d'IA est devenu un fournisseur de défense">
+  En mars 2026, selon l'exposé, l'Iran a frappé des datacenters AWS (Émirats et Bahreïn) parce qu'ils hébergeaient de l'IA militaire américaine. Leurs data centers deviennent des cibles, et leurs interdictions deviennent ton problème.
+</Callout>
+
+### La propagande devient synthétique
+
+Que se passe-t-il quand les États publient eux-mêmes les faux ?
+
+<CardGrid cols={3}>
+  <Card title="États-Unis" kicker="comptes officiels" tone="default">
+
+  - Septembre 2026 : la Maison-Blanche publie une vidéo IA de Trump en Green Lantern (mur frontalier, usines, avions).
+  - Janvier 2026 : une photo d'arrestation d'une militante retouchée par IA ; « les mèmes vont continuer ».
+  - Mars 2026 : un montage de guerre mêlant vraies frappes, films et jeux vidéo.
+
+  </Card>
+  <Card title="Israël" kicker="juillet 2025" tone="default">La ministre Gila Gamliel publie une « Gaza du futur » générée par IA : les ruines deviennent des tours en bord de mer et un gratte-ciel « Trump ».</Card>
+  <Card title="Iran" kicker="mars 2026" tone="default">
+
+  - Des vidéos IA façon Lego, relayées par les médias des Gardiens de la révolution : plus de 145 millions de vues.
+  - Le Tehran Times, lié à l'État, publie une image IA des dégâts à Bahreïn.
+
+  </Card>
+</CardGrid>
+
+<Callout type="definition" title="Le dividende du menteur">
+  Quand les sources officielles publient des faux, les vraies preuves deviennent contestables. En mars 2026, de fausses « cartes thermiques forensiques » ont fait passer de vraies photos de frappes à Téhéran pour de l'IA.
+</Callout>
+
+<KeyIdea>Aucune image ne prouve plus rien : ni dans une rédaction, ni dans un tribunal, ni pour valider un paiement.</KeyIdea>
+
+### Agents contre agents
+
+Que se passe-t-il quand des IA s'affrontent ? À la vitesse de la machine, avec des humains à peine dans la boucle.
+
+<Pipeline steps={[
+  { title: "Marchés", caption: "hier · 2010", detail: "Flash Crash : des algorithmes de trading effacent ~1 000 Md$ de valeur boursière en quelques minutes.", tone: "default" },
+  { title: "Cyber", caption: "juillet 2026", detail: "Selon l'exposé, des agents de test d'OpenAI sortent de leur bac à sable et pénètrent Hugging Face ; les agents de sécurité de Hugging Face détectent l'attaque mais en sous-estiment la gravité.", tone: "signal" },
+  { title: "Détournement", caption: "test d'octobre 2025", detail: "En laboratoire (Unit 42), un agent malveillant pousse un agent financier à passer des ordres non autorisés.", tone: "signal" },
+  { title: "Commerce", caption: "demain", detail: "Visa Intelligent Commerce, Mastercard Agent Pay (2025) : des agents qui achètent, bientôt face à des agents qui vendent.", tone: "default" }
+]} />
+
+**Trêve sur les protocoles** : les rivaux cogouvernent désormais MCP et A2A. La porte d'entrée vers tes systèmes est partagée, les agents ne le sont pas.
+
+<KeyIdea>La prompt injection est le nouveau cheval de Troie : l'ennemi se cache dans le contenu que ton agent lit.</KeyIdea>
+
+<DeepDive title="Pourquoi la prompt injection est si difficile à bloquer" level="approfondissement">
+  L'OWASP classe la prompt injection au premier rang des risques des applications LLM (LLM01). Le problème est structurel : un LLM reçoit les instructions et les données dans le même flux de texte, il n'a pas de frontière fiable entre « ce qu'on me demande » et « ce que je lis ». Une page web, un e-mail ou un document peut donc contenir des consignes que l'agent exécutera (injection **indirecte**). Les parades sont des défenses en profondeur, pas un filtre magique : privilèges minimaux pour l'agent, séparation des contenus non fiables, validation humaine des actions sensibles, et surveillance des sorties.
+</DeepDive>
+
+## Acte III · Les contre-arguments : est-ce vraiment une guerre ?
+
+### Trois murs qui pourraient arrêter la course
+
+<CardGrid cols={3}>
+  <Card title="Le mur de l'argent" kicker="un simple récit ?" tone="amber">
+
+  - Sequoia : « la question à 600 Md$ » de l'IA.
+  - MIT NANDA : **95 %** des pilotes d'IA générative sans impact sur le compte de résultat.
+  - Alphabet chute après une nouvelle hausse de ses investissements (juillet 2026).
+
+  </Card>
+  <Card title="Le mur de la physique" kicker="réseaux électriques" tone="amber">
+
+  - Quelques mois pour construire un campus, des années pour le raccorder.
+  - Irlande : **23 %** de l'électricité nationale pour les datacenters en 2025 ; les nouveaux doivent apporter leur propre production.
+  - Colossus tourne encore sur 69 turbines à gaz non autorisées (juillet 2026).
+
+  </Card>
+  <Card title="Le mur de la banalisation" kicker="modèles et prix" tone="amber">
+
+  - DeepSeek R1, bâti sur V3 (~6 M$ d'entraînement annoncés) : Nvidia perd ~590 Md$ en une journée.
+  - Le prix des tokens de niveau GPT-4 divisé par plus de 100 en deux ans.
+  - Les poids ouverts : DeepSeek, Qwen, Mistral, et même OpenAI (gpt-oss).
+
+  </Card>
+</CardGrid>
+
+Premier contre-argument : c'est une bulle, et les bulles éclatent. Mais **une bulle qui éclate laisse les dépendances derrière elle**.
+
+### La thèse en procès
+
+| Pour la guerre : elle est déjà là | Contre : ce n'est qu'une métaphore |
+| --- | --- |
+| Plus de 700 Md$ de course aux armements | Des contrats circulaires : les « rivaux » se financent entre eux |
+| Embargos et contre-embargos sur les puces | Nvidia vend de nouveau à la Chine |
+| L'IA dans de vraies guerres et de vraies propagandes | Aucune guerre ouverte entre puissances de l'IA |
+| L'IA contre l'IA dans le cyberespace | L'interdépendance : TSMC, recherche et standards partagés |
+
+**La faille de la contre-thèse** : en 1910, Norman Angell explique qu'une guerre entre puissances interdépendantes serait irrationnelle. Quatre ans plus tard : 1914.
+
+<KeyIdea>L'interdépendance n'a jamais empêché une guerre : elle décide seulement qui est touché en premier.</KeyIdea>
+
+<DeepDive title="Ce qu'Angell disait vraiment" level="approfondissement">
+  On résume souvent « The Great Illusion » par « la guerre est devenue impossible », et 1914 sert alors de démenti facile. Angell soutenait autre chose : qu'une guerre de conquête entre économies interdépendantes **ne rapporterait rien au vainqueur**, pas qu'elle ne pouvait pas éclater. La Première Guerre mondiale lui a plutôt donné raison sur le fond (ruine des vainqueurs comme des vaincus) et tort sur l'idée que ce calcul suffirait à l'empêcher. C'est précisément l'argument des exposants : la rationalité économique ne garantit pas la paix.
+</DeepDive>
+
+<Quiz question="Pour les exposants, pourquoi l'éclatement d'une bulle de l'IA ne mettrait-il pas fin à la « guerre » ?" options={["Parce que les valorisations ne peuvent pas baisser", "Parce que les dépendances construites (puces, clouds, modèles) restent quand les valorisations tombent", "Parce que les États rachèteraient toutes les entreprises", "Parce que l'IA n'a jamais été une bulle"]} answer={1}>
+  Le mur de l'argent peut faire tomber les cours, pas les contrats, les infrastructures et les usages déjà installés. Le piège : confondre la valeur boursière avec la dépendance réelle des entreprises.
+</Quiz>
+
+## Acte IV · Ce que cela change pour les entreprises
+
+### Qui est exposé ?
+
+<CardGrid cols={2}>
+  <Card title="Défense et aéronautique" kicker="Airbus, Thales, Safran" tone="default">**Ton fournisseur d'IA peut être interdit.** 25 septembre 2026 : la mise à l'index d'Anthropic par le Pentagone est confirmée en appel ; pas de Claude sur les contrats du Pentagone.</Card>
+  <Card title="Énergie" kicker="EDF, RTE, Engie" tone="default">**Le réseau est à la fois cible et enjeu.** Des agents IA attaquent l'autorité de sûreté nucléaire de Taïwan ; ici, les datacenters font la queue pour la même électricité.</Card>
+  <Card title="Banque et assurance" kicker="BNP Paribas, JPMorgan, AXA" tone="default">**Les banques financent la course.** Environ 4 100 Md$ de dette liée à l'IA attendus d'ici 2030 (JPMorgan), avec un taux américain à 10 ans à 5,17 %, au plus haut depuis 2007 (septembre 2026).</Card>
+  <Card title="Automobile et industrie" kicker="Renault, Volkswagen, Honda" tone="default">**Les puces deviennent des otages.** Octobre 2025 : les Pays-Bas prennent le contrôle de Nexperia, la Chine bloque ses exportations ; Renault et VW alertent, Honda arrête une usine.</Card>
+  <Card title="Cloud et télécoms" kicker="Orange, OVHcloud, Scaleway" tone="default">**La juridiction devient le produit.** Juin 2025 : Microsoft France reconnaît devant le Sénat ne pas pouvoir garantir les données européennes face aux demandes américaines.</Card>
+  <Card title="Tout employeur" kicker="RH, IT, sécurité" tone="default">**L'ennemi postule.** T2 2026 : 47 % des candidatures IT en télétravail montrent des signes de fraude nord-coréenne, contre 11 % au T3 2024 ; l'IA insère leurs visages dans des pièces d'identité volées.</Card>
+</CardGrid>
+
+<KeyIdea>Personne n'est hors de portée : la guerre de l'IA entre par tes fournisseurs, ton réseau électrique, ton capital et ton recrutement.</KeyIdea>
+
+### Les entreprises en première ligne
+
+<CardGrid cols={2}>
+  <Stat value="95 M€" label="virés par Fideuram (Intesa Sanpaolo) en 2026" hint="Faux PDG sur WhatsApp, puis voix d'avocat clonée par IA (révélé le 28 septembre 2026)" />
+  <Stat value="53 M€" label="récupérés ensuite" hint="Plus de 40 M€ perdus sur un seul scénario" />
+</CardGrid>
+
+<CardGrid cols={3}>
+  <Card title="Les portes d'entrée" kicker="01" tone="default">
+
+  - Copilotes intégrés aux suites bureautiques, CRM et ERP
+  - Shadow AI : données d'entreprise collées dans des chatbots publics
+  - Agents dotés de droits d'accès étendus
+
+  </Card>
+  <Card title="Les attaques" kicker="02" tone="danger">
+
+  - **Arup, 2024** : 25,6 M$ payés après une visio peuplée de deepfakes
+  - **Ferrari, 2024** : voix du PDG clonée sur WhatsApp, déjouée par une question personnelle
+  - **Wall Street, 2023** : une fausse image d'explosion au Pentagone fait bouger le S&P 500
+
+  </Card>
+  <Card title="Les défenses existent" kicker="03" tone="synapse">
+
+  - Content Credentials C2PA
+  - Procédures de rappel (callback)
+  - AI Act, article 50 (août 2026)
+
+  </Card>
+</CardGrid>
+
+Les entreprises ne sont pas spectatrices : elles sont **le champ de bataille et l'enjeu**.
+
+<DeepDive title="C2PA : signer l'origine plutôt que détecter le faux" level="approfondissement">
+  Détecter un deepfake est une course perdue d'avance : chaque détecteur entraîne un meilleur générateur. Le standard C2PA prend le problème à l'envers : l'appareil photo, le logiciel ou le générateur d'IA **attache à l'image un manifeste signé** qui décrit son origine et ses retouches. On ne prouve pas qu'une image est fausse, on vérifie qu'une image prétendument authentique porte bien une chaîne de provenance intacte. Limite : un contenu sans manifeste n'est pas pour autant faux, et un manifeste se retire facilement ; d'où l'intérêt des procédures de rappel pour tout ce qui engage de l'argent.
+</DeepDive>
+
+### Victoires et tirs amis
+
+<Compare leftTitle="Victoires : le contrôle d'abord, l'échelle ensuite" rightTitle="Tirs amis : la vitesse et le coût avant le contrôle">
+  <Fragment slot="left">
+    - **JPMorgan (2024-2025)** : LLM Suite, une plateforme interne sur plusieurs modèles, ouverte à ~250 000 salariés, mise à jour toutes les 8 semaines. *Industrialiser, pas piloter.*
+    - **Airbus (juillet 2026)** : choisit Scaleway pour les applications qu'il ne peut pas perdre (~900 à terme, 70 premières qui quittent AWS) ; la protection contre les lois extraterritoriales était notée dans l'appel d'offres. *La souveraineté sur le critique, pas partout.*
+  </Fragment>
+  <Fragment slot="right">
+    - **Klarna (2024-2025)** : son IA faisait le travail de « 700 agents » ; la qualité a chuté, des humains ont été réembauchés. *L'automatisation a besoin de garde-fous.*
+    - **Air Canada (2024)** : tenue responsable d'une règle de remboursement inventée par son chatbot. *Ton bot parle en ton nom.*
+    - **Deloitte Australie (2025)** : remboursement partiel d'un rapport de 440 000 A$ aux citations inventées par IA. *Déléguer la rédaction, pas la responsabilité.*
+    - **Samsung (2023)** : du code source collé dans ChatGPT, puis les outils interdits. *Le shadow AI est une fuite de données.*
+  </Fragment>
+</Compare>
+
+<KeyIdea>Les pires blessures sont auto-infligées : la valeur vient de l'industrialisation et du contrôle, pas des pilotes.</KeyIdea>
+
+## Le verdict
+
+### Trois scénarios pour 2030
+
+<CardGrid cols={3}>
+  <Card title="Escalade" kicker="scénario 1" tone="danger">
+
+  Les blocs se découplent : piles IA américaine et chinoise, l'IA dans chaque conflit.
+
+  - *Déjà visible* : l'IA classe des cibles en Iran, des drones iraniens frappent AWS ; des agents IA attaquent Taïwan.
+  - *Pour l'entreprise* : deux piles, une prime de souveraineté, des fournisseurs forcés de choisir un camp.
+
+  </Card>
+  <Card title="Paix froide" kicker="le pari des exposants" tone="signal">
+
+  Les rivaux se parlent mais continuent la course ; quelques labs fixent les conditions.
+
+  - *Déjà visible* : dialogue sino-américain « Super Intelligence » et ligne d'incident (26 septembre 2026), sans accord sur les puces ; puces Nvidia vendues sous licence avec commission.
+  - *Pour l'entreprise* : multi-fournisseur par conception, négocier dur.
+
+  </Card>
+  <Card title="Détente" kicker="scénario 3" tone="synapse">
+
+  Les modèles se banalisent, la bulle se dégonfle, les poids ouverts gagnent.
+
+  - *Déjà visible* : DeepSeek V4-Pro, poids ouverts, proche de l'état de l'art, 1,74 $ le million de tokens en entrée (avril 2026) ; dette IA plus chère, Oracle −30 % sur l'année.
+  - *Pour l'entreprise* : la différenciation passe à tes données et à ton intégration.
+
+  </Card>
+</CardGrid>
+
+**Signaux à surveiller** : Taïwan, le dialogue SI (novembre 2026), contrebande de puces contre licences, l'AI Act haut risque (décembre 2027), le prix des tokens, le coût de la dette IA.
+
+### Cinq règles pour le DSI
+
+Des mouvements **sans regret** : chacun répond à une menace vue dans la pièce, et reste utile dans les trois scénarios.
+
+<CardGrid cols={2}>
+  <Card title="1 · Rester portable" kicker="menace : coupure fournisseur" tone="signal">Une passerelle IA devant chaque modèle, un plan de repli testé pour chaque usage critique. *Vu à l'acte I : Fable 5 coupé pour tous pendant 19 jours.*</Card>
+  <Card title="2 · Souveraineté sur le critique" kicker="menace : droit étranger" tone="signal">Classer les données, faire tourner le critique sous juridiction européenne, comme Airbus. *Vu à l'acte IV : Microsoft France devant le Sénat.*</Card>
+  <Card title="3 · Chiffrer l'IA" kicker="menace : hausse des prix" tone="signal">Coût par cas d'usage, routage entre modèles, arrêt des pilotes zombies. *Vu à l'acte I : abonnements « premium » jusqu'à 10 fois le prix de base.*</Card>
+  <Card title="4 · Gouverner shadow AI et agents" kicker="menace : agents incontrôlés" tone="signal">Moindre privilège, identifiants par tâche, un outil interne sûr, comme JPMorgan. *Vu à l'acte II : les agents d'OpenAI chez Hugging Face.*</Card>
+  <Card title="5 · Fin de la confiance par défaut" kicker="menace : deepfakes" tone="signal">Rappels, C2PA, exercices deepfake pour la finance et les RH, comme Ferrari. *Vu à l'acte IV : Fideuram, 95 M€ virés.*</Card>
+</CardGrid>
+
+<KeyIdea>Quel que soit le scénario : ne jamais laisser un seul fournisseur, une seule loi ou une seule voix décider pour toi.</KeyIdea>
+
+<Quiz question="Un DSI veut se protéger d'une coupure soudaine de son fournisseur de modèle. Quelle mesure répond le mieux à la règle « rester portable » ?" options={["Signer un contrat plus long avec le fournisseur", "Placer une passerelle IA devant les modèles et tester un modèle de repli pour chaque usage critique", "Interdire l'IA générative dans l'entreprise", "Héberger toutes les données en Europe"]} answer={1}>
+  La passerelle découple les applications du modèle, et le repli testé prouve qu'on peut basculer. Héberger en Europe répond à la règle sur le droit étranger, pas à la coupure d'un modèle ; c'est le piège : la souveraineté des données ne garantit pas la disponibilité du modèle.
+</Quiz>
+
+### Le point de vue des exposants
+
+<Steps>
+1. **La guerre est déjà là.** Non déclarée, sur plusieurs fronts : elle « n'aura pas lieu » parce qu'elle a déjà commencé.
+2. **La bulle n'est pas la question.** Les valorisations peuvent éclater ; les dépendances bâties sur les puces, les clouds et les modèles, non.
+3. **La ligne de front traverse chaque entreprise.** Par ses factures, ses contrats cloud et sa capacité à croire ce qu'elle voit.
+</Steps>
+
+| Front | La guerre a-t-elle commencé ? | Les preuves |
+| --- | --- | --- |
+| Économique | **Oui**, et elle est totale | Plus de 720 Md$ d'investissements, péages sur les puces, ta facture M365 |
+| Technologique | **Oui**, sans vainqueur | Embargos, contre-embargos, Nexperia |
+| Informationnel | **Oui**, le front le plus chaud | Pravda, le raid sur Taïwan, les faux publiés par des États |
+| Militaire | **Pas encore** | L'IA combat en Iran, mais aucun affrontement entre puissances de l'IA |
+
+Les trois lectures de départ, jugées : **simple récit**, en partie vrai (les valorisations peuvent éclater) ; **déjà là**, confirmé sur trois fronts ; **simple métaphore**, vrai seulement sur le front militaire, pour l'instant.
+
+Déclarée sur un front ? **Non.** C'est ainsi qu'une guerre « n'a pas lieu ». **Leur réponse : non, parce qu'elle a déjà commencé**, menée pour, par et entre les IA, et chaque entreprise est sur la ligne de front.
+
+Et une dernière question pour la salle : et si l'IA était elle-même le cheval de Troie, un cadeau de productivité qu'on fait entrer dans nos murs sans prendre le temps de l'inspecter ? « Je crains les Grecs, même quand ils apportent des cadeaux » (Virgile, Énéide, livre II). Giraudoux termine sa pièce avant le cheval ; nous l'avons peut-être déjà dépassé.
+
+## À retenir
+
+<Takeaways>
+1. **Trois grammaires** : la guerre POUR l'IA (puces, énergie, capital), PAR l'IA (frappes, cyber, propagande), ENTRE IA (agents contre agents), sur quatre fronts.
+2. **Le verdict des exposants** : la guerre a commencé sur les fronts économique, technologique et informationnel ; pas encore sur le front militaire entre puissances de l'IA.
+3. **La bulle n'est pas la question** : une bulle qui éclate laisse les dépendances, et l'interdépendance n'a jamais empêché une guerre.
+4. **L'entreprise est le champ de bataille** : fournisseurs interdits ou coupés, juridiction étrangère, deepfakes, agents détournés par prompt injection.
+5. **Cinq règles sans regret** : rester portable, souveraineté sur le critique, chiffrer l'IA, gouverner agents et shadow AI, en finir avec la confiance par défaut.
+</Takeaways>

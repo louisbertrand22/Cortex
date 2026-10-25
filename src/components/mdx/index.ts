@@ -45,6 +45,8 @@ import Harness from '../viz/Harness.astro';
 import RackDensity from '../viz/RackDensity.astro';
 import ChangeRisk from '../viz/ChangeRisk.astro';
 import WorkloadPlacement from '../viz/WorkloadPlacement.astro';
+import LockInCheck from '../viz/LockInCheck.astro';
+import AutonomyGate from '../viz/AutonomyGate.astro';
 
 export const components = {
   Callout,
@@ -90,4 +92,6 @@ export const components = {
   RackDensity,
   ChangeRisk,
   WorkloadPlacement,
+  LockInCheck,
+  AutonomyGate,
 };

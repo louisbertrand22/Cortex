@@ -1,0 +1,224 @@
+---
+title: "AIOps : à quand la DSI sans agents ?"
+subtitle: POV 24 · Amiel et Jacques
+subject: pit
+session: 24
+description: "Jusqu'où l'AIOps peut automatiser l'exploitation IT sans perdre le contrôle humain : ce qu'elle fait, ses limites, et les quatre conditions pour passer en production."
+tags: [AIOps, exploitation, incidents, agents, SRE, rollback, gouvernance, DORA]
+objectives:
+  - Définir l'AIOps et décrire comment elle passe des données à l'action.
+  - Distinguer ce qu'il faut automatiser par des règles et ce que l'IA apporte en plus.
+  - Situer la frontière de contrôle selon le risque et la réversibilité de l'action.
+  - Lister ce qui doit être prêt avant de déléguer (données, compétences, processus, gouvernance).
+sources:
+  - label: Exposé POV 24 « AIOps, à quand la DSI sans agents ? » — Amiel et Jacques, EPITA SIGL 2027 (octobre 2026)
+  - label: Lisanne Bainbridge, « Ironies of Automation », Automatica 19(6) (1983)
+    url: https://doi.org/10.1016/0005-1098(83)90046-8
+  - label: Règlement (UE) 2022/2554 (DORA), article 19, et RTS/ITS sur la notification des incidents majeurs (2024)
+    url: https://eur-lex.europa.eu/eli/reg/2022/2554/oj
+updated: 2026-10-25
+---
+
+Les signaux s'accumulent (cloud, applications, données, sécurité, charges IA) plus vite qu'une équipe d'exploitation ne peut les traiter. L'AIOps promet d'absorber ce flot, et les agents promettent d'aller jusqu'à l'action. D'où la question de ce POV, en clin d'œil : **à quand une DSI sans agents… humains ?** Autrement dit, jusqu'où automatiser l'exploitation IT tout en gardant le contrôle ?
+
+<Callout type="note" title="Un exposé d'étudiants, pas un cours magistral">
+  Les chiffres et événements ci-dessous sont ceux de l'exposé, présenté en octobre 2026 ; ils sont restitués tels quels. Quand un point mérite d'être corrigé ou nuancé, un encadré « pour aller plus loin » le signale.
+</Callout>
+
+Trois objectifs : **comprendre** ce qu'est l'AIOps et ce qu'elle fait, **évaluer** jusqu'où on peut lui déléguer sans danger (où est la frontière de contrôle), et **définir** ce qui doit être prêt avant.
+
+## Le problème du DSI en 2026
+
+La capacité d'exploitation limite la réponse aux incidents. Les signaux arrivent de partout, s'empilent dans un backlog, et l'équipe ne les traite **que quelques-uns à la fois**, limitée par ses compétences et par le temps qu'il lui faut pour décider.
+
+```mermaid
+flowchart TB
+  S["Signaux<br/>cloud, apps, données,<br/>sécurité, charges IA"] --> B["Backlog"]
+  B --> O["Équipe d'exploitation"]
+  O --> R["Réponse<br/>quelques-uns à la fois"]
+  classDef hot fill:var(--signal-soft),stroke:var(--signal);
+  class O hot;
+```
+
+## Ce que fait l'AIOps
+
+<Callout type="definition" title="AIOps">
+  L'utilisation des données d'exploitation pour aider à résoudre les incidents : collecter, mettre en contexte, corréler, identifier une cause probable, puis proposer (ou exécuter) un correctif.
+</Callout>
+
+<Pipeline steps={[
+  { title: "Collecter", caption: "Données d'exploitation", detail: "Métriques, logs, traces, événements : la matière première.", tone: "default" },
+  { title: "Cartographier", caption: "Carte des services", detail: "Relier chaque signal au service et aux dépendances qu'il concerne.", tone: "default" },
+  { title: "Corréler", caption: "Groupes d'événements", detail: "Regrouper les alertes qui parlent du même problème, pour réduire le bruit.", tone: "default" },
+  { title: "Identifier", caption: "Cause probable", detail: "Le LLM enquête et diagnostique : il propose la cause la plus vraisemblable.", tone: "signal" },
+  { title: "Résoudre", caption: "Correctif suggéré", detail: "L'agent peut exécuter l'action : c'est là que le contrôle devient critique.", tone: "signal" }
+]} />
+
+Les trois premières étapes transforment les **données** en **compréhension** ; les deux dernières mènent à une **action contrôlée**. Les LLM servent à l'enquête et au diagnostic, les agents à l'exécution. Côté actualité, les exposants signalent que **Azure SRE Agent** et **AWS DevOps Agent** sont disponibles pour tous depuis mars 2026.
+
+### Quand l'IA apporte-t-elle plus que des règles ?
+
+L'IA n'est pas la réponse par défaut. La recommandation du groupe tient en deux temps : **choisir l'outil**, puis **contrôler l'action**.
+
+```mermaid
+flowchart TB
+  Q1{"Cas connu et stable ?<br/>résultat vérifiable"} -- Oui --> A["AUTOMATISER<br/>avec des règles"]
+  Q1 -- Non --> Q2{"Un essai IA bat les règles ?<br/>temps, qualité, coût"}
+  Q2 -- Oui --> G["AUGMENTER<br/>avec l'IA"]
+  Q2 -- Non --> K["Garder les règles"]
+  A --> C["CONTRÔLER avant toute action<br/>périmètre · approbation · rollback"]
+  G --> C
+  classDef ctl fill:var(--signal-soft),stroke:var(--signal);
+  class C ctl;
+```
+
+<KeyIdea>Un cas connu se traite par des règles ; l'IA ne se justifie que si un essai prouve qu'elle fait mieux. Dans les deux cas, l'action passe par un contrôle.</KeyIdea>
+
+## Ce que disent les déploiements
+
+<CardGrid cols={3}>
+  <Card title="Careem · rollback automatique" kicker="Dynatrace, 2026" tone="default">Sur les déploiements récents, l'outil peut **revenir à la dernière version stable**.</Card>
+  <Card title="Microsoft · ~60 %" kicker="Microsoft, 2026" tone="signal">Du volume d'incidents traité par **Falcon Agent**, qui automatise la remédiation des incidents connus.</Card>
+  <Card title="Orange · 800 PoP" kicker="Orange, 2024-25" tone="default">Intégration au NOC sur **100 pays** : l'IA et le ML détectent les anomalies dans l'exploitation réseau quotidienne.</Card>
+</CardGrid>
+
+Le cadre réglementaire pousse aussi à aller vite : sous **DORA**, une entité financière doit envoyer une **notification initiale dans les 4 heures** pour un incident TIC majeur.
+
+<DeepDive title="Les 4 heures de DORA, à la lettre" level="approfondissement">
+  Les normes techniques de DORA fixent la notification initiale à **4 heures après la classification** de l'incident comme majeur, et au plus tard **24 heures après sa détection**. Le chrono ne part donc pas du premier signal : il part du moment où l'incident est jugé majeur. C'est justement là que l'AIOps aide, en accélérant la corrélation et la qualification.
+</DeepDive>
+
+### Du pilote à la production
+
+Un modèle qui marche ne suffit pas. Le pilote tourne sur un périmètre limité, avec des experts autour et un faible rayon d'impact. La production exige le même modèle **plus** les données, les compétences, les processus et la gouvernance.
+
+<Steps>
+1. **Périmètre** : un cas d'usage connu, une métrique de succès et une limite d'action.
+2. **Shadow** : l'outil tourne sur les signaux réels, comparé au fonctionnement actuel, sans agir.
+3. **Préparation** : canary, rollback et réponse en cas d'échec ont été exercés.
+4. **Responsabilité** : un opérateur nommé, un runbook, de la supervision et une piste d'audit.
+</Steps>
+
+## Les limites de l'autonomie
+
+### Un contexte incomplet
+
+Chaque entrée de la corrélation a un trou : la **télémétrie** est échantillonnée et partielle, la **topologie** est périmée, la **CMDB** est incomplète, le **contexte métier** manque souvent. Le moteur de corrélation sort donc une **cause probable, qui n'est pas une preuve** : un humain doit juger quand l'impact n'est pas clair.
+
+<CardGrid cols={3}>
+  <Stat value="20 %" label="de causes racines exactement retrouvées, en moyenne" hint="Benchmark OpenRCA 2.0 (prépublication, 2026)" />
+  <Stat value="500" label="pannes injectées" hint="pour mesurer le diagnostic" />
+  <Stat value="11" label="LLM de pointe testés" hint="sur les mêmes 500 cas" />
+</CardGrid>
+
+### L'approbation ne passe pas à l'échelle
+
+Mettre un humain sur chaque action semble sûr. Mais les propositions arrivent **à la vitesse de la machine**, les actions critiques se mélangent aux routinières, et l'attention humaine est finie. Résultat : **le clic devient une routine, et plus d'approbations peut vouloir dire moins de vigilance.**
+
+### Une mise à jour fautive devient une panne systémique
+
+<Compare leftTitle="Tout d'un coup (CrowdStrike, juillet 2024)" rightTitle="Par vagues (même mise à jour, hypothétique)">
+  <Fragment slot="left">
+    La mise à jour part partout en même temps : **8,5 millions** de machines tombent.
+  </Fragment>
+  <Fragment slot="right">
+    La mise à jour part d'abord sur un premier anneau : le problème est **arrêté à l'anneau 1**, le reste n'est pas touché.
+  </Fragment>
+</Compare>
+
+Les exposants insistent : **c'est un problème d'automatisation, pas d'IA**. Le même schéma frappe n'importe quel agent qui agit partout à la fois.
+
+<Quiz question="Pourquoi ajouter une approbation humaine sur chaque action d'un agent ne rend-il pas forcément le système plus sûr ?" options={["Parce que les humains se trompent plus que l'IA", "Parce qu'au volume de la machine, l'approbation devient un clic de routine et la vigilance baisse", "Parce que DORA interdit l'approbation humaine", "Parce que l'agent ignore l'approbation"]} answer={1}>
+  L'attention humaine est finie : noyées dans le flux, les actions critiques reçoivent la même validation machinale que les routinières. D'où l'idée que la supervision doit suivre le risque, pas s'appliquer partout.
+</Quiz>
+
+## Quatre conditions pour la production
+
+### 1. Une supervision proportionnée au risque
+
+L'approbation humaine devient une **voie d'escalade**, pas le défaut pour chaque action. Les exposants s'appuient sur l'approche d'**autorisation progressive** de Google.
+
+<CardGrid cols={3}>
+  <Card title="Assister" kicker="01" tone="default">L'IA enquête, **l'humain décide et agit**.</Card>
+  <Card title="Autonomie partielle" kicker="02" tone="default">L'IA prépare et exécute, **l'humain approuve avant**.</Card>
+  <Card title="Autonomie bornée" kicker="03" tone="signal">L'IA agit dans ses garde-fous, **sans approbation en temps réel**.</Card>
+</CardGrid>
+
+Quand le risque monte, on **revient à l'approbation humaine**.
+
+<KeyIdea>L'autonomie se gagne par la preuve et se retire selon le contexte.</KeyIdea>
+
+### 2. La reprise prouvée fixe la limite de l'autonomie
+
+<CardGrid cols={3}>
+  <Card title="Réversible" kicker="bascule de trafic, feature flag" tone="synapse">
+    Retour au même état. **Peut être pré-autorisé**, avec un périmètre de test, un rollback et des signaux de succès.
+  </Card>
+  <Card title="Compensable" kicker="failover, déploiement" tone="amber">
+    Des effets de bord peuvent rester. **Autorisé sous conditions** : compensation définie à l'avance et état de reprise vérifié.
+  </Card>
+  <Card title="Difficile à annuler" kicker="suppression de données, paiement, effet externe" tone="danger">
+    Pas de retour fiable. **Escalade humaine par défaut.**
+  </Card>
+</CardGrid>
+
+<Figure caption="Choisis l'action proposée par l'agent, puis joue sur le rollback et le contexte : le niveau d'autonomie suit.">
+  <AutonomyGate />
+</Figure>
+
+Pas de chemin de reprise prouvé, pas d'action autonome.
+
+<Quiz question="Un agent propose de supprimer des données de logs obsolètes ; son rollback a été testé sur d'autres actions et le contexte est normal. Quel niveau d'autonomie ?" options={["Autonomie bornée : le rollback est testé et le contexte normal", "Escalade humaine : une suppression ne se défait pas, quel que soit le reste", "Autonomie partielle : l'agent exécute et l'humain valide après coup", "Aucune intervention : ce sont des logs obsolètes"]} answer={1}>
+  Une suppression est **difficile à annuler** : aucun rollback ne fait revenir la donnée. Le piège, c'est de croire que le rollback testé ailleurs couvre cette action ; la réversibilité se juge action par action.
+</Quiz>
+
+### 3. Le travail glisse vers le jugement et la plateforme
+
+Avec l'AIOps, le triage répétitif, le traitement des alertes et la routine passent à l'automatisation. Restent aux humains le **jugement métier**, les **exceptions et la responsabilité**, et de nouvelles compétences : **plateforme et données**, **ingénierie de la fiabilité**, **évaluation de l'IA**.
+
+<Callout type="warning" title="L'ironie de l'automatisation">
+  Moins de travail, mais plus dur : quand la routine disparaît, les humains héritent des exceptions rares et à fort enjeu, précisément ce qu'ils pratiquent le moins.
+</Callout>
+
+<DeepDive title="D'où vient « l'ironie de l'automatisation »" level="approfondissement">
+  L'expression vient de Lisanne Bainbridge (1983), qui étudiait les opérateurs de procédés industriels. Son constat : plus un système est automatisé, plus l'intervention humaine qui reste est difficile, car l'opérateur ne pratique plus et doit reprendre la main dans les pires conditions. L'aviation y répond par des entraînements réguliers sur simulateur ; en exploitation IT, l'équivalent ce sont les exercices de reprise et le chaos engineering, qui gardent les équipes en forme sur les incidents rares.
+</DeepDive>
+
+### 4. Les contraintes, pas les étiquettes, choisissent la plateforme
+
+Le groupe propose une grille de sélection, pas un classement de fournisseurs :
+
+<Steps>
+1. **Les options** : pure players, outils natifs de l'ITSM, outils des clouds, open source.
+2. **Le filtre** : intégration, souveraineté, coût de la télémétrie, portabilité, compétences d'exploitation.
+3. **L'adéquation** : le mode d'exploitation visé (assister, superviser, autonome) donne la meilleure option pour toi.
+</Steps>
+
+## La réponse des exposants
+
+<CardGrid cols={2}>
+  <Card title="Forces" kicker="interne · utile" tone="synapse">Moins de bruit et détection plus rapide ; moins de triage répétitif.</Card>
+  <Card title="Faiblesses" kicker="interne · nuisible" tone="amber">Trous dans les données et la topologie ; dérive des coûts, décisions opaques.</Card>
+  <Card title="Opportunités" kicker="externe · utile" tone="synapse">Du temps pour les incidents complexes ; une meilleure plateforme et de meilleures données.</Card>
+  <Card title="Menaces" kicker="externe · nuisible" tone="danger">Vendor lock-in ; excès de confiance et perte de compétences.</Card>
+</CardGrid>
+
+Les gains de l'AIOps dépendent de la **qualité des données** et du **contrôle**. Les exposants résument : **la compréhension montre ce qui se passe, les limites décident de ce qu'on délègue, la préparation décide quand.**
+
+<CardGrid cols={3}>
+  <Card title="Aujourd'hui" kicker="les agents assistent" tone="default">**Travail** : des tâches définies et réversibles. **Décision** : une personne approuve tout.</Card>
+  <Card title="Ensuite" kicker="une fois le rollback prouvé" tone="signal">**Travail** : des actions à impact réel. **Décision** : l'IA pour le petit et réversible, une personne pour tout le reste.</Card>
+  <Card title="Autonomie totale" kicker="pas l'objectif" tone="muted">**Travail** : tout. **Décision** : personne n'est responsable.</Card>
+</CardGrid>
+
+**À quand la DSI sans agents humains ? Pas en vue, et ce n'est pas le but.**
+
+## À retenir
+
+<Takeaways>
+1. **L'AIOps** passe des données à l'action : collecter, cartographier, corréler, identifier une cause probable, résoudre.
+2. **Règles d'abord** pour les cas connus et stables ; l'IA seulement si un essai prouve qu'elle fait mieux. Dans tous les cas, contrôler l'action.
+3. **Limites** : un contexte incomplet (une cause probable n'est pas une preuve), une approbation qui ne passe pas à l'échelle, une action déployée partout d'un coup.
+4. **La réversibilité fixe l'autonomie** : réversible pré-autorisé, compensable sous conditions, difficile à annuler escaladé à un humain.
+5. **Pas de DSI sans humains** : l'autonomie totale ne laisse personne responsable ; le but est une délégation bornée, gagnée par la preuve.
+</Takeaways>
