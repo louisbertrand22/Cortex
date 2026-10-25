@@ -21,14 +21,7 @@
     "domain": "ia",
     "accent": "signal",
     "order": 2,
-    "plannedSessions": 5,
-    "upcoming": [
-      {
-        "session": 5,
-        "title": "Devenir fort en prompts",
-        "description": "Aller plus loin que les cinq ingrédients : donner des exemples, faire raisonner l'IA étape par étape, itérer sur une réponse, et des modèles de prompts prêts à l'emploi pour les cours."
-      }
-    ]
+    "plannedSessions": 5
   },
   {
     "id": "arcl",

@@ -32,6 +32,7 @@ import Teach from '../viz/Teach.astro';
 import Neuron from '../viz/Neuron.astro';
 import NextWord from '../viz/NextWord.astro';
 import PromptBuilder from '../viz/PromptBuilder.astro';
+import Refine from '../viz/Refine.astro';
 import ServiceModels from '../viz/ServiceModels.astro';
 import Scaling from '../viz/Scaling.astro';
 import AzFailure from '../viz/AzFailure.astro';
@@ -79,6 +80,7 @@ export const components = {
   Neuron,
   NextWord,
   PromptBuilder,
+  Refine,
   ServiceModels,
   Scaling,
   AzFailure,

@@ -54,7 +54,8 @@ Dans une leçon (ou sur `/guide`) : build, puis rendu clair/sombre, 1440 px et 3
 - **AIAD** : `AiNesting` · `Tokenizer` · `Temperature` · `PriorityMatrix` · `Maturity` · `Hosting` · `Tco` · `ContextWindow`
   · `EmbeddingMap` · `Chunking` · `RagTriangle` · `Layers` (bandeau TOGAF, prop `active`) · `ValueChain` (props `title`, `steps`).
 - **ia-zero** : `Teach` (perceptron pommes/citrons) · `Neuron` (vote pondéré « aller au ciné ») · `NextWord` (mot suivant
-  + température) · `PromptBuilder` (les 5 ingrédients d'un prompt).
+  + température) · `PromptBuilder` (les 5 ingrédients d'un prompt) · `Refine`
+  (itérer sur une réponse par relances).
 - **ARCL** : `ServiceModels` (IaaS/PaaS/SaaS, qui gère quelle couche) · `Scaling` (scale out vs scale in, panne d'un
   serveur) · `AzFailure` (mono-AZ, multi-AZ, multi-région face à une panne).
 - **UBSI** : `SplitModels` (standard, ERP, data centric, micro services) · `Availability` (composants en série ou en

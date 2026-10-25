@@ -1,0 +1,280 @@
+---
+title: Devenir fort en prompts
+subtitle: Montrer, faire réfléchir, relancer
+subject: ia-zero
+session: 5
+description: "Aller plus loin que les cinq ingrédients : donner des exemples, faire réfléchir l'IA étape par étape, itérer sur une réponse, et des modèles de prompts prêts à l'emploi pour les cours."
+tags: [prompt, exemples, étape par étape, itérer, modèles de prompts, révisions]
+objectives:
+  - Donner des exemples à l'IA pour obtenir exactement le format voulu.
+  - Expliquer pourquoi demander un raisonnement étape par étape améliore les réponses.
+  - Améliorer une réponse en relançant la conversation plutôt qu'en recommençant.
+  - Appuyer l'IA sur ton propre cours pour limiter les inventions.
+  - Réutiliser des modèles de prompts pour réviser, comprendre et te faire corriger.
+sources:
+  - label: Brown et al., « Language Models are Few-Shot Learners » (GPT-3, 2020)
+    url: https://arxiv.org/abs/2005.14165
+  - label: Wei et al., « Chain-of-Thought Prompting Elicits Reasoning in Large Language Models » (2022)
+    url: https://arxiv.org/abs/2201.11903
+  - label: Kojima et al., « Large Language Models are Zero-Shot Reasoners » (2022), la phrase « Let's think step by step »
+    url: https://arxiv.org/abs/2205.11916
+  - label: OpenAI — « Learning to reason with LLMs » (o1, septembre 2024)
+    url: https://openai.com/index/learning-to-reason-with-llms/
+  - label: Anthropic — Guide de prompt engineering (documentation Claude)
+    url: https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview
+  - label: Frederick, « Cognitive Reflection and Decision Making » (2005), le problème de la batte et de la balle
+    url: https://www.aeaweb.org/articles?id=10.1257/089533005775196732
+updated: 2026-10-25
+---
+
+Au chapitre 4, tu as appris les cinq ingrédients d'un bon prompt : un rôle, le contexte, une tâche précise, un format, une vérification. Ça suffit pour la plupart des demandes. Ce chapitre te donne quatre techniques de plus, celles qui font la différence quand la réponse « correcte » ne te suffit pas : **montrer un exemple**, **faire réfléchir l'IA**, **relancer**, et **lui donner ton cours**. Puis une boîte à modèles à recopier.
+
+## Montrer plutôt qu'expliquer
+
+### Un exemple vaut mieux qu'une longue consigne
+
+Imagine que tu veux des fiches de vocabulaire d'anglais toujours présentées pareil. Tu peux décrire le format en trois phrases… ou **en donner un exemple**. Rappelle-toi le chapitre 3 : l'IA écrit la suite la plus probable de ton texte. Si ton texte contient déjà une fiche bien faite, la suite la plus probable, c'est une autre fiche **exactement pareille**.
+
+<Compare leftTitle="Décrire le format" rightTitle="Montrer un exemple">
+  <Fragment slot="left">
+    « Fais-moi des fiches de vocabulaire avec le mot, sa traduction, et une phrase d'exemple, pour : *weather, borrow, though*. »
+
+    → Selon les jours : un tableau, une liste, des phrases longues, des traductions en plus… le format change à chaque fois.
+  </Fragment>
+  <Fragment slot="right">
+    « Fais des fiches sur ce modèle :
+
+    **to borrow** = emprunter · *Can I borrow your pen?*
+
+    Maintenant : *weather, though, to lend*. »
+
+    → Trois fiches présentées exactement comme la tienne, même ponctuation, même longueur.
+  </Fragment>
+</Compare>
+
+<Callout type="definition" title="Donner des exemples (few-shot)">
+  Mettre dans ton prompt un ou plusieurs exemples de ce que tu attends. Les spécialistes disent *few-shot* (« quelques coups ») : quelques exemples suffisent pour que l'IA copie le style, le format et le niveau.
+</Callout>
+
+### Les exemples marchent aussi pour le ton
+
+Ça ne marche pas que pour les tableaux. Colle un paragraphe que **tu** as écrit et demande « écris la suite dans le même style » : l'IA imite ton vocabulaire au lieu de son style lisse habituel. Donne deux questions de ton prof et demande « invente-m'en cinq du même genre » : tu obtiens des questions du niveau de ton contrôle, pas d'un examen de fac.
+
+<Quiz question="Tu veux que l'IA te pose des questions de cours dans le style exact de ton prof d'histoire. Quelle est la méthode la plus efficace ?" options={['Lui écrire « pose des questions comme mon prof d’histoire »', 'Lui donner deux ou trois vraies questions de ton prof et lui demander d’en inventer d’autres du même genre', 'Lui demander d’abord de deviner comment est ton prof']} answer={1}>
+  **Donner de vrais exemples.** L'IA ne connaît pas ton prof : « comme mon prof » ne lui dit rien, elle devine au hasard. Deux vraies questions lui montrent la longueur, le vocabulaire et le niveau attendus. Elle n'a plus qu'à continuer dans la même veine.
+</Quiz>
+
+<DeepDive title="D'où vient l'idée" level="approfondissement">
+  En 2020, les chercheurs d'OpenAI ont montré, avec GPT-3, qu'un modèle de langage peut apprendre une tâche nouvelle **sans aucun réentraînement**, seulement à partir de quelques exemples placés dans le prompt. Le titre de leur article est devenu célèbre : *Language Models are Few-Shot Learners* (« les modèles de langage apprennent avec quelques exemples »). Les guides officiels d'OpenAI et d'Anthropic recommandent toujours cette technique. Petit piège : si tous tes exemples se ressemblent trop (même longueur, même sujet), l'IA les copie de trop près. Varie-les.
+</DeepDive>
+
+## Faire réfléchir l'IA étape par étape
+
+### Le piège de la réponse trop rapide
+
+Essaie de répondre vite à cette devinette :
+
+<Callout type="note" title="La batte et la balle">
+  Une batte et une balle coûtent 1,10 € en tout. La batte coûte 1 € de plus que la balle. Combien coûte la balle ?
+</Callout>
+
+La plupart des gens répondent **10 centimes**. C'est faux : si la balle coûtait 0,10 €, la batte coûterait 1,10 € et le total ferait 1,20 €. La bonne réponse est **5 centimes** (balle 0,05 €, batte 1,05 €). Le cerveau saute sur la réponse qui « sonne juste ». Il suffit de poser le calcul pour éviter le piège.
+
+### Pourquoi écrire le raisonnement aide l'IA
+
+Une IA a le même défaut, pour une raison simple. Elle écrit **un mot après l'autre**, et chaque mot écrit devient le contexte du suivant. Si tu lui demandes juste « combien coûte la balle ? », le premier mot qu'elle écrit est déjà la réponse : elle n'a pas eu le temps de « calculer ». Si elle écrit d'abord les étapes, chaque étape s'appuie sur la précédente, et la réponse finale arrive à la fin, une fois le calcul posé sur la page.
+
+<Compare leftTitle="Réponse directe" rightTitle="« Réfléchis étape par étape »">
+  <Fragment slot="left">
+    « Combien coûte la balle ? »
+
+    → « **10 centimes.** »
+
+    Faux, et elle a l'air sûre d'elle : le premier mot écrit était déjà la réponse.
+  </Fragment>
+  <Fragment slot="right">
+    1. La balle coûte x, la batte coûte x + 1.
+    2. Ensemble : x + x + 1 = 1,10, donc 2x = 0,10.
+    3. Donc x = 0,05.
+
+    → « **5 centimes.** » Chaque ligne s'appuie sur la précédente.
+  </Fragment>
+</Compare>
+
+Pour l'obtenir, ajoute simplement à ta question : **« Réfléchis étape par étape, puis donne ta réponse. »** C'est utile pour les problèmes de maths et de physique, les énigmes, les questions où il faut comparer plusieurs choses, ou pour comprendre *comment* on arrive à un résultat.
+
+<Callout type="tip" title="Bonus : tu peux vérifier chaque étape">
+  Un raisonnement écrit, c'est aussi un raisonnement que **tu** peux relire. Si une étape est fausse, tu le vois tout de suite, et tu peux dire à l'IA : « l'étape 2 est fausse, reprends à partir de là ». Une réponse seule, elle, ne te montre rien.
+</Callout>
+
+<Quiz question="Pourquoi la phrase « réfléchis étape par étape » améliore-t-elle souvent les réponses d'une IA sur un problème de maths ?" options={['Parce que ça la rend plus intelligente pour le reste de la conversation', 'Parce que chaque étape écrite devient le contexte de la suivante : la réponse finale s’appuie sur un calcul posé au lieu d’être devinée d’un coup', 'Parce que ça lui donne accès à une calculatrice']} answer={1}>
+  **Les étapes écrites servent d'appui.** L'IA prédit le mot suivant à partir de tout ce qui est déjà écrit. Si le calcul est déjà sur la page, la suite la plus probable est le bon résultat. Elle ne devient pas plus intelligente pour autant, et elle n'a pas de calculatrice cachée : elle peut toujours se tromper dans une étape, d'où l'intérêt de relire.
+</Quiz>
+
+<DeepDive title="Les IA qui réfléchissent toutes seules" level="état-de-l-art">
+  En 2022, des chercheurs de Google ont montré qu'en donnant des exemples de raisonnements détaillés, les modèles réussissaient bien mieux les problèmes de maths : ils ont appelé ça la **chaîne de pensée** (*chain of thought*). La même année, une équipe japonaise a montré qu'une seule phrase suffisait souvent : *Let's think step by step*.
+
+  Depuis fin 2024, une partie des assistants (le modèle o1 d'OpenAI, puis d'autres chez Google, Anthropic ou DeepSeek) ont été entraînés à faire ce raisonnement **d'eux-mêmes**, avant de répondre : c'est le mode « réflexion » qu'on voit parfois s'afficher. Avec eux, « réfléchis étape par étape » change moins de choses. Mais demander de **montrer** le raisonnement reste utile, pour toi qui veux comprendre et vérifier.
+</DeepDive>
+
+## Relancer plutôt que recommencer
+
+### La première réponse est un brouillon
+
+Une erreur fréquente : la réponse ne convient pas, alors on ferme tout et on repose la même question, ou on abandonne. Or l'IA **se souvient de toute la conversation**. Tu n'as pas besoin de tout réécrire : dis-lui simplement **ce qui ne va pas**. Chaque relance part de la réponse précédente et la corrige.
+
+Essaie : la demande de départ est volontairement simple. Ajoute des relances une par une et regarde la réponse se transformer.
+
+<Figure caption="Quatre relances transforment un pavé en fiche de révision">
+  <Refine />
+</Figure>
+
+### Des relances qui marchent
+
+<CardGrid cols={2}>
+  <Card kicker="Trop compliqué" title="Simplifier" tone="signal">
+    « Plus simple, comme si j'avais 12 ans. » · « Sans aucun mot technique. » · « Avec une comparaison de la vie de tous les jours. »
+  </Card>
+  <Card kicker="Trop long" title="Resserrer" tone="signal">
+    « En 5 lignes maximum. » · « Garde seulement l'essentiel pour le contrôle. » · « Résume en une phrase. »
+  </Card>
+  <Card kicker="Pas assez" title="Creuser" tone="signal">
+    « Détaille le point 2. » · « Donne un exemple chiffré. » · « Pourquoi ? »
+  </Card>
+  <Card kicker="Pas le bon format" title="Réorganiser" tone="signal">
+    « Mets-le en tableau. » · « Fais-en une liste à puces. » · « Transforme ça en fiche à réviser. »
+  </Card>
+</CardGrid>
+
+### Quand repartir de zéro
+
+Relancer marche bien, mais pas indéfiniment. Une très longue conversation finit par mélanger les sujets : l'IA garde en tête des consignes d'il y a trente messages qui n'ont plus rien à voir. Deux bons réflexes :
+
+- **un nouveau sujet = une nouvelle conversation** (les maths d'un côté, l'anglais de l'autre) ;
+- si l'IA tourne en rond ou répète la même erreur, ouvre une nouvelle conversation avec un prompt de départ **meilleur**, qui contient ce que tu as appris en chemin.
+
+Après chaque réponse, pose-toi une seule question : **elle me convient ?**
+
+<CardGrid cols={3}>
+  <Card kicker="Oui" title="Je vérifie, puis je l'utilise" tone="synapse">
+    Ce qui compte (date, chiffre, définition) passe par les trois réflexes du chapitre 4.
+  </Card>
+  <Card kicker="Presque" title="Je relance" tone="signal">
+    Je dis précisément ce qui ne va pas, et je relis la nouvelle version.
+  </Card>
+  <Card kicker="Elle tourne en rond" title="Nouvelle conversation" tone="amber">
+    Je repars avec un meilleur prompt, qui contient ce que j'ai appris en chemin.
+  </Card>
+</CardGrid>
+
+## Lui donner ton cours
+
+### S'appuyer sur un texte, c'est moins d'invention
+
+Au chapitre 3, tu as vu que l'IA invente quand elle ne sait pas, avec beaucoup d'aplomb. Quand tu lui demandes « fais-moi une fiche sur le chapitre 4 de SVT », elle ne connaît ni ton manuel ni ce que ton prof a dit : elle produit une fiche « moyenne », qui peut contenir des choses hors programme ou fausses.
+
+La parade : **colle ton cours** (ou une photo de tes notes, si l'IA lit les images) et demande-lui de travailler **uniquement à partir de ce texte**. Elle n'a plus besoin de deviner : tout est sous ses yeux.
+
+<Compare leftTitle="Sans ton cours" rightTitle="Avec ton cours">
+  <Fragment slot="left">
+    « Fais-moi une fiche sur la cellule. »
+
+    → Une fiche générale, peut-être trop détaillée, peut-être avec des notions que tu n'as pas vues, et rien ne garantit que tout soit exact.
+  </Fragment>
+  <Fragment slot="right">
+    « Voici mon cours sur la cellule : [colle le texte]. Fais-en une fiche de révision **en utilisant uniquement ce texte**. Si une notion n'y est pas, ne l'ajoute pas. »
+
+    → Une fiche qui suit ton cours, avec les mots de ton prof.
+  </Fragment>
+</Compare>
+
+<Callout type="warning" title="Moins d'invention, pas zéro">
+  Même avec ton cours sous les yeux, l'IA peut mal résumer ou mélanger deux idées. Relis la fiche en gardant ton cours à côté. Et rappelle-toi le chapitre 4 : pas de nom, d'adresse ou d'infos sur tes camarades dans ce que tu colles.
+</Callout>
+
+<Quiz question="Tu colles ton cours de physique dans l'IA et tu lui demandes une fiche « uniquement à partir de ce texte ». Que peux-tu en conclure ?" options={['La fiche est forcément juste : elle ne peut plus rien inventer', 'La fiche a beaucoup plus de chances de coller à ton cours, mais il faut quand même la relire', 'Ça ne change rien : l’IA utilise toujours ce qu’elle a appris sur Internet']} answer={1}>
+  **Beaucoup mieux, mais à relire.** Le texte collé devient le contexte le plus important pour prédire la suite : la fiche suit ton cours. Mais l'IA reste une machine à prédire des mots : elle peut se tromper en résumant. Le piège de la première réponse, c'est de croire qu'une bonne méthode rend la vérification inutile.
+</Quiz>
+
+## La boîte à modèles
+
+Recopie ces modèles et remplace ce qui est entre crochets. Ils contiennent déjà les cinq ingrédients et les techniques de ce chapitre.
+
+### Comprendre une notion
+
+```text title="Explique-moi"
+Tu es un prof de [matière] patient. Je suis en seconde et je n'ai pas compris [la notion].
+Explique-la-moi simplement, avec un exemple de la vie de tous les jours, en 10 lignes maximum.
+Termine par une question pour vérifier que j'ai compris, et attends ma réponse.
+```
+
+### Réviser un contrôle
+
+```text title="Interroge-moi"
+Voici mon cours : [colle le texte].
+Pose-moi 10 questions sur ce cours, une seule à la fois. Attends ma réponse avant de passer à la suivante.
+Après chaque réponse, dis-moi si c'est juste et corrige-moi en une phrase.
+À la fin, dis-moi sur quelles notions je dois retravailler.
+```
+
+### Faire un exercice sans tricher
+
+```text title="Aide-moi sans me donner la réponse"
+Je bloque sur cet exercice : [colle l'énoncé].
+Ne me donne pas la solution. Pose-moi des questions pour que je trouve moi-même, étape par étape.
+Si je me trompe, donne-moi un indice, pas la réponse.
+```
+
+### Faire relire un texte
+
+```text title="Relis-moi"
+Voici mon paragraphe argumenté pour un devoir de français : [colle ton texte].
+Ne le réécris pas. Liste-moi :
+1. les fautes d'orthographe et de grammaire, avec la correction ;
+2. les phrases pas claires, et pourquoi ;
+3. un argument qui pourrait être plus convaincant, et une piste pour l'améliorer.
+```
+
+### Préparer un exposé
+
+```text title="Aide-moi à démarrer"
+Je dois faire un exposé de 5 minutes en [matière] sur [le sujet], pour des élèves de seconde.
+Propose-moi 3 plans différents, en 3 parties chacun, avec une phrase pour dire l'idée de chaque partie.
+Ne rédige pas l'exposé : je choisirai un plan et je l'écrirai moi-même.
+```
+
+<Callout type="tip" title="Le modèle qui fait poser les questions">
+  Quand tu ne sais pas bien quoi demander, ajoute à la fin : **« Avant de répondre, pose-moi les questions dont tu as besoin. »** L'IA te demande ton niveau, ton objectif, ton délai… et tu obtiens une réponse sur mesure sans avoir eu à tout penser.
+</Callout>
+
+## Les fausses bonnes idées
+
+On trouve sur les réseaux plein de « prompts magiques ». Certains marchent, beaucoup ne servent à rien.
+
+<CardGrid cols={3}>
+  <Card kicker="Inutile" title="« Tu es le meilleur expert du monde »" tone="muted">
+    Un rôle **précis** aide (« prof de SVT pour des élèves de seconde »). Un compliment exagéré n'ajoute aucune information utile.
+  </Card>
+  <Card kicker="Inutile" title="Menacer, supplier, promettre un pourboire" tone="muted">
+    « C'est très important pour ma vie », « je te donne 100 € » : au mieux un effet minuscule et imprévisible. Une consigne claire fait bien mieux.
+  </Card>
+  <Card kicker="Contre-productif" title="Le prompt de trois pages" tone="amber">
+    Plus long n'est pas mieux. Des consignes qui se contredisent ou se noient les unes dans les autres donnent une réponse confuse. Dis tout ce qui compte, rien de plus.
+  </Card>
+</CardGrid>
+
+<KeyIdea>Un bon prompt ne contient pas de formule magique : il contient les informations dont l'IA a besoin, et rien d'autre.</KeyIdea>
+
+<DeepDive title="Ce que disent les guides des fabricants" level="best-practice">
+  Les entreprises qui fabriquent ces IA publient leurs propres guides pour bien les utiliser (Anthropic pour Claude, OpenAI pour ChatGPT). Ils répètent tous à peu près les mêmes conseils que ce chapitre : être clair et précis comme avec un nouveau collègue qui ne sait rien du sujet, donner des exemples, laisser le modèle réfléchir avant de répondre, séparer clairement les consignes du texte à traiter (par exemple avec des guillemets ou des titres), et découper une grosse tâche en petites étapes. Aucun ne recommande de flatter ou de menacer l'IA.
+</DeepDive>
+
+## À retenir
+
+<Takeaways>
+1. **Montre un exemple.** Une fiche, une question ou un paragraphe modèle : l'IA continue exactement dans le même format.
+2. **Fais-la réfléchir.** « Réfléchis étape par étape » : chaque étape écrite aide la suivante, et toi, tu peux vérifier le raisonnement.
+3. **Relance au lieu de recommencer.** La première réponse est un brouillon : dis ce qui ne va pas. Nouveau sujet ou conversation qui tourne en rond : nouvelle conversation.
+4. **Donne-lui ton cours.** « Uniquement à partir de ce texte » : beaucoup moins d'inventions, mais on relit quand même.
+5. **Pas de formule magique.** Ni flatterie ni menace : des informations claires, des exemples, et ton esprit critique.
+</Takeaways>
