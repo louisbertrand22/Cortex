@@ -52,6 +52,10 @@ import CapTheorem from '../viz/CapTheorem.astro';
 import SyncAsync from '../viz/SyncAsync.astro';
 import ApiStyles from '../viz/ApiStyles.astro';
 import Idempotence from '../viz/Idempotence.astro';
+import Partitioning from '../viz/Partitioning.astro';
+import Raid from '../viz/Raid.astro';
+import IntegrationTopology from '../viz/IntegrationTopology.astro';
+import Monitoring from '../viz/Monitoring.astro';
 
 export const components = {
   Callout,
@@ -104,4 +108,8 @@ export const components = {
   SyncAsync,
   ApiStyles,
   Idempotence,
+  Partitioning,
+  Raid,
+  IntegrationTopology,
+  Monitoring,
 };

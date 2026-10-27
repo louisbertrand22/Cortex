@@ -70,4 +70,7 @@ Dans une leçon (ou sur `/guide`) : build, puis rendu clair/sombre, 1440 px et 3
 - **ARLA** : `CapTheorem` (choisir deux garanties sur trois, le cas Expense.io multi-région) · `SyncAsync` (soumission
   synchrone vs asynchrone face à une API lente) · `ApiStyles` (REST, GraphQL, POST Action, gRPC selon le consommateur)
   · `Idempotence` (rejouer une requête : l'état final change-t-il ?).
+- **GEN ARCHI** : `Partitioning` (cloisonnement d'un serveur, du standalone au conteneur : isolation vs agilité)
+  · `Raid` (faire tomber des disques en RAID 0, 1, 5, 6, 10) · `IntegrationTopology` (point à point, EAI ou ESB :
+  combien d'interfaces pour N applications) · `Monitoring` (push, pull ou remédiation automatique face à une panne).
 - **Génériques** : `Pipeline` · `BarChart`.

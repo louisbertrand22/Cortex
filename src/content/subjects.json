@@ -98,5 +98,16 @@
         "title": "MCO et dette technique"
       }
     ]
+  },
+  {
+    "id": "gen-archi",
+    "title": "Génération Architecture",
+    "short": "GEN ARCHI",
+    "description": "De la Platform 2 à la Platform 3 : serveurs, réseau, stockage, middleware, 12-factor, conteneurs et exploitation de la production.",
+    "teacher": "Yannick Neff",
+    "domain": "infrastructure",
+    "accent": "signal",
+    "order": 8,
+    "plannedSessions": 4
   }
 ]
