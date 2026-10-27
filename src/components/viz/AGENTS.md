@@ -67,4 +67,7 @@ Dans une leçon (ou sur `/guide`) : build, puis rendu clair/sombre, 1440 px et 3
   · `WorkloadPlacement` (quelle charge, où : cloud, CapEx sur site/HaaS, edge ou hybride) · `LockInCheck` (innovation
   ou vendor lock-in : les quatre questions et les règles d'or) · `AutonomyGate` (AIOps : niveau d'autonomie selon la
   réversibilité de l'action, le rollback testé et le contexte).
+- **ARLA** : `CapTheorem` (choisir deux garanties sur trois, le cas Expense.io multi-région) · `SyncAsync` (soumission
+  synchrone vs asynchrone face à une API lente) · `ApiStyles` (REST, GraphQL, POST Action, gRPC selon le consommateur)
+  · `Idempotence` (rejouer une requête : l'état final change-t-il ?).
 - **Génériques** : `Pipeline` · `BarChart`.

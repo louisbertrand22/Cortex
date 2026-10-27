@@ -48,6 +48,10 @@ import ChangeRisk from '../viz/ChangeRisk.astro';
 import WorkloadPlacement from '../viz/WorkloadPlacement.astro';
 import LockInCheck from '../viz/LockInCheck.astro';
 import AutonomyGate from '../viz/AutonomyGate.astro';
+import CapTheorem from '../viz/CapTheorem.astro';
+import SyncAsync from '../viz/SyncAsync.astro';
+import ApiStyles from '../viz/ApiStyles.astro';
+import Idempotence from '../viz/Idempotence.astro';
 
 export const components = {
   Callout,
@@ -96,4 +100,8 @@ export const components = {
   WorkloadPlacement,
   LockInCheck,
   AutonomyGate,
+  CapTheorem,
+  SyncAsync,
+  ApiStyles,
+  Idempotence,
 };

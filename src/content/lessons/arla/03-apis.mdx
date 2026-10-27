@@ -1,0 +1,454 @@
+---
+title: Deep dive sur les APIs
+subtitle: Un contrat entre équipes, et toutes les décisions qui vont avec
+subject: arla
+session: 3
+description: "Concevoir une API comme un contrat : REST, GraphQL, POST Action ou gRPC, APIs asynchrones, contract first, semver, authentification, idempotence et erreurs normalisées (RFC 9457)."
+tags: [API, REST, GraphQL, gRPC, contract first, semver, OAuth 2.0, idempotence, RFC 9457]
+objectives:
+  - Définir une API comme une frontière qui sépare un contrat stable d'une implémentation libre.
+  - Choisir un style (REST, GraphQL, POST Action, gRPC) selon le consommateur et l'opération.
+  - Concevoir une API asynchrone avec 202, polling ou webhook.
+  - Appliquer contract first et semver pour faire évoluer une API sans casser ses clients.
+  - Choisir un mécanisme d'authentification et rendre une requête rejouable sans risque.
+  - Renvoyer le bon code HTTP et des erreurs au format RFC 9457.
+sources:
+  - label: Support de cours ARLA Cours n°3 « Deep dive sur les APIs » (promo 2027) — Nathan Prats et Mathieu Bouchet, EPITA SIGL
+  - label: OpenAPI Initiative, « Describing API Security »
+    url: https://learn.openapis.org/specification/security.html
+  - label: IETF, RFC 9457 « Problem Details for HTTP APIs » (2023)
+    url: https://www.rfc-editor.org/rfc/rfc9457
+  - label: Melvin Conway, « How Do Committees Invent? » (1968)
+    url: https://www.melconway.com/Home/Committees_Paper.html
+  - label: IETF, RFC 9110 « HTTP Semantics », § 9.2.2 Idempotent Methods (2022)
+    url: https://www.rfc-editor.org/rfc/rfc9110#section-9.2.2
+  - label: IETF, RFC 9700 « Best Current Practice for OAuth 2.0 Security » (2025)
+    url: https://www.rfc-editor.org/rfc/rfc9700
+  - label: Semantic Versioning 2.0.0
+    url: https://semver.org/
+updated: 2026-10-27
+---
+
+Une API n'est pas un détail d'implémentation : c'est une **frontière architecturale** et une **promesse** faite à des équipes que l'on connaît, ou pas. C'est donc l'exemple parfait pour mettre en pratique les décisions d'un architecte : des enjeux **techniques** (style, protocole, sécurité), **métier** (usage, maintenance, évolutions) et même **organisationnels**. Cette session part de la définition, passe par les quatre grands styles d'API, puis égrène les bonnes pratiques qui font une API solide.
+
+## Définitions
+
+### Ce qu'est une API
+
+<Callout type="definition" title="API · Application Programming Interface">
+« Une interface logicielle qui permet de **connecter** un logiciel ou service à un autre afin d'**échanger** des données et des fonctionnalités, sans forcément connaître sa logique sous-jacente. » (CNIL)
+</Callout>
+
+Une définition plus architecturale : une API est une **frontière** et un **mécanisme de découplage** entre composants logiciels. Elle sert de **contrat d'interface explicite** au sein d'un système.
+
+<KeyIdea>Une API sépare toujours son **contrat d'interface** (promis, stable) de son **implémentation** (cachée, libre de changer).</KeyIdea>
+
+### Contrat, fournisseur, consommateur
+
+```mermaid
+flowchart TB
+  C[Consommateur] -->|requêtes conformes| K{{Contrat}}
+  K --> F[Fournisseur]
+```
+
+<CardGrid cols={3}>
+  <Card kicker="Contrat" title="L'accord formel" tone="signal">Définit exactement comment les deux systèmes communiquent : formats des requêtes et des réponses, rôles et responsabilités.</Card>
+  <Card kicker="Fournisseur" title="Celui qui expose" tone="signal">Crée, héberge et maintient l'API. S'engage à respecter la structure définie et à garantir la **rétrocompatibilité**.</Card>
+  <Card kicker="Consommateur" title="Celui qui appelle" tone="signal">Utilise l'API pour récupérer ou envoyer des données. S'engage à envoyer des requêtes **conformes** au format convenu.</Card>
+</CardGrid>
+
+### Audience, protocole, niveau d'abstraction
+
+<CardGrid cols={3}>
+  <Card kicker="Audience" title="Pour qui ?" tone="signal">**Publique** (grand public), **partenaire** (intégrateurs tiers), **interne** (au sein d'un même système).</Card>
+  <Card kicker="Protocole" title="Par quoi ?" tone="signal">Il est souvent question de **RPC**, **SOAP** ou **HTTP(S)**.</Card>
+  <Card kicker="Abstraction" title="À quel niveau ?" tone="signal">**Bas** : proche de l'OS (`open()`, `read()` en C). **Intermédiaire** : les APIs « classiques » en réseau. **Haut** : SDK et services packagés.</Card>
+</CardGrid>
+
+<Callout type="warning" title="Styles, pas protocoles">
+**REST**, **GraphQL** et **POST Action** ne sont pas des protocoles mais des **styles architecturaux**.
+</Callout>
+
+<Callout type="tip" title="L'analogie des sushis">
+L'API classique, c'est le **menu du restaurant** : tu pointes le sushi n°4, le serveur porte ta demande en cuisine et revient avec le plat. Mais tu vas au restaurant, tu commandes pièce par pièce, tu gères l'assiette. Le **SDK**, c'est le **kit box sushi** livré chez toi : les sushis (l'API), plus les baguettes, la sauce, le mode d'emploi. Tout est dans la boîte.
+</Callout>
+
+## Pourquoi les APIs ?
+
+### Une frontière, et une porte à sens unique
+
+L'API est devenue la méthode privilégiée pour échanger des informations **entre équipes**. Elle agit comme une **frontière** entre elles.
+
+<Callout type="note" title="Le mandat Bezos (Amazon, 2002)">
+Toute fonctionnalité doit être exposée via une interface, **zéro accès direct** aux données d'une autre équipe. Conséquence inattendue : cela a rendu possible… **AWS**.
+</Callout>
+
+Corollaire : une fois publiée, une API est une **promesse**. Le code derrière, on le refactore librement. Le contrat devant, on ne le casse pas : on ne contrôle ni **qui** l'appelle, ni **combien**. C'est une **one-way door** : facile à ouvrir, coûteuse à refermer.
+
+<KeyIdea>Concevoir une API, c'est concevoir une **relation entre équipes**, que l'on connaît (API privée) ou pas (API publique).</KeyIdea>
+
+<DeepDive title="La loi de Conway" level="approfondissement">
+  Le support cite la **loi de Conway** pour les enjeux organisationnels. **Melvin Conway** l'a formulée en 1968 : une organisation qui conçoit un système produit une architecture qui **copie sa structure de communication**. Deux équipes qui se parlent peu produiront deux composants reliés par une interface étroite. On l'utilise aussi à l'envers (« manœuvre de Conway inverse ») : organiser les équipes selon l'architecture qu'on veut obtenir. Le mandat Bezos en est un exemple : la règle sur les interfaces a façonné à la fois les équipes et le système.
+</DeepDive>
+
+### L'API comme produit
+
+Pour certaines entreprises, l'API n'est pas un moyen d'accès au produit : **elle est le produit**. Chez **Stripe**, **Twilio** ou **Plaid**, le métier est invisible ; toute la valeur commerciale tient dans la qualité de l'API, et la **DX** (expérience développeur) devient un argument de vente.
+
+Et le client change : hier des développeurs humains, demain des **agents IA autonomes**.
+
+<Figure caption="Le même défaut d'API, deux consommateurs · Source : support ARLA Cours n°3">
+<Compare leftTitle="Humain" rightTitle="Agent IA">
+  <Fragment slot="left">
+    - **Face à l'ambiguïté** : lit la doc, tolère, contourne un bug
+    - **Moyen d'action** : code, doc et expérience
+  </Fragment>
+  <Fragment slot="right">
+    - **Face à l'ambiguïté** : interprète le schéma littéralement, peut halluciner
+    - **Moyen d'action** : uniquement l'API (via MCP / tools)
+  </Fragment>
+</Compare>
+</Figure>
+
+Une API mal conçue ne fait que **gêner** un développeur ; elle fait **échouer** un agent en autonomie. La qualité d'une API a toujours été un avantage concurrentiel côté humain ; elle devient une **condition de fonctionnement** côté agent IA.
+
+## Les types d'API
+
+### Quatre styles
+
+Quatre styles à connaître, chacun avec son contrat, son transport et son terrain de prédilection. Choisis une situation ou un style pour voir sa fiche.
+
+<Figure caption="REST, GraphQL, POST Action, gRPC : quel style pour quel besoin · Source : support ARLA Cours n°3">
+<ApiStyles />
+</Figure>
+
+### Même besoin, quatre façons de l'exprimer
+
+Cas d'usage : récupérer une commande et son détail.
+
+<CardGrid cols={2}>
+  <Card kicker="REST" title="Deux ressources" tone="signal">
+    `GET /orders/42` puis `GET /orders/42/items`
+  </Card>
+  <Card kicker="GraphQL" title="Une requête, les champs voulus" tone="signal">
+    `query { order(id: 42) { id status items { id sku qty } } }`
+  </Card>
+  <Card kicker="POST Action" title="Une action nommée" tone="signal">
+    `POST /getOrderDetails` avec `{ "orderId": 42 }`
+  </Card>
+  <Card kicker="gRPC" title="Une fonction distante" tone="signal">
+    `rpc GetOrder (GetOrderRequest) returns (Order);`
+  </Card>
+</CardGrid>
+
+### Pas de « meilleur » style
+
+Le bon choix dépend de **qui consomme** l'API et de la **nature de l'opération**. Et un cinquième consommateur apparaît : l'**agent IA**, qui se comporte souvent comme un client POST Action, en déclenchant des **actions nommées** plutôt qu'en naviguant des ressources.
+
+<Quiz question="Parmi ces propositions, laquelle est la MOINS RESTful ?" options={['POST /readUserOrders avec { "userId": 42 }', 'GET /users/42/orders', 'POST /users/42/orders/search avec { "status": "shipped" }', 'GET /orders?userId=42&status=shipped']} answer={0}>
+  **A.** Tout y est à contre-emploi : un **verbe** dans l'URL au lieu d'une ressource, et un **POST** pour une lecture, qui perd le cache et l'idempotence. C est un compromis qu'on rencontre (POST pour des recherches complexes), mais il garde la ressource dans le path. B et D sont des lectures RESTful : B identifie une sous-ressource par le **path**, D filtre une collection par la **query**. Ce qui identifie va dans le path, ce qui filtre dans la query.
+</Quiz>
+
+### Zoom sur une requête REST
+
+```http
+POST /users/42/orders?dryRun=true HTTP/1.1
+Host: api.exemple.com
+Authorization: Bearer 7f9c3a1e-4b2d…
+Content-Type: application/json
+
+{ "sku": "ABC-123", "qty": 2 }
+```
+
+| Partie | Dans l'exemple | Rôle |
+| --- | --- | --- |
+| **Méthode** | `POST` | Le verbe HTTP : l'intention de la requête (GET, POST, PUT, PATCH, DELETE). |
+| **Path parameters** | `42` dans `/users/42/orders` | Identifient la ressource visée. Obligatoires, ils font partie de l'URL. |
+| **Query parameters** | `dryRun=true` | Les options : filtres, tri, pagination. Facultatifs. |
+| **Headers** | `Authorization`, `Content-Type` | Les métadonnées : authentification, format, cache, traçabilité. |
+| **Body** | `{ "sku": …, "qty": 2 }` | La donnée métier, le plus souvent en JSON. Absent d'un GET. |
+
+<p class="not-prose -mt-4 mb-10 text-center text-[0.8125rem] text-ink-3">Les cinq parties d'une requête REST · Source : support ARLA Cours n°3</p>
+
+<KeyIdea>Ce qui **identifie** va dans le path, ce qui **filtre** dans la query, ce qui **décrit** la requête dans les headers.</KeyIdea>
+
+## Les APIs asynchrones
+
+### Accepter n'est pas traiter
+
+L'API reçoit la requête, mais le traitement se poursuit **en arrière-plan**. Réponse immédiate : **`202 Accepted`**, la requête est acceptée, le résultat n'est pas encore disponible.
+
+<Callout type="warning" title="Deux familles d'erreurs">
+Il faut distinguer une erreur d'**acceptation** de la requête (renvoyée tout de suite, en 4xx/5xx) et une erreur du **traitement asynchrone** (qui survient plus tard, et doit être remontée autrement : un état `FAILED`, un webhook).
+</Callout>
+
+### Polling ou webhook
+
+<Compare leftTitle="Polling" rightTitle="Webhook">
+  <Fragment slot="left">C'est le **client** qui revient demander où en est le traitement.</Fragment>
+  <Fragment slot="right">C'est le **serveur** qui rappelle le client, à l'adresse que celui-ci a fournie.</Fragment>
+</Compare>
+
+<Figure caption="Création d'une VM en polling · Source : support ARLA Cours n°3">
+```mermaid
+sequenceDiagram
+  participant C as Client
+  participant V as VM Service
+  C->>V: 1. POST /vms (cpu 42)
+  V-->>C: 202 Accepted (vmId 123, endpoint /vms/123)
+  loop jusqu'à un état final
+    C->>V: 2. GET /vms/123
+    V-->>C: 200 OK (state CREATING, RUNNING, FAILED…)
+  end
+```
+</Figure>
+
+<Figure caption="Création d'une VM avec webhook · Source : support ARLA Cours n°3">
+```mermaid
+sequenceDiagram
+  participant C as Client
+  participant V as VM Service
+  C->>V: 1. POST /vms (cpu 42, webhook my.api/vms)
+  V-->>C: 202 Accepted (vmId 123, endpoint /vms/123)
+  Note over V: plus tard
+  V->>C: 2. POST my.api/vms (vmId 123, state CREATED)
+  C-->>V: 200 OK
+```
+</Figure>
+
+Dans le webhook, l'état envoyé est un **resting state** : un état **stable**, pas une étape intermédiaire.
+
+## Bonnes pratiques
+
+Une liste non exhaustive.
+
+### Contract first
+
+Quelle que soit la nature technique de l'API, on **définit d'abord son contrat**, puis on **génère** certaines parties idiomatiques de la codebase.
+
+<Pipeline steps={[
+  { title: 'Écrire le contrat', caption: 'OpenAPI ou .proto', detail: 'API REST : une spécification OpenAPI en .json ou .yaml. API RPC : un fichier .proto.' },
+  { title: 'Revoir le contrat', caption: 'avant le code', detail: 'Une revue de contrat coûte bien moins cher qu’une revue de code après coup.' },
+  { title: 'Générer', caption: 'client, serveur, types', detail: 'Client, serveur, types, SDK, documentation (Swagger), dans n’importe quel langage cible. Ex. : oapi-codegen, progenitor, protoc-gen-go, grpc-tools.' },
+  { title: 'Travailler en parallèle', caption: 'contrat figé', detail: 'Les équipes front et back avancent dès que le contrat est figé, sans attendre l’implémentation.', tone: 'synapse' },
+]} />
+
+- Le contrat devient la **source de vérité unique**, pas un sous-produit du code.
+- C'est un workflow qui s'intègre parfaitement dans la **programmation agentique** : le contrat cadre ce que l'agent génère.
+
+### Semver : versionner le contrat
+
+De l'importance du contrat découle l'importance de le **versionner**.
+
+<Figure caption="MAJOR.MINOR.PATCH · Source : support ARLA Cours n°3">
+<CardGrid cols={3}>
+  <Card kicker="1.x.x" title="Major" tone="danger">Changement **cassant** (*breaking change*) : refonte, nouvel ensemble de fonctionnalités.</Card>
+  <Card kicker="x.1.x" title="Minor" tone="signal">Changement **non cassant** notable : nouveau composant, styles mis à jour.</Card>
+  <Card kicker="x.x.1" title="Patch" tone="muted">Petite demande, correctif, mise à jour d'éléments existants.</Card>
+</CardGrid>
+</Figure>
+
+Une API publiée est une promesse : un bump **MAJOR** doit être **rare** et accompagné d'une **politique de dépréciation** (changelog, en-tête `Sunset`, période de transition).
+
+<Callout type="danger" title="Le piège classique">
+Un changement qui semble mineur est en réalité **MAJOR** : renommer une valeur d'enum, rendre obligatoire un champ optionnel. Des outils comme **oasdiff** ou **openapi-changes** comparent deux versions d'un contrat OpenAPI et détectent ces changements cassants.
+</Callout>
+
+<Quiz question="L'API d'Expense.io v2.3.1 rend obligatoire le champ « category » à la création d'une note, jusqu'ici optionnel. Quelle version publier ?" options={['2.3.2', '2.4.0', '3.0.0']} answer={2}>
+  **3.0.0.** Tous les clients qui créaient des notes sans `category` vont recevoir une erreur : c'est un **breaking change**. Le piège : l'ajout d'une contrainte « ressemble » à une petite évolution (MINOR), alors que pour le consommateur, c'est une requête valide hier qui ne l'est plus aujourd'hui.
+</Quiz>
+
+### Sécuriser une API
+
+**Authentification** : qui es-tu ? **Autorisation** : qu'as-tu le droit de faire ?
+
+| Mécanisme | Transport | Cas d'usage | Compromis clé |
+| --- | --- | --- | --- |
+| **Session cookie** | Cookie | Application web classique | Simple, mais nécessite un état serveur partagé |
+| **Bearer opaque** | `Authorization: Bearer` | APIs internes | Révocation immédiate, mais lookup serveur à chaque appel |
+| **JWT** | `Authorization: Bearer` | APIs distribuées, microservices | Stateless, mais révocation difficile avant expiration |
+| **OAuth 2.0 + OIDC** | Tokens via flow OAuth | Délégation d'identité, « Se connecter avec… » | Standard et flexible, mais plus complexe |
+| **mTLS** | Certificat client | B2B, haute sécurité | Authentification forte, mais gestion et rotation des certificats |
+| **HMAC** | Signature dans les headers | Webhooks, intégrations | Pas de secret transmis, mais implémentation cryptographique à sécuriser |
+| **API key** | Header ou query param | Machine to machine, API publique | Simple, mais généralement pas d'expiration native |
+| **Basic auth** | `Authorization: Basic` | Legacy, API interne | Très simple, mais identifiants transmis à chaque requête |
+
+<p class="not-prose -mt-4 mb-10 text-center text-[0.8125rem] text-ink-3">Huit mécanismes d'authentification et leur compromis · Source : support ARLA Cours n°3, d'après OpenAPI « Describing API Security »</p>
+
+À quoi ça ressemble sur le fil :
+
+```http
+Set-Cookie: sessionId=s%3AeyJhbGciOiJIUzI1NiJ9.wYg1Xu3Jk; HttpOnly; Secure; SameSite=Lax
+Authorization: Bearer 7f9c3a1e-4b2d-4e8a-9c1f-2d3e4f5a6b7c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.SflKxw…
+Stripe-Signature: t=1614556800,v1=5257a869e7bdb5fd5…
+X-API-Key: sk_live_…
+Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+```
+
+Pour **OAuth 2.0**, la réponse du serveur d'autorisation porte `access_token`, `token_type: "Bearer"`, `expires_in: 3600` et des `scope` (`notes.read notes.write`). Pour **mTLS**, rien dans les headers : l'identité (`CN=expense-service.internal, O=Expense.io`) est négociée au niveau TLS. Et le Basic auth n'est que du Base64 : `dXNlcm5hbWU6cGFzc3dvcmQ=` se décode en `username:password`.
+
+<Quiz question="Expense.io doit envoyer des webhooks à ses clients, qui veulent vérifier que la requête vient bien d'Expense.io et n'a pas été modifiée. Quel mécanisme ?" options={['Une API key dans la query', 'Une signature HMAC dans les headers', 'Basic auth']} answer={1}>
+  **HMAC.** Expense.io signe le corps du message avec un secret partagé ; le client recalcule la signature et compare. **Aucun secret ne transite**, et toute modification du corps invalide la signature : c'est exactement ce que fait le header `Stripe-Signature`. L'API key attire par sa simplicité, mais elle circule en clair dans chaque appel et ne prouve rien sur l'intégrité du contenu.
+</Quiz>
+
+### Zoom sur OAuth 2.0
+
+OAuth 2.0 est un protocole d'**autorisation déléguée**, pas d'authentification : « Cette application peut agir **en mon nom**, avec **ces droits précis**. »
+
+<Figure caption="Le flow « authorization code » · Source : support ARLA Cours n°3">
+```mermaid
+sequenceDiagram
+  participant A as Application (client)
+  participant AS as Serveur d'autorisation
+  participant RS as Serveur de ressources (API)
+  A->>AS: 1. Demande d'autorisation (l'utilisateur consent)
+  AS-->>A: Code d'autorisation
+  A->>AS: 2. Échange du code
+  AS-->>A: Access token
+  A->>RS: 3. Appel de l'API avec l'access token
+  RS-->>A: Ressource protégée
+```
+</Figure>
+
+<DeepDive title="OAuth en 2025 : PKCE partout" level="best-practice">
+  La **RFC 9700** (2025), qui rassemble les bonnes pratiques de sécurité OAuth 2.0, recommande d'utiliser **PKCE** avec le flow authorization code pour **tous** les clients, y compris ceux qui ont un secret : le client envoie le hash d'une valeur aléatoire à l'étape 1 et la valeur elle-même à l'étape 2, ce qui rend inutile un code d'autorisation intercepté. Elle déconseille le flow **implicit** et le flow **password** (l'application qui collecte le mot de passe de l'utilisateur). Pour se « connecter avec… », c'est **OpenID Connect**, une couche au-dessus d'OAuth, qui ajoute l'authentification avec un *ID token*.
+</DeepDive>
+
+### Idempotence
+
+<Callout type="definition" title="Idempotence">
+Rejouer **N fois** une requête produit le **même état final** qu'une seule fois. Idempotent **≠** même réponse à chaque fois.
+</Callout>
+
+| Méthode HTTP | Safe (sans effet de bord) | Idempotent |
+| --- | --- | --- |
+| GET / HEAD / OPTIONS | ✓ | ✓ |
+| PUT | ✕ | ✓ (remplace tout) |
+| DELETE | ✕ | ✓ (état final : absent) |
+| POST | ✕ | ✕ (sauf `Idempotency-Key` gérée côté serveur) |
+| PATCH | ✕ | ⚠ ça dépend de l'opération (`replace` idempotent, `$inc` non) |
+
+<p class="not-prose -mt-4 mb-10 text-center text-[0.8125rem] text-ink-3">Safe et idempotent, méthode par méthode · Source : support ARLA Cours n°3</p>
+
+<Figure caption="Rejoue chaque requête et compare l'état du serveur · Source : support ARLA Cours n°3">
+<Idempotence />
+</Figure>
+
+Pour les POST **non idempotents par nature** (paiement, envoi d'e-mail), le pattern **`Idempotency-Key`** en header laisse le client rejouer une requête en toute sécurité en cas de doute réseau : le serveur **déduplique par clé**.
+
+<Callout type="warning" title="Encore plus critique avec un agent IA">
+Un agent IA peut retenter un appel **de façon autonome**, sans jugement humain pour repérer un doublon avant qu'il ne parte.
+</Callout>
+
+<Quiz question="DELETE /users/toto, mais toto n'existe déjà plus (ou n'a jamais existé). Que répondre ?" options={['204 No Content : le but est atteint, toto n’existe pas', '404 Not Found : il n’y avait rien à supprimer', 'Les deux se défendent : l’idempotence porte sur l’état final, pas sur la réponse']} answer={2}>
+  **Les deux se défendent.** L'état final est le même (toto absent) : DELETE reste **idempotent** quelle que soit la réponse. 204 privilégie l'intention (« c'est supprimé ») et simplifie les retries ; 404 informe le client que la ressource n'était pas là. Le piège est de croire qu'un 404 au deuxième appel « casse » l'idempotence : c'est justement la différence entre même état et même réponse. L'important est de choisir une convention et de la documenter dans le contrat.
+</Quiz>
+
+<DeepDive title="Ce que dit la RFC 9110" level="approfondissement">
+  La spécification HTTP (**RFC 9110**, § 9.2.2) définit l'idempotence par **l'effet voulu sur le serveur**, pas par la réponse : PUT, DELETE et les méthodes *safe* sont idempotentes, et c'est ce qui autorise un client ou un proxy à **rejouer automatiquement** une requête après une coupure réseau, sans savoir si la première est arrivée. POST et PATCH n'ont pas cette garantie, d'où les clés d'idempotence.
+</DeepDive>
+
+### Error reporting : la RFC 9457
+
+Standardiser les erreurs, c'est mieux **comprendre son système** et mieux **informer ses utilisateurs**. La **RFC 9457** (*Problem Details for HTTP APIs*) propose un format :
+
+```http
+HTTP/1.1 403 Forbidden
+Content-Type: application/problem+json
+
+{
+  "type": "https://exemple.com/errors/solde-insuffisant",
+  "title": "Solde insuffisant",
+  "status": 403,
+  "detail": "Solde de 30€ pour un montant de 50€.",
+  "instance": "/comptes/12345/transactions/abc"
+}
+```
+
+<CardGrid cols={2}>
+  <Card kicker="type" title="URI vers la doc de l'erreur" tone="signal">L'identifiant **stable** du type de problème : c'est sur lui que le client s'appuie.</Card>
+  <Card kicker="title · detail" title="Pour les humains" tone="muted">Peuvent être reformulés ou traduits ; la RFC demande de **ne pas parser** `detail`.</Card>
+  <Card kicker="status" title="Le code HTTP, recopié" tone="muted">Un nombre, identique au code HTTP réellement renvoyé.</Card>
+  <Card kicker="instance" title="Cette occurrence-là" tone="muted">Identifie l'occurrence précise du problème, pas son type.</Card>
+</CardGrid>
+
+<KeyIdea>Le **code HTTP** reste la source de vérité ultime en cas d'erreur. Il en existe quasiment un pour chaque cas : choisis le plus adapté.</KeyIdea>
+
+### Les codes de succès
+
+<Figure caption="2xx et 3xx les plus utilisés · Source : support ARLA Cours n°3">
+<Compare leftTitle="2xx · succès" rightTitle="3xx · redirection">
+  <Fragment slot="left">
+    - **200 OK** : la requête a réussi, la réponse est dans le body
+    - **201 Created** : ressource créée, son URL est dans le header `Location`
+    - **202 Accepted** : demande prise en compte, traitement asynchrone
+    - **204 No Content** : succès sans body (DELETE, PUT)
+  </Fragment>
+  <Fragment slot="right">
+    - **301 Moved Permanently** : la ressource a changé d'URL
+    - **303 See Other** : le résultat est à une autre URL
+    - **304 Not Modified** : la version en cache est à jour
+  </Fragment>
+</Compare>
+</Figure>
+
+Quel code pour quelle opération ? **GET** réussi : 200 avec la ressource. **POST** qui crée : 201 avec `Location`. **DELETE** réussi : 204 sans body. **Traitement long** : 202 avec un lien de suivi.
+
+<Callout type="note" title="À ne pas confondre">
+**200** a un body, **204** n'en a pas. **201** : c'est créé ; **202** : c'est seulement accepté. **304** n'est pas une erreur : le cache du client est encore valable.
+</Callout>
+
+### Les codes d'erreur
+
+<Figure caption="4xx et 5xx les plus utilisés · Source : support ARLA Cours n°3">
+<Compare leftTitle="4xx · erreur du client" rightTitle="5xx · erreur du serveur">
+  <Fragment slot="left">
+    - **400 Bad Request** : requête mal formée (JSON invalide, champ manquant)
+    - **401 Unauthorized** : non authentifié, identifiants absents ou invalides
+    - **403 Forbidden** : authentifié, mais pas le droit de faire l'action
+    - **404 Not Found** : la ressource n'existe pas
+    - **409 Conflict** : conflit avec l'état actuel (doublon, version périmée)
+    - **422 Unprocessable Content** : syntaxe valide, mais règle métier violée
+    - **429 Too Many Requests** : quota dépassé (rate limiting)
+  </Fragment>
+  <Fragment slot="right">
+    - **500 Internal Server Error** : bug ou cas non prévu
+    - **502 Bad Gateway** : réponse invalide d'un service en amont
+    - **503 Service Unavailable** : indisponible ou surchargé
+    - **504 Gateway Timeout** : un service en amont ne répond pas
+  </Fragment>
+</Compare>
+</Figure>
+
+<Callout type="note" title="À ne pas confondre">
+**401** : qui es-tu ? **403** : tu n'as pas le droit. **400** : requête illisible ; **422** : lisible, mais refusée. Et **jamais de 200 avec une erreur dans le body**. 4xx : le client doit corriger sa requête ; 5xx : le problème est côté serveur, le client peut réessayer plus tard.
+</Callout>
+
+### Vérifier ses réflexes RFC 9457
+
+<Quiz question="Quelle réponse d'erreur respecte le standard RFC 9457 ?" options={['200 OK { "success": false, "error": "solde_insuffisant" }', '403 Forbidden { "error": "solde_insuffisant", "detail": "Solde insuffisant" }', '403 Forbidden, Content-Type: application/problem+json { "type": "…", "title": "Solde insuffisant", "status": 403, "detail": "…" }', '500 Internal Server Error { "message": "solde insuffisant" }']} answer={2}>
+  **C.** Bon code HTTP, bon `Content-Type`, membres standards. A cache l'erreur derrière un 200 (le pire réflexe), D accuse le serveur d'une règle métier, et B a le bon code mais un format maison sans `application/problem+json`.
+</Quiz>
+
+<Quiz question="Le client doit réagir automatiquement à l'erreur « solde insuffisant » (par exemple proposer un rechargement). Sur quel champ doit-il s'appuyer ?" options={['title : "Solde insuffisant"', 'detail : "Solde de 30€ pour un montant de 50€."', 'type : "https://exemple.com/errors/solde-insuffisant"', 'instance : "/comptes/12345/transactions/abc"']} answer={2}>
+  **C, `type`.** C'est l'identifiant **stable** du type de problème. `title` et `detail` sont destinés aux humains : ils peuvent être reformulés ou traduits, et la RFC demande de ne pas parser `detail`. `instance` identifie cette occurrence précise, pas le type d'erreur.
+</Quiz>
+
+<Quiz question="Un formulaire est soumis avec 3 champs invalides. Quelle réponse suit le mieux la RFC 9457 ? (toutes en application/problem+json)" options={['400 { "type": "…", "title": "Champs invalides", "errors": [ { "pointer": "#/age", "detail": "…" }, … ] }', '400 [ { "type": "…" }, { "type": "…" }, { "type": "…" } ]', '200 { "type": "…", "title": "Champs invalides", "status": 400 }', '400 { "type": "…", "detail": "age: invalide; email: invalide; nom: requis" }']} answer={0}>
+  **A.** La RFC autorise des **membres d'extension** (ici `errors`) pour porter des données structurées ; c'est l'exemple qu'elle donne elle-même. B : la racine doit être un objet JSON, pas un tableau. C : le vrai code HTTP est 200, le `status` du body n'est qu'indicatif. D est le piège : l'objet est valide, mais il oblige le client à parser `detail`.
+</Quiz>
+
+<Quiz question="Une seule de ces réponses respecte vraiment la RFC 9457. Laquelle ?" options={['400 Bad Request, problem+json, { "type": "…/solde", "title": "Solde insuffisant", "status": 403 }', '403 Forbidden, problem+json, { "type": "…/solde", "title": "Solde insuffisant", "status": 403 }', '403 Forbidden, problem+json, { "type": "…/solde", "title": "Solde insuffisant", "status": "403" }', '403 Forbidden, application/json, { "type": "…/solde", "title": "Solde insuffisant", "status": 403 }']} answer={1}>
+  **B.** A : le `status` du body (403) ne correspond pas au code HTTP renvoyé (400) ; la RFC impose qu'ils soient identiques. C : `status` est une chaîne alors que la RFC attend un **nombre** JSON. D : avec `application/json` au lieu de `application/problem+json`, le client ne peut pas savoir qu'il s'agit d'un Problem Details.
+</Quiz>
+
+## À retenir
+
+<Takeaways>
+1. **Une API est un contrat.** Elle sépare un contrat promis et stable d'une implémentation libre de changer ; une fois publiée, c'est une one-way door.
+2. **Pas de meilleur style.** REST pour un partenaire ou une API publique, GraphQL pour des fronts aux besoins variés, POST Action pour des actions métier (et les agents IA), gRPC entre services internes.
+3. **Contrat d'abord, versionné.** Contract first (OpenAPI, .proto) pour générer et paralléliser ; semver pour évoluer, et rendre un champ obligatoire est un MAJOR.
+4. **Rejouable sans risque.** Idempotent = même état final, pas même réponse ; POST et paiements passent par une Idempotency-Key, d'autant plus face à un agent IA.
+5. **Des erreurs qui parlent.** Le bon code HTTP (401 ≠ 403, 400 ≠ 422, jamais 200 avec une erreur) et un body RFC 9457 dont le client lit le `type`.
+</Takeaways>

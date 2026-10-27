@@ -77,5 +77,26 @@
     "accent": "signal",
     "order": 6,
     "plannedSessions": 24
+  },
+  {
+    "id": "arla",
+    "title": "Architecture logicielle",
+    "short": "ARLA",
+    "description": "Le métier d'architecte logiciel et ses décisions : compromis, monolithe ou microservices, asynchrone, théorème CAP, clean architecture et APIs.",
+    "teacher": "Nathan Prats & Mathieu Bouchet",
+    "domain": "architecture",
+    "accent": "signal",
+    "order": 7,
+    "plannedSessions": 5,
+    "upcoming": [
+      {
+        "session": 4,
+        "title": "Intégration et garde-fous"
+      },
+      {
+        "session": 5,
+        "title": "MCO et dette technique"
+      }
+    ]
   }
 ]
