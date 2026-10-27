@@ -56,6 +56,10 @@ import Partitioning from '../viz/Partitioning.astro';
 import Raid from '../viz/Raid.astro';
 import IntegrationTopology from '../viz/IntegrationTopology.astro';
 import Monitoring from '../viz/Monitoring.astro';
+import CloneDepth from '../viz/CloneDepth.astro';
+import ClassExplosion from '../viz/ClassExplosion.astro';
+import DecoratorStack from '../viz/DecoratorStack.astro';
+import VisitorTradeoff from '../viz/VisitorTradeoff.astro';
 
 export const components = {
   Callout,
@@ -112,4 +116,8 @@ export const components = {
   Raid,
   IntegrationTopology,
   Monitoring,
+  CloneDepth,
+  ClassExplosion,
+  DecoratorStack,
+  VisitorTradeoff,
 };

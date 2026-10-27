@@ -19,6 +19,10 @@ const subjects = defineCollection({
     upcoming: z
       .array(z.object({ session: z.number(), title: z.string(), description: z.string().optional() }))
       .default([]),
+    // Parties de la matière : chacune commence à la session `from` et court jusqu'à la partie suivante
+    parts: z
+      .array(z.object({ title: z.string(), description: z.string().optional(), from: z.number() }))
+      .default([]),
   }),
 });
 

@@ -39,6 +39,17 @@ const jsonLd = [
   <section class="mx-auto max-w-[120rem] px-4 py-16 sm:px-6">
     <ol class="relative grid gap-4 before:absolute before:top-4 before:bottom-4 before:left-[1.4rem] before:w-px before:bg-line">
       {sessions.map(({ n, lesson, next }, i) => (
+        <>
+        {subject.data.parts.filter((p) => p.from === n).map((p) => (
+          <li class="relative grid grid-cols-[2.8rem_1fr] gap-5 pt-4 first:pt-0" data-reveal style={`--reveal-i:${i}`}>
+            <span class="relative z-10 mt-1 ml-[1.09rem] size-2.5 rounded-full bg-signal" aria-hidden="true"></span>
+            <div>
+              <p class="font-mono text-xs tracking-[0.14em] text-signal uppercase">Partie</p>
+              <h2 class="mt-1 text-2xl font-semibold tracking-tight">{p.title}</h2>
+              {p.description && <p class="mt-1 max-w-2xl text-ink-2">{p.description}</p>}
+            </div>
+          </li>
+        ))}
         <li class="relative grid grid-cols-[2.8rem_1fr] gap-5" data-reveal style={`--reveal-i:${i}`}>
           <span class:list={['relative z-10 mt-5 grid size-11 place-items-center rounded-full border font-mono text-sm', lesson ? 'border-signal bg-surface text-signal' : 'border-line bg-bg text-ink-3']}>{String(n).padStart(2, '0')}</span>
           {lesson ? (
@@ -59,6 +70,7 @@ const jsonLd = [
             </div>
           )}
         </li>
+        </>
       ))}
     </ol>
   </section>

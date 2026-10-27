@@ -109,5 +109,22 @@
     "accent": "signal",
     "order": 8,
     "plannedSessions": 4
+  },
+  {
+    "id": "acoo",
+    "title": "Analyse et conception orientée objet",
+    "short": "ACOO",
+    "description": "Concevoir des objets qui évoluent sans tout casser : les design patterns du Gang of Four, de création, de structure et de comportement.",
+    "domain": "genie-logiciel",
+    "accent": "signal",
+    "order": 9,
+    "plannedSessions": 3,
+    "parts": [
+      {
+        "title": "Design patterns",
+        "description": "Les patrons de conception du Gang of Four, présentés par les étudiants SIGL : créer, assembler, puis faire agir des objets.",
+        "from": 1
+      }
+    ]
   }
 ]

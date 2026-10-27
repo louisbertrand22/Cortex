@@ -35,6 +35,10 @@ export async function getNavTree() {
 
 export { getEntry };
 
+/** Partie de la matière qui contient une session (la dernière dont `from` est atteint). */
+export const partOf = (subject: Subject, session: number) =>
+  [...subject.data.parts].sort((a, b) => a.from - b.from).findLast((p) => p.from <= session);
+
 /** Auteur du site, pour les données structurées schema.org. */
 export const author = { '@type': 'Person', name: 'Louis Bertrand', url: 'https://lab.louis-bertrand.fr' };
 

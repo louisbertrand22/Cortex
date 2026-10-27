@@ -73,4 +73,8 @@ Dans une leçon (ou sur `/guide`) : build, puis rendu clair/sombre, 1440 px et 3
 - **GEN ARCHI** : `Partitioning` (cloisonnement d'un serveur, du standalone au conteneur : isolation vs agilité)
   · `Raid` (faire tomber des disques en RAID 0, 1, 5, 6, 10) · `IntegrationTopology` (point à point, EAI ou ESB :
   combien d'interfaces pour N applications) · `Monitoring` (push, pull ou remédiation automatique face à une panne).
+- **ACOO** : `CloneDepth` (Prototype : copie superficielle ou profonde, modifier le clone touche-t-il le prototype ?)
+  · `ClassExplosion` (Bridge : N × M classes en héritage contre N + M en composition) · `DecoratorStack` (Decorator :
+  envelopper un café, délégation de `getCost()`, l'ordre des décorateurs) · `VisitorTradeoff` (Visitor : ajouter
+  une opération ou un élément, quels fichiers changent).
 - **Génériques** : `Pipeline` · `BarChart`.

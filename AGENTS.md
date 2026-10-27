@@ -84,6 +84,8 @@ Ajouter un objet dans `src/content/subjects.json` :
 - `plannedSessions` : nombre total de sessions de l'UE ; les sessions sans leçon s'affichent en pointillés « à venir ».
 - `upcoming` : titres des sessions annoncées mais pas encore rédigées. **Retirer l'entrée dès que la leçon existe.**
 - `order` : position dans la liste des cours (le plus petit en premier).
+- `parts` (optionnel) : découpe la matière en parties, `[{ "title", "description", "from" }]`. Une partie commence à la
+  session `from` et court jusqu'à la suivante ; son titre s'affiche sur la page de la matière et dans l'en-tête des leçons.
 
 ### 3. Rédiger la leçon
 
@@ -181,4 +183,5 @@ respect de `prefers-reduced-motion`. **Pas de dépendance réseau au runtime** (
 | `pit` | Perspective IT (exposés POV d'étudiants) | Étudiants ingénieurs | Une session = un exposé « POV » de deux étudiants SIGL, en anglais ; numéro de session = numéro du POV (les autres s'affichent « à venir ») ; chiffres et événements rapportés tels quels par les exposants, avec un avertissement en tête, les erreurs repérées en `<DeepDive>` |
 | `arla` | Architecture logicielle (Nathan Prats & Mathieu Bouchet) | Étudiants ingénieurs | Dérivé de supports PowerPoint (promo 2027) ; fil rouge Expense.io (SaaS de notes de frais) gardé comme étude de cas ; débats, quiz de séance, projet et soutenance volontairement omis ; les questions des slides deviennent des `<Quiz>` |
 | `gen-archi` | Génération Architecture (Yannick Neff) | Étudiants ingénieurs | Dérivé de supports PowerPoint (même prof qu'ARCL) : Platform 2 (datacenter, virtualisation) contre Platform 3 (cloud native) ; TD Terraform, suivis et soutenance volontairement omis ; approximations du support (« ACP », « CICS », *scale in*) signalées en `<Callout>` ou `<DeepDive>` |
+| `acoo` | Analyse et conception orientée objet | Étudiants ingénieurs | Partie « Design patterns » (`parts`) dérivée d'exposés d'étudiants SIGL (PowerPoint, un pattern par groupe) : une session par famille du GoF (création, structure, comportement) ; avertissement « exposés d'étudiants » en tête ; erreurs des slides (rôles Target/Adaptee, code C#) signalées en `<DeepDive>` |
 | `ia-zero` | L'IA expliquée de zéro (Seconde) | Lycéen non technique | Pas de support : tout est rédigé ; tutoiement ; aucun terme non expliqué |
