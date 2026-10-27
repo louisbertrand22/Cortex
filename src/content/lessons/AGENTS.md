@@ -38,6 +38,7 @@ Repères observés sur les leçons existantes : 5-10 parties, 2-8 `<Quiz>`, 1-6 
   leur première apparition (`<Callout type="definition">` pour les termes centraux).
 - **Fidélité** : tout ce qui est dans le support est restitué, rien n'est inventé ni attribué au prof à tort.
   Les chiffres du support gardent leur source dans la légende (`<Figure caption="… · Source : …">`).
+  Fidèle ne veut pas dire recopié : voir « Du support à la leçon » ci-dessous.
 - **Enrichissement** : uniquement dans `<DeepDive>`, avec une source vérifiable ajoutée à `sources`. Choisir le `level` :
   `approfondissement` (le mécanisme en dessous), `best-practice` (comment on le fait bien), `terrain` (retour
   d'expérience), `état-de-l-art` (recherche récente).
@@ -45,6 +46,41 @@ Repères observés sur les leçons existantes : 5-10 parties, 2-8 `<Quiz>`, 1-6 
 - **Une idée par paragraphe**, phrases courtes, gras pour le mot-clé (pas pour des phrases entières).
 - **Quiz** : questions qui vérifient la compréhension (piège classique, cas concret), pas la mémoire d'un mot.
   L'explication dit pourquoi la bonne réponse est bonne **et** pourquoi le piège attire.
+
+### Du support à la leçon : rédiger, pas recopier
+
+Un support PowerPoint est fait pour être **commenté à l'oral** : puces de trois mots, schémas sans légende, sigles non
+développés, transitions absentes. Recopier ses puces donne une page qu'on ne comprend pas sans avoir assisté au cours.
+**C'est le travail de l'agent de combler ce que le prof disait à l'oral** : la leçon doit se lire seule, par quelqu'un
+qui a manqué la séance.
+
+Concrètement, pour chaque slide ou bloc du support :
+
+1. **Comprendre avant d'écrire** : ce que la slide affirme, pourquoi elle est là, ce qu'elle suppose connu.
+2. **Reformuler** en phrases complètes qui relient les puces entre elles (cause, conséquence, opposition). Une liste
+   de puces du support devient un paragraphe, une `<Compare>`, une `<CardGrid>` ou un `<Steps>`, rarement une liste.
+3. **Expliquer ce qui reste implicite** : développer les sigles, définir les termes, dire **pourquoi** et pas seulement
+   **quoi**, donner un exemple concret quand l'idée est abstraite, expliciter ce qu'un schéma montre.
+4. **Ajouter du détail quand c'est nécessaire** : une slide trop elliptique pour être comprise (« CAP : choisir 2 sur 3 »)
+   doit être développée jusqu'à ce que le concept tienne debout (ce que sont C, A et P, pourquoi on ne peut pas tout
+   avoir, un cas concret).
+
+Ce qui reste dans le **flux normal** et ce qui part en **`<DeepDive>`** :
+
+| Dans le flux (sans balise) | En `<DeepDive>` avec source |
+| --- | --- |
+| Reformulation, phrases de liaison, transitions | Faits, chiffres, dates absents du support |
+| Définition d'un terme ou d'un sigle cité par le support | Concepts, outils, auteurs que le support ne mentionne pas |
+| Explication du mécanisme que le support affirme | État de l'art, versions récentes, évolutions depuis le support |
+| Exemple illustratif simple (clairement présenté comme tel) | Retour terrain, best practice, avis contraire |
+| Explicitation d'un schéma du support | Correction d'une erreur ou d'une approximation du support |
+
+Le critère : **le flux explique ce que dit le support, le `<DeepDive>` dit autre chose**. Une explication ne doit pas
+glisser vers une affirmation que le prof n'a pas faite. En cas de doute, `<DeepDive>`.
+
+Signaux d'une leçon recopiée, à corriger avant de rendre : listes à puces de mots isolés, sigles jamais développés,
+paragraphes d'une ligne qui reprennent un titre de slide, schéma sans phrase qui dit quoi y regarder, partie qu'on ne
+comprend pas sans le support sous les yeux.
 
 ### Adapter au public
 
@@ -132,6 +168,7 @@ flowchart TB
 
 - [ ] Frontmatter complet, `session` = numéro du fichier, `updated` à jour.
 - [ ] Tout le support est couvert, dans l'ordre ; rien d'inventé hors `<DeepDive>`.
+- [ ] Rédigé, pas recopié : chaque partie se comprend sans le support (sigles développés, puces reliées, « pourquoi » expliqué).
 - [ ] Chaque `<DeepDive>` a sa source dans `sources`.
 - [ ] Au moins une visualisation par grande partie.
 - [ ] `<Takeaways>` final, 5 points maximum.

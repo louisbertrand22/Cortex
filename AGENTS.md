@@ -56,6 +56,8 @@ Un cours = une **matière** (`subjects.json`) découpée en **sessions** (une le
   (Python `html.parser`/BeautifulSoup), en ignorant `<script>` et `<style>`. Ne jamais `cat` le fichier brut.
 - PDF : extraire le texte page par page ; regarder les pages-schémas en image si elles portent du sens.
 - Repérer : le plan, les définitions, les chiffres, les schémas, les « choses à retenir » / questions de quiz du prof.
+- Repérer aussi les **trous** : puces sans explication, sigles non développés, schémas muets, enchaînements
+  absents. Ce sont les endroits à rédiger et compléter à l'étape 3.
 
 ### 2. Déclarer la matière (si elle n'existe pas)
 
@@ -88,12 +90,17 @@ Ajouter un objet dans `src/content/subjects.json` :
 Fichier `src/content/lessons/<matière>/<NN>-<slug>.mdx` (`NN` = numéro de session sur deux chiffres).
 Toutes les règles de rédaction, le frontmatter et un modèle complet sont dans **`src/content/lessons/AGENTS.md`**.
 
-Les deux règles qui ne se négocient pas :
+Les trois règles qui ne se négocient pas :
 
 1. **Fidélité vs enrichissement.** Ce qui vient du support est rédigé dans le flux normal. Tout ce qui vient
    d'ailleurs (approfondissement, état de l'art, best practice, retour terrain) va dans `<DeepDive>` et cite
    sa source dans le frontmatter `sources`.
-2. **Visualiser chaque concept complexe** : Mermaid, `<Pipeline>`, `<BarChart>`, `<Compare>`… ou un nouvel îlot
+2. **Rédiger, pas recopier.** Un support PowerPoint est souvent une suite de puces faites pour l'oral : c'est à
+   l'agent de compléter ce que le prof disait (reformuler, relier les idées, développer les sigles, expliquer le
+   « pourquoi », détailler une slide trop elliptique) pour que la leçon se comprenne seule. Ces explications vont
+   dans le flux ; les faits nouveaux, dans `<DeepDive>`. Détail dans `src/content/lessons/AGENTS.md`
+   § « Du support à la leçon ».
+3. **Visualiser chaque concept complexe** : Mermaid, `<Pipeline>`, `<BarChart>`, `<Compare>`… ou un nouvel îlot
    (`src/components/viz/AGENTS.md`) quand manipuler aide à comprendre.
 
 ### 4. Vérifier
