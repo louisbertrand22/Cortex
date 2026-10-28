@@ -25,7 +25,7 @@ sources:
 updated: 2026-10-28
 ---
 
-Les patterns de comportement vus jusqu'ici faisaient circuler une requête (Chain of Responsibility), la transformaient en objet (Command) ou sortaient des opérations de leurs classes (Visitor). Cette dernière session en présente deux autres, très différents. L'**Observer** organise la **réaction** : quand un objet change, comment prévenir tous ceux que ça intéresse, sans qu'il ait à les connaître ? C'est le mécanisme derrière les événements d'une interface graphique, les notifications d'une application, la programmation réactive. L'**Interpreter** organise le **langage** : quand des règles se combinent à l'infini, comment cesser de les coder en dur et en faire un petit langage dont chaque phrase est un arbre d'objets ? La session se termine par une vue d'ensemble des treize patterns de la partie.
+Les patterns de comportement vus jusqu'ici faisaient circuler une requête (Chain of Responsibility), la transformaient en objet (Command) ou sortaient des opérations de leurs classes (Visitor). Cette session en présente deux autres, très différents. L'**Observer** organise la **réaction** : quand un objet change, comment prévenir tous ceux que ça intéresse, sans qu'il ait à les connaître ? C'est le mécanisme derrière les événements d'une interface graphique, les notifications d'une application, la programmation réactive. L'**Interpreter** organise le **langage** : quand des règles se combinent à l'infini, comment cesser de les coder en dur et en faire un petit langage dont chaque phrase est un arbre d'objets ?
 
 <Callout type="note" title="Des exposés d'étudiants">
   Cette session est construite à partir de deux exposés SIGL, l'un sur Observer, l'autre sur Interpreter. Leur contenu est restitué dans le flux ; les points qui méritent d'être nuancés sont signalés dans les encadrés « pour aller plus loin ».
@@ -278,25 +278,9 @@ L'exposé relève trois points d'implémentation, qui sont aussi trois liens ave
   Pour des **règles métier** comme celles de l'exposé, l'Interpreter a un cousin très utilisé : le pattern **Specification** d'Eric Evans et Martin Fowler. Une spécification est un objet avec une méthode `isSatisfiedBy(candidat)`, qu'on combine par `and`, `or` et `not` exactement comme `AndExpr` et `OrExpr` : c'est un Interpreter spécialisé dans les prédicats. À l'autre bout, pour les **vrais langages** (SQL, langages de programmation), on ne code pas l'analyseur à la main : on utilise un générateur d'analyseurs, qui produit l'arbre à partir d'une grammaire formelle, puis on parcourt cet arbre avec des visiteurs. Le pattern reste utile pour comprendre ce que ces outils font, et pour les petits langages internes.
 </DeepDive>
 
-## Les treize patterns de la partie
+## Reconnaître les patterns dans un cas réel
 
-Pour réviser l'ensemble, chaque pattern tient en une question. Les sessions sont indiquées entre parenthèses.
-
-<CardGrid cols={3}>
-  <Card kicker="Création · S1" title="Builder" tone="signal">Comment construire **pas à pas** un objet complexe ?</Card>
-  <Card kicker="Création · S1" title="Abstract Factory" tone="signal">Comment créer des **familles** d'objets cohérentes ?</Card>
-  <Card kicker="Création · S1" title="Prototype" tone="signal">Comment créer en **clonant** un objet configuré ?</Card>
-  <Card kicker="Structure · S2" title="Adapter" tone="synapse">Comment brancher une classe à l'**interface incompatible** ?</Card>
-  <Card kicker="Structure · S2" title="Bridge" tone="synapse">Comment éviter que **deux dimensions** multiplient les classes ?</Card>
-  <Card kicker="Structure · S2" title="Decorator" tone="synapse">Comment **empiler des comportements** à l'exécution ?</Card>
-  <Card kicker="Structure · S4" title="Composite" tone="synapse">Comment traiter une **feuille et un groupe** de la même façon ?</Card>
-  <Card kicker="Structure · S4" title="Flyweight" tone="synapse">Comment supporter des **millions d'objets** presque identiques ?</Card>
-  <Card kicker="Comportement · S3" title="Visitor" tone="amber">Comment **ajouter des opérations** à une hiérarchie stable ?</Card>
-  <Card kicker="Comportement · S5" title="Chain of Responsibility" tone="amber">Comment trouver **qui traite** une requête sans le savoir d'avance ?</Card>
-  <Card kicker="Comportement · S5" title="Command" tone="amber">Comment faire d'une requête un **objet** qu'on peut annuler ?</Card>
-  <Card kicker="Comportement · S6" title="Observer" tone="amber">Comment **prévenir** tous ceux que ça intéresse d'un changement ?</Card>
-  <Card kicker="Comportement · S6" title="Interpreter" tone="amber">Comment faire d'une **grammaire** un arbre d'objets évaluable ?</Card>
-</CardGrid>
+Les patterns se combinent rarement seuls. Un logiciel du quotidien en mobilise plusieurs à la fois ; la vue d'ensemble des seize patterns de la partie est à la fin de la session 7.
 
 <Quiz question="Un tableur recalcule les cellules qui dépendent d'une cellule modifiée, et permet d'annuler chaque saisie. Quels patterns reconnais-tu ?" options={['Observer pour le recalcul, Command pour l\'annulation', 'Chain of Responsibility pour le recalcul, Prototype pour l\'annulation', 'Composite pour le recalcul, Visitor pour l\'annulation']} answer={0}>
   **Observer et Command.** Les cellules dépendantes **observent** la cellule modifiée et se recalculent quand elle notifie un changement (dépendance un-à-plusieurs). Chaque saisie est une **commande** qui mémorise l'ancienne valeur, ce qui permet de l'annuler. La Chain of Responsibility attire parce que le recalcul « se propage », mais elle cherche **un** maillon pour traiter une requête, alors qu'ici **tous** les dépendants doivent réagir. (Les formules elles-mêmes, `=A1+B2*2`, seraient un bon terrain pour l'Interpreter.)

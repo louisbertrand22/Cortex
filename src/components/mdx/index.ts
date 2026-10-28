@@ -65,6 +65,8 @@ import RefundChain from '../viz/RefundChain.astro';
 import CommandRemote from '../viz/CommandRemote.astro';
 import ObserverMatch from '../viz/ObserverMatch.astro';
 import RuleInterpreter from '../viz/RuleInterpreter.astro';
+import StatePlayer from '../viz/StatePlayer.astro';
+import MementoHistory from '../viz/MementoHistory.astro';
 
 export const components = {
   Callout,
@@ -130,4 +132,6 @@ export const components = {
   CommandRemote,
   ObserverMatch,
   RuleInterpreter,
+  StatePlayer,
+  MementoHistory,
 };

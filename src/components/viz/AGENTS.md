@@ -79,5 +79,7 @@ Dans une leçon (ou sur `/guide`) : build, puis rendu clair/sombre, 1440 px et 3
   une opération ou un élément, quels fichiers changent) · `FlyweightMemory` (Flyweight : mémoire d'une forêt avec et
   sans partage) · `RefundChain` (Chain of Responsibility : remboursement qui remonte la chaîne) · `CommandRemote`
   (Command : télécommande de volet, historique, annuler/rétablir) · `ObserverMatch` (Observer : match et bots abonnés,
-  push ou pull) · `RuleInterpreter` (Interpreter : évaluer l'arbre d'une règle selon le contexte).
+  push ou pull) · `RuleInterpreter` (Interpreter : évaluer l'arbre d'une règle selon le contexte) · `StatePlayer` (State : le
+  lecteur multimédia, chaque état traite play/stop et choisit la transition) · `MementoHistory` (Memento : déplacer des
+  formes et annuler, memento complet ou incrémental).
 - **Génériques** : `Pipeline` · `BarChart`.
