@@ -18,10 +18,10 @@ sources:
     url: https://refactoring.guru/design-patterns/visitor-double-dispatch
   - label: OpenJDK, JEP 441 « Pattern Matching for switch » (Java 21)
     url: https://openjdk.org/jeps/441
-updated: 2026-10-27
+updated: 2026-10-28
 ---
 
-Une hiérarchie de classes bien établie (les nœuds d'un arbre syntaxique, les éléments d'un document, les bâtiments d'un catalogue) attire les opérations : calculer un prix, exporter en JSON, vérifier des règles, afficher… Si chacune devient une méthode dans chaque classe, ces classes grossissent de fonctionnalités **sans rapport entre elles**, et chaque nouvelle opération oblige à les rouvrir toutes. Les **patterns de comportement** traitent de la répartition des **responsabilités et des algorithmes** entre objets ; le **Visitor** en est un cas d'école : il sort les opérations des classes pour les ranger dans des objets « experts ». Cette session le présente en entier, puis le resitue parmi les sept patterns de la partie.
+Une hiérarchie de classes bien établie (les nœuds d'un arbre syntaxique, les éléments d'un document, les bâtiments d'un catalogue) attire les opérations : calculer un prix, exporter en JSON, vérifier des règles, afficher… Si chacune devient une méthode dans chaque classe, ces classes grossissent de fonctionnalités **sans rapport entre elles**, et chaque nouvelle opération oblige à les rouvrir toutes. Les **patterns de comportement** traitent de la répartition des **responsabilités et des algorithmes** entre objets ; le **Visitor** en est un cas d'école : il sort les opérations des classes pour les ranger dans des objets « experts ». Cette session le présente en entier, puis le resitue parmi les sept premiers patterns de la partie.
 
 <Callout type="note" title="Un exposé d'étudiants">
   Cette session est construite à partir de l'exposé du groupe 1Pacte (le même qui a présenté le Builder en session 1 : on y retrouve la `Maison`). Les points qui méritent d'être nuancés sont signalés dans les encadrés « pour aller plus loin ».
@@ -190,15 +190,15 @@ L'exposé cite trois domaines où le Visitor est courant, qui ont tous une **str
   <Card kicker="Utilisation" title="Systèmes de fichiers" tone="signal">Fichiers et dossiers : calculer une taille, chercher, sauvegarder, en parcourant l'arborescence.</Card>
 </CardGrid>
 
-Deux patterns apparentés : **Composite**, qui donne souvent sa forme à l'Object Structure (un arbre d'éléments simples et composés que le visiteur parcourt), et **Iterator**, qui sert à **parcourir** la structure élément par élément pour leur faire accepter le visiteur.
+Deux patterns apparentés : **Composite** (session 4), qui donne souvent sa forme à l'Object Structure (un arbre d'éléments simples et composés que le visiteur parcourt), et **Iterator**, qui sert à **parcourir** la structure élément par élément pour leur faire accepter le visiteur.
 
 <DeepDive title="Le Visitor face au pattern matching de Java 21" level="état-de-l-art">
   Le Visitor compense une limite des langages qui n'ont qu'un dispatch simple. Depuis Java 21, le **pattern matching pour `switch`** (JEP 441), combiné aux interfaces **`sealed`** (qui fixent la liste exhaustive des sous-classes), permet d'écrire l'opération en un seul endroit sans `accept` : `switch (b) { case Maison m -> …; case Chalet c -> …; }`. Le compilateur vérifie que tous les cas sont traités : ajouter un `Immeuble` à la hiérarchie scellée fait échouer la compilation de chaque `switch` incomplet, exactement comme l'ajout d'une méthode `visit` dans l'interface du visiteur. Le compromis reste donc le même (opérations faciles, nouveaux éléments coûteux), mais avec beaucoup moins de code. Refactoring.Guru détaille par ailleurs pourquoi la surcharge seule ne suffit pas (« Visitor and Double Dispatch »).
 </DeepDive>
 
-## Les sept patterns de la partie
+## Les sept premiers patterns de la partie
 
-Pour réviser l'ensemble, chaque pattern tient en une question :
+Pour réviser ce qui précède, chaque pattern tient en une question. La suite de la partie ajoute Composite et Flyweight (session 4), Chain of Responsibility et Command (session 5), Observer et Interpreter (session 6), et la session 6 se termine par la vue d'ensemble des treize patterns.
 
 <CardGrid cols={3}>
   <Card kicker="Création" title="Builder" tone="signal">Comment construire **pas à pas** un objet complexe, et en produire plusieurs représentations ?</Card>

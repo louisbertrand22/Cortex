@@ -60,6 +60,11 @@ import CloneDepth from '../viz/CloneDepth.astro';
 import ClassExplosion from '../viz/ClassExplosion.astro';
 import DecoratorStack from '../viz/DecoratorStack.astro';
 import VisitorTradeoff from '../viz/VisitorTradeoff.astro';
+import FlyweightMemory from '../viz/FlyweightMemory.astro';
+import RefundChain from '../viz/RefundChain.astro';
+import CommandRemote from '../viz/CommandRemote.astro';
+import ObserverMatch from '../viz/ObserverMatch.astro';
+import RuleInterpreter from '../viz/RuleInterpreter.astro';
 
 export const components = {
   Callout,
@@ -120,4 +125,9 @@ export const components = {
   ClassExplosion,
   DecoratorStack,
   VisitorTradeoff,
+  FlyweightMemory,
+  RefundChain,
+  CommandRemote,
+  ObserverMatch,
+  RuleInterpreter,
 };

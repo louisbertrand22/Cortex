@@ -118,11 +118,11 @@
     "domain": "genie-logiciel",
     "accent": "signal",
     "order": 9,
-    "plannedSessions": 3,
+    "plannedSessions": 6,
     "parts": [
       {
         "title": "Design patterns",
-        "description": "Les patrons de conception du Gang of Four, présentés par les étudiants SIGL : créer, assembler, puis faire agir des objets.",
+        "description": "Les patrons de conception du Gang of Four, présentés par les étudiants SIGL : treize patterns pour créer, assembler, puis faire agir des objets.",
         "from": 1
       }
     ]
