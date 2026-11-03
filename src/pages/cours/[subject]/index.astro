@@ -3,7 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import { author, breadcrumbLd, domainLabels, getLessons, getSubjects, lessonUrl, subjectUrl, type Subject } from '@/lib/content';
 
 export async function getStaticPaths() {
-  const subjects = await getSubjects('all');
+  const subjects = await getSubjects();
   return subjects.map((subject) => ({ params: { subject: subject.id }, props: { subject } }));
 }
 interface Props { subject: Subject }
@@ -11,8 +11,6 @@ const { subject } = Astro.props;
 const lessons = await getLessons(subject.id);
 const planned = Math.max(subject.data.plannedSessions ?? 0, lessons.length);
 const sessions = Array.from({ length: planned }, (_, i) => ({ n: i + 1, lesson: lessons.find((l) => l.data.session === i + 1), next: subject.data.upcoming.find((u) => u.session === i + 1) }));
-const priv = subject.data.private;
-const home: [string, string] = priv ? ['Espace privé', '/prive/'] : ['Cours', '/cours/'];
 const site = Astro.site!;
 const jsonLd = [
   {
@@ -26,14 +24,14 @@ const jsonLd = [
     isAccessibleForFree: true,
     hasPart: lessons.map((l) => ({ '@type': 'LearningResource', name: l.data.title, url: new URL(lessonUrl(l), site).href })),
   },
-  breadcrumbLd(site, [home, [subject.data.title, subjectUrl(subject)]]),
+  breadcrumbLd(site, [['Cours', '/cours/'], [subject.data.title, subjectUrl(subject)]]),
 ];
 ---
-<BaseLayout title={subject.data.title} description={subject.data.description} jsonLd={jsonLd} noindex={priv}>
+<BaseLayout title={subject.data.title} description={subject.data.description} jsonLd={jsonLd}>
   <section class="border-b border-line">
     <div class="mx-auto max-w-[120rem] px-4 py-16 sm:px-6">
-      <nav class="mb-8 text-sm text-ink-3"><a href={home[1]} class="hover:text-ink">{home[0]}</a> / <span class="text-ink-2">{subject.data.short}</span></nav>
-      <p class="mb-3 font-mono text-xs tracking-[0.14em] text-ink-3 uppercase">{domainLabels[subject.data.domain]} · {subject.data.semester}{subject.data.teacher && ` · ${subject.data.teacher}`}{priv && <span class="ml-2 rounded-full border border-line px-2 py-0.5 text-ink-2">Privé</span>}</p>
+      <nav class="mb-8 text-sm text-ink-3"><a href="/cours/" class="hover:text-ink">Cours</a> / <span class="text-ink-2">{subject.data.short}</span></nav>
+      <p class="mb-3 font-mono text-xs tracking-[0.14em] text-ink-3 uppercase">{domainLabels[subject.data.domain]} · {subject.data.semester}{subject.data.teacher && ` · ${subject.data.teacher}`}</p>
       <h1 class="max-w-3xl text-5xl leading-[1] font-semibold tracking-[-0.04em] text-balance sm:text-6xl">{subject.data.title}</h1>
       <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-2">{subject.data.description}</p>
     </div>

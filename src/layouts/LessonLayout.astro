@@ -14,15 +14,11 @@ interface Props {
   diagramCount?: number;
   prev?: Lesson;
   next?: Lesson;
-  /** Navigation latérale avec toutes les matières (copie servie aux visiteurs connectés par middleware.ts). */
-  fullNav?: boolean;
 }
-const { lesson, subject, headings, readingTime, diagramCount, prev, next, fullNav = false } = Astro.props;
+const { lesson, subject, headings, readingTime, diagramCount, prev, next } = Astro.props;
 const d = lesson.data;
 const updated = d.updated.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 const part = partOf(subject, d.session);
-const priv = subject.data.private;
-const home: [string, string] = priv ? ['Espace privé', '/prive/'] : ['Cours', '/cours/'];
 const site = Astro.site!;
 const jsonLd = [
   {
@@ -40,19 +36,19 @@ const jsonLd = [
     ...(readingTime && { timeRequired: `PT${readingTime}M` }),
     isPartOf: { '@type': 'Course', name: subject.data.title, url: new URL(subjectUrl(subject), site).href },
   },
-  breadcrumbLd(site, [home, [subject.data.title, subjectUrl(subject)], [d.title, lessonUrl(lesson)]]),
+  breadcrumbLd(site, [['Cours', '/cours/'], [subject.data.title, subjectUrl(subject)], [d.title, lessonUrl(lesson)]]),
 ];
 ---
-<BaseLayout title={`${d.title} · ${subject.data.title}`} description={d.description} type="article" modified={d.updated} jsonLd={jsonLd} noindex={priv || fullNav} path={lessonUrl(lesson)} bare sidebar>
+<BaseLayout title={`${d.title} · ${subject.data.title}`} description={d.description} type="article" modified={d.updated} jsonLd={jsonLd} bare sidebar>
   <div class="fixed top-16 right-0 left-0 z-30 h-0.5 origin-left scale-x-0 bg-signal" data-progress aria-hidden="true"></div>
   <div id="top" class="mx-auto grid max-w-[120rem] grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-[16rem_minmax(0,1fr)] xl:grid-cols-[16rem_minmax(0,1fr)_14rem] xl:gap-14">
-    <Sidebar visibility={priv || fullNav ? 'all' : 'public'} path={lessonUrl(lesson)} />
+    <Sidebar />
 
     <div class="min-w-0 pt-8 lg:pt-10">
       <article data-pagefind-body data-pagefind-meta={`subject:${subject.data.short} · S${d.session}`} class="mx-auto max-w-[72rem]">
         <header class="mb-12" data-pagefind-ignore="all">
           <nav class="mb-8 flex flex-wrap items-center gap-1.5 text-sm text-ink-3" aria-label="Fil d'Ariane">
-            <a href={home[1]} class="hover:text-ink">{home[0]}</a><span>/</span>
+            <a href="/cours/" class="hover:text-ink">Cours</a><span>/</span>
             <a href={subjectUrl(subject)} class="hover:text-ink">{subject.data.title}</a><span>/</span>
             <span class="text-ink-2">Session {d.session}</span>
           </nav>

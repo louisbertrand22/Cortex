@@ -79,18 +79,10 @@ export async function withPreview(fn) {
   }
 }
 
-/**
- * Chemins de toutes les pages du build (chaque `index.html` de dist/), y compris celles des matières privées,
- * absentes du sitemap mais à vérifier comme les autres.
- */
+/** Chemins de toutes les pages publiées, d'après le sitemap du build. */
 export function sitePaths() {
-  const dist = join(root, 'dist');
-  const walk = (dir) =>
-    readdirSync(join(dist, dir), { withFileTypes: true }).flatMap((e) => {
-      if (e.isDirectory()) return ['_astro', 'pagefind'].includes(e.name) ? [] : walk(`${dir}${e.name}/`);
-      return e.name === 'index.html' ? [dir] : [];
-    });
-  return walk('/').sort();
+  const xml = readFileSync(join(root, 'dist/sitemap-0.xml'), 'utf8');
+  return [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1]).pathname);
 }
 
 /** Chemins demandés en argument (« /cours/aiad/ », « aiad », « aiad/01 »…), sinon toutes les leçons. */

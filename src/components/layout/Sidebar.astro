@@ -1,9 +1,7 @@
 ---
-import { getNavTree, lessonUrl, subjectUrl, type Visibility } from '@/lib/content';
-interface Props { visibility?: Visibility; path?: string }
-const { visibility = 'public', path: given = Astro.url.pathname } = Astro.props;
-const tree = await getNavTree(visibility);
-const path = given.replace(/\/?$/, '/');
+import { getNavTree, lessonUrl, subjectUrl } from '@/lib/content';
+const tree = await getNavTree();
+const path = Astro.url.pathname.replace(/\/?$/, '/');
 ---
 <div data-sidebar-backdrop class="fixed inset-0 z-40 hidden bg-black/30 backdrop-blur-[2px] lg:hidden"></div>
 <aside
@@ -18,7 +16,7 @@ const path = given.replace(/\/?$/, '/');
         <div class="mb-8">
           <a href={subjectUrl(subject)} class="mb-2 flex items-center gap-2 px-2 font-mono text-[0.7rem] tracking-[0.14em] text-ink-3 uppercase hover:text-ink">
             <span class:list={['size-1.5 rounded-full', inSubject ? 'bg-signal' : 'bg-line-strong']} />
-            {[subject.data.short, subject.data.semester, subject.data.private && 'privé'].filter(Boolean).join(' · ')}
+            {subject.data.short} · {subject.data.semester}
           </a>
           <p class="mb-3 px-2 font-medium text-ink">{subject.data.title}</p>
           <ol class="relative ml-2 border-l border-line">

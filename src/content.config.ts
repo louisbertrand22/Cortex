@@ -14,9 +14,6 @@ const subjects = defineCollection({
     domain: z.enum(['ia', 'architecture', 'infrastructure', 'genie-logiciel', 'securite', 'data', 'autre']),
     accent: z.string().default('signal'), // nom d'une couleur du thème
     order: z.number().default(0),
-    // Matière privée : absente des pages publiques, de la recherche et du sitemap ; ses pages exigent une
-    // connexion (middleware.ts à la racine, mot de passe CORTEX_PASSWORD sur Vercel)
-    private: z.boolean().default(false),
     plannedSessions: z.number().optional(), // nombre total de sessions prévues dans l'UE
     // Sessions annoncées mais pas encore rédigées : affichées en pointillés sur la page de la matière
     upcoming: z

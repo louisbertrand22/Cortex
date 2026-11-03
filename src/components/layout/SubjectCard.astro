@@ -9,10 +9,7 @@ const done = new Set(lessons.map((l) => l.data.session));
   <div class="pointer-events-none absolute -top-24 -right-24 size-64 rounded-full bg-signal/10 blur-3xl transition-opacity duration-700 group-hover:opacity-100 opacity-40" aria-hidden="true"></div>
   <div class="mb-5 flex items-center justify-between">
     <span class="font-mono text-xs tracking-[0.14em] text-ink-3 uppercase">{domainLabels[subject.data.domain]} · {subject.data.semester}</span>
-    <span class="flex gap-1.5">
-      {subject.data.private && <span class="rounded-full border border-line px-2.5 py-0.5 font-mono text-xs text-ink-3">privé</span>}
-      <span class="rounded-full border border-line px-2.5 py-0.5 font-mono text-xs text-ink-2">{subject.data.short}</span>
-    </span>
+    <span class="rounded-full border border-line px-2.5 py-0.5 font-mono text-xs text-ink-2">{subject.data.short}</span>
   </div>
   <h3 class="text-2xl font-semibold tracking-tight">
     <a href={subjectUrl(subject)} class="after:absolute after:inset-0">{subject.data.title}</a>
