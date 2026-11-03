@@ -15,7 +15,8 @@
  * En local (`npm run dev`, `npm run preview`, scripts de captures), ce middleware ne tourne pas : tout est visible.
  */
 import { next, rewrite } from '@vercel/functions/middleware';
-import subjects from './src/content/subjects.json';
+// L'attribut est obligatoire : Vercel exécute ce fichier en ESM Node.js natif, sans le regrouper (bundle)
+import subjects from './src/content/subjects.json' with { type: 'json' };
 
 export const config = {
   matcher: ['/', '/index.html', '/cours/:path*', '/prive', '/prive/:path*', '/connexion', '/connexion/', '/deconnexion', '/deconnexion/'],

@@ -155,6 +155,9 @@ Rendu de chacun sur `/guide`. Props exactes dans `src/components/mdx/*.astro`.
     (colonne de 72rem max, ~50rem sur un portable, 358 px sur mobile).
 - **Accolades en MDX** : `{` et `}` dans le texte sont interprétés comme du JS. Les échapper (`\{`) ou les mettre en code.
 - **`<` en MDX** : `a < b` dans le texte casse le parseur ; écrire `&lt;` ou reformuler.
+- **`middleware.ts`** : Vercel l'exécute en ESM Node.js natif, **sans bundle**. Un import JSON exige
+  `with { type: 'json' }`, sinon tout le site tombe en `500 MIDDLEWARE_INVOCATION_FAILED`. Tester avec
+  `node -e "import('./middleware.ts')"` (Node 22+ lit le TypeScript directement), pas avec esbuild.
 - **Brouillon** : `draft: true` dans le frontmatter masque la leçon en production (visible en dev).
 
 ## Conventions de design
