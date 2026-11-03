@@ -8,7 +8,7 @@
  *   CORTEX_PASSWORD  mot de passe d'accès (long et aléatoire). Le changer déconnecte toutes les sessions.
  * Sans elle, les pages privées restent fermées et aucune connexion n'est possible.
  *
- * Visiteur connecté : /cours/ est servi depuis /prive/cours/ (liste complète), et le cookie non secret
+ * Visiteur connecté : / et /cours/ sont servis depuis /prive/accueil/ et /prive/cours/ (toutes les matières), et le cookie non secret
  * `cortex_connecte=1` indique à la recherche de fusionner l'index privé (/prive/pagefind/).
  *
  * En local (`npm run dev`, `npm run preview`, scripts de captures), ce middleware ne tourne pas : tout est visible.
@@ -17,7 +17,7 @@ import { next, rewrite } from '@vercel/functions/middleware';
 import subjects from './src/content/subjects.json';
 
 export const config = {
-  matcher: ['/cours/:path*', '/prive', '/prive/:path*', '/connexion', '/connexion/', '/deconnexion', '/deconnexion/'],
+  matcher: ['/', '/index.html', '/cours/:path*', '/prive', '/prive/:path*', '/connexion', '/connexion/', '/deconnexion', '/deconnexion/'],
 };
 
 const PRIVATE = new Set(
@@ -137,10 +137,9 @@ export default async function middleware(request: Request) {
 
   const loggedIn = password !== '' && (await validToken(password, readCookie(request, COOKIE)));
 
-  // Liste des cours : complète (publiques + privées) pour un visiteur connecté
-  if (/^\/cours(\/(index\.html)?)?$/.test(path)) {
-    return loggedIn ? rewrite(new URL('/prive/cours/', url), { headers: { 'Cache-Control': 'private, no-store' } }) : next();
-  }
+  // Accueil et liste des cours : versions complètes (publiques + privées) pour un visiteur connecté
+  const full = /^\/(index\.html)?$/.test(path) ? '/prive/accueil/' : /^\/cours(\/(index\.html)?)?$/.test(path) ? '/prive/cours/' : null;
+  if (full) return loggedIn ? rewrite(new URL(full, url), { headers: { 'Cache-Control': 'private, no-store' } }) : next();
 
   if (!isProtected(path)) return next(); // rien à faire : Vercel sert le fichier statique
 
