@@ -176,7 +176,8 @@ Une matière `"private": true` dans `subjects.json` est générée comme les aut
 - **absente des pages publiques** (accueil, `/cours/`, navigation latérale des leçons publiques), de l'index
   Pagefind public, du sitemap, et en `noindex` ; listée sur `/prive/` (lien « Espace privé » en pied de page),
   avec sa navigation complète dans les leçons privées ;
-- **visiteur connecté** : le middleware sert `/` et `/cours/` depuis `/prive/accueil/` et `/prive/cours/` (toutes les matières), et la recherche
+- **visiteur connecté** : le middleware sert `/` et `/cours/` depuis `/prive/accueil/` et `/prive/cours/` (toutes les matières), les leçons publiques depuis leur copie `/prive/lecons/…` (navigation latérale
+  complète), et la recherche
   fusionne un second index Pagefind, `/prive/pagefind/`, construit par `scripts/pagefind.mjs` (appelé par
   `npm run build`) et protégé comme le reste de `/prive/`. Le cookie `cortex_connecte=1`, lisible en JS, ne sert
   qu'à dire à la recherche de tenter la fusion : il n'ouvre aucun accès ;

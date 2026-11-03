@@ -8,7 +8,8 @@
  *   CORTEX_PASSWORD  mot de passe d'accès (long et aléatoire). Le changer déconnecte toutes les sessions.
  * Sans elle, les pages privées restent fermées et aucune connexion n'est possible.
  *
- * Visiteur connecté : / et /cours/ sont servis depuis /prive/accueil/ et /prive/cours/ (toutes les matières), et le cookie non secret
+ * Visiteur connecté : / et /cours/ sont servis depuis /prive/accueil/ et /prive/cours/ (toutes les matières), les
+ * leçons publiques depuis leur copie /prive/lecons/… (navigation latérale complète), et le cookie non secret
  * `cortex_connecte=1` indique à la recherche de fusionner l'index privé (/prive/pagefind/).
  *
  * En local (`npm run dev`, `npm run preview`, scripts de captures), ce middleware ne tourne pas : tout est visible.
@@ -140,6 +141,14 @@ export default async function middleware(request: Request) {
   // Accueil et liste des cours : versions complètes (publiques + privées) pour un visiteur connecté
   const full = /^\/(index\.html)?$/.test(path) ? '/prive/accueil/' : /^\/cours(\/(index\.html)?)?$/.test(path) ? '/prive/cours/' : null;
   if (full) return loggedIn ? rewrite(new URL(full, url), { headers: { 'Cache-Control': 'private, no-store' } }) : next();
+
+  // Leçon d'une matière publique : copie avec la navigation latérale complète pour un visiteur connecté
+  const lesson = path.match(/^\/cours\/([a-z0-9-]+)\/([a-z0-9-]+)\/?(index\.html)?$/);
+  if (lesson && !PRIVATE.has(lesson[1])) {
+    return loggedIn
+      ? rewrite(new URL(`/prive/lecons/${lesson[1]}/${lesson[2]}/`, url), { headers: { 'Cache-Control': 'private, no-store' } })
+      : next();
+  }
 
   if (!isProtected(path)) return next(); // rien à faire : Vercel sert le fichier statique
 

@@ -27,6 +27,8 @@ interface Props {
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   /** Exclut la page des moteurs de recherche (404…). */
   noindex?: boolean;
+  /** Adresse publique de la page, si elle diffère de celle du fichier généré (copies servies par middleware.ts). */
+  path?: string;
 }
 const {
   title,
@@ -38,9 +40,10 @@ const {
   modified,
   jsonLd,
   noindex = false,
+  path = Astro.url.pathname,
 } = Astro.props;
 const fullTitle = title ? `${title} · Cortex` : 'Cortex · Révisions visuelles et interactives';
-const canonical = new URL(Astro.url.pathname, Astro.site);
+const canonical = new URL(path, Astro.site);
 const imageUrl = new URL(image, Astro.site);
 const structured = jsonLd && (Array.isArray(jsonLd) ? jsonLd : [jsonLd]).map((d) => ({ '@context': 'https://schema.org', ...d }));
 ---
@@ -95,7 +98,7 @@ const structured = jsonLd && (Array.isArray(jsonLd) ? jsonLd : [jsonLd]).map((d)
   <body class="grain text-ink">
     <a href="#contenu" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-surface focus:px-4 focus:py-2 focus:shadow-card">Aller au contenu</a>
     <div class="relative z-10 flex min-h-dvh flex-col">
-      <Header showMenu={sidebar} />
+      <Header showMenu={sidebar} path={path} />
       <main id="contenu" class="flex-1">
         <slot />
       </main>

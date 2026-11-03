@@ -32,6 +32,21 @@ export async function getSubjects(visibility: Visibility = 'public') {
   return subjects.sort((a, b) => a.data.order - b.data.order);
 }
 
+/** Routes des leçons (avec précédente/suivante dans la matière), éventuellement limitées à certaines matières. */
+export async function lessonPaths(keep: (subjectId: string) => boolean = () => true) {
+  const lessons = await getLessons();
+  return lessons
+    .filter((l) => keep(l.data.subject.id))
+    .map((lesson) => {
+      const siblings = lessons.filter((l) => l.data.subject.id === lesson.data.subject.id);
+      const i = siblings.indexOf(lesson);
+      return {
+        params: { subject: lesson.data.subject.id, lesson: lessonSlug(lesson) },
+        props: { lesson, prev: siblings[i - 1], next: siblings[i + 1] },
+      };
+    });
+}
+
 /** Arbre de navigation : matières → sessions. */
 export async function getNavTree(visibility: Visibility = 'public') {
   const [subjects, lessons] = await Promise.all([getSubjects(visibility), getLessons()]);

@@ -1,6 +1,6 @@
 // Index de recherche Pagefind, en deux parties :
 //   dist/pagefind/        pages publiques, chargé par tout le monde ;
-//   dist/prive/pagefind/  pages des matières privées, servi derrière le verrou de middleware.ts
+//   dist/prive/pagefind/  pages des matières privées (sans les copies de /prive/lecons/), servi derrière le verrou de middleware.ts
 //                         (/prive/…) et fusionné par la recherche quand le visiteur est connecté.
 import { readdirSync, readFileSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
@@ -23,6 +23,8 @@ const pages = html(dist).map((file) => {
   const url = '/' + relative(dist, file).split(sep).join('/').replace(/(^|\/)index\.html$/, '$1');
   return { url, content: readFileSync(file, 'utf8') };
 });
+// Copies des leçons publiques à navigation complète : déjà dans l'index public, à ne pas indexer deux fois
+const isCopy = (url) => url.startsWith('/prive/lecons/');
 const isPrivate = (url) => url.startsWith('/prive/') || privateIds.some((id) => url.startsWith(`/cours/${id}/`));
 
 async function build(label, files, outputPath) {
@@ -37,5 +39,5 @@ async function build(label, files, outputPath) {
 }
 
 await build('public', pages.filter((p) => !isPrivate(p.url)), join(dist, 'pagefind'));
-await build('privé', pages.filter((p) => isPrivate(p.url)), join(dist, 'prive/pagefind'));
+await build('privé', pages.filter((p) => isPrivate(p.url) && !isCopy(p.url)), join(dist, 'prive/pagefind'));
 await pagefind.close();
