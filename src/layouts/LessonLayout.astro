@@ -47,7 +47,7 @@ const jsonLd = [
     <Sidebar visibility={priv ? 'all' : 'public'} />
 
     <div class="min-w-0 pt-8 lg:pt-10">
-      <article data-pagefind-body={priv ? undefined : ''} data-pagefind-meta={`subject:${subject.data.short} · S${d.session}`} class="mx-auto max-w-[72rem]">
+      <article data-pagefind-body data-pagefind-meta={`subject:${subject.data.short} · S${d.session}`} class="mx-auto max-w-[72rem]">
         <header class="mb-12" data-pagefind-ignore="all">
           <nav class="mb-8 flex flex-wrap items-center gap-1.5 text-sm text-ink-3" aria-label="Fil d'Ariane">
             <a href={home[1]} class="hover:text-ink">{home[0]}</a><span>/</span>

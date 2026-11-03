@@ -1,0 +1,6 @@
+---
+// Version complète de /cours/ (matières publiques et privées). Verrouillée par middleware.ts, qui la sert
+// à l'adresse /cours/ aux visiteurs connectés.
+import CourseList from '@/components/layout/CourseList.astro';
+---
+<CourseList visibility="all" />

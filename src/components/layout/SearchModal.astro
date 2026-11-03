@@ -48,6 +48,7 @@
   type PagefindData = { url: string; excerpt: string; meta: { title?: string; subject?: string }; sub_results: PagefindSubResult[] };
   type Pagefind = {
     options: (o: Record<string, unknown>) => Promise<void>;
+    mergeIndex: (url: string, options?: Record<string, unknown>) => Promise<void>;
     debouncedSearch: (q: string, o?: unknown, ms?: number) => Promise<{ results: { data: () => Promise<PagefindData> }[] } | null>;
   };
 
@@ -57,12 +58,26 @@
   let pagefind: Pagefind | null = null;
   let active = 0;
 
+  /**
+   * Visiteur connecté (cookie indicateur posé par middleware.ts) : ajoute l'index des matières privées.
+   * L'index est derrière le verrou : on vérifie qu'il répond vraiment (session expirée → page de connexion).
+   */
+  async function mergePrivate(pf: Pagefind) {
+    if (!/(?:^|;\s*)cortex_connecte=1(?:;|$)/.test(document.cookie)) return;
+    try {
+      const res = await fetch('/prive/pagefind/pagefind-entry.json', { cache: 'no-store' });
+      if (!res.ok || res.redirected || !res.headers.get('content-type')?.includes('json')) return;
+      await pf.mergeIndex('/prive/pagefind/', { baseUrl: '/' }); // URL des résultats depuis la racine, pas /prive/
+    } catch {}
+  }
+
   async function load() {
     if (pagefind) return pagefind;
     try {
       const path = '/pagefind/pagefind.js';
       pagefind = (await import(/* @vite-ignore */ path)) as Pagefind;
       await pagefind.options({ excerptLength: 22 });
+      await mergePrivate(pagefind);
     } catch {
       // En dev, l'index Pagefind n'existe pas (il est généré au build) : inutile d'en parler aux visiteurs
       list.innerHTML = import.meta.env.DEV

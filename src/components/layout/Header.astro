@@ -23,7 +23,7 @@ const path = Astro.url.pathname;
     </a>
 
     <nav class="ml-6 hidden items-center gap-1 text-sm md:flex" aria-label="Principale">
-      <a href="/cours/" class:list={['rounded-lg px-3 py-1.5 transition-colors hover:bg-surface-2 hover:text-ink', path.startsWith('/cours') ? 'text-ink' : 'text-ink-2']}>Cours</a>
+      <a href="/cours/" class:list={['rounded-lg px-3 py-1.5 transition-colors hover:bg-surface-2 hover:text-ink', /^\/(prive\/)?cours/.test(path) ? 'text-ink' : 'text-ink-2']}>Cours</a>
       <a href="/guide/" class:list={['rounded-lg px-3 py-1.5 transition-colors hover:bg-surface-2 hover:text-ink', path.startsWith('/guide') ? 'text-ink' : 'text-ink-2']}>Composants</a>
     </nav>
 
