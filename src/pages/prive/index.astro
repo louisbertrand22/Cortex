@@ -1,0 +1,24 @@
+---
+// Espace privé : liste des matières `"private": true`. Page verrouillée par middleware.ts (connexion requise).
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SubjectCard from '@/components/layout/SubjectCard.astro';
+import { getNavTree } from '@/lib/content';
+const tree = await getNavTree('private');
+---
+<BaseLayout title="Espace privé" description="Cours privés de Cortex." noindex>
+  <section class="mx-auto max-w-[120rem] px-4 py-16 sm:px-6">
+    <p class="mb-2 font-mono text-xs tracking-[0.14em] text-ink-3 uppercase">Accès restreint</p>
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <h1 class="text-5xl font-semibold tracking-[-0.04em]">Espace privé</h1>
+      <a href="/deconnexion/" class="rounded-xl border border-line-strong bg-surface px-4 py-2 text-sm font-medium text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink">Se déconnecter</a>
+    </div>
+    <p class="mt-4 max-w-2xl text-lg text-ink-2">Les matières visibles par toi seul : elles n'apparaissent ni dans la liste publique, ni dans la recherche, ni dans le sitemap.</p>
+    {tree.length > 0 ? (
+      <div class="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        {tree.map(({ subject, lessons }, i) => <SubjectCard subject={subject} lessons={lessons} index={i} />)}
+      </div>
+    ) : (
+      <p class="mt-12 rounded-2xl border border-dashed border-line p-6 text-ink-3">Aucune matière privée pour l'instant : ajoute <code class="font-mono">"private": true</code> à une matière de <code class="font-mono">subjects.json</code>.</p>
+    )}
+  </section>
+</BaseLayout>

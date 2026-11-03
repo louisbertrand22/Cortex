@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /prive/
+Disallow: /connexion/
 
 Sitemap: https://cortex.louis-bertrand.fr/sitemap-index.xml

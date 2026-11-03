@@ -84,6 +84,7 @@ Ajouter un objet dans `src/content/subjects.json` :
 - `plannedSessions` : nombre total de sessions de l'UE ; les sessions sans leçon s'affichent en pointillés « à venir ».
 - `upcoming` : titres des sessions annoncées mais pas encore rédigées. **Retirer l'entrée dès que la leçon existe.**
 - `order` : position dans la liste des cours (le plus petit en premier).
+- `private` (optionnel, `false` par défaut) : matière visible par le seul propriétaire. Voir § Cours privés.
 - `parts` (optionnel) : découpe la matière en parties, `[{ "title", "description", "from" }]`. Une partie commence à la
   session `from` et court jusqu'à la suivante ; son titre s'affiche sur la page de la matière et dans l'en-tête des leçons.
 
@@ -163,6 +164,29 @@ Papier/encre, accent `signal` (vermillon) = contenu du cours, `synapse` (teal) =
 (`var(--signal)`, `text-ink-2`…), jamais d'hexadécimal dans un composant. Animations sobres (`ease-out-expo`),
 respect de `prefers-reduced-motion`. **Pas de dépendance réseau au runtime** (polices et scripts servis par le site).
 
+## Cours privés
+
+Une matière `"private": true` dans `subjects.json` est générée comme les autres (mêmes URL `/cours/<id>/…`), mais :
+
+- **verrou serveur** : `middleware.ts` (Routing Middleware Vercel, à la racine) redirige toute requête vers
+  `/cours/<id-privé>/…` ou `/prive/` sans cookie de session valide vers `/connexion/` ;
+- connexion par mot de passe : variable d'environnement **`CORTEX_PASSWORD`** sur Vercel (sans elle, tout reste fermé).
+  Cookie `HttpOnly`/`Secure` signé HMAC, 30 jours ; changer le mot de passe déconnecte toutes les sessions.
+  `/deconnexion/` efface le cookie et le cache hors ligne ;
+- **absente des pages publiques** (accueil, `/cours/`, navigation latérale des leçons publiques), de l'index
+  Pagefind public, du sitemap, et en `noindex` ; listée sur `/prive/` (lien « Espace privé » en pied de page),
+  avec sa navigation complète dans les leçons privées ;
+- **visiteur connecté** : le middleware sert `/` et `/cours/` depuis `/prive/accueil/` et `/prive/cours/` (toutes les matières), les leçons publiques depuis leur copie `/prive/lecons/…` (navigation latérale
+  complète), et la recherche
+  fusionne un second index Pagefind, `/prive/pagefind/`, construit par `scripts/pagefind.mjs` (appelé par
+  `npm run build`) et protégé comme le reste de `/prive/`. Le cookie `cortex_connecte=1`, lisible en JS, ne sert
+  qu'à dire à la recherche de tenter la fusion : il n'ouvre aucun accès ;
+- en local (`dev`, `preview`, scripts de captures) le middleware ne tourne pas : tout est visible, et
+  `npm run shots` couvre aussi les pages privées (il parcourt `dist/`, plus le sitemap).
+
+Les fichiers de `/_astro/` (images importées, scripts d'îlots) restent publics sous des noms hachés : ne pas y mettre
+de secret.
+
 ## SEO et PWA
 
 - `BaseLayout` gère canonical, Open Graph/Twitter (`/og.png`), JSON-LD (prop `jsonLd`, `@context` ajouté) et `noindex`
@@ -185,3 +209,6 @@ respect de `prefers-reduced-motion`. **Pas de dépendance réseau au runtime** (
 | `gen-archi` | Génération Architecture (Yannick Neff) | Étudiants ingénieurs | Dérivé de supports PowerPoint (même prof qu'ARCL) : Platform 2 (datacenter, virtualisation) contre Platform 3 (cloud native) ; TD Terraform, suivis et soutenance volontairement omis ; approximations du support (« ACP », « CICS », *scale in*) signalées en `<Callout>` ou `<DeepDive>` |
 | `acoo` | Analyse et conception orientée objet | Étudiants ingénieurs | Partie « Design patterns » (`parts`) dérivée d'exposés d'étudiants SIGL (PowerPoint, un pattern par groupe) : sessions 1 à 3 par famille du GoF (création, structure, comportement), puis une session par paire d'exposés (4 Composite/Flyweight, 5 Chain of Responsibility/Command, 6 Observer/Interpreter, 7 State/Strategy/Memento avec la vue d'ensemble) ; noms d'étudiants des exemples neutralisés ; avertissement « exposés d'étudiants » en tête ; erreurs des slides (rôles Target/Adaptee, code C#) signalées en `<DeepDive>` |
 | `ia-zero` | L'IA expliquée de zéro (Seconde) | Lycéen non technique | Pas de support : tout est rédigé ; tutoiement ; aucun terme non expliqué |
+
+Toutes ces matières sont **privées** (`"private": true`) sauf `ia-zero`, seule visible publiquement. Une nouvelle
+matière est publique par défaut : demander à l'utilisateur si elle doit être privée.

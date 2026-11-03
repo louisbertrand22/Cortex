@@ -1,0 +1,35 @@
+---
+// Formulaire de connexion à l'espace privé. Le POST est traité par middleware.ts (Vercel), qui pose le cookie.
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+<BaseLayout title="Connexion" description="Connexion à l'espace privé de Cortex." noindex>
+  <section class="mx-auto flex max-w-md flex-col px-4 py-24 sm:py-32">
+    <p class="mb-2 font-mono text-xs tracking-[0.14em] text-ink-3 uppercase">Accès restreint</p>
+    <h1 class="text-4xl font-semibold tracking-[-0.03em]">Espace privé</h1>
+    <p class="mt-3 text-ink-2">Ces cours ne sont visibles que par leur propriétaire.</p>
+
+    <p data-msg="1" hidden class="mt-6 rounded-xl border border-signal/40 bg-signal/10 px-4 py-3 text-sm text-ink">Mot de passe incorrect.</p>
+    <p data-msg="config" hidden class="mt-6 rounded-xl border border-signal/40 bg-signal/10 px-4 py-3 text-sm text-ink">Connexion indisponible : la variable <code class="font-mono">CORTEX_PASSWORD</code> n'est pas définie sur le serveur.</p>
+    <p data-msg="sortie" hidden class="mt-6 rounded-xl border border-line bg-surface px-4 py-3 text-sm text-ink-2">Tu es déconnecté.</p>
+
+    <form method="post" action="/connexion/" class="mt-8 grid gap-4">
+      <input type="hidden" name="suite" value="/cours/" />
+      <label class="grid gap-1.5 text-sm font-medium">
+        Mot de passe
+        <input type="password" name="password" required autocomplete="current-password" autofocus
+          class="h-12 rounded-xl border border-line-strong bg-surface px-4 text-base font-normal text-ink outline-none transition-colors focus:border-signal" />
+      </label>
+      <button type="submit" class="h-12 rounded-xl bg-ink px-5 font-medium text-bg transition-transform duration-300 ease-out-expo hover:-translate-y-0.5">Se connecter</button>
+    </form>
+  </section>
+</BaseLayout>
+<script>
+  const params = new URLSearchParams(location.search);
+  const suite = params.get('suite');
+  const field = document.querySelector<HTMLInputElement>('input[name="suite"]');
+  if (field && suite && /^\/(?![/\\])/.test(suite)) field.value = suite;
+  const msg = params.has('sortie') ? 'sortie' : params.get('erreur');
+  if (msg) document.querySelector<HTMLElement>(`[data-msg="${CSS.escape(msg)}"]`)?.removeAttribute('hidden');
+  // Déconnexion : vide aussi le cache hors ligne du service worker (il a pu garder des pages privées)
+  if (params.has('sortie') && 'caches' in window) caches.keys().then((keys) => keys.forEach((k) => caches.delete(k)));
+</script>
