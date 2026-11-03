@@ -84,6 +84,7 @@ Ajouter un objet dans `src/content/subjects.json` :
 - `plannedSessions` : nombre total de sessions de l'UE ; les sessions sans leçon s'affichent en pointillés « à venir ».
 - `upcoming` : titres des sessions annoncées mais pas encore rédigées. **Retirer l'entrée dès que la leçon existe.**
 - `order` : position dans la liste des cours (le plus petit en premier).
+- `private` (optionnel, `false` par défaut) : matière visible par le seul propriétaire. Voir § Cours privés.
 - `parts` (optionnel) : découpe la matière en parties, `[{ "title", "description", "from" }]`. Une partie commence à la
   session `from` et court jusqu'à la suivante ; son titre s'affiche sur la page de la matière et dans l'en-tête des leçons.
 
@@ -162,6 +163,24 @@ Papier/encre, accent `signal` (vermillon) = contenu du cours, `synapse` (teal) =
 (titres d'exergue uniquement), texte : Geist, code : Geist Mono. Couleurs : **uniquement les tokens CSS**
 (`var(--signal)`, `text-ink-2`…), jamais d'hexadécimal dans un composant. Animations sobres (`ease-out-expo`),
 respect de `prefers-reduced-motion`. **Pas de dépendance réseau au runtime** (polices et scripts servis par le site).
+
+## Cours privés
+
+Une matière `"private": true` dans `subjects.json` est générée comme les autres (mêmes URL `/cours/<id>/…`), mais :
+
+- **verrou serveur** : `middleware.ts` (Routing Middleware Vercel, à la racine) redirige toute requête vers
+  `/cours/<id-privé>/…` ou `/prive/` sans cookie de session valide vers `/connexion/` ;
+- connexion par mot de passe : variable d'environnement **`CORTEX_PASSWORD`** sur Vercel (sans elle, tout reste fermé).
+  Cookie `HttpOnly`/`Secure` signé HMAC, 30 jours ; changer le mot de passe déconnecte toutes les sessions.
+  `/deconnexion/` efface le cookie et le cache hors ligne ;
+- **absente des pages publiques** (accueil, `/cours/`, navigation latérale des leçons publiques), de l'index
+  Pagefind (pas de `data-pagefind-body`), du sitemap, et en `noindex` ; listée sur `/prive/` (lien « Espace privé »
+  en pied de page), avec sa navigation complète dans les leçons privées ;
+- en local (`dev`, `preview`, scripts de captures) le middleware ne tourne pas : tout est visible, et
+  `npm run shots` couvre aussi les pages privées (il parcourt `dist/`, plus le sitemap).
+
+Les fichiers de `/_astro/` (images importées, scripts d'îlots) restent publics sous des noms hachés : ne pas y mettre
+de secret.
 
 ## SEO et PWA
 

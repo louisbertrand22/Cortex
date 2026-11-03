@@ -19,14 +19,22 @@ export async function getLessons(subjectId?: string) {
   return lessons.sort((a, b) => a.data.session - b.data.session);
 }
 
-export async function getSubjects() {
-  const subjects = await getCollection('subjects');
+/**
+ * Matières triées. `visibility` : `public` (par défaut, pages publiques), `private` (espace privé) ou `all`
+ * (génération des routes, navigation d'une page privée).
+ */
+export type Visibility = 'public' | 'private' | 'all';
+export async function getSubjects(visibility: Visibility = 'public') {
+  const subjects = await getCollection(
+    'subjects',
+    (s) => visibility === 'all' || s.data.private === (visibility === 'private'),
+  );
   return subjects.sort((a, b) => a.data.order - b.data.order);
 }
 
 /** Arbre de navigation : matières → sessions. */
-export async function getNavTree() {
-  const [subjects, lessons] = await Promise.all([getSubjects(), getLessons()]);
+export async function getNavTree(visibility: Visibility = 'public') {
+  const [subjects, lessons] = await Promise.all([getSubjects(visibility), getLessons()]);
   return subjects.map((subject) => ({
     subject,
     lessons: lessons.filter((l) => l.data.subject.id === subject.id),
