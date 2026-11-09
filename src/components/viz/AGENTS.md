@@ -92,5 +92,7 @@ Dans une leçon (ou sur `/guide`) : build, puis rendu clair/sombre, 1440 px et 3
   trois trajectoires) · `EnvelopeTax` (impôt sur un gain en CTO, PEA, assurance-vie, règles 2026 simplifiées).
 - **PHILO** : `PhiloTimeline` (frise des philosophes du cours, par époque, fiche avec citation et sessions) · `Syllogism`
   (syllogisme catégorique : diagramme de Venn, validité par recherche de contre-exemple, lecture moderne) · `FallacyHunt`
-  (dix arguments, trouver le sophisme, score).
+  (dix arguments, trouver le sophisme, score) · `CartesianDoubt` (les trois raisons de douter de Descartes appliquées à
+  des croyances, jusqu'au cogito) · `InductionChicken` (le poulet de Russell, confiance selon la règle de Laplace jusqu'au
+  jour de fête) · `ChineseRoom` (la chambre chinoise de Searle : répondre en chinois avec un manuel, sans comprendre).
 - **Génériques** : `Pipeline` · `BarChart` (valeurs formatées en `fr-FR` : passer des nombres, pas des chaînes).

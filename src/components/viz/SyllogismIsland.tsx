@@ -3,9 +3,9 @@ import { useId, useMemo, useState } from 'react';
 
 /**
  * Syllogisme catégorique : deux prémisses, une conclusion, trois termes (S, M, P).
- * La validité est calculée en essayant tous les « mondes » possibles : chacune des 7 zones
+ * La validité est calculée en essayant tous les « mondes » possibles : chacune des 7 zones
  * du diagramme de Venn est vide ou habitée (128 mondes). Valide = la conclusion est vraie
- * dans tous les mondes où les prémisses le sont. Lecture moderne : « Tous les X » n'affirme
+ * dans tous les mondes où les prémisses le sont. Lecture moderne : « Tous les X » n'affirme
  * pas qu'il existe des X.
  */
 type Q = 'A' | 'E' | 'I' | 'O';

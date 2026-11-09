@@ -7,31 +7,31 @@ import { useState } from 'react';
  */
 const ITEMS: { text: string; options: string[]; answer: number; why: string }[] = [
   {
-    text: '« Tu dis qu’il faudrait manger moins de viande, mais tu portes des chaussures en cuir ! »',
+    text: '« Tu dis qu’il faudrait manger moins de viande, mais tu portes des chaussures en cuir ! »',
     options: ['Faux dilemme', 'Attaque contre la personne', 'Pente glissante', 'Appel à la popularité'],
     answer: 1,
-    why: 'On répond à la personne (son incohérence supposée) au lieu de répondre à son argument. Même si elle est incohérente, son argument peut être juste : c’est l’argument « toi aussi » (tu quoque), une forme d’attaque contre la personne.',
+    why: 'On répond à la personne (son incohérence supposée) au lieu de répondre à son argument. Même si elle est incohérente, son argument peut être juste : c’est l’argument « toi aussi » (tu quoque), une forme d’attaque contre la personne.',
   },
   {
-    text: '« Si on autorise les trottinettes sur ce trottoir, demain ce seront les scooters, et après-demain les voitures. »',
+    text: '« Si on autorise les trottinettes sur ce trottoir, demain ce seront les scooters, et après-demain les voitures. »',
     options: ['Pente glissante', 'Homme de paille', 'Généralisation hâtive', 'Appel à la nature'],
     answer: 0,
     why: 'On enchaîne des conséquences de plus en plus graves sans montrer pourquoi chaque étape entraînerait la suivante. Le premier pas n’oblige pas à faire les autres.',
   },
   {
-    text: '« Soit tu soutiens cette réforme, soit tu veux la faillite du pays. »',
+    text: '« Soit tu soutiens cette réforme, soit tu veux la faillite du pays. »',
     options: ['Raisonnement circulaire', 'Appel à l’autorité', 'Faux dilemme', 'Post hoc'],
     answer: 2,
     why: 'On présente deux options comme les seules possibles, alors qu’il en existe d’autres : soutenir une autre réforme, la modifier, en proposer une différente.',
   },
   {
-    text: '« Des millions de personnes utilisent ce remède : il marche forcément. »',
+    text: '« Des millions de personnes utilisent ce remède : il marche forcément. »',
     options: ['Attaque contre la personne', 'Appel à la popularité', 'Pente glissante', 'Homme de paille'],
     answer: 1,
     why: 'Le nombre de gens qui croient une chose ne la rend pas vraie : pendant des siècles, presque tout le monde a cru que le Soleil tournait autour de la Terre. Ce qui compte, ce sont les preuves.',
   },
   {
-    text: '« Depuis que je porte ce bracelet porte-bonheur, j’ai eu une promotion et je suis moins malade. »',
+    text: '« Depuis que je porte ce bracelet porte-bonheur, j’ai eu une promotion et je suis moins malade. »',
     options: ['Faux dilemme', 'Appel à la nature', 'Généralisation hâtive', 'Post hoc : après, donc à cause de'],
     answer: 3,
     why: 'Que B arrive après A ne prouve pas que A cause B. La promotion et la santé ont bien d’autres explications possibles ; il faudrait comparer avec des gens sans bracelet.',
@@ -40,28 +40,28 @@ const ITEMS: { text: string; options: string[]; answer: number; why: string }[] 
     text: '— Il faudrait limiter les vols courts en avion.\n— Ah, donc tu veux qu’on retourne s’éclairer à la bougie ?',
     options: ['Homme de paille', 'Appel à la popularité', 'Raisonnement circulaire', 'Post hoc'],
     answer: 0,
-    why: 'On déforme la position de l’autre en une version caricaturale, plus facile à attaquer. « Limiter les vols courts » n’a jamais voulu dire « renoncer à l’électricité ».',
+    why: 'On déforme la position de l’autre en une version caricaturale, plus facile à attaquer. « Limiter les vols courts » n’a jamais voulu dire « renoncer à l’électricité ».',
   },
   {
-    text: '« C’est 100 % naturel, donc c’est bon pour la santé. »',
+    text: '« C’est 100 % naturel, donc c’est bon pour la santé. »',
     options: ['Pente glissante', 'Appel à la nature', 'Attaque contre la personne', 'Faux dilemme'],
     answer: 1,
     why: 'Naturel ne veut pas dire bon : la ciguë, l’arsenic et les champignons vénéneux sont naturels. Et beaucoup de choses artificielles (vaccins, lunettes) sont très bénéfiques.',
   },
   {
-    text: '« Mon grand-père a fumé toute sa vie et il est mort à 95 ans : le tabac, ce n’est pas si dangereux. »',
+    text: '« Mon grand-père a fumé toute sa vie et il est mort à 95 ans : le tabac, ce n’est pas si dangereux. »',
     options: ['Appel à l’autorité', 'Homme de paille', 'Généralisation hâtive', 'Raisonnement circulaire'],
     answer: 2,
     why: 'Un seul cas ne dit rien d’une tendance. Un risque statistique n’annonce pas que tous les fumeurs mourront jeunes, mais que beaucoup plus d’entre eux mourront tôt.',
   },
   {
-    text: '« Ce journal dit toujours la vérité : c’est écrit dans son propre éditorial. »',
+    text: '« Ce journal dit toujours la vérité : c’est écrit dans son propre éditorial. »',
     options: ['Raisonnement circulaire', 'Appel à la popularité', 'Pente glissante', 'Faux dilemme'],
     answer: 0,
     why: 'La conclusion (le journal est fiable) sert de preuve à elle-même : on ne peut croire l’éditorial que si l’on croit déjà le journal fiable. On tourne en rond.',
   },
   {
-    text: '« Un prix Nobel de physique l’a dit à la télé : ce régime alimentaire est le meilleur. »',
+    text: '« Un prix Nobel de physique l’a dit à la télé : ce régime alimentaire est le meilleur. »',
     options: ['Post hoc', 'Généralisation hâtive', 'Appel à une autorité hors de son domaine', 'Homme de paille'],
     answer: 2,
     why: 'S’appuyer sur un expert est raisonnable dans son domaine. Mais un physicien n’est pas nutritionniste : son prestige ne prouve rien sur ce sujet.',
@@ -108,7 +108,7 @@ export default function FallacyHuntIsland() {
               {score >= 8
                 ? 'Excellent : tu repères les pièges les plus courants. Reste à les repérer aussi quand ils servent tes propres idées.'
                 : score >= 5
-                  ? 'Bien. Les sophismes ratés sont souvent les plus « confortables » : ceux qui vont dans le sens de ce qu’on pense déjà.'
+                  ? 'Bien. Les sophismes ratés sont souvent les plus « confortables » : ceux qui vont dans le sens de ce qu’on pense déjà.'
                   : 'Pas de panique : ces pièges marchent justement parce qu’ils sont convaincants. Relis les explications et recommence.'}
             </p>
             <button type="button" onClick={restart} className="rounded-full border border-line bg-surface px-3 py-1.5 text-sm text-ink-2 hover:text-ink">Recommencer</button>

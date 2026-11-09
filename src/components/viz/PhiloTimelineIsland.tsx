@@ -58,11 +58,11 @@ const PHILOS: Philo[] = [
   { name: 'Popper', from: 1902, to: 1994, era: 'contemporain', idea: 'Une théorie est scientifique si une expérience pourrait la réfuter : la science avance par essais et erreurs.', source: 'Logique de la découverte scientifique (1934)', sessions: '4' },
   { name: 'Jonas', from: 1903, to: 1993, era: 'contemporain', idea: 'Notre puissance technique crée une responsabilité nouvelle envers les générations futures.', quote: 'Agis de façon que les effets de ton action soient compatibles avec la permanence d’une vie authentiquement humaine sur terre.', source: 'Le Principe responsabilité (1979)', sessions: '12' },
   { name: 'Sartre', from: 1905, to: 1980, era: 'contemporain', idea: 'L’homme n’a pas de nature fixée d’avance : il se définit par ses choix, dont il est entièrement responsable.', quote: 'L’existence précède l’essence.', source: 'L’existentialisme est un humanisme (1946)', sessions: '8, 10, 11' },
-  { name: 'Arendt', from: 1906, to: 1975, era: 'contemporain', idea: 'Pense le totalitarisme et la « banalité du mal » : le mal peut naître de l’absence de pensée.', source: 'Eichmann à Jérusalem (1963)', sessions: '7' },
+  { name: 'Arendt', from: 1906, to: 1975, era: 'contemporain', idea: 'Pense le totalitarisme et la « banalité du mal » : le mal peut naître de l’absence de pensée.', source: 'Eichmann à Jérusalem (1963)', sessions: '7' },
   { name: 'Beauvoir', from: 1908, to: 1986, era: 'contemporain', idea: 'La condition des femmes n’est pas une donnée naturelle mais une construction sociale.', quote: 'On ne naît pas femme : on le devient.', source: 'Le Deuxième Sexe (1949)', sessions: '10' },
   { name: 'Camus', from: 1913, to: 1960, era: 'contemporain', idea: 'Le monde ne répond pas à notre besoin de sens : c’est l’absurde. Il faut vivre et se révolter quand même.', quote: 'Il faut imaginer Sisyphe heureux.', source: 'Le Mythe de Sisyphe (1942)', sessions: '11' },
-  { name: 'Rawls', from: 1921, to: 2002, era: 'contemporain', idea: 'Une société juste est celle qu’on choisirait sans savoir quelle place on y occuperait (le « voile d’ignorance »).', source: 'Théorie de la justice (1971)', sessions: '9' },
-  { name: 'Singer', from: 1946, to: 2026, era: 'contemporain', idea: 'La souffrance des animaux compte moralement : l’ignorer est une discrimination, le « spécisme ».', source: 'La Libération animale (1975)', sessions: '12' },
+  { name: 'Rawls', from: 1921, to: 2002, era: 'contemporain', idea: 'Une société juste est celle qu’on choisirait sans savoir quelle place on y occuperait (le « voile d’ignorance »).', source: 'Théorie de la justice (1971)', sessions: '9' },
+  { name: 'Singer', from: 1946, to: 2026, era: 'contemporain', idea: 'La souffrance des animaux compte moralement : l’ignorer est une discrimination, le « spécisme ».', source: 'La Libération animale (1975)', sessions: '12' },
 ];
 
 const MIN = -650;
@@ -135,7 +135,7 @@ export default function PhiloTimelineIsland() {
             <p className="text-sm text-ink-2">{p.idea}</p>
             {p.quote && (
               <blockquote className="border-l-2 border-signal pl-3 text-sm italic text-ink">
-                « {p.quote} »
+                « {p.quote} »
               </blockquote>
             )}
             {p.source && <p className="text-xs text-ink-3">{p.quote ? '' : 'Œuvre clé : '}{p.source}</p>}

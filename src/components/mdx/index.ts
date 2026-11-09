@@ -81,6 +81,9 @@ import EnvelopeTax from '../viz/EnvelopeTax.astro';
 import PhiloTimeline from '../viz/PhiloTimeline.astro';
 import Syllogism from '../viz/Syllogism.astro';
 import FallacyHunt from '../viz/FallacyHunt.astro';
+import CartesianDoubt from '../viz/CartesianDoubt.astro';
+import InductionChicken from '../viz/InductionChicken.astro';
+import ChineseRoom from '../viz/ChineseRoom.astro';
 
 export const components = {
   Callout,
@@ -162,4 +165,7 @@ export const components = {
   PhiloTimeline,
   Syllogism,
   FallacyHunt,
+  CartesianDoubt,
+  InductionChicken,
+  ChineseRoom,
 };
