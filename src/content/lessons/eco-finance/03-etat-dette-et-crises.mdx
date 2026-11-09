@@ -1,0 +1,252 @@
+---
+title: État, dette et cycles économiques
+subtitle: Budgets, boules de neige et grandes crises
+subject: eco-finance
+session: 3
+description: Ce que fait l'État dans l'économie, la différence entre déficit et dette, pourquoi une dette grossit toute seule, et ce que les grandes crises de 1929 à 2020 nous ont appris.
+tags: [État, budget, déficit public, dette publique, effet boule de neige, cycle économique, récession, crise financière]
+objectives:
+  - Citer les trois grandes fonctions économiques de l'État.
+  - Distinguer déficit et dette, et lire les critères de Maastricht.
+  - Expliquer l'effet boule de neige en comparant taux d'intérêt et croissance.
+  - Décrire les phases d'un cycle économique et le rôle des politiques contracycliques.
+  - Raconter les mécanismes des crises de 1929, 2008 et 2020.
+sources:
+  - label: Richard Musgrave, « The Theory of Public Finance » (1959)
+  - label: John Maynard Keynes, « Théorie générale de l'emploi, de l'intérêt et de la monnaie » (1936)
+  - label: Insee, « Le déficit public s'établit à 5,1 % du PIB en 2025, la dette publique à 115,6 % du PIB », Informations Rapides (mars 2026)
+    url: https://www.insee.fr/fr/statistiques/8956575
+  - label: Vie publique, « 152,5 milliards d'euros de déficit public en 2025 »
+    url: https://www.vie-publique.fr/en-bref/302659-1525-milliards-deuros-de-deficit-public-en-2025
+  - label: Commission européenne, le pacte de stabilité et de croissance
+    url: https://economy-finance.ec.europa.eu/economic-and-fiscal-governance/stability-and-growth-pact_en
+  - label: Agence France Trésor, détention de la dette négociable de l'État
+    url: https://www.aft.gouv.fr/
+  - label: Federal Reserve History, « The Great Depression »
+    url: https://www.federalreservehistory.org/essays/great-depression
+  - label: NBER, Business Cycle Dating
+    url: https://www.nber.org/research/business-cycle-dating
+  - label: Carmen Reinhart et Kenneth Rogoff, « Growth in a Time of Debt » (2010), et la réplique de Herndon, Ash et Pollin (2013)
+updated: 2026-11-09
+---
+
+« La dette de la France dépasse 3 400 milliards d'euros. » Le chiffre fait peur, il revient à chaque débat budgétaire, et il est rarement expliqué. Est-ce grave ? Faut-il la rembourser ? Pourquoi certains pays s'en sortent avec bien plus, et d'autres font faillite avec bien moins ? Ce chapitre explique **ce que fait l'État dans l'économie, comment fonctionne la dette publique, et pourquoi l'économie avance par cycles, parfois interrompus par des crises violentes.** Il clôt la partie macroéconomie : avec la monnaie et les taux du chapitre 2, tu auras toutes les clés pour comprendre ce qui fait bouger les marchés financiers.
+
+## Le rôle économique de l'État
+
+### Trois fonctions
+
+L'économiste Richard Musgrave a proposé en 1959 une grille qui sert toujours à penser l'action de l'État dans l'économie.
+
+<CardGrid cols={3}>
+  <Card title="Allocation" kicker="Fonction 1">
+    Fournir ce que le marché produit mal ou pas du tout : routes, défense, justice, recherche fondamentale, éducation. Et corriger les défaillances de marché vues au chapitre 1 (pollution, monopoles).
+  </Card>
+  <Card title="Redistribution" kicker="Fonction 2">
+    Réduire les inégalités par l'impôt progressif et les prestations sociales : retraites, allocations familiales, minima sociaux, assurance chômage.
+  </Card>
+  <Card title="Stabilisation" kicker="Fonction 3">
+    Amortir les à-coups de l'économie : soutenir l'activité pendant les récessions, éviter la surchauffe pendant les booms.
+  </Card>
+</CardGrid>
+
+Pour remplir ces fonctions, l'État au sens large (l'État central, les collectivités locales et la Sécurité sociale, qu'on appelle ensemble les **administrations publiques**) prélève des **impôts et des cotisations sociales**, puis **dépense** : salaires des fonctionnaires, investissements, prestations sociales.
+
+<DeepDive title="Le poids de la dépense publique en France" level="terrain">
+  La France est l'un des pays de l'OCDE où la dépense publique pèse le plus lourd : **environ 57 % du PIB** ces dernières années, contre une moyenne de la zone euro autour de 50 %. Les **prestations sociales** (retraites en tête, puis santé) en représentent près de la moitié.
+
+  Attention à l'interprétation : ce chiffre ne veut pas dire que l'État « consomme » 57 % de la richesse. Une grande partie est **redistribuée** aux ménages (une pension de retraite est une dépense publique, mais c'est le retraité qui la dépense). Dans des pays où les retraites et la santé passent par des assurances privées, ces sommes n'apparaissent simplement pas dans la dépense publique. Source : Insee, comptes nationaux.
+</DeepDive>
+
+## Budget, déficit et dette
+
+### Deux notions qu'on confond souvent
+
+<Compare leftTitle="Le déficit : un flux" rightTitle="La dette : un stock">
+  <Fragment slot="left">
+    Ce qui manque **sur une année** : les dépenses de l'année moins les recettes de l'année. C'est comme un ménage qui dépense 3 200 € par mois en gagnant 3 000 € : il lui manque 200 € **ce mois-ci**.
+  </Fragment>
+  <Fragment slot="right">
+    La **somme de tout ce qui a été emprunté** au fil des années, et pas encore remboursé. Chaque année de déficit **ajoute** à la dette. C'est l'encours total du crédit du ménage.
+  </Fragment>
+</Compare>
+
+Image utile : le déficit, c'est le robinet qui coule ; la dette, c'est le niveau d'eau dans la baignoire. **Réduire le déficit ne fait pas baisser la dette**, ça ralentit seulement sa hausse. Pour que la dette baisse en euros, il faut un **excédent** budgétaire.
+
+On exprime les deux en **pourcentage du PIB**, pour les comparer à la richesse produite chaque année : une dette de 100 milliards n'a pas le même poids pour la France que pour le Luxembourg.
+
+<CardGrid cols={3}>
+  <Stat value="5,1 %" label="Déficit public de la France en 2025" hint="152,5 Md€, après 5,8 % en 2024 · Source : Insee" />
+  <Stat value="115,6 %" label="Dette publique fin 2025, en % du PIB" hint="Au sens de Maastricht · Source : Insee" />
+  <Stat value="3 460 Md€" label="Dette publique fin 2025, en euros" hint="Environ 50 000 € par habitant · Source : Insee" />
+</CardGrid>
+
+### Les repères européens : 3 % et 60 %
+
+En adoptant l'euro, les pays membres se sont engagés à respecter deux plafonds, fixés par le traité de Maastricht (1992) puis le **pacte de stabilité et de croissance** : un déficit public inférieur à **3 % du PIB** et une dette inférieure à **60 % du PIB**.
+
+Pourquoi des règles communes ? Parce qu'avec une monnaie partagée, un pays qui laisse filer sa dette peut mettre en difficulté tous les autres : si les marchés doutent de lui, la crise peut contaminer toute la zone, comme en 2010-2012 avec la Grèce. Ces règles ont été souvent dépassées (par la France notamment), suspendues pendant le Covid, puis réformées en 2024 pour tenir davantage compte de la situation de chaque pays.
+
+### Qui prête à l'État, et pourquoi la dette n'est pas « remboursée »
+
+L'État français emprunte en émettant des **obligations**, les OAT (obligations assimilables du Trésor) : des titres par lesquels il promet de verser des intérêts chaque année, puis de rembourser le capital à une date fixée. Ces titres sont achetés par des banques, des assureurs (via ton assurance-vie, par exemple), des fonds de pension, des banques centrales, des investisseurs étrangers.
+
+Une différence essentielle avec un ménage : **l'État ne meurt pas**. Il n'a pas besoin de ramener sa dette à zéro. Quand une obligation arrive à échéance, il en émet une nouvelle pour la rembourser : on dit qu'il **refinance** ou « fait rouler » sa dette. Ce qui compte n'est donc pas le montant absolu, mais deux questions :
+
+1. Les prêteurs ont-ils **confiance** et acceptent-ils de continuer à prêter ?
+2. À **quel taux** ? Car c'est le taux qui détermine la **charge de la dette**, les intérêts payés chaque année, qui sont autant d'argent en moins pour les écoles ou les hôpitaux.
+
+<Quiz question="Le gouvernement annonce fièrement que le déficit passe de 5,8 % à 5,1 % du PIB. Qu'arrive-t-il à la dette en euros ?" options={['Elle baisse, puisque le déficit baisse', 'Elle continue d’augmenter, mais un peu moins vite', 'Elle reste stable']} answer={1}>
+  **Elle continue d'augmenter.** Un déficit de 5,1 %, c'est encore environ 150 milliards d'euros empruntés en plus dans l'année. Le robinet coule moins fort, mais la baignoire continue de se remplir. C'est la confusion la plus courante du débat public.
+</Quiz>
+
+<DeepDive title="Qui détient la dette française ?" level="terrain">
+  Selon l'Agence France Trésor, qui gère la dette de l'État, un peu plus de **la moitié** des titres de dette négociables de l'État est détenue par des **non-résidents** (investisseurs étrangers, banques centrales étrangères, fonds). Le reste est détenu par des investisseurs français : assureurs, banques, et la Banque de France, qui en a acheté beaucoup dans le cadre du QE de la BCE.
+
+  C'est une force (la dette française est jugée sûre et liquide, elle attire des acheteurs du monde entier) et une fragilité : si la confiance se dégrade, ces investisseurs peuvent exiger un taux plus élevé, voire vendre. On mesure cette méfiance par l'**écart de taux** (*spread*) avec l'Allemagne, considérée comme l'emprunteur le plus sûr de la zone euro.
+</DeepDive>
+
+## Pourquoi une dette grossit toute seule
+
+### Le ratio dette/PIB dépend de trois forces
+
+Le ratio dette/PIB est une fraction. Il monte quand le numérateur (la dette) grossit plus vite que le dénominateur (le PIB). Trois forces jouent :
+
+<Steps>
+1. **Le taux d'intérêt moyen** payé sur la dette (noté r) : chaque année, les intérêts s'ajoutent à ce qu'il faut financer. Plus r est élevé, plus la dette grossit.
+2. **La croissance nominale du PIB** (notée g, croissance réelle plus inflation) : elle fait grossir le dénominateur. Plus g est élevée, plus le ratio fond.
+3. **Le solde primaire** : le solde du budget **hors intérêts de la dette**. S'il est négatif (déficit primaire), l'État emprunte en plus des intérêts. S'il est positif (excédent primaire), il rembourse une partie.
+</Steps>
+
+### L'effet boule de neige
+
+Si le taux d'intérêt dépasse la croissance (**r supérieur à g**), la dette grossit plus vite que le PIB **même avec un budget à l'équilibre hors intérêts** : les intérêts s'ajoutent à la dette, produisent eux-mêmes des intérêts, et la boule roule. Si au contraire la croissance dépasse le taux (**g supérieur à r**), le ratio baisse tout seul, à condition que le déficit primaire ne soit pas trop grand.
+
+Choisis un scénario, ou règle toi-même les trois forces.
+
+<Figure caption="Trajectoire du ratio dette/PIB sur 20 ans selon le taux, la croissance et le solde primaire · Modèle simplifié, point de départ proche de la dette française fin 2025">
+  <DebtSnowball />
+</Figure>
+
+<KeyIdea>Une dette publique devient dangereuse quand les taux d'intérêt dépassent durablement la croissance : elle grossit alors d'elle-même, sans qu'aucune dépense nouvelle soit décidée.</KeyIdea>
+
+C'est ce qui explique l'inquiétude actuelle en France : pendant les années 2010, les taux étaient presque nuls, la charge de la dette baissait malgré une dette croissante. Avec la remontée des taux depuis 2022 (voir chapitre 2), chaque obligation arrivée à échéance est refinancée **plus cher**, et la charge d'intérêts remonte, mécaniquement, pendant des années.
+
+<Quiz question="Un pays a un budget à l'équilibre hors intérêts (solde primaire nul). Il paie 4 % d'intérêts sur sa dette, et son PIB nominal croît de 2 % par an. Que fait son ratio dette/PIB ?" options={['Il reste stable, puisque le budget est équilibré', 'Il augmente, car les intérêts dépassent la croissance', 'Il baisse grâce à la croissance']} answer={1}>
+  **Il augmente.** Le budget est équilibré **hors intérêts** : les intérêts, eux, doivent être empruntés, et ils font grossir la dette de 4 % par an, alors que le PIB ne grossit que de 2 %. Le piège de la première réponse : « budget équilibré » ne veut rien dire tant qu'on ne précise pas si les intérêts sont inclus.
+</Quiz>
+
+<DeepDive title="Le seuil de 90 % et l'erreur de tableur" level="terrain">
+  En 2010, les économistes Carmen Reinhart et Kenneth Rogoff publient une étude qui semble montrer qu'au-delà de **90 % de dette/PIB**, la croissance d'un pays s'effondre. Le chiffre est repris partout pour justifier des politiques d'austérité en Europe.
+
+  En 2013, un étudiant de l'université du Massachusetts, Thomas Herndon, essaie de reproduire leurs calculs dans le cadre d'un devoir et n'y arrive pas. Avec ses professeurs Michael Ash et Robert Pollin, il découvre **une erreur dans le tableur Excel** (des pays oubliés dans une moyenne) et des choix de pondération discutables. Une fois corrigé, l'effondrement au-delà de 90 % disparaît : il reste une corrélation modérée entre dette élevée et croissance plus faible, sans seuil magique, et sans qu'on sache bien laquelle cause l'autre.
+
+  La leçon : il n'existe pas de niveau de dette « interdit » universel. Le Japon vit avec plus de 200 % du PIB, l'Argentine a fait défaut avec bien moins. Ce qui compte, c'est l'écart entre taux et croissance, la monnaie dans laquelle on emprunte, et la confiance des prêteurs.
+</DeepDive>
+
+## Les cycles économiques
+
+### L'économie respire
+
+La croissance n'est jamais régulière. L'activité alterne des phases d'**expansion** (la production augmente, le chômage baisse) et de **contraction** (la production recule, le chômage monte). C'est le **cycle économique**.
+
+```mermaid title="Les phases d'un cycle"
+flowchart LR
+  E["Expansion : production et emploi en hausse"] --> P["Pic : l'économie tourne à plein, l'inflation monte"]
+  P --> R["Récession : la production recule, le chômage monte"]
+  R --> C["Creux : le point bas, avant la reprise"]
+  C --> E
+  classDef bad fill:var(--signal-soft),stroke:var(--signal);
+  class R bad;
+```
+
+<Callout type="definition" title="Récession">
+  Une baisse **significative et durable** de l'activité. En Europe, on parle souvent de **récession technique** après deux trimestres consécutifs de baisse du PIB. Une récession particulièrement longue et profonde s'appelle une **dépression**.
+</Callout>
+
+Pourquoi ces cycles ? Les causes sont multiples : des **chocs** extérieurs (pandémie, flambée du pétrole), des **excès d'optimisme** suivis de retours brutaux (on investit trop, on s'endette trop, puis on corrige), ou le **resserrement monétaire** d'une banque centrale qui veut casser l'inflation.
+
+### Les politiques contracycliques
+
+Face à une récession, l'État et la banque centrale disposent de deux leviers pour aller **à contre-courant** du cycle.
+
+<Compare leftTitle="Politique budgétaire (l'État)" rightTitle="Politique monétaire (la banque centrale)">
+  <Fragment slot="left">
+    En récession, l'État **dépense plus** ou **baisse les impôts** pour soutenir la demande, quitte à creuser le déficit. En période de boom, il devrait faire l'inverse et réduire sa dette. C'est l'idée centrale de **Keynes**.
+  </Fragment>
+  <Fragment slot="right">
+    En récession, la banque centrale **baisse ses taux** et peut acheter des obligations (QE) pour rendre le crédit bon marché. En surchauffe, elle les **monte** (chapitre 2).
+  </Fragment>
+</Compare>
+
+Une partie de cette stabilisation est **automatique** : en récession, les recettes fiscales baissent (moins de revenus, moins de consommation) et les dépenses d'allocations chômage augmentent, sans qu'aucune loi nouvelle soit votée. Ces **stabilisateurs automatiques** soutiennent les revenus des ménages et amortissent le choc. Ils expliquent aussi pourquoi le déficit se creuse **mécaniquement** pendant les crises.
+
+<Quiz question="Pendant une récession, le déficit public d'un pays passe de 3 % à 6 % du PIB alors que le gouvernement n'a voté aucune dépense nouvelle. Comment est-ce possible ?" options={['C’est impossible, il y a forcément eu des dépenses cachées', 'Les stabilisateurs automatiques : moins de recettes fiscales et plus d’allocations chômage', 'La banque centrale a augmenté ses taux']} answer={1}>
+  **Les stabilisateurs automatiques.** Quand l'activité recule, les impôts rentrent moins (moins de bénéfices, de salaires, de consommation) et les dépenses sociales montent (plus de chômeurs indemnisés). Le déficit se creuse tout seul, et c'est voulu : cet argent soutient la demande au moment où elle s'effondre.
+</Quiz>
+
+## Les grandes crises et leurs leçons
+
+### Une frise de crises
+
+Chaque grande crise a laissé une leçon, et souvent une nouvelle institution ou une nouvelle règle. Clique sur chaque étape pour le détail.
+
+<Pipeline loop={false} steps={[
+  { title: '1929', caption: 'Krach de Wall Street, Grande Dépression', detail: 'Une bulle boursière financée à crédit éclate en octobre 1929. Des milliers de banques américaines font faillite, la masse monétaire s’effondre, le chômage atteint environ 25 % aux États-Unis en 1933. La crise se propage au monde entier par le commerce et le protectionnisme.' },
+  { title: '1973 et 1979', caption: 'Chocs pétroliers', detail: 'Le prix du pétrole est multiplié par quatre en 1973, puis à nouveau fortement en 1979. Les pays riches connaissent la « stagflation » : stagnation de l’activité et forte inflation en même temps, ce que les politiques keynésiennes ne savaient pas traiter.' },
+  { title: '2008', caption: 'Crise des subprimes', detail: 'Des crédits immobiliers risqués américains, découpés et revendus dans le monde entier, perdent leur valeur. La faillite de la banque Lehman Brothers en septembre 2008 gèle le système financier mondial. Le PIB français recule d’environ 2,9 % en 2009.' },
+  { title: '2010-2012', caption: 'Crise de la zone euro', detail: 'Les marchés doutent de la capacité de la Grèce, puis de l’Irlande, du Portugal, de l’Espagne et de l’Italie à rembourser. Les taux s’envolent. La crise se calme en 2012 quand Mario Draghi, président de la BCE, promet de faire « tout ce qu’il faudra » pour sauver l’euro.' },
+  { title: '2020', caption: 'Pandémie de Covid-19', detail: 'Les confinements provoquent la plus forte chute d’activité depuis la guerre : environ −7,5 % pour le PIB français en 2020. États et banques centrales réagissent massivement (« quoi qu’il en coûte »), et l’économie rebondit dès 2021.' },
+  { title: '2022', caption: 'Retour de l’inflation', detail: 'La reprise post-Covid et la guerre en Ukraine font flamber l’énergie. L’inflation dépasse 5 % en France, et les banques centrales remontent leurs taux à un rythme inédit (chapitre 2).', tone: 'synapse' }
+]} />
+
+### 1929 : la crise qui a fondé la macroéconomie
+
+La Grande Dépression a été aggravée par de **mauvaises réponses** : la Fed a laissé les banques faire faillite et la monnaie se contracter, les gouvernements ont cherché à équilibrer leur budget en pleine crise, et les pays se sont fermés au commerce par des droits de douane. C'est en réaction que Keynes a écrit sa *Théorie générale* (1936) : en crise, l'État doit soutenir la demande au lieu de se serrer la ceinture.
+
+### 2008 : anatomie d'une contagion
+
+La crise de 2008 montre comment un problème **localisé** (des crédits immobiliers de mauvaise qualité aux États-Unis) peut devenir une **crise mondiale**, en passant par la finance.
+
+```mermaid title="2008 : de l'immobilier à la récession"
+flowchart TB
+  subgraph Immo["1 · Immobilier américain"]
+    direction LR
+    A["Crédits subprimes accordés à des ménages fragiles"] --> B["Hausse des taux, les ménages ne remboursent plus"]
+  end
+  subgraph Fin["2 · Finance mondiale"]
+    direction LR
+    C["Crédits découpés et revendus en titres complexes"] --> D["Pertes dans les banques du monde entier"]
+    D --> E["Faillite de Lehman Brothers, panique"]
+  end
+  subgraph Eco["3 · Économie réelle"]
+    direction LR
+    F["Les banques ne se prêtent plus et prêtent moins"] --> G["Les entreprises n'investissent plus"]
+    G --> H["Récession mondiale, chômage"]
+  end
+  Immo --> Fin --> Eco
+  classDef bad fill:var(--signal-soft),stroke:var(--signal);
+  class E,H bad;
+```
+
+Le maillon clé est la **titrisation** : les banques américaines ne gardaient pas les crédits qu'elles accordaient, elles les revendaient sous forme de titres financiers à des investisseurs du monde entier. Personne ne savait plus exactement **qui détenait le risque**. Quand les pertes sont apparues, chaque banque a soupçonné les autres d'être en difficulté et a cessé de leur prêter : le système s'est grippé.
+
+Cette fois, les leçons de 1929 avaient été retenues : banques centrales et États ont réagi massivement (taux à zéro, sauvetage des banques, plans de relance), ce qui a évité une nouvelle Grande Dépression. En contrepartie, les dettes publiques ont fortement augmenté, et les règles imposées aux banques ont été durcies.
+
+<KeyIdea>Les crises se propagent par la confiance : quand personne ne sait qui va faire défaut, tout le monde arrête de prêter, et la panique financière devient une crise de l'économie réelle.</KeyIdea>
+
+<DeepDive title="Comment les économistes datent une récession" level="approfondissement">
+  Aux États-Unis, ce n'est pas la règle des « deux trimestres » qui fait foi, mais un comité du National Bureau of Economic Research (NBER), un organisme de recherche privé. Il regarde un ensemble d'indicateurs (emploi, revenus, production industrielle, ventes) et date le pic et le creux de chaque cycle, souvent plusieurs mois après coup.
+
+  C'est pourquoi on entend parfois qu'une récession « avait commencé depuis six mois » au moment où elle est officiellement déclarée. Pour les investisseurs, la leçon est importante : **les marchés financiers anticipent**, et la bourse baisse en général bien avant que la récession ne soit confirmée par les statistiques.
+</DeepDive>
+
+## À retenir
+
+<Takeaways>
+1. **L'État alloue, redistribue et stabilise.** Il prélève impôts et cotisations pour financer services publics et prestations.
+2. **Le déficit est un flux, la dette un stock.** Réduire le déficit ralentit la hausse de la dette, sans la faire baisser.
+3. **L'écart entre taux et croissance décide de la trajectoire de la dette.** Si les taux dépassent la croissance, la dette fait boule de neige.
+4. **L'économie avance par cycles.** Politique budgétaire et monétaire tentent d'amortir les récessions, aidées par les stabilisateurs automatiques.
+5. **Les crises se propagent par la finance et la confiance.** De 1929 à 2008, la leçon est la même : une réponse rapide et massive limite les dégâts.
+</Takeaways>

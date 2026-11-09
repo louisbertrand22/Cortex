@@ -79,7 +79,7 @@ Ajouter un objet dans `src/content/subjects.json` :
 }
 ```
 
-- `domain` ∈ `ia | architecture | infrastructure | genie-logiciel | securite | data | autre`. Un nouveau domaine
+- `domain` ∈ `ia | architecture | infrastructure | genie-logiciel | securite | data | economie | autre`. Un nouveau domaine
   demande de l'ajouter à l'enum de `src/content.config.ts` **et** à `domainLabels` dans `src/lib/content.ts`.
 - `plannedSessions` : nombre total de sessions de l'UE ; les sessions sans leçon s'affichent en pointillés « à venir ».
 - `upcoming` : titres des sessions annoncées mais pas encore rédigées. **Retirer l'entrée dès que la leçon existe.**
@@ -212,6 +212,7 @@ de secret.
 | `gen-archi` | Génération Architecture (Yannick Neff) | Étudiants ingénieurs | Dérivé de supports PowerPoint (même prof qu'ARCL) : Platform 2 (datacenter, virtualisation) contre Platform 3 (cloud native) ; TD Terraform, suivis et soutenance volontairement omis ; approximations du support (« ACP », « CICS », *scale in*) signalées en `<Callout>` ou `<DeepDive>` |
 | `acoo` | Analyse et conception orientée objet | Étudiants ingénieurs | Partie « Design patterns » (`parts`) dérivée d'exposés d'étudiants SIGL (PowerPoint, un pattern par groupe) : sessions 1 à 3 par famille du GoF (création, structure, comportement), puis une session par paire d'exposés (4 Composite/Flyweight, 5 Chain of Responsibility/Command, 6 Observer/Interpreter, 7 State/Strategy/Memento avec la vue d'ensemble) ; noms d'étudiants des exemples neutralisés ; avertissement « exposés d'étudiants » en tête ; erreurs des slides (rôles Target/Adaptee, code C#) signalées en `<DeepDive>` |
 | `ia-zero` | L'IA expliquée de zéro (Seconde) | Lycéen non technique | Pas de support : tout est rédigé ; tutoiement ; aucun terme non expliqué |
+| `eco-finance` | Économie, finance et bourse (Adultes) | Adulte non spécialiste | Pas de support : tout est rédigé (plan validé : 10 sessions en 3 parties, macro, finance, bourse) ; tutoiement ; « le cœur dans le flux, le hors-programme dans `<DeepDive>` » ; chiffres datés et sourcés (Insee, BCE), à rafraîchir ; la session 10 (investir en France) doit porter un avertissement « pas un conseil en investissement » |
 
-Toutes ces matières sont **privées** (`"private": true`) sauf `ia-zero`, seule visible publiquement. Une nouvelle
+Toutes ces matières sont **privées** (`"private": true`) sauf `ia-zero` et `eco-finance`, seules visibles publiquement. Une nouvelle
 matière est publique par défaut : demander à l'utilisateur si elle doit être privée.

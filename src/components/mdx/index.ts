@@ -67,6 +67,9 @@ import ObserverMatch from '../viz/ObserverMatch.astro';
 import RuleInterpreter from '../viz/RuleInterpreter.astro';
 import StatePlayer from '../viz/StatePlayer.astro';
 import MementoHistory from '../viz/MementoHistory.astro';
+import SupplyDemand from '../viz/SupplyDemand.astro';
+import PurchasingPower from '../viz/PurchasingPower.astro';
+import DebtSnowball from '../viz/DebtSnowball.astro';
 
 export const components = {
   Callout,
@@ -134,4 +137,7 @@ export const components = {
   RuleInterpreter,
   StatePlayer,
   MementoHistory,
+  SupplyDemand,
+  PurchasingPower,
+  DebtSnowball,
 };

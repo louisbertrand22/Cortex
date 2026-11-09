@@ -82,4 +82,7 @@ Dans une leçon (ou sur `/guide`) : build, puis rendu clair/sombre, 1440 px et 3
   push ou pull) · `RuleInterpreter` (Interpreter : évaluer l'arbre d'une règle selon le contexte) · `StatePlayer` (State : le
   lecteur multimédia, chaque état traite play/stop et choisit la transition) · `MementoHistory` (Memento : déplacer des
   formes et annuler, memento complet ou incrémental).
+- **ÉCO** : `SupplyDemand` (offre et demande sur le marché des glaces, chocs et prix d'équilibre) · `PurchasingPower`
+  (inflation, durée et taux d'un placement : pouvoir d'achat et rendement réel) · `DebtSnowball` (ratio dette/PIB
+  sur 20 ans selon taux, croissance et solde primaire).
 - **Génériques** : `Pipeline` · `BarChart`.

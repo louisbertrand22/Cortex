@@ -32,7 +32,7 @@
     "teacher": "Yannick Neff",
     "domain": "infrastructure",
     "accent": "signal",
-    "order": 3,
+    "order": 4,
     "private": true,
     "plannedSessions": 6,
     "upcoming": [
@@ -56,7 +56,7 @@
     "teacher": "Jean-Christophe Ferry",
     "domain": "architecture",
     "accent": "signal",
-    "order": 4,
+    "order": 5,
     "private": true,
     "plannedSessions": 3
   },
@@ -68,7 +68,7 @@
     "teacher": "Hervé Durand",
     "domain": "genie-logiciel",
     "accent": "signal",
-    "order": 5,
+    "order": 6,
     "private": true,
     "plannedSessions": 3
   },
@@ -79,7 +79,7 @@
     "description": "Les points de vue des étudiants SIGL sur l'actualité de l'IT : guerre de l'IA, ITIL, AIOps, vendor lock-in, résilience, datacenters, retour du hardware.",
     "domain": "autre",
     "accent": "signal",
-    "order": 6,
+    "order": 7,
     "private": true,
     "plannedSessions": 24
   },
@@ -91,7 +91,7 @@
     "teacher": "Nathan Prats & Mathieu Bouchet",
     "domain": "architecture",
     "accent": "signal",
-    "order": 7,
+    "order": 8,
     "private": true,
     "plannedSessions": 5,
     "upcoming": [
@@ -113,7 +113,7 @@
     "teacher": "Yannick Neff",
     "domain": "infrastructure",
     "accent": "signal",
-    "order": 8,
+    "order": 9,
     "private": true,
     "plannedSessions": 4
   },
@@ -124,7 +124,7 @@
     "description": "Concevoir des objets qui évoluent sans tout casser : les design patterns du Gang of Four, de création, de structure et de comportement.",
     "domain": "genie-logiciel",
     "accent": "signal",
-    "order": 9,
+    "order": 10,
     "private": true,
     "plannedSessions": 7,
     "parts": [
@@ -132,6 +132,72 @@
         "title": "Design patterns",
         "description": "Les patrons de conception du Gang of Four, présentés par les étudiants SIGL : seize patterns pour créer, assembler, puis faire agir des objets.",
         "from": 1
+      }
+    ]
+  },
+  {
+    "id": "eco-finance",
+    "title": "Économie, finance et bourse",
+    "short": "ÉCO",
+    "description": "Comprendre l'économie, la monnaie, la finance d'entreprise et la bourse : des bases de l'offre et la demande jusqu'à investir en pratique, sans jargon.",
+    "teacher": "Louis",
+    "semester": "Adultes",
+    "domain": "economie",
+    "accent": "signal",
+    "order": 3,
+    "plannedSessions": 10,
+    "parts": [
+      {
+        "title": "Comprendre l'économie",
+        "description": "Marchés, monnaie, inflation, État et crises : les rouages de la macroéconomie.",
+        "from": 1
+      },
+      {
+        "title": "Les mécanismes de la finance",
+        "description": "Valeur temps de l'argent, comptes d'entreprise et produits financiers.",
+        "from": 4
+      },
+      {
+        "title": "La bourse",
+        "description": "Fonctionnement des marchés, risque et diversification, stratégies et investissement en pratique.",
+        "from": 7
+      }
+    ],
+    "upcoming": [
+      {
+        "session": 4,
+        "title": "La valeur temps de l'argent",
+        "description": "Intérêts simples et composés, actualisation, règle de 72."
+      },
+      {
+        "session": 5,
+        "title": "Lire une entreprise",
+        "description": "Bilan, compte de résultat, flux de trésorerie, ratios et valorisation."
+      },
+      {
+        "session": 6,
+        "title": "Les produits financiers",
+        "description": "Actions, obligations, ETF, fonds et dérivés : rendement contre risque."
+      },
+      {
+        "session": 7,
+        "title": "Comment fonctionne la bourse",
+        "description": "Marché primaire et secondaire, carnet d'ordres, indices, acteurs."
+      },
+      {
+        "session": 8,
+        "title": "Risque, rendement et diversification",
+        "description": "Volatilité, corrélation, Markowitz, risque systématique."
+      },
+      {
+        "session": 9,
+        "title": "Stratégies d'investissement",
+        "description": "Passif ou actif, DCA, analyse fondamentale et technique, biais."
+      },
+      {
+        "session": 10,
+        "title": "Investir en pratique en France",
+        "description": "PEA, assurance-vie, CTO, PER, fiscalité, frais et arnaques."
       }
     ]
   }

@@ -1,0 +1,302 @@
+---
+title: Les bases de l'économie
+subtitle: Rareté, marchés, prix et richesse
+subject: eco-finance
+session: 1
+description: Ce qu'étudie l'économie, qui sont ses acteurs, comment l'offre et la demande fixent les prix, et ce que mesure vraiment le PIB, avec ses limites.
+tags: [rareté, coût d'opportunité, offre et demande, prix d'équilibre, élasticité, circuit économique, PIB, croissance]
+objectives:
+  - Expliquer pourquoi la rareté oblige à faire des choix, et ce qu'est un coût d'opportunité.
+  - Décrire le circuit économique entre ménages, entreprises, État et banques.
+  - Prévoir comment un choc sur l'offre ou la demande fait bouger un prix et une quantité.
+  - Définir le PIB, distinguer croissance nominale et réelle, et citer ses limites.
+sources:
+  - label: Adam Smith, « Recherches sur la nature et les causes de la richesse des nations » (1776)
+  - label: Alfred Marshall, « Principles of Economics » (1890)
+  - label: Gregory Mankiw et Mark Taylor, « Principes de l'économie » (De Boeck)
+  - label: Banque de France, ABC de l'économie
+    url: https://abc-economie.banque-france.fr/
+  - label: Insee, note de conjoncture et comptes nationaux (croissance 2023-2025)
+    url: https://www.insee.fr/fr/statistiques/fichier/8907467/ndc-mars-2026.pdf
+  - label: FMI, World Economic Outlook Database (PIB par pays, 2024)
+    url: https://www.imf.org/en/Publications/WEO
+  - label: Joseph Stiglitz, Amartya Sen, Jean-Paul Fitoussi, « Rapport de la Commission sur la mesure des performances économiques et du progrès social » (2009)
+  - label: Robert Solow, « A Contribution to the Theory of Economic Growth » (1956)
+updated: 2026-11-09
+---
+
+Pourquoi le prix des tomates s'envole-t-il en hiver ? Pourquoi un pays « s'enrichit-il » ? Que veut dire le journaliste quand il annonce « une croissance de 0,9 % » ? L'économie paraît abstraite, mais elle répond à des questions très concrètes. Ce premier chapitre pose les fondations sur lesquelles tout le reste du cours s'appuie : **ce qu'étudie l'économie, qui y participe, comment se forment les prix, et comment on mesure la richesse d'un pays.**
+
+## L'économie, c'est l'art de gérer la rareté
+
+### Des besoins sans fin, des ressources limitées
+
+Tu as un salaire, vingt-quatre heures par jour, un logement d'une certaine taille. Ton entreprise a un budget, des salariés, des machines. Le pays a des terres, de l'énergie, une population. **Tout est limité**, alors que les envies, elles, ne le sont pas vraiment.
+
+C'est le point de départ de toute l'économie : la **rareté**. Puisqu'on ne peut pas tout avoir, il faut choisir. L'économie étudie **comment les individus, les entreprises et les États font ces choix**, et ce qui en résulte pour la société.
+
+<Callout type="definition" title="Économie">
+  L'étude de la façon dont une société utilise des ressources rares pour produire des biens et des services, et les répartit entre ses membres.
+</Callout>
+
+### Le coût d'opportunité : ce à quoi tu renonces
+
+Chaque choix a un prix caché. Si tu passes ton samedi à faire des heures supplémentaires, tu gagnes de l'argent, mais tu renonces à un week-end de repos. Si l'État dépense 10 milliards pour une ligne de TGV, ces 10 milliards ne vont pas aux hôpitaux.
+
+Ce renoncement porte un nom : le **coût d'opportunité**. C'est la valeur de la **meilleure option que tu as écartée**. Ce n'est pas un coût qu'on voit sur une facture, mais c'est souvent le plus important.
+
+<Callout type="definition" title="Coût d'opportunité">
+  La valeur de la meilleure alternative à laquelle on renonce en faisant un choix. Le vrai coût d'une décision n'est pas seulement ce qu'on paie, mais ce qu'on n'a plus.
+</Callout>
+
+<Quiz question="Tu as 20 000 € d'épargne et tu hésites entre les laisser sur un livret à 2 % ou rembourser par anticipation un crédit auto à 6 %. Quel est le coût d'opportunité de garder l'argent sur le livret ?" options={['Zéro, puisque le livret rapporte de l’argent', 'Les 4 points d’écart : tu paies 6 % d’un côté pour gagner 2 % de l’autre', 'Les frais de remboursement anticipé']} answer={1}>
+  **Les 4 points d'écart.** En gardant l'argent sur le livret, tu renonces à économiser 6 % d'intérêts sur ton crédit pour n'en gagner que 2 %. Le piège de la première réponse : « ça rapporte » ne veut pas dire « c'est le meilleur choix ». Un choix se juge toujours face à l'alternative.
+</Quiz>
+
+### Microéconomie et macroéconomie
+
+L'économie se regarde à deux échelles, comme une carte avec deux niveaux de zoom.
+
+<Compare leftTitle="Microéconomie" rightTitle="Macroéconomie">
+  <Fragment slot="left">
+    Le comportement **d'un acteur** ou **d'un marché** : pourquoi un consommateur achète, comment une entreprise fixe son prix, combien coûte un appartement à Lyon.
+  </Fragment>
+  <Fragment slot="right">
+    L'économie **d'un pays dans son ensemble** : la croissance, le chômage, l'inflation, la dette publique, les taux d'intérêt.
+  </Fragment>
+</Compare>
+
+Ce chapitre commence par la micro (le marché, les prix) avant de prendre de la hauteur (le PIB). Les chapitres 2 et 3 sont essentiellement de la macro.
+
+## Qui fait l'économie ? Les agents et le circuit
+
+### Cinq grands acteurs
+
+Les économistes regroupent tous les participants de l'économie en grandes familles qu'ils appellent des **agents économiques**. Chacun a un rôle principal.
+
+<CardGrid cols={3}>
+  <Card title="Les ménages" kicker="Consommer">
+    Toi, ta famille. Ils **travaillent** pour gagner un revenu, **consomment** une partie et **épargnent** le reste.
+  </Card>
+  <Card title="Les entreprises" kicker="Produire">
+    Elles **combinent travail et capital** (machines, locaux, logiciels) pour produire des biens et des services vendus avec un profit.
+  </Card>
+  <Card title="L'État et les administrations" kicker="Redistribuer">
+    Ils **prélèvent** impôts et cotisations, **financent** les services publics (école, santé, police) et **redistribuent** (retraites, allocations).
+  </Card>
+  <Card title="Les banques" kicker="Financer">
+    Elles **collectent l'épargne** et **accordent des crédits**. On verra au chapitre 2 qu'elles créent même la monnaie.
+  </Card>
+  <Card title="Le reste du monde" kicker="Échanger">
+    Tout ce qui est à l'étranger : on lui **vend** (exportations) et on lui **achète** (importations).
+  </Card>
+</CardGrid>
+
+### Le circuit économique
+
+Ces agents sont reliés par des **flux** qui tournent en boucle. Le salaire que l'entreprise verse au ménage revient à une entreprise quand le ménage fait ses courses. L'argent ne disparaît pas : il **circule**, et chaque dépense des uns est un revenu pour les autres.
+
+```mermaid title="Le circuit économique simplifié"
+flowchart TB
+  M["Ménages"]
+  E["Entreprises"]
+  B["Banques"]
+  S["État"]
+  M -- "travail, consommation" --> E
+  E -- "salaires, biens et services" --> M
+  M -- "épargne" --> B
+  B -- "crédits" --> E
+  E -- "impôts" --> S
+  S -- "services publics, allocations" --> M
+  classDef core fill:var(--signal-soft),stroke:var(--signal);
+  class M,E core;
+```
+
+Chaque flèche est un flux : l'argent va dans un sens, le travail ou les biens dans l'autre. Les ménages paient aussi des impôts, et les banques prêtent aussi aux ménages : le schéma ne garde que les flux principaux pour rester lisible.
+
+Ce schéma explique une idée centrale de la macroéconomie : **si les ménages arrêtent de consommer**, par peur de l'avenir par exemple, les entreprises vendent moins, embauchent moins, versent moins de salaires… et les ménages ont encore moins à dépenser. Les difficultés se propagent le long du circuit. On retrouvera ce mécanisme dans les crises au chapitre 3.
+
+<KeyIdea>Dans une économie, la dépense de l'un est le revenu de l'autre : quand un maillon du circuit ralentit, tout le circuit ralentit.</KeyIdea>
+
+## Le marché : l'offre et la demande
+
+### Qu'est-ce qu'un marché ?
+
+Un **marché**, c'est n'importe quel lieu, physique ou virtuel, où des **acheteurs** et des **vendeurs** d'un même bien se rencontrent : le marché du dimanche, Leboncoin, le marché de l'immobilier parisien, le marché du travail, la bourse. Sur chaque marché, le **prix** résulte de la confrontation de deux forces.
+
+### La demande : plus c'est cher, moins on achète
+
+La **demande**, c'est la quantité d'un bien que les acheteurs veulent acheter **à chaque prix possible**. En règle générale, quand le prix monte, on en achète moins : on se rabat sur un substitut, on se prive, on attend. C'est la **loi de la demande** : la courbe de demande descend.
+
+### L'offre : plus c'est cher, plus on veut vendre
+
+L'**offre**, c'est la quantité que les vendeurs sont prêts à vendre **à chaque prix**. Quand le prix monte, produire devient plus rentable : les vendeurs existants produisent davantage et de nouveaux arrivent. La courbe d'offre monte.
+
+### L'équilibre : là où les courbes se croisent
+
+Le prix « juste » du marché est celui où **la quantité demandée égale la quantité offerte**. Au-dessus, les vendeurs ont des invendus et baissent leurs prix. En dessous, les clients se battent pour un produit trop rare et les prix montent. Le marché converge vers ce point : le **prix d'équilibre**.
+
+Imagine une plage en été et ses vendeurs de glaces. Choisis un événement et observe ce qui arrive au prix et aux ventes, ou déplace les courbes toi-même.
+
+<Figure caption="Le marché des glaces sur une plage : un événement déplace une courbe, et le prix d'équilibre suit · Modèle simplifié, chiffres illustratifs">
+  <SupplyDemand />
+</Figure>
+
+Retiens la logique : un événement **déplace une courbe entière**, il ne fait pas « glisser » le point le long d'une courbe. La canicule ne change pas les coûts des vendeurs, elle change l'envie des clients : c'est la **demande** qui bouge. Un lait plus cher ne change pas l'envie des clients, il change les coûts : c'est l'**offre** qui bouge.
+
+<Pipeline steps={[
+  { title: 'Un choc', caption: 'Canicule, pénurie, nouvelle usine…', detail: 'Un événement modifie soit l’envie d’acheter (demande), soit la capacité ou l’envie de vendre (offre).' },
+  { title: 'Déséquilibre', caption: 'Pénurie ou surplus au prix actuel', detail: 'Au prix d’avant, la quantité demandée ne correspond plus à la quantité offerte : il manque des glaces, ou il en reste.' },
+  { title: 'Le prix s’ajuste', caption: 'Il monte en cas de pénurie, baisse en cas de surplus', detail: 'Les vendeurs augmentent leurs prix quand la file d’attente s’allonge, les baissent quand le stock s’accumule.' },
+  { title: 'Nouvel équilibre', caption: 'Nouveau prix, nouvelle quantité', detail: 'Le marché se stabilise à l’intersection des nouvelles courbes.', tone: 'synapse' }
+]} />
+
+<Quiz question="Un gel tardif détruit une partie des vergers d'abricots. Que se passe-t-il sur le marché de l'abricot ?" options={['La demande baisse : le prix baisse', 'L’offre baisse : le prix monte et on vend moins d’abricots', 'L’offre baisse : le prix monte et on vend plus d’abricots']} answer={1}>
+  **L'offre baisse, le prix monte, la quantité vendue diminue.** Le gel ne change pas l'envie de manger des abricots : c'est la capacité à en produire qui chute. Le piège de la troisième réponse : un prix plus élevé ne fait pas vendre plus quand c'est l'offre qui recule. Il y a moins d'abricots, point.
+</Quiz>
+
+### Le prix, un signal qui coordonne des millions de décisions
+
+Le prix ne sert pas qu'à payer : il **transporte de l'information**. Quand le prix du cuivre monte, il dit aux mineurs « produisez plus » et aux industriels « économisez le cuivre ou trouvez un substitut », sans que personne n'ait eu besoin de coordonner tout ce monde. C'est ce qui rend les marchés si efficaces pour répartir des ressources rares.
+
+<DeepDive title="La « main invisible » d'Adam Smith, et ses limites" level="approfondissement">
+  En 1776, Adam Smith observe que chacun, en cherchant son propre intérêt, est conduit « comme par une main invisible » à servir l'intérêt général : le boulanger ne fait pas ton pain par bonté, mais parce que tu le paies. Cette idée fonde l'économie de marché.
+
+  Mais les économistes ont aussi identifié des **défaillances de marché**, des cas où le marché seul donne un mauvais résultat :
+
+  - **Externalités** : une usine qui pollue ne paie pas les dégâts qu'elle cause aux riverains, donc elle pollue trop. D'où les taxes carbone et les quotas d'émission.
+  - **Monopoles** : sans concurrence, une entreprise peut fixer un prix trop élevé. D'où les autorités de la concurrence.
+  - **Asymétrie d'information** : le vendeur d'une voiture d'occasion connaît ses défauts, pas l'acheteur. D'où les garanties légales et les contrôles techniques.
+  - **Biens publics** : un phare ou la défense nationale profitent à tous, payants ou non, donc personne ne veut les financer seul. D'où l'impôt.
+
+  Ces défaillances justifient une grande partie de l'intervention de l'État, qu'on verra au chapitre 3.
+</DeepDive>
+
+### L'élasticité : à quel point la demande réagit
+
+Tous les biens ne réagissent pas pareil à une hausse de prix. Si le prix du carburant augmente de 10 %, la plupart des gens continuent à faire le plein pour aller travailler : la demande baisse un peu. Si le prix d'une marque de yaourt augmente de 10 %, beaucoup passent à la marque d'à côté : la demande s'effondre.
+
+<Callout type="definition" title="Élasticité-prix de la demande">
+  Le pourcentage de variation de la quantité demandée quand le prix varie de 1 %. Une demande est **inélastique** quand elle réagit peu (carburant, médicaments, électricité), **élastique** quand elle réagit fortement (biens qui ont beaucoup de substituts, produits de luxe).
+</Callout>
+
+Cette notion explique pourquoi l'État taxe autant le tabac ou le carburant : la demande étant inélastique, la taxe rapporte beaucoup sans faire disparaître les ventes. Elle explique aussi pourquoi une petite pénurie de pétrole fait exploser son prix : pour que la demande baisse de quelques pourcents, il faut une très forte hausse.
+
+## Mesurer la richesse : le PIB
+
+### Ce que mesure le PIB
+
+Pour savoir si un pays s'enrichit, il faut un thermomètre. Le plus utilisé est le **produit intérieur brut**, ou PIB.
+
+<Callout type="definition" title="PIB (produit intérieur brut)">
+  La valeur de tous les biens et services **finaux** produits sur le territoire d'un pays pendant une période (en général un an), par toutes les entreprises et administrations présentes, quelle que soit leur nationalité.
+</Callout>
+
+Le mot « finaux » est important. Si on additionnait la farine vendue au boulanger **et** le pain vendu au client, on compterait la farine deux fois. Le PIB évite ce piège en additionnant la **valeur ajoutée** de chaque entreprise : ce qu'elle vend, moins ce qu'elle a acheté à d'autres entreprises pour produire.
+
+### Trois façons de calculer le même nombre
+
+Grâce au circuit économique, on peut mesurer le PIB sous trois angles, qui donnent (en théorie) le même résultat.
+
+<CardGrid cols={3}>
+  <Card title="Par la production" kicker="Optique 1">
+    La somme des **valeurs ajoutées** de toutes les entreprises et administrations.
+  </Card>
+  <Card title="Par les revenus" kicker="Optique 2">
+    La somme des **revenus** distribués : salaires, profits des entreprises, impôts sur la production.
+  </Card>
+  <Card title="Par la dépense" kicker="Optique 3">
+    **Consommation + investissement + dépenses publiques + exportations − importations.**
+  </Card>
+</CardGrid>
+
+La troisième formule est celle qu'on entend le plus dans les débats : elle montre que la croissance peut venir des ménages (consommation), des entreprises (investissement), de l'État (dépenses publiques) ou de l'étranger (exportations nettes).
+
+<Figure caption="Les plus grandes économies du monde, PIB 2024 en milliers de milliards de dollars courants · Source : FMI, World Economic Outlook, valeurs arrondies">
+  <BarChart unit=" k Md$" data={[
+    { label: 'États-Unis', value: 29.2 },
+    { label: 'Chine', value: 18.7 },
+    { label: 'Allemagne', value: 4.7 },
+    { label: 'Japon', value: 4.0 },
+    { label: 'Inde', value: 3.9 },
+    { label: 'Royaume-Uni', value: 3.6 },
+    { label: 'France', value: 3.2, highlight: true }
+  ]} />
+</Figure>
+
+### Croissance nominale et croissance réelle
+
+La **croissance**, c'est l'augmentation du PIB d'une année sur l'autre. Mais attention : si le PIB passe de 100 à 105 milliards et que les prix ont augmenté de 3 % entre-temps, le pays n'a pas produit 5 % de plus. Une partie de la hausse n'est qu'un effet des prix.
+
+<Compare leftTitle="Croissance nominale (en valeur)" rightTitle="Croissance réelle (en volume)">
+  <Fragment slot="left">
+    La hausse du PIB mesurée **aux prix de chaque année**. Elle mélange deux choses : on produit plus, et tout coûte plus cher.
+  </Fragment>
+  <Fragment slot="right">
+    La hausse du PIB **une fois l'inflation retirée**. C'est elle qu'on annonce dans les journaux : elle dit si on produit vraiment plus.
+  </Fragment>
+</Compare>
+
+En première approximation : **croissance réelle ≈ croissance nominale − inflation**. Dans l'exemple, 5 % − 3 % = environ 2 % de croissance réelle. On reverra cette distinction nominal/réel partout dans ce cours, notamment pour les salaires et les placements.
+
+<CardGrid cols={3}>
+  <Stat value="+1,6 %" label="Croissance réelle de la France en 2023" hint="Source : Insee" />
+  <Stat value="+1,1 %" label="en 2024" hint="Source : Insee" />
+  <Stat value="+0,9 %" label="en 2025" hint="Source : Insee" />
+</CardGrid>
+
+<Quiz question="Un pays annonce un PIB en hausse de 8 % sur un an. Dans le même temps, les prix ont augmenté de 9 %. Que s'est-il passé ?" options={['Une forte croissance : +8 %', 'Une légère récession : la production a reculé d’environ 1 %', 'On ne peut rien dire sans connaître la population']} answer={1}>
+  **Une légère récession.** Les 8 % sont une croissance nominale : en retirant les 9 % d'inflation, la production réelle a baissé d'environ 1 %. C'est un piège fréquent dans les pays à forte inflation, où les chiffres en valeur donnent l'illusion d'une économie florissante.
+</Quiz>
+
+### Le PIB par habitant et ses limites
+
+Le PIB d'un pays dépend de sa taille : la Chine a un PIB bien plus élevé que la Suisse, mais un Suisse est en moyenne beaucoup plus riche qu'un Chinois. Pour comparer le niveau de vie, on divise par la population : c'est le **PIB par habitant**.
+
+Même ainsi, le PIB reste un thermomètre imparfait. Il ne compte que ce qui passe par un marché ou par l'État : le travail domestique, le bénévolat, la qualité de l'air ou le temps libre n'y figurent pas. Il ne dit rien non plus de la **répartition** des richesses : un PIB par habitant élevé peut cacher de très fortes inégalités.
+
+<DeepDive title="Au-delà du PIB : le rapport Stiglitz-Sen-Fitoussi" level="approfondissement">
+  En 2009, une commission présidée par les prix Nobel Joseph Stiglitz et Amartya Sen, avec Jean-Paul Fitoussi, propose de compléter le PIB par d'autres indicateurs : le **revenu médian** des ménages plutôt que la moyenne (moins sensible aux très hauts revenus), des mesures de **qualité de vie** (santé, éducation, sécurité, lien social) et de **soutenabilité** (épuisement des ressources, dette écologique).
+
+  Un exemple parlant de la limite du PIB : une catastrophe naturelle **fait monter** le PIB l'année suivante, parce qu'il faut reconstruire. Le pays n'est pas plus riche, il a juste dépensé pour retrouver ce qu'il avait. Depuis, l'Insee publie des « indicateurs de richesse » complémentaires et l'ONU un indice de développement humain (IDH).
+</DeepDive>
+
+## D'où vient la croissance ?
+
+### Trois moteurs
+
+Pour produire plus, un pays a trois leviers.
+
+<Steps>
+1. **Plus de travail** : plus de personnes en emploi (démographie, baisse du chômage, entrée des femmes sur le marché du travail au XXᵉ siècle) ou plus d'heures travaillées.
+2. **Plus de capital** : plus de machines, d'usines, de réseaux, de logiciels. Un ouvrier avec une pelleteuse déplace plus de terre qu'avec une pelle.
+3. **Plus d'efficacité** : produire plus avec les mêmes moyens, grâce au progrès technique, à une meilleure organisation, à la formation. C'est la **productivité**.
+</Steps>
+
+Les deux premiers moteurs finissent par s'essouffler : la population ne peut pas croître indéfiniment, et ajouter une dixième machine par salarié rapporte moins que la première. **Sur le long terme, c'est la productivité qui fait la richesse des nations.** C'est pourquoi l'innovation, l'éducation et la recherche sont au cœur des politiques de croissance.
+
+<KeyIdea>À court terme, la croissance dépend de la demande (on consomme, on investit). À long terme, elle dépend de la capacité à produire mieux : la productivité.</KeyIdea>
+
+<DeepDive title="Le modèle de Solow et le « résidu »" level="approfondissement">
+  En 1956, Robert Solow modélise la croissance avec ces trois ingrédients. En mesurant la part de la croissance américaine expliquée par l'augmentation du travail et du capital, il constate qu'une grande partie reste **inexpliquée**. Ce reste, appelé « résidu de Solow » ou **productivité globale des facteurs**, est attribué au progrès technique. Ce travail lui vaut le prix Nobel en 1987 et place l'innovation au centre de l'économie de la croissance.
+</DeepDive>
+
+### Le chômage, l'autre face de la croissance
+
+Quand la croissance ralentit, les entreprises embauchent moins et le **chômage** monte. En France, on mesure le chômage selon la définition du Bureau international du travail (BIT) : est chômeur quelqu'un qui n'a **pas travaillé du tout** pendant la semaine de référence, est **disponible** pour travailler dans les deux semaines, et **cherche activement** un emploi.
+
+Le taux de chômage, c'est le nombre de chômeurs divisé par la **population active** (personnes en emploi + chômeurs), pas par la population totale. Un étudiant ou un retraité ne fait pas partie de la population active.
+
+<Quiz question="Un chômeur découragé arrête de chercher un emploi. Que devient le taux de chômage ?" options={['Il augmente', 'Il baisse', 'Il ne change pas']} answer={1}>
+  **Il baisse,** et c'est contre-intuitif. En arrêtant de chercher, cette personne sort de la catégorie « chômeur » au sens du BIT, et sort aussi de la population active. Le taux baisse sans que personne n'ait trouvé d'emploi. C'est pourquoi les économistes regardent aussi le **taux d'emploi** (part des 15-64 ans qui travaillent), plus difficile à « embellir ».
+</Quiz>
+
+## À retenir
+
+<Takeaways>
+1. **L'économie étudie des choix sous contrainte de rareté.** Chaque choix a un coût d'opportunité : la meilleure option à laquelle on renonce.
+2. **Les agents sont reliés par un circuit.** La dépense des uns est le revenu des autres, ce qui propage les ralentissements.
+3. **Le prix naît de l'offre et de la demande.** Un choc déplace une courbe, le prix et la quantité s'ajustent vers un nouvel équilibre.
+4. **Le PIB mesure la production d'un pays.** Il faut le corriger de l'inflation (croissance réelle) et de la population (PIB par habitant), et garder en tête ce qu'il ne mesure pas.
+5. **À long terme, la croissance vient de la productivité.** Plus de travail et de capital aident, mais c'est l'innovation qui enrichit durablement.
+</Takeaways>

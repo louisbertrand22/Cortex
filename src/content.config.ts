@@ -11,7 +11,7 @@ const subjects = defineCollection({
     description: z.string(),
     teacher: z.string().optional(),
     semester: z.string().optional(),
-    domain: z.enum(['ia', 'architecture', 'infrastructure', 'genie-logiciel', 'securite', 'data', 'autre']),
+    domain: z.enum(['ia', 'architecture', 'infrastructure', 'genie-logiciel', 'securite', 'data', 'economie', 'autre']),
     accent: z.string().default('signal'), // nom d'une couleur du thème
     order: z.number().default(0),
     // Matière privée : absente des pages publiques, de la recherche et du sitemap ; ses pages exigent une
