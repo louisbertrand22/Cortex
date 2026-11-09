@@ -163,27 +163,6 @@
         "from": 7
       }
     ],
-    "upcoming": [
-      {
-        "session": 7,
-        "title": "Comment fonctionne la bourse",
-        "description": "Marché primaire et secondaire, carnet d'ordres, indices, acteurs."
-      },
-      {
-        "session": 8,
-        "title": "Risque, rendement et diversification",
-        "description": "Volatilité, corrélation, Markowitz, risque systématique."
-      },
-      {
-        "session": 9,
-        "title": "Stratégies d'investissement",
-        "description": "Passif ou actif, DCA, analyse fondamentale et technique, biais."
-      },
-      {
-        "session": 10,
-        "title": "Investir en pratique en France",
-        "description": "PEA, assurance-vie, CTO, PER, fiscalité, frais et arnaques."
-      }
-    ]
+    "upcoming": []
   }
 ]

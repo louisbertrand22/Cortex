@@ -1,0 +1,206 @@
+---
+title: Comment fonctionne la bourse
+subtitle: Marchés, carnet d'ordres, indices et acteurs
+subject: eco-finance
+session: 7
+description: À quoi sert la bourse, comment un prix se forme dans le carnet d'ordres, quels ordres passer, ce que mesurent le CAC 40 ou le MSCI World, et qui sont les acteurs du marché.
+tags: [bourse, marché primaire, marché secondaire, carnet d'ordres, ordre à cours limité, liquidité, indices, AMF]
+objectives:
+  - Distinguer le marché primaire du marché secondaire.
+  - Lire un carnet d'ordres et expliquer comment se forme un cours.
+  - Choisir entre un ordre au marché et un ordre à cours limité.
+  - Expliquer ce que mesure un indice boursier et comment il est calculé.
+  - Citer les principaux acteurs du marché et le rôle du régulateur.
+sources:
+  - label: Euronext, fonctionnement du marché et règles de négociation
+    url: https://www.euronext.com/fr
+  - label: Autorité des marchés financiers, espace épargnants
+    url: https://www.amf-france.org/fr/espace-epargnants
+  - label: Euronext, règles de l'indice CAC 40
+    url: https://live.euronext.com/
+  - label: MSCI, MSCI World Index (fiche de l'indice)
+    url: https://www.msci.com/
+  - label: SEC et CFTC, « Findings Regarding the Market Events of May 6, 2010 » (2010)
+    url: https://www.sec.gov/news/studies/2010/marketevents-report.pdf
+updated: 2026-11-09
+---
+
+« Le CAC 40 a perdu 2 % aujourd'hui. » Cette phrase revient chaque soir aux informations, mais que s'est-il passé concrètement ? Qui a vendu, à qui, et pourquoi le prix a-t-il baissé ? La bourse paraît être un monde à part, plein d'écrans et de jargon. En réalité, c'est un **marché** comme ceux du chapitre 1, avec des acheteurs, des vendeurs et un prix qui s'ajuste. Ce chapitre ouvre la partie 3 du cours : il explique la mécanique de la bourse, avant de parler de risque (chapitre 8), de stratégies (chapitre 9) et d'investissement en pratique (chapitre 10).
+
+## À quoi sert la bourse ?
+
+### Deux marchés en un
+
+La bourse remplit deux fonctions très différentes, qu'on appelle le **marché primaire** et le **marché secondaire**.
+
+<Compare leftTitle="Marché primaire : le neuf" rightTitle="Marché secondaire : l'occasion">
+  <Fragment slot="left">
+    L'entreprise (ou l'État) **émet de nouveaux titres** et encaisse l'argent. C'est l'**introduction en bourse** (IPO, *initial public offering*), quand une entreprise vend ses actions au public pour la première fois, ou une **augmentation de capital**. C'est là que la bourse **finance l'économie**.
+  </Fragment>
+  <Fragment slot="right">
+    Les investisseurs **s'échangent entre eux** des titres déjà émis. L'entreprise ne touche rien quand ses actions changent de mains. C'est ce marché qu'on voit chaque jour : l'immense majorité des échanges s'y déroule.
+  </Fragment>
+</Compare>
+
+Si le marché secondaire ne finance pas directement les entreprises, pourquoi est-il si important ? Parce qu'il rend les titres **liquides** : tu peux revendre ton action à tout moment. Sans cette possibilité, peu de gens accepteraient d'acheter des actions sur le marché primaire, en immobilisant leur argent pour une durée indéterminée. Le secondaire fait vivre le primaire.
+
+<Callout type="definition" title="Liquidité">
+  La facilité avec laquelle on peut acheter ou vendre un actif rapidement, en grande quantité, sans faire bouger son prix. Une action du CAC 40 est très liquide ; un appartement ou une action d'une petite entreprise peu échangée l'est beaucoup moins.
+</Callout>
+
+### Pourquoi une entreprise entre en bourse
+
+<CardGrid cols={3}>
+  <Card title="Lever des fonds" kicker="Financement">
+    Récolter de l'argent auprès de milliers d'investisseurs pour financer sa croissance, sans s'endetter.
+  </Card>
+  <Card title="Permettre aux actionnaires de vendre" kicker="Liquidité">
+    Les fondateurs, les salariés et les fonds qui ont investi au départ peuvent revendre une partie de leurs titres.
+  </Card>
+  <Card title="Gagner en visibilité" kicker="Notoriété">
+    Être coté apporte de la notoriété et de la crédibilité auprès des clients, des fournisseurs et des banques.
+  </Card>
+</CardGrid>
+
+En contrepartie, une société cotée doit **publier régulièrement ses comptes** (chapitre 5), informer immédiatement le marché de tout événement important et respecter des règles de gouvernance strictes. Cette transparence protège les investisseurs, mais elle a un coût : certaines entreprises préfèrent rester non cotées, ou quittent la bourse.
+
+## Le carnet d'ordres : comment se forme un prix
+
+### Acheteurs et vendeurs face à face
+
+Aujourd'hui, la bourse n'est plus une salle où des courtiers crient : c'est un **système informatique** qui confronte en continu les ordres des acheteurs et des vendeurs. À Paris, c'est **Euronext** qui gère ce marché. Pour chaque action, il tient un **carnet d'ordres** : la liste de tous les acheteurs et vendeurs en attente, avec le prix qu'ils proposent et la quantité.
+
+<Steps>
+1. **Les vendeurs** affichent le prix minimum auquel ils acceptent de vendre. Le moins cher est en tête : c'est la **meilleure offre**.
+2. **Les acheteurs** affichent le prix maximum qu'ils acceptent de payer. Le plus généreux est en tête : c'est la **meilleure demande**.
+3. **L'écart** entre les deux (la *fourchette*, ou *spread*) est la zone où personne n'est encore d'accord.
+4. **Une transaction a lieu** dès qu'un acheteur accepte le prix d'un vendeur, ou l'inverse. Le prix de cette transaction devient le **dernier cours** : c'est lui qu'on affiche comme « le prix de l'action ».
+</Steps>
+
+Voici le carnet d'ordres de l'action Cycléa, l'entreprise fictive du chapitre 5. Envoie un ordre et regarde comment il « mange » le carnet.
+
+<Figure caption="Carnet d'ordres simplifié de l'action Cycléa (fictive) · Les quantités en face de chaque prix sont des ordres en attente">
+  <OrderBook />
+</Figure>
+
+<KeyIdea>Le cours d'une action n'est pas fixé par quelqu'un : c'est simplement le prix du dernier échange entre un acheteur et un vendeur. Il bouge parce que de nouveaux ordres arrivent sans cesse.</KeyIdea>
+
+### Les principaux types d'ordres
+
+<CardGrid cols={3}>
+  <Card title="Au marché" kicker="Priorité à la vitesse">
+    Tu achètes ou vends **immédiatement**, au meilleur prix disponible, quel qu'il soit. Exécution garantie, prix non garanti. Sur une action peu liquide, une grosse quantité peut être exécutée bien plus cher que prévu.
+  </Card>
+  <Card title="À cours limité" kicker="Priorité au prix">
+    Tu fixes un **prix maximum** (à l'achat) ou **minimum** (à la vente). Prix garanti, exécution non garantie : si personne n'accepte ton prix, l'ordre reste en attente dans le carnet.
+  </Card>
+  <Card title="À seuil de déclenchement" kicker="Ordre stop">
+    L'ordre ne s'active que si le cours franchit un seuil. Souvent utilisé pour limiter les pertes (*stop loss*) : « vends si le cours tombe sous 12 € ». En cas de chute brutale, il peut être exécuté bien plus bas que le seuil.
+  </Card>
+</CardGrid>
+
+<Quiz question="Dans le carnet ci-dessus, tu passes un ordre d'achat au marché de 1 500 actions Cycléa. Pourquoi ton prix moyen est-il supérieur à 13,52 €, le prix affiché en tête des vendeurs ?" options={['Parce que la bourse prend une commission', 'Parce qu’il n’y a que 300 actions à 13,52 € : le reste est acheté aux niveaux suivants, plus chers', 'Parce que ton ordre fait monter le prix de toutes les actions déjà achetées']} answer={1}>
+  **Parce que tu remontes le carnet.** Seules 300 actions sont proposées à 13,52 € ; les 1 200 suivantes sont achetées à 13,54 € puis 13,56 €. Ce glissement de prix s'appelle l'**impact de marché**. Il est négligeable pour un particulier sur une grande valeur, mais très réel sur une petite action peu échangée. D'où l'intérêt de l'ordre à cours limité.
+</Quiz>
+
+### Les horaires et la séance
+
+À Paris, la séance se déroule en **continu de 9 h 00 à 17 h 30**, du lundi au vendredi. Elle est encadrée par deux **fixings** : avant l'ouverture et juste avant la clôture, les ordres s'accumulent sans être exécutés, puis le système calcule un prix unique qui permet d'échanger le plus grand nombre de titres. Le cours de clôture, issu de ce fixing, est la référence utilisée pour calculer les performances et valoriser les fonds.
+
+Pour éviter les emballements, le système suspend brièvement la cotation d'une action si son prix varie trop brutalement : c'est la **réservation**, un « coupe-circuit » qui laisse aux investisseurs le temps de réfléchir.
+
+<DeepDive title="Le flash crash du 6 mai 2010" level="terrain">
+  Le 6 mai 2010, vers 14 h 40 à New York, l'indice Dow Jones perd près de **1 000 points (environ 9 %)** en quelques minutes, avant de remonter presque aussi vite. Certaines actions s'échangent pendant quelques secondes à un centime, d'autres à 100 000 dollars.
+
+  Le rapport des régulateurs américains (SEC et CFTC) montre qu'un très gros ordre de vente automatique sur des contrats à terme, exécuté sans tenir compte du prix, a déclenché une réaction en chaîne chez les **algorithmes de trading à haute fréquence**, qui ont retiré leurs ordres du carnet. Privé d'acheteurs, le marché s'est effondré. Depuis, les bourses ont généralisé des coupe-circuits plus stricts. Une leçon pour le particulier : un ordre au marché envoyé pendant une panique peut être exécuté à un prix absurde.
+</DeepDive>
+
+## Les indices boursiers : le thermomètre du marché
+
+### Ce qu'est un indice
+
+Un **indice** suit l'évolution d'un **panier d'actions** représentatif d'un marché. Il permet de résumer en un seul chiffre la tendance de centaines d'entreprises, et sert de référence pour juger un gérant (chapitre 6) ou pour construire un ETF qui le réplique.
+
+<CardGrid cols={3}>
+  <Card title="CAC 40" kicker="France">
+    Les **40 plus grandes entreprises** cotées à Paris, choisies selon leur taille et la liquidité de leurs titres. Base 1 000 points le 31 décembre 1987.
+  </Card>
+  <Card title="S&P 500" kicker="États-Unis">
+    Environ **500 grandes entreprises américaines**, qui représentent l'essentiel de la valeur de la bourse américaine. C'est l'indice de référence mondial.
+  </Card>
+  <Card title="MSCI World" kicker="Monde développé">
+    Plus de **1 300 entreprises** de 23 pays développés. Les États-Unis y pèsent largement plus de la moitié. Très utilisé par les ETF « monde ».
+  </Card>
+</CardGrid>
+
+### Comment on le calcule
+
+La plupart des grands indices sont **pondérés par la capitalisation boursière** (chapitre 5), plus précisément par la partie des actions réellement échangeable en bourse (le **flottant**). Une entreprise qui vaut 300 milliards pèse donc dix fois plus qu'une entreprise de 30 milliards : quand les plus grosses valeurs bougent, l'indice bouge avec elles.
+
+Conséquence : un indice peut être très **concentré**. Au sein du S&P 500 ou du MSCI World, une poignée de géants technologiques américains pèse aujourd'hui une part considérable. Acheter « le marché mondial », c'est donc aussi faire un pari important sur ces quelques entreprises.
+
+<Callout type="warning" title="Indice de prix ou indice dividendes réinvestis">
+  Le CAC 40 affiché aux informations est un **indice de prix** : il ne tient pas compte des dividendes versés par les entreprises. Or ces dividendes représentent une part importante du rendement des actions sur le long terme. Pour mesurer la performance réelle d'un investisseur, il faut regarder la version **dividendes réinvestis** (le CAC 40 GR, pour *gross return*). Comparer un fonds à l'indice de prix flatte toujours le fonds.
+</Callout>
+
+<Quiz question="Le CAC 40 n'a retrouvé son record de septembre 2000 (autour de 6 900 points) qu'au début des années 2020. Un investisseur entré au sommet de 2000 n'avait-il donc rien gagné en vingt ans ?" options={['Non, rien du tout, l’indice est au même niveau', 'Si : avec les dividendes réinvestis, sa performance était nettement positive', 'Il a forcément perdu à cause de l’inflation']} answer={1}>
+  **Il avait gagné les dividendes.** L'indice de prix ignore les dividendes, qui rapportent plusieurs pourcents par an : réinvestis, ils font une grosse différence sur vingt ans. Le piège : juger la bourse sur le seul niveau de l'indice affiché. En revanche, en tenant compte de l'inflation, la performance de cette période est restée modeste.
+</Quiz>
+
+## Qui sont les acteurs du marché ?
+
+```mermaid title="Le chemin d'un ordre de bourse"
+flowchart LR
+  I["Investisseur"] --> C["Courtier ou banque"]
+  C --> E["Euronext : carnet d'ordres"]
+  E --> CC["Chambre de compensation"]
+  CC --> D["Dépositaire : conserve les titres"]
+  A["AMF : surveille"] -.-> E
+  classDef reg fill:var(--signal-soft),stroke:var(--signal);
+  class A reg;
+```
+
+<CardGrid cols={2}>
+  <Card title="Les investisseurs" kicker="Qui achète et vend">
+    Les **investisseurs institutionnels** (assureurs, fonds de pension, sociétés de gestion, fonds souverains) réalisent l'essentiel des volumes. Les **particuliers** passent par un courtier ou leur banque. Les **fonds spéculatifs** (*hedge funds*) et les **traders haute fréquence** cherchent des gains à très court terme.
+  </Card>
+  <Card title="Les intermédiaires" kicker="Qui fait circuler">
+    Le **courtier** transmet ton ordre à la bourse. Les **teneurs de marché** affichent en permanence des prix d'achat et de vente pour garantir la liquidité, et se rémunèrent sur la fourchette. La **chambre de compensation** garantit le bon dénouement de chaque échange. Le **dépositaire** conserve les titres.
+  </Card>
+  <Card title="Le régulateur" kicker="Qui surveille">
+    En France, l'**Autorité des marchés financiers** (AMF) veille à l'information des investisseurs, sanctionne les manipulations de cours et les délits d'initié, et autorise les produits vendus au public. À l'échelle européenne, l'ESMA coordonne les régulateurs nationaux.
+  </Card>
+  <Card title="Les émetteurs" kicker="Qui est coté">
+    Les entreprises et les États qui ont émis les titres. Ils ont l'obligation de publier une information exacte, complète et à temps : une fausse information peut être lourdement sanctionnée.
+  </Card>
+</CardGrid>
+
+<Callout type="definition" title="Délit d'initié">
+  Le fait d'acheter ou de vendre un titre en utilisant une information importante qui n'est pas encore publique (un rachat imminent, des résultats catastrophiques). C'est interdit, car cela casse l'égalité entre les investisseurs, et c'est passible de prison et de lourdes amendes.
+</Callout>
+
+### Pourquoi les prix bougent-ils ?
+
+Un cours monte quand les acheteurs sont plus pressés que les vendeurs, et inversement. Mais qu'est-ce qui les pousse ? Le plus souvent, une **nouvelle information** qui change l'estimation des bénéfices futurs de l'entreprise (chapitre 5) ou du taux auquel il faut les actualiser (chapitre 4) :
+
+- des **résultats** meilleurs ou moins bons que prévu, ou des prévisions revues ;
+- une décision de **banque centrale** sur les taux (chapitre 2) ;
+- des **statistiques économiques** (inflation, emploi, croissance) ;
+- un événement **politique ou géopolitique** ;
+- et, parfois, des mouvements de **foule** sans nouvelle de fond, qu'on étudiera au chapitre 9.
+
+Important : le marché réagit à l'**écart** entre la nouvelle et ce qui était **attendu**. Une entreprise qui annonce un bénéfice en hausse de 10 % peut voir son action chuter si les investisseurs attendaient +20 %.
+
+<Quiz question="La BCE annonce une baisse de ses taux, et pourtant la bourse recule ce jour-là. Comment est-ce possible ?" options={['C’est impossible, une baisse de taux fait toujours monter la bourse', 'La baisse était déjà anticipée et intégrée dans les prix, et le marché espérait plus, ou s’inquiète de ce qu’elle révèle sur l’économie', 'Les banques centrales n’ont aucune influence sur la bourse']} answer={1}>
+  **Le marché anticipe.** Si tout le monde attendait la baisse, elle était déjà dans les prix. Ce qui fait bouger le cours, c'est la surprise : une baisse plus faible qu'espéré, un discours prudent, ou la crainte que la BCE baisse ses taux parce qu'elle voit venir une récession. « Acheter la rumeur, vendre la nouvelle » résume ce phénomène.
+</Quiz>
+
+## À retenir
+
+<Takeaways>
+1. **La bourse a deux marchés.** Le primaire finance les entreprises, le secondaire rend leurs titres liquides.
+2. **Le cours naît du carnet d'ordres.** C'est le prix du dernier échange entre la meilleure offre et la meilleure demande.
+3. **Ordre au marché ou à cours limité, il faut choisir.** Le premier garantit l'exécution, le second garantit le prix.
+4. **Un indice résume un marché.** Il est souvent pondéré par la capitalisation, et l'indice de prix oublie les dividendes.
+5. **Les prix réagissent à la surprise.** Une nouvelle déjà attendue est déjà dans les cours.
+</Takeaways>

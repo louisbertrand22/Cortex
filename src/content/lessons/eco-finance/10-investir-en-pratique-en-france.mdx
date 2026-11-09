@@ -1,0 +1,205 @@
+---
+title: Investir en pratique en France
+subtitle: Livrets, PEA, assurance-vie, CTO, PER, frais et arnaques
+subject: eco-finance
+session: 10
+description: Dans quel ordre épargner, quelles enveloppes utiliser (livrets, PEA, assurance-vie, compte-titres, PER), comment elles sont taxées en 2026, pourquoi les frais comptent, et comment repérer une arnaque.
+tags: [épargne de précaution, Livret A, PEA, assurance-vie, compte-titres, PER, fiscalité, arnaques]
+objectives:
+  - Ordonner les étapes avant d'investir (dettes, épargne de précaution, projets).
+  - Comparer les livrets réglementés et les enveloppes d'investissement.
+  - Estimer l'impôt sur un gain selon l'enveloppe et sa durée de détention.
+  - Mesurer l'impact des frais sur un placement de long terme.
+  - Repérer les signaux d'une arnaque et vérifier un intermédiaire.
+sources:
+  - label: Gouvernement, « Le taux du livret A augmente à compter du 1er août 2026 »
+    url: https://www.info.gouv.fr/actualite/augmentation-du-taux-du-livret-a-a-compter-du-1er-aout-2026
+  - label: La finance pour tous, « Livret A, un taux de 1,7 % au 1er août 2026 »
+    url: https://www.lafinancepourtous.com/2026/07/15/livret-a-un-taux-de-17-au-1er-aout-2026/
+  - label: Loi n° 2025-1403 de financement de la sécurité sociale pour 2026, article 12 (prélèvements sociaux sur les revenus du capital)
+  - label: Nalo, « Pourquoi la flat tax passe-t-elle à 31,4 % en 2026 ? »
+    url: https://blog.nalo.fr/flat-tax
+  - label: Service-public.fr, fiches PEA, assurance-vie, PER et livrets réglementés
+    url: https://www.service-public.fr/
+  - label: Autorité des marchés financiers, listes noires et mises en garde
+    url: https://www.amf-france.org/fr/espace-epargnants
+  - label: ORIAS, registre des intermédiaires en assurance, banque et finance
+    url: https://www.orias.fr/
+updated: 2026-11-09
+---
+
+<Callout type="warning" title="Ceci n'est pas un conseil en investissement">
+  Ce chapitre explique comment fonctionnent les placements et leur fiscalité en France, avec les règles connues en novembre 2026. Il ne tient pas compte de ta situation personnelle et ne constitue pas une recommandation. Les règles fiscales changent souvent : vérifie-les sur service-public.fr ou auprès d'un conseiller agréé avant toute décision importante.
+</Callout>
+
+Neuf chapitres pour comprendre l'économie, la finance et la bourse : il reste à passer à la pratique. En France, **où** tu places ton argent compte presque autant que **dans quoi** tu l'investis : le même ETF peut être taxé à 31,4 % ou à 18,6 % selon l'enveloppe qui le contient, et coûter 0,2 % ou 2 % de frais par an selon l'intermédiaire. Ce dernier chapitre rassemble tout le cours dans une démarche concrète : dans quel ordre épargner, quelles enveloppes utiliser, comment éviter les frais inutiles et les arnaques.
+
+## Avant d'investir : l'ordre des priorités
+
+### Quatre étapes
+
+Investir en bourse n'est pas la première chose à faire avec son épargne. Il y a un ordre logique, qui découle directement de ce qu'on a vu sur la valeur temps de l'argent (chapitre 4) et le risque (chapitre 8).
+
+```mermaid title="Dans quel ordre placer son épargne"
+flowchart TB
+  A["1 · As-tu des dettes chères (crédit conso, découvert) ?"] -- "oui" --> A1["Les rembourser d'abord"]
+  A -- "non" --> B["2 · As-tu une épargne de précaution (3 à 6 mois de dépenses) ?"]
+  B -- "non" --> B1["La constituer sur des livrets"]
+  B -- "oui" --> C["3 · As-tu un projet dans moins de 5 ans ?"]
+  C -- "oui" --> C1["Placement sans risque : livrets, fonds en euros"]
+  C -- "non" --> D["4 · Investir à long terme : PEA, assurance-vie, PER"]
+  classDef go fill:var(--signal-soft),stroke:var(--signal);
+  class D go;
+```
+
+<Steps>
+1. **Rembourser les dettes chères.** Un crédit renouvelable à 15 % te coûte 15 % par an, sans risque : aucun placement raisonnable ne rapporte autant. Le rembourser, c'est un « rendement » garanti de 15 %. (Un crédit immobilier à 2 ou 3 %, en revanche, n'a généralement pas besoin d'être remboursé par anticipation.)
+2. **Constituer une épargne de précaution.** L'équivalent de **trois à six mois de dépenses**, disponible immédiatement et sans risque, pour faire face à une panne de voiture, une perte d'emploi, un imprévu de santé. Sans ce matelas, le moindre accident t'oblige à vendre tes placements, peut-être au pire moment.
+3. **Mettre de côté pour les projets proches.** L'apport pour un appartement dans deux ans, un voyage, des travaux : cet argent doit rester sans risque (chapitre 8).
+4. **Investir le reste à long terme.** Seul l'argent dont tu n'auras pas besoin avant au moins cinq à huit ans peut aller vers les actions.
+</Steps>
+
+## Les livrets réglementés
+
+Les livrets réglementés sont la base de l'épargne de précaution : capital garanti, argent disponible à tout moment, et **intérêts exonérés d'impôt et de prélèvements sociaux**. Leur taux est fixé par l'État.
+
+<CardGrid cols={3}>
+  <Card title="Livret A" kicker="1,7 % depuis le 1er août 2026">
+    Ouvert à tous, un seul par personne. Plafond de **22 950 €** de versements. Les fonds financent notamment le logement social.
+  </Card>
+  <Card title="LDDS" kicker="1,7 % depuis le 1er août 2026">
+    Livret de développement durable et solidaire, mêmes règles et même taux que le Livret A. Plafond de **12 000 €**.
+  </Card>
+  <Card title="LEP" kicker="2,5 %, réservé aux revenus modestes">
+    Livret d'épargne populaire, accessible sous condition de revenus. Plafond de **10 000 €**. Le mieux rémunéré des livrets : à vérifier si tu y as droit.
+  </Card>
+</CardGrid>
+
+Avec 1,7 % de rendement, le Livret A protège à peu près le pouvoir d'achat quand l'inflation est basse, mais il ne l'**augmente** pas vraiment (chapitre 2). C'est un outil de sécurité et de disponibilité, pas un outil d'enrichissement.
+
+<DeepDive title="Comment est fixé le taux du Livret A" level="approfondissement">
+  Le taux du Livret A est calculé deux fois par an (pour le 1er février et le 1er août) selon une formule réglementaire qui fait la moyenne entre l'**inflation** des six derniers mois et un taux d'intérêt du marché monétaire à court terme (l'€STR). Le gouverneur de la Banque de France propose un taux, et le gouvernement décide, en pouvant s'écarter de la formule. Le taux est arrondi au dixième de point et ne peut pas descendre sous 0,5 %. C'est ce mécanisme qui a fait monter le Livret A à 3 % en 2023, après le pic d'inflation, puis redescendre, avant la légère remontée d'août 2026 qui suit la hausse des taux de la BCE (chapitre 2).
+</DeepDive>
+
+## Les enveloppes d'investissement
+
+Une **enveloppe** est un cadre juridique et fiscal dans lequel on loge ses placements. Le même placement (par exemple un ETF sur les actions européennes) n'est pas taxé de la même façon selon l'enveloppe qui le contient.
+
+<CardGrid cols={2}>
+  <Card title="PEA" kicker="Plan d'épargne en actions">
+    Pour investir en **actions européennes** et dans les fonds et ETF éligibles (dont certains ETF mondiaux). Plafond de **150 000 €** de versements. **Après 5 ans**, les gains sont exonérés d'impôt sur le revenu : seuls les prélèvements sociaux (18,6 % en 2026) s'appliquent. Un retrait avant 5 ans entraîne en principe la clôture du plan.
+  </Card>
+  <Card title="Assurance-vie" kicker="L'enveloppe préférée des Français">
+    Un contrat qui peut contenir un **fonds en euros** (capital garanti par l'assureur, rendement modeste) et des **unités de compte** (fonds, ETF, immobilier, non garantis). Pas de plafond. **Après 8 ans**, abattement annuel de **4 600 €** de gains (9 200 € pour un couple). Avantages importants pour la **transmission** : jusqu'à 152 500 € par bénéficiaire hors droits de succession pour les versements avant 70 ans.
+  </Card>
+  <Card title="Compte-titres ordinaire (CTO)" kicker="Sans limite, sans avantage">
+    Permet d'acheter **tout** : actions du monde entier, obligations, ETF, produits dérivés. Pas de plafond, pas de durée. Gains taxés au **prélèvement forfaitaire unique** (la *flat tax*) : **31,4 %** en 2026 (12,8 % d'impôt + 18,6 % de prélèvements sociaux).
+  </Card>
+  <Card title="PER" kicker="Plan d'épargne retraite">
+    Les versements sont **déductibles du revenu imposable**, dans une limite liée aux revenus professionnels : c'est intéressant si ton taux d'imposition est élevé. En contrepartie, l'argent est **bloqué jusqu'à la retraite**, sauf exceptions (achat de la résidence principale, accidents de la vie), et la sortie est imposée.
+  </Card>
+</CardGrid>
+
+<Callout type="note" title="Ce qui a changé en 2026">
+  La loi de financement de la sécurité sociale pour 2026 a relevé la CSG sur les revenus du capital : les prélèvements sociaux passent de **17,2 % à 18,6 %**, et la flat tax de **30 % à 31,4 %**. Cette hausse touche le compte-titres, les gains du PEA et les plans d'épargne logement récents, mais **pas l'assurance-vie**, qui reste à 17,2 %.
+</Callout>
+
+### Comparer la fiscalité
+
+Fais varier le gain et l'ancienneté de l'enveloppe, et regarde ce que chacune prélève.
+
+<Figure caption="Impôts et prélèvements sociaux sur un gain retiré, selon l'enveloppe · Règles 2026 simplifiées, option pour le barème ignorée, ne remplace pas un conseil fiscal">
+  <EnvelopeTax />
+</Figure>
+
+Ce qu'il faut retenir du simulateur : **la durée de détention change tout**. Avant 5 ans, le PEA ne fait pas mieux que le compte-titres ; avant 8 ans, l'assurance-vie non plus. D'où un conseil fréquent, qui ne coûte rien : **ouvrir tôt** un PEA et une assurance-vie, même avec quelques dizaines d'euros, pour faire courir le compteur des années. C'est la date d'ouverture qui compte, pas celle des versements.
+
+<Quiz question="Tu veux investir dans un ETF sur les actions européennes pour ta retraite, dans 25 ans. Tu hésites entre un compte-titres et un PEA. Que faut-il savoir ?" options={['Aucune différence, c’est le même ETF', 'Dans un PEA de plus de 5 ans, les gains ne supportent que les prélèvements sociaux (18,6 %), contre 31,4 % sur un compte-titres', 'Le compte-titres est plus avantageux car il n’a pas de plafond']} answer={1}>
+  **Le PEA est bien plus avantageux à long terme.** Sur un gain de 50 000 €, l'écart représente environ 6 400 € d'impôt en moins. Le compte-titres reste utile pour ce que le PEA n'accepte pas (actions américaines en direct, obligations) ou au-delà de son plafond. Le piège : croire que seul le produit compte, alors que l'enveloppe change le résultat net.
+</Quiz>
+
+## Les frais, l'ennemi silencieux
+
+### Où se cachent les frais
+
+<CardGrid cols={2}>
+  <Card title="Frais de courtage" kicker="À chaque ordre">
+    Prélevés par le courtier à chaque achat ou vente. Très variables : de zéro ou quelques euros chez les courtiers en ligne à plusieurs dizaines d'euros dans certaines banques.
+  </Card>
+  <Card title="Frais d'entrée et sur versements" kicker="À chaque versement">
+    Prélevés sur chaque somme versée, surtout en assurance-vie. Souvent de **0 %** sur les contrats en ligne, jusqu'à plusieurs pourcents dans les réseaux bancaires traditionnels. Ils se négocient.
+  </Card>
+  <Card title="Frais de gestion de l'enveloppe" kicker="Chaque année">
+    En assurance-vie, l'assureur prélève chaque année un pourcentage de l'encours (souvent entre 0,5 % et 1 %), en plus des frais des fonds.
+  </Card>
+  <Card title="Frais des fonds" kicker="Chaque année, invisibles">
+    Le fonds prélève ses frais de gestion directement sur sa valeur (chapitre 6) : 0,1 à 0,4 % pour un ETF, souvent 1,5 à 2 % pour un fonds actif. On ne les voit jamais passer, mais ils sont bien payés.
+  </Card>
+</CardGrid>
+
+Au chapitre 4, on a vu qu'un point de rendement en plus change énormément le résultat sur 30 ans. C'est vrai dans l'autre sens : **un point de frais en plus par an coûte environ un quart du capital final sur 30 ans**. Additionne les frais d'un contrat (1 %) et d'un fonds actif (2 %), et tu abandonnes chaque année 3 % de ton épargne, soit près de la moitié du rendement historique des actions.
+
+<KeyIdea>Le rendement futur est incertain, les frais sont certains. Ils sont le seul paramètre de ton placement que tu contrôles entièrement.</KeyIdea>
+
+<Quiz question="Deux contrats d'assurance-vie investissent dans des fonds équivalents rapportant 6 % par an avant frais. Le contrat A prélève 0,5 % par an au total, le contrat B 2,5 %. Sur 25 ans, avec 10 000 € de départ, quel écart final approximatif ?" options={['Quelques centaines d’euros', 'Environ 12 000 € : A atteint près de 38 000 €, B près de 24 000 €', 'Aucun, les frais sont compensés par la performance']} answer={1}>
+  **Environ 12 000 €.** 10 000 × 1,055²⁵ ≈ 38 000 € contre 10 000 × 1,035²⁵ ≈ 24 000 €. Deux points de frais par an amputent le capital final d'un tiers. Les frais ne sont pas « compensés » : à fonds équivalents, ils sont simplement retirés de ta performance.
+</Quiz>
+
+## Construire une répartition simple
+
+### Partir de son horizon et de sa tolérance aux pertes
+
+La décision la plus importante n'est pas le choix de tel ou tel fonds, mais la **répartition** entre placements sans risque (livrets, fonds en euros, obligations courtes) et placements risqués (actions). On l'appelle l'**allocation d'actifs**. Elle dépend de deux questions : dans combien de temps auras-tu besoin de cet argent (chapitre 8), et quelle baisse peux-tu supporter sans vendre ?
+
+<CardGrid cols={3}>
+  <Card title="Prudent" kicker="Exemple d'allocation" tone="synapse">
+    Environ **20 à 30 %** d'actions, le reste sans risque. Baisse possible lors d'un krach : de l'ordre de **−10 à −15 %**. Pour un horizon court ou une faible tolérance.
+  </Card>
+  <Card title="Équilibré" kicker="Exemple d'allocation" tone="muted">
+    Environ **50 à 60 %** d'actions. Baisse possible : de l'ordre de **−25 %**. Un compromis courant pour un horizon de dix ans ou plus.
+  </Card>
+  <Card title="Dynamique" kicker="Exemple d'allocation" tone="amber">
+    **80 à 100 %** d'actions. Baisse possible : **−40 à −50 %** ou plus. Seulement pour de l'argent placé à très long terme, avec les nerfs pour ne pas vendre en pleine crise.
+  </Card>
+</CardGrid>
+
+Ces fourchettes sont des **illustrations** pour fixer les idées, pas des recommandations. Une fois la répartition choisie, deux règles simples suffisent : **diversifier** la part en actions (plutôt un ETF monde ou plusieurs régions qu'une poignée d'actions, chapitre 8), et **rééquilibrer** une fois par an : si les actions ont monté et pèsent 70 % au lieu de 60 %, on en revend un peu (ou on oriente les nouveaux versements ailleurs) pour revenir à la cible. Ce rééquilibrage force mécaniquement à vendre ce qui a monté et à acheter ce qui a baissé, à l'inverse de nos biais (chapitre 9).
+
+## Repérer les arnaques
+
+### Les signaux d'alerte
+
+Chaque année, des épargnants français perdent des centaines de millions d'euros dans des escroqueries financières. Elles suivent toutes les mêmes ressorts.
+
+<CardGrid cols={2}>
+  <Card title="Un rendement élevé et garanti" kicker="Signal 1" tone="danger">
+    « 10 % par an sans risque. » Rendement et risque vont toujours ensemble (chapitre 6) : une telle promesse est impossible.
+  </Card>
+  <Card title="L'urgence" kicker="Signal 2" tone="danger">
+    « Offre réservée, plus que deux jours. » Un vrai placement ne disparaît pas en 48 heures. L'urgence sert à t'empêcher de réfléchir et de vérifier.
+  </Card>
+  <Card title="Un démarchage non sollicité" kicker="Signal 3" tone="danger">
+    Un appel, un message sur un réseau social, une publicité avec une personnalité connue (souvent utilisée sans son accord). Les escrocs usurpent aussi le nom et le logo de vraies banques.
+  </Card>
+  <Card title="Un placement exotique" kicker="Signal 4" tone="danger">
+    Diamants, vin, forêts, crypto-actifs « à rendement fixe », trading automatique sur le marché des changes : des actifs difficiles à évaluer, qui servent souvent de décor.
+  </Card>
+</CardGrid>
+
+<Callout type="tip" title="Vérifier avant de verser un euro">
+  Consulte les **listes noires** de l'Autorité des marchés financiers, qui recensent les sites et entités non autorisés, et vérifie que l'intermédiaire est bien enregistré au registre **ORIAS** (orias.fr) ou au registre des établissements agréés (REGAFI). En cas de doute, le service public **Assurance Banque Épargne Info Service** répond aux questions des épargnants.
+</Callout>
+
+<Quiz question="Un « conseiller » te contacte sur WhatsApp et te montre des captures d'écran de gains de 20 % par mois sur une plateforme. Il propose de commencer avec 250 €. Les premiers gains s'affichent bien sur ton compte. Que se passe-t-il le plus souvent ensuite ?" options={['Tu peux retirer tes gains sans problème', 'On te pousse à verser davantage, puis le retrait devient impossible ou soumis à des « frais » à payer d’avance', 'La plateforme est régulée par l’AMF']} answer={1}>
+  **Le retrait devient impossible.** C'est le schéma classique : les « gains » affichés sont fictifs, ils servent à te mettre en confiance pour que tu verses plus. Quand tu demandes à retirer, on t'oppose des frais, des impôts ou des « déblocages » à payer d'avance, qui ne servent qu'à te prendre encore de l'argent. Personne de sérieux ne démarche sur une messagerie avec des promesses de 20 % par mois.
+</Quiz>
+
+## À retenir
+
+<Takeaways>
+1. **D'abord la sécurité, ensuite l'investissement.** Rembourser les dettes chères, constituer 3 à 6 mois d'épargne de précaution, garder sans risque l'argent des projets proches.
+2. **L'enveloppe compte autant que le placement.** PEA après 5 ans, assurance-vie après 8 ans : ouvrir tôt fait courir le compteur fiscal.
+3. **Les frais sont certains, le rendement ne l'est pas.** Un point de frais par an coûte environ un quart du capital sur 30 ans.
+4. **La répartition entre risque et sécurité est la décision clé.** Elle dépend de l'horizon et de la baisse qu'on peut supporter sans vendre.
+5. **Rendement garanti élevé, urgence, démarchage : arnaque.** Vérifier les listes noires de l'AMF et le registre ORIAS avant de verser quoi que ce soit.
+</Takeaways>

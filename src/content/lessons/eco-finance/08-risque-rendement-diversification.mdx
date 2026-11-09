@@ -1,0 +1,168 @@
+---
+title: Risque, rendement et diversification
+subtitle: Le seul repas gratuit de la finance
+subject: eco-finance
+session: 8
+description: Mesurer le risque d'un placement, comprendre le rôle du temps, et découvrir pourquoi la diversification réduit le risque sans réduire le rendement attendu, jusqu'à une limite.
+tags: [volatilité, écart-type, perte maximale, horizon de placement, corrélation, diversification, risque systématique, Markowitz]
+objectives:
+  - Mesurer le risque d'un placement par sa volatilité et sa perte maximale.
+  - Expliquer pourquoi l'horizon de placement change la probabilité de perte.
+  - Expliquer comment la corrélation entre actifs réduit le risque d'un portefeuille.
+  - Distinguer risque spécifique et risque de marché, et dire lequel est rémunéré.
+  - Comparer des placements avec le ratio de Sharpe.
+sources:
+  - label: Harry Markowitz, « Portfolio Selection », Journal of Finance (1952)
+  - label: William Sharpe, « Capital Asset Prices », Journal of Finance (1964)
+  - label: Fondation Nobel, prix d'économie 1990 (Markowitz, Miller, Sharpe)
+    url: https://www.nobelprize.org/prizes/economic-sciences/1990/summary/
+  - label: Fortuneo, « L'évolution du CAC 40 sur les 100 dernières années »
+    url: https://www.fortuneo.fr/blog/tendances-financieres/evolution-cac-40-497
+  - label: Moneyvox, « Le CAC 40 bientôt 40 ans, histoire entre pics et abîmes »
+    url: https://www.moneyvox.fr/bourse/actualites/105717/le-cac-40-bientot-40-ans-histoire-entre-pics-et-abimes
+  - label: Elroy Dimson, Paul Marsh, Mike Staunton, « UBS Global Investment Returns Yearbook » (édition 2025)
+    url: https://www.ubs.com/global/en/investment-bank/insights-and-data/2025/global-investment-returns-yearbook-2025
+updated: 2026-11-09
+---
+
+Au chapitre 6, on a posé la règle d'or : pas de rendement sans risque. Mais « risque », c'est vague. Risque de quoi ? De combien ? Pendant combien de temps ? Ce chapitre donne des outils pour **mesurer** le risque, montre que **le temps** le transforme, et présente la découverte qui a valu un prix Nobel à Harry Markowitz : en combinant intelligemment des placements, on peut **réduire le risque sans sacrifier le rendement attendu**. C'est ce que les financiers appellent « le seul repas gratuit de la finance ».
+
+## Mesurer le risque
+
+### La volatilité
+
+La mesure la plus utilisée est la **volatilité** : l'ampleur avec laquelle un placement s'écarte de son rendement moyen d'une année à l'autre. Mathématiquement, c'est l'**écart-type** des rendements.
+
+<Callout type="definition" title="Volatilité">
+  L'écart-type des rendements d'un placement, en % par an. Règle pratique : environ deux années sur trois, le rendement se situe à plus ou moins une volatilité de la moyenne ; environ 19 années sur 20, à plus ou moins deux volatilités.
+</Callout>
+
+Exemple : un placement qui rapporte 7 % en moyenne avec une volatilité de 18 % (l'ordre de grandeur d'un indice d'actions). Deux années sur trois, il fera entre −11 % et +25 %. Une année sur vingt environ, il fera pire que −29 %, ou mieux que +43 %. Un livret, lui, a une volatilité quasi nulle : son rendement est connu à l'avance.
+
+<CardGrid cols={3}>
+  <Stat value="≈ 0 %" label="Volatilité d'un livret ou d'un fonds monétaire" hint="Rendement connu à l'avance" />
+  <Stat value="≈ 13 %" label="Volatilité historique des obligations" hint="Monde, en réel, depuis 1900 · Source : UBS Yearbook 2025" />
+  <Stat value="≈ 23 %" label="Volatilité historique des actions" hint="Monde, en réel, depuis 1900 · Source : UBS Yearbook 2025" />
+</CardGrid>
+
+### La perte maximale
+
+La volatilité est une moyenne : elle ne dit pas ce qu'on ressent au pire moment. Les investisseurs regardent donc aussi la **perte maximale** (*maximum drawdown*) : la baisse entre un plus haut et le plus bas qui suit.
+
+<Figure caption="Les trois plus fortes baisses du CAC 40 depuis 2000, du plus haut au plus bas, en % · Sources : Fortuneo, Moneyvox, valeurs arrondies">
+  <BarChart unit=" %" data={[
+    { label: 'Bulle internet (2000-2003)', value: 65, highlight: true },
+    { label: 'Crise financière (2007-2009)', value: 60 },
+    { label: 'Covid (février-mars 2020)', value: 40 }
+  ]} />
+</Figure>
+
+Une baisse de 65 % demande ensuite une hausse de **186 %** pour revenir au point de départ : il faut près de trois fois sa mise pour combler le trou. Les pertes et les gains ne sont pas symétriques. C'est pourquoi la question à se poser avant d'investir n'est pas « combien je peux gagner », mais « **est-ce que je supporterais de voir mon placement divisé par deux, sans vendre ?** »
+
+<Quiz question="Ton portefeuille perd 50 %, puis gagne 50 %. Où en es-tu par rapport au départ ?" options={['Revenu au point de départ', 'En perte de 25 %', 'En gain de 25 %']} answer={1}>
+  **En perte de 25 %.** 100 € deviennent 50 €, puis 50 + 50 % = 75 €. Une hausse de 50 % s'applique à une base deux fois plus petite. Pour retrouver ses 100 €, il faudrait une hausse de 100 %. C'est la raison pour laquelle éviter les grosses pertes compte autant que chercher les gros gains.
+</Quiz>
+
+## Le temps, allié de l'investisseur
+
+### Plus l'horizon est long, plus la probabilité de perte baisse
+
+Sur un an, un placement en actions peut perdre beaucoup. Mais les bonnes années compensent les mauvaises, et la prime de risque (chapitre 6) s'accumule. Plus on attend, plus la probabilité d'être en perte à l'arrivée diminue.
+
+<Figure caption="Probabilité d'être en perte à la fin de la période, pour un placement de rendement moyen 5,5 % par an et de volatilité 18 % · Modèle illustratif, pas une prévision">
+  <BarChart unit=" %" data={[
+    { label: 'Sur 1 an', value: 38, highlight: true },
+    { label: 'Sur 5 ans', value: 25 },
+    { label: 'Sur 10 ans', value: 17 },
+    { label: 'Sur 20 ans', value: 9 },
+    { label: 'Sur 30 ans', value: 5 }
+  ]} />
+</Figure>
+
+D'où la règle de base : **l'argent dont tu as besoin dans moins de cinq ans n'a rien à faire en actions**. Ton épargne de précaution, l'apport pour un appartement dans deux ans, doivent rester sur des placements sans risque. Les actions sont faites pour l'argent dont tu n'auras pas besoin avant longtemps.
+
+<KeyIdea>Le risque d'un placement dépend de ton horizon. Des actions sont très risquées pour de l'argent nécessaire l'an prochain, et beaucoup moins pour de l'argent qui dormira vingt ans.</KeyIdea>
+
+<DeepDive title="Long terme ne veut pas dire sans risque : le Japon" level="terrain">
+  Fin 1989, au sommet d'une bulle immobilière et boursière, l'indice japonais Nikkei 225 frôle les 39 000 points. Il s'effondre ensuite et ne retrouve ce niveau qu'en **février 2024**, soit **34 ans plus tard** (dividendes non compris). Un investisseur japonais qui avait tout placé sur son marché national au pire moment a attendu une génération.
+
+  Deux leçons : le long terme réduit le risque mais ne l'élimine pas, surtout si on achète **cher** ; et il est dangereux de concentrer son épargne sur un seul pays. C'est l'argument central de la diversification internationale, qu'on développe ci-dessous.
+</DeepDive>
+
+## La diversification
+
+### Ne pas mettre tous ses œufs dans le même panier
+
+Si tu achètes une seule action, tu portes tout le risque de cette entreprise : un scandale, un produit raté, une faillite, et tu perds gros. Si tu en achètes vingt, dans des secteurs différents, la mauvaise surprise de l'une est compensée par la bonne surprise d'une autre. Le risque global du portefeuille baisse, alors que son rendement attendu reste la **moyenne** des rendements attendus.
+
+Mais cela ne marche que si les actions ne bougent pas **toutes en même temps**. Ce qui compte, c'est leur **corrélation**.
+
+<Callout type="definition" title="Corrélation">
+  Une mesure, de −1 à +1, de la tendance de deux placements à bouger ensemble. +1 : ils montent et baissent toujours ensemble, les combiner ne réduit pas le risque. 0 : ils évoluent indépendamment. −1 : quand l'un monte, l'autre baisse, et les combiner peut annuler le risque.
+</Callout>
+
+Augmente le nombre d'actions dans le portefeuille, puis joue sur leur corrélation moyenne.
+
+<Figure caption="Volatilité d'un portefeuille d'actions à poids égaux, chacune de volatilité 30 % · Formule : volatilité × racine de (1/N + (1 − 1/N) × corrélation)">
+  <Diversify />
+</Figure>
+
+Deux enseignements :
+
+1. **Les premières actions font l'essentiel du travail.** Passer de 1 à 10 actions réduit fortement le risque ; passer de 30 à 50 ne change presque plus rien.
+2. **Il reste un plancher.** Même avec une infinité d'actions, le risque ne descend pas sous un certain niveau, d'autant plus haut que la corrélation est forte. C'est le **risque de marché** : quand toute l'économie entre en récession, presque toutes les actions baissent ensemble.
+
+### Risque spécifique et risque de marché
+
+<Compare leftTitle="Risque spécifique (diversifiable)" rightTitle="Risque de marché (systématique)">
+  <Fragment slot="left">
+    Le risque **propre à une entreprise** : un procès, un PDG qui démissionne, un produit raté. Il disparaît presque entièrement dans un portefeuille diversifié. Le marché **ne le rémunère pas** : pourquoi paierait-il une prime pour un risque que chacun peut éliminer gratuitement ?
+  </Fragment>
+  <Fragment slot="right">
+    Le risque **commun à toutes les actions** : récession, hausse des taux, crise financière, pandémie. Aucune diversification entre actions ne l'élimine. C'est **lui** que la prime de risque des actions rémunère.
+  </Fragment>
+</Compare>
+
+<KeyIdea>Le marché ne paie que pour le risque qu'on ne peut pas diversifier. Concentrer son argent sur quelques actions, c'est prendre plus de risque sans être payé davantage en moyenne.</KeyIdea>
+
+<Quiz question="Ton collègue a tout son portefeuille en actions de l'entreprise où il travaille, « parce qu'il la connaît bien ». Quel est le problème principal ?" options={['Aucun, connaître l’entreprise réduit le risque', 'Il cumule un énorme risque spécifique, non rémunéré, et si l’entreprise va mal il peut perdre son emploi et son épargne en même temps', 'Les actions de son employeur sont fiscalement interdites']} answer={1}>
+  **Double concentration.** Son épargne porte tout le risque d'une seule entreprise, que le marché ne rémunère pas. Pire, ce risque est **corrélé à son salaire** : si l'entreprise traverse une crise, il peut perdre son emploi au moment où son épargne s'effondre. Les salariés d'Enron, en 2001, ont vécu exactement ce scénario.
+</Quiz>
+
+### Diversifier entre classes d'actifs
+
+La diversification ne se limite pas aux actions entre elles. On combine aussi des **classes d'actifs** différentes : actions, obligations, monétaire, immobilier, dans plusieurs **pays** et **devises**. Les obligations d'État, notamment, ont souvent monté quand les actions chutaient pendant les crises (2008, 2020), ce qui amortissait le portefeuille. Mais ce n'est pas une loi : en 2022, avec la remontée brutale des taux, actions et obligations ont baissé ensemble (chapitre 6). Les corrélations changent, et elles ont tendance à **monter pendant les crises**, au moment précis où on aurait besoin de la diversification.
+
+<DeepDive title="Markowitz et la frontière efficiente" level="approfondissement">
+  En 1952, à 25 ans, Harry Markowitz publie « Portfolio Selection », un article qui fonde la gestion de portefeuille moderne. Son idée : il ne faut pas juger un placement isolément, mais selon sa **contribution au risque du portefeuille entier**. Un actif risqué peut réduire le risque global s'il est peu corrélé au reste.
+
+  En combinant les actifs dans toutes les proportions possibles, on obtient un ensemble de portefeuilles ; ceux qui offrent le meilleur rendement attendu pour chaque niveau de risque forment la **frontière efficiente**. Tout portefeuille en dessous de cette frontière est « inefficace » : on pourrait obtenir plus de rendement avec le même risque. William Sharpe prolonge ces travaux dans les années 1960 avec le **MEDAF** (modèle d'équilibre des actifs financiers), qui formalise l'idée que seul le risque de marché est rémunéré. Markowitz et Sharpe reçoivent le prix Nobel d'économie en 1990, avec Merton Miller.
+</DeepDive>
+
+## Comparer des placements
+
+### Le bêta : la sensibilité au marché
+
+Le **bêta** mesure à quel point une action amplifie les mouvements du marché. Un bêta de 1 : l'action bouge en moyenne comme l'indice. Un bêta de 1,5 : quand le marché perd 10 %, elle perd en moyenne 15 %. Un bêta de 0,6 : elle ne perd que 6 %. Les entreprises cycliques (automobile, luxe, banques) ont des bêtas élevés ; les entreprises dont la demande est stable (alimentation, services aux collectivités, santé) des bêtas plus faibles. On retrouve le levier opérationnel du chapitre 5.
+
+### Le ratio de Sharpe : le rendement par unité de risque
+
+Un fonds qui a rapporté 12 % par an n'est pas forcément meilleur qu'un fonds qui a rapporté 8 %, s'il a pris trois fois plus de risque. Le **ratio de Sharpe** rapporte le rendement obtenu au-dessus du taux sans risque à la volatilité.
+
+<Callout type="definition" title="Ratio de Sharpe">
+  (Rendement du placement − taux sans risque) / volatilité. Il mesure combien de rendement supplémentaire chaque unité de risque a rapporté. Plus il est élevé, mieux le risque a été rémunéré.
+</Callout>
+
+<Quiz question="Le taux sans risque est de 2 %. Le fonds A a rapporté 12 % par an avec 25 % de volatilité. Le fonds B a rapporté 8 % avec 10 % de volatilité. Lequel a le mieux rémunéré son risque ?" options={['A, il a rapporté plus', 'B : son ratio de Sharpe est de 0,6, contre 0,4 pour A', 'Ils se valent']} answer={1}>
+  **B.** Sharpe de A = (12 − 2) / 25 = 0,4. Sharpe de B = (8 − 2) / 10 = 0,6. B obtient plus de rendement par unité de risque. En empruntant pour investir dans B (avec du levier), on pourrait même obtenir le rendement de A avec moins de risque. Le piège : comparer les rendements sans regarder le risque pris pour les obtenir.
+</Quiz>
+
+## À retenir
+
+<Takeaways>
+1. **Le risque se mesure.** La volatilité donne l'amplitude habituelle des variations, la perte maximale le pire moment à traverser.
+2. **Le temps réduit la probabilité de perte.** L'argent nécessaire à court terme n'a pas sa place en actions.
+3. **La diversification réduit le risque sans réduire le rendement attendu.** Elle fonctionne d'autant mieux que les actifs sont peu corrélés.
+4. **Seul le risque de marché est rémunéré.** Le risque spécifique d'une entreprise peut être éliminé, donc le marché ne le paie pas.
+5. **On compare des placements à risque égal.** Le ratio de Sharpe mesure le rendement obtenu par unité de risque.
+</Takeaways>

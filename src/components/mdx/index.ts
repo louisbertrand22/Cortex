@@ -73,6 +73,10 @@ import DebtSnowball from '../viz/DebtSnowball.astro';
 import CompoundGrowth from '../viz/CompoundGrowth.astro';
 import IncomeWaterfall from '../viz/IncomeWaterfall.astro';
 import BondPrice from '../viz/BondPrice.astro';
+import OrderBook from '../viz/OrderBook.astro';
+import Diversify from '../viz/Diversify.astro';
+import DcaLump from '../viz/DcaLump.astro';
+import EnvelopeTax from '../viz/EnvelopeTax.astro';
 
 export const components = {
   Callout,
@@ -146,4 +150,8 @@ export const components = {
   CompoundGrowth,
   IncomeWaterfall,
   BondPrice,
+  OrderBook,
+  Diversify,
+  DcaLump,
+  EnvelopeTax,
 };
