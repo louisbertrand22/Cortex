@@ -1,0 +1,273 @@
+---
+title: Bien raisonner
+subtitle: Arguments, logique et sophismes
+subject: philo
+session: 2
+description: "Reconnaître un argument, distinguer un raisonnement valide d'une conclusion vraie, manier le syllogisme d'Aristote et démasquer les sophismes qui truquent les débats de tous les jours."
+tags: [argument, prémisse, validité, syllogisme, déduction, induction, sophisme, principe de charité]
+objectives:
+  - Reconstituer un argument en prémisses et conclusion, y compris les prémisses sous-entendues.
+  - Distinguer la validité d'un raisonnement et la vérité de ses prémisses.
+  - Tester un syllogisme et repérer les erreurs de forme les plus courantes.
+  - Différencier déduction, induction et abduction.
+  - Identifier les sophismes les plus fréquents dans un débat.
+sources:
+  - label: Aristote, « Premiers Analytiques » et « Réfutations sophistiques », trad. Tricot (Vrin)
+  - label: Arthur Schopenhauer, « L'Art d'avoir toujours raison » (rédigé vers 1830, publié en 1864)
+  - label: Blaise Pascal, « Pensées » (1670)
+  - label: Charles Sanders Peirce, « Collected Papers », vol. 5 (abduction)
+  - label: Daniel Kahneman, « Système 1 / Système 2 » (2011, trad. 2012)
+  - label: Daniel Dennett, « Intuition Pumps and Other Tools for Thinking » (2013), règles de Rapoport
+  - label: Alberto Brandolini, la « loi de Brandolini » (2013)
+  - label: Stanford Encyclopedia of Philosophy, « Aristotle's Logic »
+    url: https://plato.stanford.edu/entries/aristotle-logic/
+  - label: Stanford Encyclopedia of Philosophy, « Fallacies »
+    url: https://plato.stanford.edu/entries/fallacies/
+updated: 2026-11-09
+---
+
+Dans un débat télévisé, sur un réseau social ou au repas du dimanche, on n'échange presque jamais d'arguments : on échange des affirmations, des anecdotes et des attaques. La session 1 a montré que philosopher, c'est **justifier ce qu'on avance**. Celle-ci te donne les outils pour le faire : reconnaître un argument, vérifier qu'il tient debout, et repérer les procédés qui donnent l'apparence d'un raisonnement sans en être un. C'est la boîte à outils dont tu te serviras dans toutes les sessions suivantes.
+
+## Qu'est-ce qu'un argument ?
+
+### Des raisons qui mènent à une conclusion
+
+Un **argument** est un ensemble de phrases dont certaines, les **prémisses**, sont avancées pour justifier une autre, la **conclusion**. Les petits mots de liaison trahissent sa présence : *donc, par conséquent, c'est pourquoi* annoncent la conclusion ; *car, parce que, puisque, en effet* annoncent une prémisse.
+
+<Callout type="definition" title="Prémisse et conclusion">
+  Une **prémisse** est une affirmation qu'on pose comme point de départ. La **conclusion** est ce qu'on veut établir à partir d'elles. Un argument est réussi quand accepter les prémisses oblige à accepter la conclusion.
+</Callout>
+
+Prenons une phrase entendue mille fois : « Il ne faut pas légaliser le cannabis, puisque c'est une drogue. » Mise en forme, elle donne :
+
+<Steps>
+1. **Prémisse** : le cannabis est une drogue.
+2. **Conclusion** : il ne faut pas légaliser le cannabis.
+</Steps>
+
+Ainsi présenté, l'argument boite : la conclusion ne découle pas de la seule prémisse. Il manque une étape que l'orateur n'a pas dite.
+
+### La prémisse cachée
+
+La plupart des arguments de la vie courante reposent sur une **prémisse sous-entendue**, celle qui fait le lien. Ici : « il ne faut légaliser aucune drogue ». Une fois écrite, elle devient discutable : l'alcool et le tabac sont des drogues, et ils sont légaux. Faut-il les interdire ? Ou la prémisse est-elle trop générale ?
+
+```mermaid title="Reconstituer un argument : la prémisse cachée est souvent la plus fragile."
+flowchart TB
+  P1["Prémisse dite : le cannabis est une drogue"]
+  P2["Prémisse cachée : il ne faut légaliser aucune drogue"]
+  C["Conclusion : il ne faut pas légaliser le cannabis"]
+  P1 --> C
+  P2 --> C
+  O["Objection : l'alcool et le tabac sont des drogues légales"] -.-> P2
+  classDef core fill:var(--signal-soft),stroke:var(--signal);
+  classDef weak fill:var(--amber-soft),stroke:var(--amber);
+  class C core;
+  class P2 weak;
+```
+
+Ce travail de reconstitution est la première arme de la discussion philosophique : **expliciter ce que l'autre suppose sans le dire**, puis examiner si c'est vrai. Il marche dans les deux sens, et le cannabis n'est qu'un exemple : le même travail s'applique à l'argument contraire (« il faut le légaliser, puisque la prohibition échoue » suppose qu'il faut abandonner toute interdiction qui ne marche pas complètement).
+
+<Quiz question="« Paul ne peut pas être un bon médecin : il n’a que 28 ans. » Quelle est la prémisse cachée ?" options={['Paul a 28 ans', 'Un bon médecin doit être âgé de plus de 28 ans, ou avoir plus d’expérience qu’on peut en avoir à 28 ans', 'Paul n’est pas médecin', 'Les jeunes médecins sont mal formés']} answer={1}>
+  **Le lien entre l'âge et la compétence.** « Paul a 28 ans » est la prémisse dite. Ce qui permet de passer à la conclusion, c'est une règle implicite qui relie l'âge à la compétence. Une fois écrite, on voit qu'elle est contestable : un médecin de 28 ans a déjà dix ans d'études. La quatrième réponse est une version possible, mais plus forte que nécessaire : on cherche la prémisse **minimale** qui fait marcher l'argument.
+</Quiz>
+
+## Valide ne veut pas dire vrai
+
+### Deux questions à poser à tout argument
+
+Face à un argument, il faut poser **deux questions différentes**, qu'on mélange presque toujours :
+
+1. **Les prémisses sont-elles vraies ?** C'est une question de faits.
+2. **La conclusion découle-t-elle des prémisses ?** C'est une question de forme, de logique.
+
+Un argument dont la conclusion découle nécessairement des prémisses est dit **valide**. Attention : la validité ne dit rien de la vérité. Elle dit seulement : **si** les prémisses sont vraies, **alors** la conclusion l'est forcément.
+
+<Callout type="definition" title="Validité et solidité">
+  Un argument est **valide** quand il est impossible que ses prémisses soient vraies et sa conclusion fausse. Il est **solide** quand il est valide **et** que ses prémisses sont vraies : c'est le seul cas où la conclusion est garantie.
+</Callout>
+
+### Les quatre cas
+
+<CardGrid cols={2}>
+  <Card title="Valide, prémisses vraies" kicker="Solide" tone="synapse">
+    Tous les mammifères respirent avec des poumons ; les baleines sont des mammifères ; donc les baleines respirent avec des poumons. **La conclusion est garantie.**
+  </Card>
+  <Card title="Valide, prémisse fausse" kicker="Forme correcte, fond faux" tone="amber">
+    Tous les oiseaux volent ; l'autruche est un oiseau ; donc l'autruche vole. Le raisonnement est **impeccable**, mais la première prémisse est fausse : la conclusion aussi.
+  </Card>
+  <Card title="Invalide, tout est vrai" kicker="Le piège le plus dangereux" tone="danger">
+    Tous les poissons vivent dans l'eau ; le saumon vit dans l'eau ; donc le saumon est un poisson. Les trois phrases sont vraies, mais la conclusion **ne découle pas** des prémisses : remplace « saumon » par « dauphin », et le même raisonnement conclut faux.
+  </Card>
+  <Card title="Invalide, prémisses fausses" kicker="Rien à sauver" tone="muted">
+    Les chats sont des reptiles ; les reptiles parlent ; donc les chiens volent. Ni le fond, ni la forme.
+  </Card>
+</CardGrid>
+
+Le troisième cas est le plus traître : quand la conclusion nous paraît vraie, on ne vérifie pas le raisonnement. C'est ainsi qu'on accepte de mauvais arguments **pour les idées qu'on partage déjà**.
+
+<KeyIdea>Un bon argument exige deux choses : des prémisses vraies, et une conclusion qui en découle. Une conclusion vraie ne prouve pas que le raisonnement est bon.</KeyIdea>
+
+<Quiz question="« Si un pays a la bombe atomique, il est respecté. La France est respectée. Donc la France a la bombe atomique. » Que penser de cet argument ?" options={['Il est solide : tout est vrai', 'Il est invalide, même si la conclusion est vraie', 'Il est valide, mais la première prémisse est fausse', 'On ne peut pas juger sans connaître la géopolitique']} answer={1}>
+  **Invalide.** C'est l'erreur classique dite « affirmation du conséquent » : « si A, alors B ; or B ; donc A ». Un pays peut être respecté pour bien d'autres raisons (son économie, sa culture). Que la France ait effectivement la bombe ne sauve pas le raisonnement : la vérité de la conclusion est un hasard. Le piège de la première réponse est exactement celui du troisième cas ci-dessus.
+</Quiz>
+
+## Le syllogisme d'Aristote
+
+### La première logique de l'histoire
+
+Aristote est le premier à étudier la **forme** des raisonnements, indépendamment de leur contenu. Il définit le syllogisme ainsi :
+
+<Quote author="Aristote" work="Premiers Analytiques" at="I, 1">Le syllogisme est un discours dans lequel, certaines choses étant posées, quelque chose d'autre que ces données en résulte nécessairement par le seul fait de ces données.</Quote>
+
+Un syllogisme combine trois termes dans trois propositions : deux prémisses, la **majeure** et la **mineure**, et une conclusion. Le **moyen terme** (M) apparaît dans les deux prémisses et fait le lien ; il disparaît de la conclusion, qui relie le **sujet** (S) au **prédicat** (P).
+
+### Quatre types de propositions
+
+Chaque proposition est de l'un de ces quatre types, que la logique médiévale a désignés par des voyelles :
+
+<CardGrid cols={2}>
+  <Card title="Tous les S sont P" kicker="A · universelle affirmative">Tous les humains sont mortels.</Card>
+  <Card title="Aucun S n'est P" kicker="E · universelle négative">Aucun poisson n'est un mammifère.</Card>
+  <Card title="Quelques S sont P" kicker="I · particulière affirmative">Quelques sportifs sont médecins.</Card>
+  <Card title="Quelques S ne sont pas P" kicker="O · particulière négative">Quelques oiseaux ne volent pas.</Card>
+</CardGrid>
+
+### Tester un syllogisme
+
+Le moyen le plus sûr de vérifier un syllogisme est de le dessiner. Trois cercles représentent les trois termes ; on grise les zones que les prémisses déclarent vides, et on met une croix là où elles affirment qu'il existe quelqu'un. Si la conclusion se lit sur le dessin, le syllogisme est valide. Sinon, on peut construire un **contre-exemple** : un monde où les prémisses sont vraies et la conclusion fausse.
+
+<Figure caption="Choisis un exemple, ou compose ton propre syllogisme : le quantificateur de chaque proposition se change dans les menus, l'ordre des termes avec le bouton ⇄." wide>
+  <Syllogism />
+</Figure>
+
+Essaie « Moyen terme mal placé » : chats et chiens sont tous deux des mammifères, mais rien n'oblige les deux cercles à se recouvrir. C'est l'erreur de raisonnement la plus fréquente : deux choses qui partagent une propriété ne sont pas pour autant la même chose. On l'entend chaque fois que quelqu'un dit « les dictateurs aiment l'ordre, tu aimes l'ordre, donc tu es un dictateur en puissance ».
+
+<DeepDive title="Barbara, Celarent, Darii : la logique apprise par cœur" level="approfondissement">
+  Au Moyen Âge, les étudiants mémorisaient les 19 syllogismes valides de la tradition grâce à des mots-codes dont les voyelles donnent les types des trois propositions : **Barbara** (A, A, A), **Celarent** (E, A, E), **Darii** (A, I, I), **Ferio** (E, I, O), etc. L'îlot ci-dessus suit la lecture moderne de la logique, née avec Frege et Boole au XIXe siècle : « tous les S sont P » n'affirme pas qu'il existe des S (« toutes les licornes sont blanches » est vrai… faute de licornes). Aristote, lui, supposait que les termes désignent des choses existantes ; c'est pourquoi quelques syllogismes de la liste médiévale (comme *Darapti*) apparaissent invalides dans la lecture moderne. La logique d'Aristote a régné plus de deux mille ans, jusqu'à ce que la logique mathématique la remplace par un outil beaucoup plus général.
+</DeepDive>
+
+## Déduction, induction, abduction
+
+### Trois façons de passer de ce qu'on sait à ce qu'on ignore
+
+Le syllogisme est une **déduction** : la conclusion est contenue dans les prémisses. Mais la plupart de nos raisonnements ne sont pas déductifs. On en distingue trois grands types.
+
+<CardGrid cols={3}>
+  <Card title="Déduction" kicker="Du général au particulier" tone="signal">
+    Tous les métaux conduisent l'électricité ; le cuivre est un métal ; donc le cuivre conduit l'électricité. **Certaine** si les prémisses sont vraies, mais elle n'apprend rien de vraiment nouveau.
+  </Card>
+  <Card title="Induction" kicker="Du particulier au général" tone="synapse">
+    Tous les cygnes que j'ai vus sont blancs ; donc tous les cygnes sont blancs. Elle **élargit** le savoir, mais elle n'est jamais certaine : il existe des cygnes noirs en Australie.
+  </Card>
+  <Card title="Abduction" kicker="De l'indice à l'explication" tone="amber">
+    Le sol est mouillé ; s'il avait plu, il serait mouillé ; donc il a sans doute plu. C'est l'**inférence à la meilleure explication**, celle du détective et du médecin. Plausible, pas certaine : quelqu'un a peut-être arrosé.
+  </Card>
+</CardGrid>
+
+L'induction est le raisonnement de la science expérimentale, et sa fragilité est un problème philosophique majeur, qu'on retrouvera avec Hume et Popper dans la session 4. Le philosophe Bertrand Russell l'illustrait par le poulet que le fermier nourrit chaque matin, et qui en conclut que ce sera toujours ainsi… jusqu'au jour où le fermier lui tord le cou.
+
+<Quiz question="Sherlock Holmes voit le teint bronzé et la raideur du bras de Watson, et en conclut : « Vous revenez d’Afghanistan. » Quel type de raisonnement est-ce ?" options={['Une déduction, comme le dit Holmes', 'Une induction', 'Une abduction : il cherche l’explication la plus probable des indices', 'Un sophisme']} answer={2}>
+  **Une abduction.** Holmes part d'indices et remonte à l'hypothèse qui les explique le mieux : un médecin militaire, bronzé, blessé, dans l'Angleterre de 1880, revient très probablement d'Afghanistan. Holmes appelle cela sa « méthode de déduction », mais la conclusion n'est pas certaine : Watson aurait pu se blesser ailleurs. C'est le terme que le philosophe américain Charles Sanders Peirce a forgé pour ce type d'inférence. Le piège : croire Holmes sur parole.
+</Quiz>
+
+## Les sophismes : l'art de paraître avoir raison
+
+### Des arguments qui ont l'air bons
+
+Un **sophisme** est un raisonnement qui a l'apparence de la validité sans l'être. Le mot vient des **sophistes**, ces professeurs d'éloquence de l'Athènes de Socrate qui enseignaient, contre rémunération, l'art de convaincre, quelle que soit la cause défendue. Pour Socrate et Platon, ils représentaient le contraire de la philosophie : chercher à **gagner** plutôt qu'à **trouver le vrai**. Aristote consacre tout un traité, les *Réfutations sophistiques*, à démonter leurs procédés.
+
+Au XIXe siècle, le philosophe allemand Arthur Schopenhauer en a dressé un catalogue ironique, *L'Art d'avoir toujours raison*, avec 38 « stratagèmes » pour l'emporter dans une discussion sans avoir raison. Le dernier est le plus célèbre : quand on sent que l'adversaire a le dessus, devenir personnel, blessant et grossier. Le livre se lit comme un manuel de défense : connaître les ruses, c'est apprendre à ne plus s'y laisser prendre.
+
+<Callout type="definition" title="Sophisme et paralogisme">
+  Un **sophisme** est un raisonnement faux utilisé pour tromper. Un **paralogisme** est la même erreur commise de bonne foi. Dans les deux cas, le défaut est dans le raisonnement, pas forcément dans la conclusion.
+</Callout>
+
+### Les familles de sophismes
+
+On en a recensé des dizaines. La plupart entrent dans quelques grandes familles.
+
+<CardGrid cols={2}>
+  <Card title="Viser la personne, pas l'idée" kicker="Attaque personnelle · « toi aussi »" tone="signal">
+    Disqualifier celui qui parle (son âge, ses intérêts, ses incohérences) au lieu de répondre à ce qu'il dit. Un menteur peut dire vrai, un hypocrite peut avoir raison.
+  </Card>
+  <Card title="Déformer pour mieux frapper" kicker="Homme de paille" tone="signal">
+    Attaquer une version caricaturée de la thèse adverse. « Tu veux plus de pistes cyclables ? Donc tu veux interdire les voitures. »
+  </Card>
+  <Card title="Réduire les options" kicker="Faux dilemme · pente glissante" tone="amber">
+    Ne présenter que deux possibilités alors qu'il y en a d'autres ; ou prédire une chaîne de catastrophes sans justifier chaque maillon.
+  </Card>
+  <Card title="S'appuyer sur autre chose que des raisons" kicker="Autorité · popularité · nature · tradition" tone="amber">
+    « Un expert l'a dit », « tout le monde le fait », « c'est naturel », « on a toujours fait comme ça » : aucune de ces formules n'est une preuve.
+  </Card>
+  <Card title="Mal relier les faits" kicker="Post hoc · généralisation hâtive" tone="synapse">
+    Confondre « après » et « à cause de » ; tirer une loi générale d'un cas isolé, souvent d'une anecdote personnelle.
+  </Card>
+  <Card title="Tourner en rond" kicker="Raisonnement circulaire" tone="synapse">
+    Mettre la conclusion dans les prémisses : « Cette loi est juste parce qu'elle est légale. »
+  </Card>
+</CardGrid>
+
+<Callout type="tip" title="Tous les appels à l'autorité ne se valent pas">
+  Faire confiance à son médecin pour un diagnostic n'est pas un sophisme : on ne peut pas tout vérifier soi-même, et s'en remettre à un expert **dans son domaine** est rationnel. Le sophisme commence quand l'autorité parle hors de son domaine, quand les experts sont en désaccord, ou quand son prestige remplace un argument qu'on pourrait examiner.
+</Callout>
+
+### À toi de jouer
+
+Voici dix arguments tirés de la vie courante. Pour chacun, trouve le sophisme.
+
+<Figure caption="Choisis le sophisme qui correspond, lis l'explication, puis passe au suivant." wide>
+  <FallacyHunt />
+</Figure>
+
+<Quiz question="« Le professeur Martin dit que cette étude est mal faite. Mais il est payé par l’industrie concurrente. » Est-ce forcément un sophisme ?" options={['Oui, c’est une attaque contre la personne, toujours fautive', 'Non : signaler un conflit d’intérêts est légitime, à condition de ne pas s’en servir pour éviter d’examiner ses critiques', 'Non, car les scientifiques payés mentent toujours', 'Oui, car on ne doit jamais parler des intérêts des gens']} answer={1}>
+  **Ça dépend de l'usage.** Un conflit d'intérêts est une bonne raison d'**examiner de plus près** ce que dit quelqu'un. Il devient un sophisme quand il sert de réponse : les critiques du professeur Martin sont peut-être justes, et il faut les examiner pour le savoir. Le piège de la première réponse : croire que toute mention de la personne est un sophisme. La troisième fait le sophisme inverse.
+</Quiz>
+
+<DeepDive title="La loi de Brandolini" level="terrain">
+  En 2013, le programmeur italien Alberto Brandolini a formulé un constat devenu célèbre sous le nom de **loi de Brandolini**, ou « principe d'asymétrie du baratin » : la quantité d'énergie nécessaire pour réfuter une ânerie est d'un ordre de grandeur supérieure à celle qu'il a fallu pour la produire. Un sophisme tient en une phrase ; le démonter demande un paragraphe. C'est pourquoi ils prospèrent dans les formats courts (slogans, débats minutés, réseaux sociaux), et pourquoi savoir les **nommer** vite est un vrai gain de temps.
+</DeepDive>
+
+## Penser contre soi-même
+
+### Nos raisonnements nous trompent aussi
+
+Les sophismes ne sont pas seulement des armes de manipulateurs. Nous en commettons tous, de bonne foi, surtout quand la conclusion nous arrange. Pascal l'avait remarqué :
+
+<Quote author="Pascal" work="Pensées">On se persuade mieux, pour l'ordinaire, par les raisons qu'on a soi-même trouvées, que par celles qui sont venues dans l'esprit des autres.</Quote>
+
+C'est pour cela que la discussion est indispensable à la philosophie : l'autre voit les failles de mon raisonnement que je ne vois pas.
+
+<Quiz question="Une batte et une balle coûtent 1,10 € à elles deux. La batte coûte 1 € de plus que la balle. Combien coûte la balle ?" options={['10 centimes', '5 centimes', '1 centime', 'On ne peut pas savoir']} answer={1}>
+  **5 centimes.** Si la balle coûtait 10 centimes, la batte coûterait 1,10 €, et le total ferait 1,20 €. Avec 5 centimes : batte à 1,05 €, total 1,10 €. Plus de la moitié des étudiants de grandes universités américaines répondent 10 centimes, selon Daniel Kahneman. La réponse intuitive surgit si vite qu'on oublie de la vérifier : c'est exactement ce qui se passe avec un sophisme bien tourné.
+</Quiz>
+
+<DeepDive title="Système 1, système 2" level="approfondissement">
+  Le psychologue **Daniel Kahneman**, prix Nobel d'économie en 2002, décrit dans *Système 1 / Système 2* (2011) deux modes de pensée. Le **système 1** est rapide, intuitif, automatique : il donne « 10 centimes » sans effort. Le **système 2** est lent, attentif, coûteux : c'est lui qui vérifie, et il est paresseux. Beaucoup de **biais cognitifs** naissent de ce que le système 1 répond à la place du système 2. Le plus redoutable pour la discussion est le **biais de confirmation** : nous cherchons, retenons et jugeons convaincantes les informations qui confirment ce que nous croyons déjà. La philosophie peut se lire comme un long entraînement du système 2.
+</DeepDive>
+
+### Le principe de charité
+
+Puisque l'objectif est de trouver le vrai, et non de gagner, il faut discuter **la meilleure version** de la thèse adverse, pas la plus faible. C'est le **principe de charité** : interpréter les propos de l'autre de la façon la plus raisonnable possible avant de les critiquer. C'est exactement l'inverse de l'homme de paille.
+
+<DeepDive title="Les règles de Rapoport" level="best-practice">
+  Le philosophe Daniel Dennett, dans *Intuition Pumps and Other Tools for Thinking* (2013), propose quatre règles qu'il attribue au mathématicien et psychologue Anatol Rapoport, pour critiquer quelqu'un de façon constructive :
+
+  1. Reformuler la position de l'autre si clairement et si honnêtement qu'il dise : « Merci, je n'aurais pas su mieux le dire. »
+  2. Lister les points sur lesquels on est d'accord.
+  3. Mentionner ce qu'on a appris grâce à lui.
+  4. Seulement ensuite, formuler sa critique.
+
+  Socrate ne suivait pas toujours ces règles : son ironie pouvait être cruelle. Mais l'esprit est le sien : une discussion où l'on cherche ensemble.
+</DeepDive>
+
+<KeyIdea>Le but d'une discussion philosophique n'est pas de gagner, mais de penser mieux : on attaque les arguments, jamais les personnes, et la meilleure version de la thèse adverse.</KeyIdea>
+
+## À retenir
+
+<Takeaways>
+1. Un **argument** relie des **prémisses** à une **conclusion** ; il repose souvent sur une prémisse cachée, qu'il faut expliciter pour l'examiner.
+2. **Valide** veut dire que la conclusion découle des prémisses ; **solide**, qu'en plus les prémisses sont vraies. Une conclusion vraie ne prouve pas un bon raisonnement.
+3. Le **syllogisme** d'Aristote relie deux termes grâce à un **moyen terme** ; on le teste en cherchant un contre-exemple.
+4. La **déduction** est certaine mais n'ajoute rien ; l'**induction** et l'**abduction** élargissent le savoir sans certitude.
+5. Les **sophismes** imitent les bons arguments (attaque personnelle, homme de paille, faux dilemme, appels à l'autorité ou à la popularité…) ; le **principe de charité** est leur antidote.
+</Takeaways>

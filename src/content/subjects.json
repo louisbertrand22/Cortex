@@ -32,7 +32,7 @@
     "teacher": "Yannick Neff",
     "domain": "infrastructure",
     "accent": "signal",
-    "order": 4,
+    "order": 5,
     "private": true,
     "plannedSessions": 6,
     "upcoming": [
@@ -56,7 +56,7 @@
     "teacher": "Jean-Christophe Ferry",
     "domain": "architecture",
     "accent": "signal",
-    "order": 5,
+    "order": 6,
     "private": true,
     "plannedSessions": 3
   },
@@ -68,7 +68,7 @@
     "teacher": "Hervé Durand",
     "domain": "genie-logiciel",
     "accent": "signal",
-    "order": 6,
+    "order": 7,
     "private": true,
     "plannedSessions": 3
   },
@@ -79,7 +79,7 @@
     "description": "Les points de vue des étudiants SIGL sur l'actualité de l'IT : guerre de l'IA, ITIL, AIOps, vendor lock-in, résilience, datacenters, retour du hardware.",
     "domain": "autre",
     "accent": "signal",
-    "order": 7,
+    "order": 8,
     "private": true,
     "plannedSessions": 24
   },
@@ -91,7 +91,7 @@
     "teacher": "Nathan Prats & Mathieu Bouchet",
     "domain": "architecture",
     "accent": "signal",
-    "order": 8,
+    "order": 9,
     "private": true,
     "plannedSessions": 5,
     "upcoming": [
@@ -113,7 +113,7 @@
     "teacher": "Yannick Neff",
     "domain": "infrastructure",
     "accent": "signal",
-    "order": 9,
+    "order": 10,
     "private": true,
     "plannedSessions": 4
   },
@@ -124,7 +124,7 @@
     "description": "Concevoir des objets qui évoluent sans tout casser : les design patterns du Gang of Four, de création, de structure et de comportement.",
     "domain": "genie-logiciel",
     "accent": "signal",
-    "order": 10,
+    "order": 11,
     "private": true,
     "plannedSessions": 7,
     "parts": [
@@ -164,5 +164,81 @@
       }
     ],
     "upcoming": []
+  },
+  {
+    "id": "philo",
+    "title": "Philosophie : penser par soi-même",
+    "short": "PHILO",
+    "description": "Les grandes questions de la philosophie, de Socrate à aujourd'hui : savoir, bonheur, morale, liberté, politique et sens de la vie, avec les textes des auteurs.",
+    "teacher": "Louis",
+    "semester": "Adultes",
+    "domain": "philosophie",
+    "accent": "signal",
+    "order": 4,
+    "plannedSessions": 12,
+    "parts": [
+      {
+        "title": "Les outils du philosophe",
+        "description": "S'étonner, poser un problème, construire un argument et repérer les sophismes.",
+        "from": 1
+      },
+      {
+        "title": "Connaître",
+        "description": "Vérité, science et conscience : ce que l'on peut savoir, et comment.",
+        "from": 3
+      },
+      {
+        "title": "Agir",
+        "description": "Bonheur, morale, liberté et politique : comment vivre, seul et ensemble.",
+        "from": 6
+      },
+      {
+        "title": "Exister",
+        "description": "Autrui, le langage, la mort, le sens de la vie et les questions de notre temps.",
+        "from": 10
+      }
+    ],
+    "upcoming": [
+      {
+        "session": 3,
+        "title": "Que peut-on savoir ?"
+      },
+      {
+        "session": 4,
+        "title": "La science dit-elle vrai ?"
+      },
+      {
+        "session": 5,
+        "title": "L'esprit, la conscience, l'inconscient"
+      },
+      {
+        "session": 6,
+        "title": "Le bonheur"
+      },
+      {
+        "session": 7,
+        "title": "Le bien et le mal"
+      },
+      {
+        "session": 8,
+        "title": "Sommes-nous libres ?"
+      },
+      {
+        "session": 9,
+        "title": "Pourquoi obéir à l'État ?"
+      },
+      {
+        "session": 10,
+        "title": "Autrui et le langage"
+      },
+      {
+        "session": 11,
+        "title": "La mort et le sens de la vie"
+      },
+      {
+        "session": 12,
+        "title": "Philosopher aujourd'hui"
+      }
+    ]
   }
 ]

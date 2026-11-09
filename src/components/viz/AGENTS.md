@@ -90,4 +90,7 @@ Dans une leçon (ou sur `/guide`) : build, puis rendu clair/sombre, 1440 px et 3
   d'ordres de Cycléa : ordres au marché ou à cours limité) · `Diversify` (volatilité d'un portefeuille selon le nombre
   d'actions et leur corrélation, risque de marché et spécifique) · `DcaLump` (investir en une fois ou chaque mois selon
   trois trajectoires) · `EnvelopeTax` (impôt sur un gain en CTO, PEA, assurance-vie, règles 2026 simplifiées).
+- **PHILO** : `PhiloTimeline` (frise des philosophes du cours, par époque, fiche avec citation et sessions) · `Syllogism`
+  (syllogisme catégorique : diagramme de Venn, validité par recherche de contre-exemple, lecture moderne) · `FallacyHunt`
+  (dix arguments, trouver le sophisme, score).
 - **Génériques** : `Pipeline` · `BarChart` (valeurs formatées en `fr-FR` : passer des nombres, pas des chaînes).

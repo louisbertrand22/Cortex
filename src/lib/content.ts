@@ -79,5 +79,6 @@ export const domainLabels: Record<Subject['data']['domain'], string> = {
   securite: 'Sécurité',
   data: 'Data',
   economie: 'Économie et finance',
+  philosophie: 'Philosophie',
   autre: 'Autre',
 };

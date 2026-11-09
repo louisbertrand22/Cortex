@@ -13,6 +13,7 @@ import KeyIdea from './KeyIdea.astro';
 import Stat from './Stat.astro';
 import Figure from './Figure.astro';
 import Quiz from './Quiz.astro';
+import Quote from './Quote.astro';
 import Pipeline from '../viz/Pipeline.astro';
 import BarChart from '../viz/BarChart.astro';
 import AiNesting from '../viz/AiNesting.astro';
@@ -77,6 +78,9 @@ import OrderBook from '../viz/OrderBook.astro';
 import Diversify from '../viz/Diversify.astro';
 import DcaLump from '../viz/DcaLump.astro';
 import EnvelopeTax from '../viz/EnvelopeTax.astro';
+import PhiloTimeline from '../viz/PhiloTimeline.astro';
+import Syllogism from '../viz/Syllogism.astro';
+import FallacyHunt from '../viz/FallacyHunt.astro';
 
 export const components = {
   Callout,
@@ -90,6 +94,7 @@ export const components = {
   Stat,
   Figure,
   Quiz,
+  Quote,
   Pipeline,
   BarChart,
   AiNesting,
@@ -154,4 +159,7 @@ export const components = {
   Diversify,
   DcaLump,
   EnvelopeTax,
+  PhiloTimeline,
+  Syllogism,
+  FallacyHunt,
 };
