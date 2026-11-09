@@ -23,7 +23,7 @@ export default function BarChartIsland({ data, unit = '', max }: { data: Bar[]; 
             />
           </div>
           <span className={`min-w-[4.5rem] whitespace-nowrap text-right font-mono tabular-nums ${d.highlight ? 'text-signal' : 'text-ink-3'}`}>
-            {d.value}
+            {d.value.toLocaleString('fr-FR')}
             {unit}
           </span>
         </div>

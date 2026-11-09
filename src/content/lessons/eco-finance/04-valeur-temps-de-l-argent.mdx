@@ -1,0 +1,193 @@
+---
+title: La valeur temps de l'argent
+subtitle: Pourquoi 1 000 € aujourd'hui valent plus que 1 000 € demain
+subject: eco-finance
+session: 4
+description: "Intérêts simples et composés, règle de 72, actualisation et valeur actuelle nette, coût réel d'un crédit : les calculs qui fondent toute la finance, expliqués pas à pas."
+tags: [intérêts composés, intérêts simples, règle de 72, actualisation, valeur actuelle, VAN, crédit immobilier, TAEG]
+objectives:
+  - Expliquer pourquoi un euro aujourd'hui vaut plus qu'un euro demain.
+  - Calculer la valeur future d'un placement en intérêts simples et composés.
+  - Estimer un temps de doublement avec la règle de 72.
+  - Actualiser un flux futur et décider d'un investissement avec la VAN.
+  - Lire le coût total d'un crédit et ce que mesure le TAEG.
+sources:
+  - label: Irving Fisher, « The Theory of Interest » (1930)
+  - label: Richard Brealey, Stewart Myers et Franklin Allen, « Principes de gestion financière » (Pearson)
+  - label: Quote Investigator, « Compound Interest Is the Most Powerful Force in the Universe » (2011)
+    url: https://quoteinvestigator.com/2011/10/31/compound-interest/
+  - label: Haut Conseil de stabilité financière, recommandation puis décision sur l'octroi de crédits immobiliers (2021-2022)
+    url: https://www.economie.gouv.fr/hcsf
+  - label: Banque de France, ABC de l'économie, « Le taux d'usure »
+    url: https://abc-economie.banque-france.fr/
+updated: 2026-11-09
+---
+
+On te propose deux options : recevoir **1 000 € aujourd'hui**, ou **1 000 € dans cinq ans**. Personne n'hésite : on prend l'argent tout de suite. Mais pourquoi, exactement ? Et combien faudrait-il te promettre dans cinq ans pour que tu acceptes d'attendre ? Cette question simple est le point de départ de toute la finance : le prix d'une obligation, la valeur d'une entreprise, la mensualité de ton crédit immobilier, le rendement de ton épargne retraite. Ce chapitre ouvre la partie « Mécanismes de la finance » avec les **calculs de base** : ils sont plus simples qu'il n'y paraît, et ils changent la façon de regarder chaque décision d'argent.
+
+## Un euro aujourd'hui vaut plus qu'un euro demain
+
+### Trois raisons de préférer le présent
+
+<CardGrid cols={3}>
+  <Card title="Tu pourrais le placer" kicker="Coût d'opportunité">
+    1 000 € reçus aujourd'hui peuvent être placés et rapporter des intérêts. Dans cinq ans, ils vaudront **plus** que 1 000 €. Attendre, c'est renoncer à ce rendement (le coût d'opportunité du chapitre 1).
+  </Card>
+  <Card title="L'inflation ronge sa valeur" kicker="Pouvoir d'achat">
+    Avec l'inflation (chapitre 2), 1 000 € dans cinq ans achèteront moins de choses que 1 000 € aujourd'hui.
+  </Card>
+  <Card title="Demain est incertain" kicker="Risque">
+    La promesse de te payer plus tard peut ne pas être tenue. Plus le débiteur est fragile, plus tu exiges une compensation pour attendre.
+  </Card>
+</CardGrid>
+
+Le **taux d'intérêt** est précisément le **prix du temps** : ce que l'emprunteur paie pour disposer de l'argent maintenant, et ce que le prêteur reçoit pour accepter d'attendre. Tout ce chapitre consiste à déplacer de l'argent dans le temps avec ce taux, vers le futur (capitaliser) ou vers le présent (actualiser).
+
+<KeyIdea>On ne peut pas comparer des sommes reçues à des dates différentes sans les ramener à la même date. Le taux d'intérêt sert de taux de change entre aujourd'hui et demain.</KeyIdea>
+
+## Intérêts simples et intérêts composés
+
+### Les intérêts simples
+
+Avec des **intérêts simples**, seul le capital de départ rapporte. Tu places 10 000 € à 7 % : tu touches 700 € par an, toujours 700 €, quelle que soit la durée. Au bout de 30 ans : 10 000 + 30 × 700 = **31 000 €**.
+
+<Callout type="definition" title="Intérêts simples">
+  Les intérêts sont calculés uniquement sur le capital initial. Valeur finale = capital × (1 + taux × nombre d'années). La croissance est **linéaire** : une droite.
+</Callout>
+
+### Les intérêts composés
+
+Avec des **intérêts composés**, les intérêts de chaque année sont **ajoutés au capital** et rapportent à leur tour des intérêts l'année suivante. La première année, 10 000 € à 7 % rapportent 700 €. La deuxième, ce sont 10 700 € qui rapportent 7 %, soit 749 €. La troisième, 11 449 € rapportent 801 €… Les intérêts produisent des intérêts, qui produisent des intérêts.
+
+Au bout de 30 ans : 10 000 × 1,07³⁰ ≈ **76 100 €**. Deux fois et demie plus qu'avec des intérêts simples, avec le même taux et le même capital.
+
+<Callout type="definition" title="Intérêts composés">
+  Les intérêts sont réinvestis et rapportent eux-mêmes des intérêts. Valeur finale = capital × (1 + taux)^nombre d'années. La croissance est **exponentielle** : une courbe qui s'accélère avec le temps.
+</Callout>
+
+Règle les quatre paramètres et regarde la part des intérêts (en couleur) grossir avec les années.
+
+<Figure caption="Capital accumulé année après année : ce que tu as versé et ce que les intérêts ont ajouté · Capitalisation mensuelle, rendement constant, sans frais ni impôts">
+  <CompoundGrowth />
+</Figure>
+
+Trois choses à observer en jouant avec le simulateur :
+
+1. **La durée compte plus que tout.** Passe de 25 à 35 ans : le capital final bondit bien plus que les dix années de versements supplémentaires ne l'expliquent. Les dernières années sont les plus « productives ».
+2. **Un point de rendement change tout sur le long terme.** Entre 4 % et 5 % sur 30 ans, l'écart final est énorme. C'est pourquoi les **frais** d'un placement (1 % ou 2 % par an) sont si importants : on y reviendra en partie 3.
+3. **Commencer tôt bat verser beaucoup.** Mets 0 € de capital de départ et compare 200 € par mois pendant 40 ans avec 400 € par mois pendant 20 ans : tu verses la même somme totale, mais le résultat n'a rien à voir.
+
+<Quiz question="Alice place 100 € par mois de 25 à 35 ans, puis s'arrête et laisse fructifier. Bob commence à 35 ans et place 100 € par mois jusqu'à 65 ans. Les deux obtiennent 7 % par an. Qui a le plus à 65 ans ?" options={['Bob, il a versé trois fois plus', 'Alice, malgré des versements trois fois plus faibles', 'Ils ont à peu près la même somme']} answer={1}>
+  **Alice.** Elle a versé 12 000 €, Bob 36 000 €. Mais l'argent d'Alice a eu 30 à 40 ans pour se composer, celui de Bob moins de 30 ans en moyenne : avec ces hypothèses, Alice termine autour de 140 000 € et Bob autour de 122 000 €. Le piège : raisonner sur la somme versée. En intérêts composés, **le temps passé investi** pèse plus que le montant.
+</Quiz>
+
+<DeepDive title="« La huitième merveille du monde » : une citation qu'Einstein n'a jamais prononcée" level="approfondissement">
+  On attribue souvent à Albert Einstein la phrase « les intérêts composés sont la huitième merveille du monde » ou « la force la plus puissante de l'univers ». Le site Quote Investigator, qui vérifie l'origine des citations célèbres, n'en a trouvé **aucune trace** dans ses écrits ou ses interviews : la phrase apparaît des décennies après sa mort, dans des publicités financières.
+
+  L'idée reste juste, mais il faut aussi en voir le revers : les intérêts composés jouent **contre toi** quand tu es endetté. Une dette de carte de crédit revolving à 20 % double en moins de quatre ans si tu ne la rembourses pas.
+</DeepDive>
+
+### La règle de 72
+
+Pour estimer **en combien d'années un capital double**, il suffit de diviser 72 par le taux annuel (en %). À 6 % par an, un capital double en environ 72 / 6 = **12 ans**. À 3 %, en 24 ans. À 9 %, en 8 ans.
+
+La règle marche dans tous les domaines où il y a de la croissance composée : avec 3 % d'inflation par an, les prix doublent en 24 ans, et une économie qui croît de 2 % par an double son PIB en 36 ans.
+
+<Quiz question="Un placement promet de doubler ton argent en 4 ans. Quel rendement annuel cela suppose-t-il, et faut-il s'en méfier ?" options={['Environ 4 % par an, c’est raisonnable', 'Environ 18 % par an : c’est très élevé et doit alerter', 'Environ 50 % par an']} answer={1}>
+  **Environ 18 % par an** (72 / 4). Sur des années, aucun placement grand public ne rapporte cela de façon régulière et garantie. Une promesse pareille, surtout « sans risque », est le signal classique d'une arnaque (chaîne de Ponzi). Le piège de la première réponse : confondre durée de doublement et taux.
+</Quiz>
+
+### La fréquence de capitalisation
+
+Un taux de 5 % « par an » ne rapporte pas exactement la même chose si les intérêts sont ajoutés une fois par an ou chaque mois. Avec une capitalisation mensuelle, les intérêts de janvier rapportent déjà en février : sur l'année, on obtient environ **5,12 %**. C'est pourquoi on distingue le **taux nominal** annoncé et le **taux effectif** réellement obtenu. L'écart est faible pour un taux bas, mais il compte pour les taux élevés (crédits à la consommation).
+
+## Actualiser : ramener le futur au présent
+
+### L'opération inverse de la capitalisation
+
+Capitaliser, c'est se demander : « que deviendront 1 000 € dans 5 ans à 4 % ? » Réponse : 1 000 × 1,04⁵ ≈ 1 217 €.
+
+**Actualiser**, c'est poser la question à l'envers : « combien vaut **aujourd'hui** une somme de 1 000 € que je recevrai dans 5 ans, si je peux placer mon argent à 4 % ? » Réponse : 1 000 / 1,04⁵ ≈ **822 €**. Autrement dit, 822 € placés aujourd'hui à 4 % deviendraient 1 000 € dans 5 ans : les deux sont équivalents.
+
+<Callout type="definition" title="Valeur actuelle">
+  La valeur aujourd'hui d'une somme future. Valeur actuelle = somme future / (1 + taux)^nombre d'années. Le taux utilisé s'appelle le **taux d'actualisation** : c'est le rendement que tu pourrais obtenir ailleurs pour un risque comparable.
+</Callout>
+
+```mermaid title="Capitaliser et actualiser"
+flowchart LR
+  A["822 € aujourd'hui"] -- "capitaliser : × 1,04 cinq fois" --> B["1 000 € dans 5 ans"]
+  B -- "actualiser : ÷ 1,04 cinq fois" --> A
+  classDef now fill:var(--signal-soft),stroke:var(--signal);
+  class A now;
+```
+
+Deux conséquences importantes, qu'on retrouvera pour les obligations (chapitre 6) et les actions (chapitre 5) :
+
+- **Plus une somme est lointaine, moins elle vaut aujourd'hui.** 1 000 € dans 30 ans à 4 % ne valent que 308 € aujourd'hui.
+- **Plus le taux d'actualisation est élevé, moins le futur vaut.** Quand les taux d'intérêt montent, tout ce qui promet des revenus lointains (obligations longues, actions de croissance, immobilier) **perd de la valeur**. C'est l'un des liens les plus importants entre la banque centrale et la bourse.
+
+<KeyIdea>Quand les taux montent, la valeur aujourd'hui de tous les revenus futurs baisse. C'est pour cela qu'une hausse des taux de la BCE ou de la Fed fait souvent baisser les marchés.</KeyIdea>
+
+### La valeur actuelle nette : décider d'un investissement
+
+Une entreprise hésite à acheter une machine à **10 000 €** qui lui fera gagner **3 000 € par an pendant 4 ans**. Faut-il investir ? Additionner bêtement (4 × 3 000 = 12 000 € de gains pour 10 000 € de dépense) serait faux : ces 3 000 € arrivent plus tard, ils valent moins que 3 000 € d'aujourd'hui. Il faut d'abord les **actualiser**.
+
+<Steps>
+1. **Choisir un taux d'actualisation** : le rendement que l'entreprise pourrait obtenir ailleurs pour un risque comparable, par exemple 6 %.
+2. **Actualiser chaque flux** : 3 000 / 1,06 + 3 000 / 1,06² + 3 000 / 1,06³ + 3 000 / 1,06⁴ ≈ 10 395 €.
+3. **Retrancher l'investissement** : 10 395 − 10 000 = **+395 €**. C'est la **valeur actuelle nette** (VAN).
+4. **Décider** : une VAN positive signifie que le projet rapporte plus que l'alternative à 6 %. On investit.
+</Steps>
+
+Refais le calcul avec un taux de 8 % : la somme actualisée tombe à 9 936 €, la VAN devient **−64 €**, et le projet ne vaut plus la peine. Le même projet est bon ou mauvais selon le coût de l'argent : quand les taux montent, les entreprises renoncent à des investissements, ce qui est exactement le mécanisme par lequel la banque centrale freine l'économie (chapitre 2).
+
+<Callout type="definition" title="VAN (valeur actuelle nette)">
+  La somme des flux futurs d'un projet, actualisés, moins l'investissement de départ. VAN positive : le projet crée de la valeur. VAN négative : mieux vaut placer l'argent ailleurs. Le taux d'actualisation qui annule la VAN s'appelle le **taux de rendement interne** (TRI).
+</Callout>
+
+<Quiz question="Un ami te propose de lui prêter 5 000 € aujourd'hui ; il te rendra 5 500 € dans 3 ans. Ton livret rapporte 3 % par an sans risque. Est-ce une bonne affaire ?" options={['Oui, tu gagnes 500 €', 'Non : à 3 %, tes 5 000 € deviendraient environ 5 460 € sans risque, presque autant', 'On ne peut pas savoir']} answer={1}>
+  **Pas vraiment.** 5 000 × 1,03³ ≈ 5 464 €. Le prêt rapporte à peine 36 € de plus que le livret, pour un risque bien supérieur (ton ami pourrait ne pas rembourser) et sans pouvoir récupérer l'argent avant trois ans. Les 500 € sont un gain apparent : il faut toujours comparer à l'alternative.
+</Quiz>
+
+## Le crédit : la valeur temps vue par l'emprunteur
+
+### La mensualité d'un crédit amortissable
+
+Un crédit immobilier classique est **amortissable** : chaque mois, tu paies la même mensualité, qui contient une part d'**intérêts** et une part de **remboursement du capital**. Au début, le capital restant dû est élevé, donc les intérêts aussi : l'essentiel de la mensualité part en intérêts. Au fil du temps, la part de capital augmente.
+
+Exemple : 200 000 € empruntés sur 20 ans à 3,5 %. Le premier mois, les intérêts représentent 200 000 × 3,5 % / 12 ≈ 583 €, soit la moitié de la mensualité d'environ 1 160 €.
+
+<Figure caption="Coût total des intérêts pour 200 000 € empruntés sur 20 ans, selon le taux (hors assurance et frais) · Calcul en mensualités constantes">
+  <BarChart unit=" k€" data={[
+    { label: 'Taux 1 %', value: 20.7 },
+    { label: 'Taux 3,5 %', value: 78.4, highlight: true },
+    { label: 'Taux 4 %', value: 90.9 }
+  ]} />
+</Figure>
+
+Les mensualités correspondantes sont d'environ 920 €, 1 160 € et 1 212 €. C'est la valeur temps vue du côté de l'emprunteur : passer d'un taux de 1 % (fin 2021) à 4 % (fin 2023) multiplie le coût du crédit par plus de quatre, et augmente la mensualité de près de 300 € pour la même somme empruntée. Beaucoup de ménages ont dû réduire leur budget immobilier d'autant.
+
+### Le TAEG : le vrai prix d'un crédit
+
+Le taux nominal ne dit pas tout : un crédit coûte aussi des **frais de dossier**, une **assurance emprunteur**, parfois des frais de garantie. Pour comparer les offres, la loi impose d'afficher le **TAEG** (taux annuel effectif global), qui intègre tous ces frais obligatoires dans un seul taux.
+
+<Callout type="tip" title="Comparer deux offres de crédit">
+  Compare toujours les **TAEG** et le **coût total du crédit** (en euros), jamais le seul taux nominal. Une offre à 3,3 % avec une assurance chère peut coûter plus qu'une offre à 3,5 % avec une assurance déléguée moins chère.
+</Callout>
+
+<DeepDive title="Les règles qui encadrent le crédit immobilier en France" level="terrain">
+  Deux garde-fous limitent ce que les banques peuvent prêter :
+
+  - **Le taux d'usure** : un plafond légal, fixé par la Banque de France à partir des taux moyens pratiqués, au-delà duquel une banque n'a pas le droit de prêter. Il protège les emprunteurs, mais en 2022-2023, quand les taux montaient vite, il a bloqué des dossiers : les taux du marché rattrapaient le plafond, mis à jour trop lentement. Il a alors été révisé chaque mois au lieu de chaque trimestre.
+  - **Les règles du Haut Conseil de stabilité financière** (HCSF) : depuis 2022, elles sont juridiquement contraignantes. Les mensualités ne doivent pas dépasser **35 % des revenus** de l'emprunteur (assurance comprise), et la durée **25 ans** (27 ans en cas de construction ou de gros travaux), avec une marge de dérogation pour une part limitée des dossiers.
+</DeepDive>
+
+## À retenir
+
+<Takeaways>
+1. **Un euro aujourd'hui vaut plus qu'un euro demain.** Le taux d'intérêt est le prix du temps : il rémunère l'attente, l'inflation et le risque.
+2. **Les intérêts composés font croître l'argent de façon exponentielle.** La durée et le taux, même à un point près, comptent plus que le montant versé.
+3. **La règle de 72 donne le temps de doublement.** 72 divisé par le taux annuel en %.
+4. **Actualiser ramène le futur au présent.** Quand les taux montent, tout revenu futur vaut moins aujourd'hui, et la VAN de nombreux projets devient négative.
+5. **Un crédit se compare à son TAEG et à son coût total.** Au début d'un prêt amortissable, la mensualité paie surtout des intérêts.
+</Takeaways>

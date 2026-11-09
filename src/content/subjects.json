@@ -165,21 +165,6 @@
     ],
     "upcoming": [
       {
-        "session": 4,
-        "title": "La valeur temps de l'argent",
-        "description": "Intérêts simples et composés, actualisation, règle de 72."
-      },
-      {
-        "session": 5,
-        "title": "Lire une entreprise",
-        "description": "Bilan, compte de résultat, flux de trésorerie, ratios et valorisation."
-      },
-      {
-        "session": 6,
-        "title": "Les produits financiers",
-        "description": "Actions, obligations, ETF, fonds et dérivés : rendement contre risque."
-      },
-      {
         "session": 7,
         "title": "Comment fonctionne la bourse",
         "description": "Marché primaire et secondaire, carnet d'ordres, indices, acteurs."

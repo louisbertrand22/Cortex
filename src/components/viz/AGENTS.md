@@ -84,5 +84,7 @@ Dans une leçon (ou sur `/guide`) : build, puis rendu clair/sombre, 1440 px et 3
   formes et annuler, memento complet ou incrémental).
 - **ÉCO** : `SupplyDemand` (offre et demande sur le marché des glaces, chocs et prix d'équilibre) · `PurchasingPower`
   (inflation, durée et taux d'un placement : pouvoir d'achat et rendement réel) · `DebtSnowball` (ratio dette/PIB
-  sur 20 ans selon taux, croissance et solde primaire).
-- **Génériques** : `Pipeline` · `BarChart`.
+  sur 20 ans selon taux, croissance et solde primaire) · `CompoundGrowth` (intérêts composés : capital, versements,
+  taux, durée, comparaison aux intérêts simples) · `IncomeWaterfall` (compte de résultat de Cycléa et levier opérationnel)
+  · `BondPrice` (prix d'une obligation selon le taux du marché, coupon, durée, sensibilité).
+- **Génériques** : `Pipeline` · `BarChart` (valeurs formatées en `fr-FR` : passer des nombres, pas des chaînes).

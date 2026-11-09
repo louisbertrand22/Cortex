@@ -1,0 +1,253 @@
+---
+title: Les produits financiers
+subtitle: Actions, obligations, fonds, ETF et dérivés
+subject: eco-finance
+session: 6
+description: Ce que tu achètes vraiment avec une action, une obligation, un ETF ou un dérivé, pourquoi une obligation perd de la valeur quand les taux montent, et pourquoi rendement et risque vont ensemble.
+tags: [rendement, risque, actions, obligations, notation, ETF, fonds, produits dérivés]
+objectives:
+  - Expliquer pourquoi rendement et risque vont ensemble.
+  - Décrire les droits d'un actionnaire et ceux d'un créancier obligataire.
+  - Prévoir le sens de variation du prix d'une obligation quand les taux bougent.
+  - Distinguer un fonds actif d'un ETF et mesurer le poids des frais.
+  - Expliquer à quoi servent les options et les contrats à terme, et le danger du levier.
+sources:
+  - label: Elroy Dimson, Paul Marsh, Mike Staunton, « UBS Global Investment Returns Yearbook » (édition 2025)
+    url: https://www.ubs.com/global/en/investment-bank/insights-and-data/2025/global-investment-returns-yearbook-2025
+  - label: S&P Dow Jones Indices, rapports SPIVA Europe
+    url: https://www.spglobal.com/spdji/en/research-insights/spiva/
+  - label: Autorité des marchés financiers, espace épargnants
+    url: https://www.amf-france.org/fr/espace-epargnants
+  - label: John Bogle, « The Little Book of Common Sense Investing » (2007)
+  - label: Bloomberg News, « Bond rout wipes out Europe government investors' pandemic return » (2022)
+    url: https://www.bnnbloomberg.ca/bond-rout-wipes-out-europe-government-investors-pandemic-return-1.1720157.amp.html
+  - label: La finance pour tous, « S&P dégrade la note de la France et rejoint Fitch » (20 octobre 2025)
+    url: https://www.lafinancepourtous.com/2025/10/20/agences-de-notation-sp-degrade-la-note-de-la-france-et-rejoint-fitch/
+  - label: Règlement européen MiCA sur les marchés de crypto-actifs (2023)
+    url: https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32023R1114
+updated: 2026-11-09
+---
+
+Ton banquier te propose un « fonds diversifié », ton collègue ne jure que par les ETF, un influenceur vante les turbos sur le Nasdaq, et ton assurance-vie contient un « fonds en euros ». Derrière ce vocabulaire, il n'existe en réalité que **quelques grandes familles de produits**, et une règle qui s'applique à toutes : **le rendement est toujours la rémunération d'un risque**. Ce chapitre clôt la partie « Mécanismes de la finance » : après la valeur temps de l'argent (chapitre 4) et la lecture d'une entreprise (chapitre 5), il te donne le catalogue de ce qu'on peut acheter, avant d'entrer dans la bourse elle-même en partie 3.
+
+## La règle d'or : pas de rendement sans risque
+
+### Pourquoi le risque se paie
+
+Imagine deux placements. L'un te rapporte 3 % garantis. L'autre te rapporte 3 % en moyenne, mais certaines années +20 %, d'autres −15 %. Personne de raisonnable ne choisit le second : à rendement égal, on préfère toujours la certitude. Pour que des investisseurs acceptent le placement risqué, il doit **promettre davantage en moyenne**. Cet excédent de rendement attendu s'appelle la **prime de risque**.
+
+<Callout type="definition" title="Prime de risque">
+  Le rendement supplémentaire qu'un investisseur exige pour accepter un placement risqué plutôt qu'un placement sans risque. C'est la rémunération de l'incertitude, pas un cadeau : elle n'est obtenue qu'**en moyenne et sur la durée**, jamais garantie.
+</Callout>
+
+<KeyIdea>Un placement qui promet un rendement élevé sans risque n'existe pas. Si on te le propose, soit le risque est caché, soit c'est une arnaque.</KeyIdea>
+
+### La pyramide des placements
+
+<CardGrid cols={2}>
+  <Card title="Monétaire et livrets" kicker="Risque très faible" tone="synapse">
+    Livret A, comptes à terme, fonds monétaires. Le capital est sûr, le rendement suit à peu près les taux de la banque centrale, et peine souvent à battre l'inflation.
+  </Card>
+  <Card title="Obligations" kicker="Risque faible à moyen" tone="muted">
+    Prêts à des États ou des entreprises. Revenu régulier, mais leur prix varie avec les taux, et l'émetteur peut faire défaut.
+  </Card>
+  <Card title="Actions" kicker="Risque élevé" tone="amber">
+    Parts d'entreprises. Le meilleur rendement sur le long terme, au prix de fortes baisses possibles (−30 % à −50 % lors des krachs).
+  </Card>
+  <Card title="Dérivés à effet de levier, crypto-actifs" kicker="Risque très élevé" tone="danger">
+    Les gains comme les pertes sont démultipliés. Une perte totale, voire supérieure à la mise pour certains dérivés, est possible en quelques jours.
+  </Card>
+</CardGrid>
+
+<DeepDive title="125 ans de rendements : ce que dit l'histoire" level="approfondissement">
+  Les économistes Elroy Dimson, Paul Marsh et Mike Staunton compilent chaque année les rendements de dizaines de pays depuis 1900 (*Global Investment Returns Yearbook*, publié avec UBS). De 1900 à 2024, à l'échelle mondiale et après inflation, l'édition 2025 donne :
+
+  - **actions** : environ **5,2 % par an** de rendement réel ;
+  - **obligations** : environ **1,7 % par an** ;
+  - **placements monétaires** (bons du Trésor à court terme) : environ **0,5 % par an**.
+
+  Les actions ont battu les obligations, le monétaire et l'inflation dans **chacun** des pays étudiés, mais avec une volatilité bien plus forte (un écart-type annuel d'environ 23 %, contre environ 13 % pour les obligations).
+
+  Avec les intérêts composés du chapitre 4, l'écart devient gigantesque sur un siècle. Mais ces moyennes cachent de longues périodes difficiles : un investisseur en actions mondiales entré au sommet de 1929 ou de 2000 a mis plus de dix ans à retrouver sa mise en termes réels.
+</DeepDive>
+
+## Les actions : devenir copropriétaire
+
+### Ce qu'une action te donne
+
+Une **action** est un titre de propriété : une petite part du capital d'une entreprise. Si Cycléa (chapitre 5) a émis 10 millions d'actions et que tu en possèdes 1 000, tu détiens 0,01 % de l'entreprise. Ce titre te donne trois choses.
+
+<CardGrid cols={3}>
+  <Card title="Une part des bénéfices" kicker="Dividende">
+    Si l'assemblée générale décide d'en distribuer une partie, tu reçois un **dividende** pour chaque action. Rien n'est garanti : en cas de difficulté, il peut être réduit ou supprimé.
+  </Card>
+  <Card title="Une part de la croissance" kicker="Plus-value">
+    Si l'entreprise prospère, le prix de l'action monte, et tu peux la revendre plus cher que ton prix d'achat. C'est souvent la principale source de gain.
+  </Card>
+  <Card title="Un droit de vote" kicker="Gouvernance">
+    Tu votes à l'assemblée générale : nomination des administrateurs, approbation des comptes, rémunération des dirigeants, dividende.
+  </Card>
+</CardGrid>
+
+Ta **responsabilité est limitée** à ton apport : si l'entreprise fait faillite, tu peux perdre tout ce que tu as investi, mais jamais plus. En revanche, l'actionnaire est **payé en dernier** : en cas de liquidation, les salariés, l'État, les fournisseurs et les prêteurs passent avant lui. C'est la raison profonde pour laquelle les actions rapportent plus en moyenne : l'actionnaire porte le risque résiduel de l'entreprise.
+
+<DeepDive title="Dividendes ou rachats d'actions" level="approfondissement">
+  Une entreprise qui fait des bénéfices a trois options : les **réinvestir** (nouvelles usines, recherche, acquisitions), les **distribuer en dividendes**, ou **racheter ses propres actions** en bourse pour les annuler. Un rachat réduit le nombre d'actions, donc augmente mécaniquement le bénéfice par action et la part de chaque actionnaire restant. Les grandes entreprises américaines privilégient les rachats, les européennes davantage les dividendes. Pour l'actionnaire, l'effet économique est proche ; la fiscalité, elle, diffère selon les pays.
+</DeepDive>
+
+## Les obligations : prêter de l'argent
+
+### Le fonctionnement d'une obligation
+
+Une **obligation** est un titre de **dette**. En l'achetant, tu prêtes de l'argent à un État ou à une entreprise. En échange, l'émetteur s'engage à te verser des intérêts réguliers puis à te rembourser à une date fixée.
+
+<CardGrid cols={2}>
+  <Card title="Nominal" kicker="Ce qui sera remboursé">
+    La somme remboursée à l'échéance, souvent 1 000 € ou 100 € par titre.
+  </Card>
+  <Card title="Coupon" kicker="Les intérêts">
+    L'intérêt versé chaque année, en % du nominal. Une obligation de 1 000 € à 3 % verse 30 € par an. Il est fixé à l'émission et ne change plus (pour une obligation classique).
+  </Card>
+  <Card title="Échéance" kicker="Quand on est remboursé">
+    La date de remboursement : de quelques mois à 30 ans ou plus. Plus elle est lointaine, plus l'obligation est sensible aux variations de taux.
+  </Card>
+  <Card title="Émetteur" kicker="À qui on prête">
+    L'État (en France, les OAT du chapitre 3), une collectivité, une entreprise. Sa solidité détermine le risque de ne pas être remboursé.
+  </Card>
+</CardGrid>
+
+L'actionnaire est propriétaire, le porteur d'obligation est **créancier** : il n'a pas de droit de vote et ne profite pas de la croissance de l'entreprise, mais il est **payé avant** l'actionnaire et connaît à l'avance ses revenus, si l'émetteur ne fait pas défaut.
+
+### Quand les taux montent, le prix des obligations baisse
+
+Une obligation se revend en bourse avant son échéance, et son prix change tous les jours. La règle la plus importante à retenir : **le prix d'une obligation évolue en sens inverse des taux d'intérêt**.
+
+Pourquoi ? Tu possèdes une obligation émise en 2021 qui verse 1 % par an pendant 10 ans. En 2023, les nouvelles obligations de même qualité paient 3,5 %. Plus personne ne veut ton 1 % au prix plein : pour la revendre, tu dois baisser son prix jusqu'à ce que l'acheteur obtienne, au total, le même rendement que sur une obligation neuve. C'est exactement le calcul d'**actualisation** du chapitre 4 : le prix d'une obligation est la somme de ses coupons et de son remboursement, actualisés au taux du marché.
+
+<Figure caption="Prix d'une obligation de nominal 1 000 € selon le taux du marché · Coupon annuel, prix calculé en actualisant chaque flux au taux du marché">
+  <BondPrice />
+</Figure>
+
+Avec les réglages de départ, une hausse des taux de 1 % à 3,5 % fait perdre environ **21 %** à l'obligation à 10 ans. Allonge la durée à 30 ans : la perte devient bien plus lourde. C'est ce que mesure la **sensibilité** (ou duration modifiée) : la baisse de prix, en %, pour une hausse des taux de 1 point. Plus une obligation est longue et plus son coupon est faible, plus elle est sensible.
+
+<Callout type="definition" title="Rendement actuariel">
+  Le rendement annuel total que tu obtiens si tu achètes une obligation à son prix actuel et la gardes jusqu'à l'échéance, en comptant coupons et remboursement. Si tu achètes 792 € une obligation qui rembourse 1 000 € avec un coupon de 1 %, ton rendement actuariel est d'environ 3,5 %, même si le coupon n'est que de 1 %.
+</Callout>
+
+<Quiz question="Tu détiens une obligation d'État à 10 ans achetée à l'émission, et les taux du marché montent fortement. Si tu la gardes jusqu'à l'échéance, que se passe-t-il ?" options={['Tu perds la baisse de prix, définitivement', 'Tu touches tes coupons et ton nominal comme prévu : la baisse de prix n’est une perte que si tu revends avant', 'L’État te verse un coupon plus élevé pour compenser']} answer={1}>
+  **Tu touches exactement ce qui était prévu.** La baisse de prix est une perte « latente » : elle ne devient réelle que si tu vends avant l'échéance (ou si l'émetteur fait défaut). En revanche, tu as un **coût d'opportunité** : ton argent rapporte 1 % alors que tu aurais pu obtenir 3,5 %. Le coupon d'une obligation classique ne change jamais après l'émission.
+</Quiz>
+
+<DeepDive title="2022, l'année noire des obligations" level="terrain">
+  Après une décennie de taux proches de zéro, voire négatifs, la remontée brutale des taux en 2022 (chapitre 2) a provoqué une chute historique du prix des obligations. Un indice Bloomberg des obligations d'État de la zone euro a perdu plus de **15 %** sur l'année, de loin sa pire performance depuis sa création. Pour la première fois depuis des décennies, actions et obligations ont baissé fortement **en même temps**, privant les portefeuilles « équilibrés » de leur amortisseur habituel.
+
+  Effet inverse ensuite : un épargnant qui achète une obligation à 3 % aujourd'hui obtient un rendement bien supérieur à celui de 2021. Les mêmes mécanismes expliquent pourquoi le rendement des fonds en euros des assurances-vie, investis surtout en obligations, ne remonte que lentement : ils renouvellent leurs vieilles obligations à faible coupon au fil des échéances.
+</DeepDive>
+
+### Le risque de crédit et la notation
+
+L'autre grand risque d'une obligation est que l'émetteur **ne rembourse pas** : c'est le **risque de crédit** (ou de défaut). Pour l'évaluer, les investisseurs s'appuient sur les **agences de notation** (S&P Global, Moody's, Fitch), qui attribuent une note de AAA (le plus sûr) à D (en défaut).
+
+<Compare leftTitle="Catégorie investissement (de AAA à BBB−)" rightTitle="Catégorie spéculative (BB+ et en dessous)">
+  <Fragment slot="left">
+    Émetteurs jugés solides : grands États, grandes entreprises. Taux plus bas. Beaucoup d'investisseurs institutionnels (assureurs, fonds de pension) n'ont le droit d'acheter que dans cette catégorie.
+  </Fragment>
+  <Fragment slot="right">
+    Émetteurs plus fragiles : on parle d'obligations à haut rendement (*high yield*). Le taux plus élevé rémunère le risque de défaut, bien réel en cas de récession.
+  </Fragment>
+</Compare>
+
+L'écart entre le taux d'un émetteur et celui d'un émetteur jugé sans risque comparable s'appelle le **spread**. Il mesure la prime de risque de crédit, comme l'écart entre la France et l'Allemagne vu au chapitre 3.
+
+<DeepDive title="La France perd des crans de notation" level="terrain">
+  En 2025, deux des trois grandes agences ont abaissé la note de la France : **Fitch** en septembre puis **S&P** en octobre, de AA− à **A+**, en invoquant la dérive de la dette publique et l'instabilité politique qui compliquait le vote des budgets. La France reste dans la catégorie « investissement », mais ces dégradations contribuent à ce que l'État emprunte plus cher que plusieurs pays voisins, ce qui alourdit la charge de la dette (chapitre 3).
+</DeepDive>
+
+## Les fonds et les ETF : acheter un panier
+
+### Les fonds d'investissement
+
+Acheter soi-même des dizaines d'actions et d'obligations demande du temps, des connaissances et un capital important. Un **fonds d'investissement** (en France, on parle d'**OPC**, organisme de placement collectif) regroupe l'argent de nombreux épargnants et l'investit dans un **panier** de titres, géré par une société de gestion. Tu achètes des **parts** du fonds, dont la valeur suit celle du panier.
+
+### Gestion active ou passive
+
+<Compare leftTitle="Fonds actif" rightTitle="Fonds indiciel, ETF">
+  <Fragment slot="left">
+    Un gérant **choisit** les titres qu'il pense voir surperformer, pour battre un indice de référence. Analyse, recherche, convictions : ce travail se paie, souvent **1,5 à 2 % de frais par an**.
+  </Fragment>
+  <Fragment slot="right">
+    Le fonds **réplique** mécaniquement un indice (le CAC 40, le S&P 500, un indice mondial). Pas de choix à faire, donc des frais très bas, souvent **0,1 à 0,4 % par an**. Un **ETF** (*exchange traded fund*, ou tracker) est un fonds indiciel coté en bourse, qui s'achète et se vend comme une action.
+  </Fragment>
+</Compare>
+
+Rappelle-toi le simulateur du chapitre 4 : 1,5 point de frais par an en plus, c'est 1,5 point de rendement en moins, qui se compose année après année. Sur 30 ans, la différence peut représenter **un tiers** du capital final. Un fonds actif doit donc battre son indice d'au moins ses frais supplémentaires, chaque année, pour simplement faire jeu égal avec un ETF.
+
+<Quiz question="Un fonds actif a gagné 7 % par an pendant 10 ans, avec 2 % de frais annuels. Un ETF sur le même indice a gagné 8,5 % par an avec 0,2 % de frais. Quelle phrase est juste ?" options={['Le fonds actif a été meilleur, car le gérant a choisi ses titres', 'L’ETF a rapporté plus : les frais du fonds actif ont mangé plus que la valeur ajoutée du gérant', 'Les deux se valent, les frais sont déjà inclus dans les deux cas']} answer={1}>
+  **L'ETF a rapporté plus.** Les performances publiées sont généralement nettes de frais de gestion : sur 10 ans, l'écart de 1,5 point par an représente environ 15 % de capital en plus pour l'ETF. Le piège : croire que « géré par un professionnel » veut dire « plus performant ».
+</Quiz>
+
+<DeepDive title="Combien de gérants battent leur indice ?" level="état-de-l-art">
+  S&P Dow Jones Indices publie depuis 2002 les rapports **SPIVA**, qui comparent les fonds actifs à leur indice de référence. Leurs conclusions sont très stables d'une édition à l'autre : sur 10 à 15 ans, **une large majorité** des fonds actifs en actions, en Europe comme aux États-Unis, font **moins bien** que leur indice une fois les frais déduits, et ceux qui le battent une période ont peu de chances de recommencer la suivante.
+
+  C'est l'argument central de John Bogle, fondateur de Vanguard et inventeur du premier fonds indiciel grand public en 1976 : collectivement, les investisseurs **sont** le marché, donc ils ne peuvent pas tous le battre ; après frais, l'investisseur moyen fait forcément moins bien que l'indice. On reviendra sur ce débat au chapitre 9.
+</DeepDive>
+
+## Les produits dérivés : parier sur un prix
+
+### Un contrat dont la valeur dépend d'autre chose
+
+Un **produit dérivé** est un contrat dont la valeur **dérive** du prix d'un autre actif (une action, un indice, une matière première, une devise, un taux), appelé le **sous-jacent**. On ne possède pas l'actif : on prend un engagement lié à son prix futur.
+
+<CardGrid cols={2}>
+  <Card title="Contrat à terme (future)" kicker="Une obligation">
+    Un engagement ferme d'acheter ou de vendre un actif à un **prix fixé aujourd'hui**, à une date future. Un boulanger peut fixer dès maintenant le prix de sa farine pour l'an prochain : il se protège d'une hausse.
+  </Card>
+  <Card title="Option" kicker="Un droit">
+    Le **droit**, mais pas l'obligation, d'acheter (*call*) ou de vendre (*put*) un actif à un prix fixé (le prix d'exercice), jusqu'à une date donnée. Ce droit s'achète : son prix s'appelle la **prime**.
+  </Card>
+</CardGrid>
+
+Un exemple d'option : l'action Cycléa vaut 13,50 €. Tu achètes pour 1 € un *call* qui te donne le droit d'acheter l'action à 14 € dans six mois.
+
+<Steps>
+1. **Si l'action monte à 18 €**, tu exerces ton droit : tu achètes à 14 €, tu peux revendre à 18 €. Gain : 4 € − 1 € de prime = **3 €**, soit +300 % sur ta mise. Avec l'action elle-même, tu aurais gagné +33 %.
+2. **Si l'action reste sous 14 €**, ton droit ne vaut rien : tu ne l'exerces pas et tu perds ta prime, **100 % de ta mise**.
+</Steps>
+
+C'est l'**effet de levier** : une petite variation du sous-jacent provoque une grande variation de la valeur du dérivé, dans les deux sens.
+
+### Couverture ou spéculation
+
+Les dérivés ont été inventés pour **se protéger** (on dit se **couvrir**) : un agriculteur fixe à l'avance le prix de sa récolte, une compagnie aérienne fixe le prix de son kérosène, un exportateur se protège contre une variation du dollar. Mais ils servent aussi à **spéculer**, c'est-à-dire à parier sur un mouvement de prix avec une mise réduite.
+
+<Callout type="danger" title="Turbos, CFD, options : des produits pour professionnels">
+  Les produits à effet de levier vendus au grand public (turbos, CFD, warrants, options) font perdre de l'argent à **une large majorité** des particuliers qui les utilisent, selon les études répétées de l'Autorité des marchés financiers. Leurs plateformes ont d'ailleurs l'obligation d'afficher la proportion de clients perdants. Sans formation solide et sans un capital que tu acceptes de perdre entièrement, mieux vaut s'en tenir à l'écart.
+</Callout>
+
+## Les autres placements
+
+<CardGrid cols={3}>
+  <Card title="Immobilier papier" kicker="SCPI, foncières cotées">
+    Des parts de sociétés qui possèdent des immeubles (bureaux, commerces, logements) et redistribuent les loyers. Accessibles avec quelques centaines d'euros, mais sensibles aux taux : plusieurs SCPI ont baissé leur prix de part en 2023-2024.
+  </Card>
+  <Card title="Produits structurés" kicker="Formule complexe">
+    Des combinaisons d'obligations et d'options vendues par les banques, avec une promesse du type « capital protégé si l'indice ne baisse pas de plus de 40 % ». Frais élevés et mécanismes difficiles à évaluer pour un particulier.
+  </Card>
+  <Card title="Crypto-actifs" kicker="Très spéculatif" tone="danger">
+    Des actifs numériques (bitcoin, ether…) sans revenu ni valeur fondamentale reconnue, dont le prix peut perdre plus de 70 % en quelques mois. Ils sont encadrés dans l'Union européenne par le règlement MiCA depuis 2024, ce qui ne garantit en rien leur valeur.
+  </Card>
+</CardGrid>
+
+<Quiz question="Un conseiller te propose un placement « garanti à 12 % par an, sans risque, sur le marché des crypto-monnaies ». Que faire ?" options={['Investir une petite somme pour tester', 'Refuser : un rendement élevé sans risque n’existe pas, c’est le signe d’une arnaque', 'Demander une garantie écrite avant d’investir']} answer={1}>
+  **Refuser.** 12 % par an garantis, c'est plus du double du rendement historique des actions, sans la volatilité : c'est impossible. Les arnaques les plus courantes promettent exactement cela, et une « garantie écrite » d'un escroc ne vaut rien. L'AMF publie des listes noires de sites non autorisés : vérifie toujours qu'un intermédiaire y est enregistré.
+</Quiz>
+
+## À retenir
+
+<Takeaways>
+1. **Le rendement rémunère le risque.** Plus un placement peut rapporter, plus il peut faire perdre. Un rendement élevé « sans risque » est un signal d'arnaque.
+2. **L'action fait de toi un propriétaire, l'obligation un prêteur.** L'actionnaire profite de la croissance mais passe en dernier ; le créancier est payé avant mais son gain est plafonné.
+3. **Le prix d'une obligation baisse quand les taux montent.** D'autant plus que son échéance est longue et son coupon faible.
+4. **Les frais se composent comme les intérêts.** Un ETF bon marché bat la plupart des fonds actifs sur le long terme.
+5. **Les dérivés démultiplient gains et pertes.** Utiles pour se couvrir, ils sont dangereux pour spéculer.
+</Takeaways>

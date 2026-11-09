@@ -1,0 +1,241 @@
+---
+title: Lire une entreprise
+subtitle: Bilan, compte de résultat, trésorerie et valorisation
+subject: eco-finance
+session: 5
+description: Lire le bilan, le compte de résultat et le tableau de flux d'une entreprise, calculer ses ratios clés et comprendre ce que disent un PER ou une valeur d'entreprise.
+tags: [bilan, compte de résultat, EBITDA, flux de trésorerie, levier opérationnel, ROE, PER, valorisation]
+objectives:
+  - Distinguer le bilan (une photo) du compte de résultat (un film) et du tableau de flux.
+  - Descendre le compte de résultat du chiffre d'affaires au résultat net.
+  - Expliquer pourquoi une entreprise rentable peut manquer de trésorerie.
+  - Calculer et interpréter marge, ROE, dette nette sur EBITDA.
+  - Lire une capitalisation boursière, un PER et une valeur d'entreprise.
+sources:
+  - label: Pierre Vernimmen, Pascal Quiry, Yann Le Fur, « Finance d'entreprise » (Dalloz)
+  - label: Warren Buffett, lettre aux actionnaires de Berkshire Hathaway (2000)
+    url: https://www.berkshirehathaway.com/letters/2000pdf.pdf
+  - label: Autorité des marchés financiers, « Comprendre l'information financière des sociétés cotées »
+    url: https://www.amf-france.org/
+  - label: IFRS Foundation, normes IFRS
+    url: https://www.ifrs.org/
+  - label: Financial Times, enquêtes sur Wirecard (2019-2020)
+updated: 2026-11-09
+---
+
+Acheter une action, c'est acheter un **morceau d'entreprise**. Avant de payer, il faut donc savoir ce que fait cette entreprise, ce qu'elle possède, ce qu'elle doit, ce qu'elle gagne vraiment. Les investisseurs professionnels, les banquiers qui prêtent, les repreneurs, tous lisent les mêmes documents : les **comptes annuels**. Ce chapitre t'apprend à les lire, à partir d'une entreprise fictive, **Cycléa**, un fabricant de vélos électriques, puis à te demander : « à ce prix-là, est-ce cher ? »
+
+## Trois documents, trois questions
+
+Chaque année, une entreprise publie ses comptes, vérifiés par un auditeur indépendant (le **commissaire aux comptes** en France). Les sociétés cotées en bourse publient en plus des résultats semestriels, souvent trimestriels, et un rapport annuel détaillé. Les trois documents essentiels répondent chacun à une question différente.
+
+<CardGrid cols={3}>
+  <Card title="Le bilan" kicker="Qu'est-ce qu'elle possède et doit ?">
+    Une **photo** à une date précise (souvent le 31 décembre) : le patrimoine de l'entreprise et la façon dont il est financé.
+  </Card>
+  <Card title="Le compte de résultat" kicker="A-t-elle gagné de l'argent ?">
+    Un **film** de l'année : ce qu'elle a vendu, ce que ça lui a coûté, et le bénéfice (ou la perte) qui en résulte.
+  </Card>
+  <Card title="Le tableau des flux" kicker="D'où vient le cash, où va-t-il ?">
+    Les **entrées et sorties d'argent réelles** sur l'année. Ce n'est pas la même chose que le bénéfice, et c'est souvent plus révélateur.
+  </Card>
+</CardGrid>
+
+## Le bilan : ce que l'entreprise possède et ce qu'elle doit
+
+### Actif et passif
+
+Le bilan a deux colonnes qui sont toujours **égales**. À gauche, l'**actif** : tout ce que l'entreprise possède et qui a de la valeur. À droite, le **passif** : d'où vient l'argent qui a permis d'acquérir cet actif.
+
+<Compare leftTitle="Actif : les emplois" rightTitle="Passif : les ressources">
+  <Fragment slot="left">
+    **Immobilisations** : usines, machines, brevets, logiciels, gardés plusieurs années. **Stocks** : pièces et vélos pas encore vendus. **Créances clients** : ventes facturées mais pas encore encaissées. **Trésorerie** : l'argent en banque.
+  </Fragment>
+  <Fragment slot="right">
+    **Capitaux propres** : l'argent apporté par les actionnaires, plus les bénéfices passés gardés dans l'entreprise. **Dettes financières** : emprunts bancaires, obligations. **Dettes fournisseurs** : factures reçues, pas encore payées.
+  </Fragment>
+</Compare>
+
+<Callout type="definition" title="Capitaux propres">
+  Ce qui appartient aux actionnaires une fois toutes les dettes déduites : actif total moins dettes. C'est la valeur **comptable** de l'entreprise, qui peut être très différente de sa valeur en bourse.
+</Callout>
+
+### Le bilan de Cycléa
+
+| Actif (en M€) | | Passif (en M€) | |
+| --- | ---: | --- | ---: |
+| Immobilisations (usine, machines, brevets) | 80 | Capitaux propres | 60 |
+| Stocks | 25 | Dettes financières (emprunts) | 50 |
+| Créances clients | 20 | Dettes fournisseurs | 30 |
+| Trésorerie | 15 | | |
+| **Total** | **140** | **Total** | **140** |
+
+Ce que ce bilan raconte : Cycléa a financé ses 140 M€ d'actifs pour moitié par ses actionnaires (60), pour le reste par des emprunts (50) et du crédit fournisseur (30). Une notion très utilisée en découle : la **dette nette**, c'est-à-dire les dettes financières moins la trésorerie disponible : 50 − 15 = **35 M€**. C'est ce que Cycléa devrait encore aux banques si elle utilisait tout son cash pour rembourser.
+
+<Quiz question="Cycléa emprunte 10 M€ à la banque et garde l'argent sur son compte. Que devient son bilan ?" options={['Rien ne change, l’argent n’a pas été dépensé', 'L’actif (trésorerie) et le passif (dettes) augmentent de 10 M€ : le total passe à 150', 'Les capitaux propres augmentent de 10 M€']} answer={1}>
+  **Les deux colonnes augmentent de 10 M€.** La trésorerie monte à l'actif, la dette monte au passif, et l'égalité tient toujours. La dette nette, elle, ne change pas (60 − 25 = 35). Le piège de la troisième réponse : emprunter n'enrichit pas les actionnaires, l'argent appartient à la banque.
+</Quiz>
+
+## Le compte de résultat : a-t-elle gagné de l'argent ?
+
+### Du chiffre d'affaires au résultat net
+
+Le compte de résultat se lit de haut en bas, comme un entonnoir : on part de tout ce que l'entreprise a vendu, et on retire couche après couche ce que ça lui a coûté.
+
+<Pipeline loop={false} steps={[
+  { title: 'Chiffre d’affaires', caption: 'Cycléa : 100 M€', detail: 'Le montant total des ventes de l’année, hors taxes. C’est la « ligne du haut ».' },
+  { title: 'EBITDA', caption: 'Cycléa : 20 M€', detail: 'Le chiffre d’affaires moins les achats, les salaires et les charges courantes, avant amortissements, intérêts et impôts. En français : excédent brut d’exploitation (EBE). Il mesure ce que l’activité génère avant de tenir compte de l’usure des machines.' },
+  { title: 'Résultat d’exploitation', caption: 'Cycléa : 15 M€', detail: 'L’EBITDA moins les amortissements (5 M€) : la part du coût des machines et de l’usine imputée à cette année, puisqu’elles s’usent. En anglais : EBIT.' },
+  { title: 'Résultat avant impôt', caption: 'Cycléa : 12 M€', detail: 'Le résultat d’exploitation moins les intérêts de la dette (3 M€) : c’est le coût du financement par emprunt.' },
+  { title: 'Résultat net', caption: 'Cycléa : 9 M€', detail: 'Après l’impôt sur les sociétés (25 %, soit 3 M€). C’est le bénéfice qui revient aux actionnaires : il peut être distribué en dividendes ou réinvesti.', tone: 'synapse' }
+]} />
+
+<Callout type="definition" title="Amortissement">
+  La répartition du coût d'un investissement sur sa durée d'utilisation. Une machine de 10 M€ utilisée 10 ans coûte 1 M€ par an au compte de résultat, même si elle a été payée en une fois. C'est une **charge sans sortie d'argent** cette année-là.
+</Callout>
+
+### Le levier opérationnel : pourquoi les bénéfices bougent plus que les ventes
+
+Un détail du compte de résultat change tout pour un investisseur : la part des **coûts fixes**. Les coûts **variables** (pièces, sous-traitance) suivent les ventes. Les coûts **fixes** (loyers, salaires des équipes, entretien de l'usine) restent là, que tu vendes beaucoup ou peu.
+
+Fais varier les ventes de Cycléa et compare deux façons de produire : sous-traiter (coûts surtout variables) ou posséder son usine (coûts surtout fixes).
+
+<Figure caption="Compte de résultat simplifié de Cycléa, en millions d'euros · Entreprise fictive, impôt de 25 % sur un résultat positif uniquement">
+  <IncomeWaterfall />
+</Figure>
+
+Avec une baisse des ventes de 20 %, le bénéfice de la version « coûts variables » chute des deux tiers, celui de la version « coûts fixes » disparaît. Avec une hausse de 20 %, c'est l'inverse : la version « coûts fixes » double son bénéfice. C'est le **levier opérationnel** : plus les coûts fixes pèsent lourd, plus le bénéfice **amplifie** les variations du chiffre d'affaires, dans les deux sens.
+
+<KeyIdea>Une entreprise à coûts fixes élevés gagne énormément quand les ventes montent et souffre énormément quand elles baissent. C'est pourquoi les actions de compagnies aériennes, de constructeurs automobiles ou de sidérurgistes sont si sensibles aux cycles économiques.</KeyIdea>
+
+<Quiz question="Un éditeur de logiciels a presque uniquement des coûts fixes (ses développeurs). Une copie de plus de son logiciel ne lui coûte quasiment rien. Que se passe-t-il quand ses ventes augmentent de 30 % ?" options={['Son bénéfice augmente d’environ 30 %', 'Son bénéfice augmente bien plus que 30 %', 'Son bénéfice baisse, car il faut embaucher']} answer={1}>
+  **Bien plus de 30 %.** Ses coûts restent presque identiques, donc presque toute la hausse des ventes tombe directement en bénéfice. C'est ce qui explique les marges spectaculaires des grandes entreprises du logiciel une fois qu'elles ont atteint une taille critique, et aussi pourquoi elles perdent beaucoup d'argent avant de l'atteindre.
+</Quiz>
+
+## Le tableau des flux : bénéfice n'est pas trésorerie
+
+### Pourquoi une entreprise rentable peut faire faillite
+
+Le bénéfice est une notion **comptable** : une vente compte dans le chiffre d'affaires dès qu'elle est facturée, même si le client paie dans 60 jours. Une machine achetée cette année ne coûte au compte de résultat qu'une fraction de son prix (l'amortissement). Résultat : une entreprise peut afficher un beau bénéfice… et ne plus avoir d'argent pour payer ses salariés.
+
+Les entreprises font faillite non pas quand elles perdent de l'argent, mais **quand elles n'ont plus de trésorerie pour payer leurs dettes à l'échéance**. C'est pourquoi le tableau des flux de trésorerie est souvent le document le plus révélateur.
+
+### Les trois flux
+
+```mermaid title="Les flux de trésorerie de Cycléa sur l'année, en M€"
+flowchart TB
+  subgraph Ex["Flux d'exploitation : + 10"]
+    direction LR
+    a1["Résultat net + 9"] --> a2["+ amortissements 5"] --> a3["− hausse des stocks et créances 4"]
+  end
+  subgraph Inv["Flux d'investissement : − 7"]
+    direction LR
+    b1["Achat de nouvelles machines − 7"]
+  end
+  subgraph Fi["Flux de financement : − 4,5"]
+    direction LR
+    c1["Dividendes versés − 4,5"]
+  end
+  Ex --> Inv --> Fi --> T["Variation de trésorerie : − 1,5"]
+  classDef out fill:var(--signal-soft),stroke:var(--signal);
+  class T out;
+```
+
+Le premier flux part du résultat net et le corrige pour retrouver l'argent réellement encaissé : on **rajoute** les amortissements (une charge sans sortie d'argent) et on **retire** l'argent immobilisé dans les stocks et les créances clients, ce qu'on appelle le **besoin en fonds de roulement** (BFR). Quand une entreprise grandit vite, son BFR grossit : elle doit fabriquer et stocker avant d'être payée. La croissance **consomme** de la trésorerie.
+
+<Callout type="definition" title="Free cash flow (flux de trésorerie disponible)">
+  Le flux d'exploitation moins les investissements : l'argent réellement disponible pour rembourser la dette ou rémunérer les actionnaires. Pour Cycléa : 10 − 7 = **3 M€**. Elle a versé 4,5 M€ de dividendes, plus qu'elle n'a généré : sa trésorerie baisse.
+</Callout>
+
+<Quiz question="Une start-up voit son chiffre d'affaires doubler chaque année et commence à être rentable. Pourtant, elle doit lever des fonds en urgence. Quelle explication est la plus probable ?" options={['Ses comptes sont forcément truqués', 'Sa croissance consomme de la trésorerie : stocks, créances clients et investissements augmentent plus vite que l’argent encaissé', 'Le bénéfice comptable est toujours supérieur à la trésorerie']} answer={1}>
+  **La croissance consomme du cash.** Pour doubler ses ventes, elle doit embaucher, investir et financer des stocks et des délais de paiement **avant** d'encaisser. C'est un cas classique et sain, à condition de trouver le financement. Le piège de la troisième réponse : le bénéfice peut aussi être inférieur à la trésorerie, par exemple quand les clients paient d'avance (abonnements).
+</Quiz>
+
+<DeepDive title="Wirecard : 1,9 milliard d'euros qui n'existaient pas" level="terrain">
+  En juin 2020, Wirecard, une entreprise allemande de paiement en ligne qui faisait partie du DAX (l'indice des 30 plus grandes valeurs allemandes de l'époque), reconnaît que **1,9 milliard d'euros** de trésorerie inscrits à son bilan, censés dormir sur des comptes aux Philippines, n'ont probablement jamais existé. L'entreprise dépose le bilan quelques jours plus tard.
+
+  Des journalistes du Financial Times avaient pointé des incohérences dès 2019, notamment des flux de trésorerie qui ne collaient pas avec les bénéfices annoncés. La leçon pour un investisseur : un bénéfice qui ne se transforme jamais en trésorerie réelle, année après année, est un signal d'alerte. L'affaire a aussi mis en cause l'auditeur et le régulateur financier allemand, réformé depuis.
+</DeepDive>
+
+## Les ratios clés
+
+Les montants bruts ne disent pas grand-chose : 9 M€ de bénéfice, c'est énorme pour une boulangerie et minuscule pour une banque. On utilise donc des **ratios**, qui rapportent une grandeur à une autre et permettent de comparer des entreprises de tailles différentes.
+
+<CardGrid cols={2}>
+  <Card title="Marges" kicker="Rentabilité de l'activité">
+    **Marge d'exploitation** = résultat d'exploitation / chiffre d'affaires. Cycléa : 15 %. **Marge nette** = résultat net / chiffre d'affaires : 9 %. À comparer avec les concurrents du même secteur : la grande distribution vit avec 2 à 3 % de marge nette, le luxe avec plus de 20 %.
+  </Card>
+  <Card title="ROE" kicker="Rentabilité pour l'actionnaire">
+    **Rentabilité des capitaux propres** (*return on equity*) = résultat net / capitaux propres. Cycléa : 9 / 60 = 15 %. Chaque euro laissé par les actionnaires rapporte 15 centimes par an.
+  </Card>
+  <Card title="Dette nette / EBITDA" kicker="Solidité financière">
+    Le nombre d'années d'EBITDA nécessaires pour rembourser la dette nette. Cycléa : 35 / 20 = 1,75 an. Au-delà de 3 à 4, les banques et les agences de notation commencent à s'inquiéter.
+  </Card>
+  <Card title="Gearing" kicker="Structure du financement" tone="muted">
+    Dette nette / capitaux propres. Cycléa : 35 / 60 ≈ 58 %. Il mesure à quel point l'entreprise dépend de l'emprunt plutôt que de ses actionnaires.
+  </Card>
+</CardGrid>
+
+L'endettement est un **autre levier** : en empruntant à 5 % pour investir dans des projets qui rapportent 15 %, une entreprise augmente son ROE. Mais comme le levier opérationnel, il marche dans les deux sens : les intérêts restent dus même quand les ventes s'effondrent.
+
+<DeepDive title="L'EBITDA, indicateur roi… et critiqué" level="best-practice">
+  L'EBITDA est très utilisé parce qu'il permet de comparer des entreprises sans être gêné par leurs choix d'amortissement, leur endettement ou leur fiscalité. Mais il ignore une réalité : les machines s'usent et doivent être remplacées. Dans sa lettre aux actionnaires de 2000, Warren Buffett s'en moque : les dirigeants qui mettent en avant l'EBITDA pensent-ils que « la petite souris paie les investissements » ?
+
+  Bonne pratique : regarder l'EBITDA **avec** le niveau d'investissement (le *capex*) et le free cash flow. Une entreprise dont l'EBITDA monte mais dont le free cash flow reste négatif année après année doit être examinée de près.
+</DeepDive>
+
+## Combien vaut l'entreprise ?
+
+### La capitalisation boursière
+
+Cycléa est cotée en bourse. Elle a émis **10 millions d'actions**, qui valent chacune **13,50 €**. Sa **capitalisation boursière**, c'est le prix de toutes ses actions : 10 M × 13,50 € = **135 M€**. C'est ce que le marché estime que valent ses capitaux propres, à comparer aux 60 M€ inscrits au bilan : les investisseurs paient plus que la valeur comptable parce qu'ils achètent les **bénéfices futurs**, pas les machines.
+
+### Le PER : combien d'années de bénéfices tu paies
+
+Le ratio le plus célèbre de la bourse est le **PER** (*price earning ratio*), ou **cours sur bénéfice**.
+
+<Callout type="definition" title="PER">
+  Prix de l'action / bénéfice par action (BPA), ou, ce qui revient au même, capitalisation / résultat net. Cycléa : BPA = 9 M€ / 10 M d'actions = 0,90 € ; PER = 13,50 / 0,90 = **15**. Tu paies l'entreprise 15 fois son bénéfice annuel.
+</Callout>
+
+Un PER élevé signifie que le marché anticipe une **forte croissance** des bénéfices futurs, ou qu'il est très optimiste. Un PER bas peut signaler une entreprise sous-évaluée… ou une entreprise en déclin dont les bénéfices vont baisser. Le PER ne se juge jamais seul, mais par rapport au **secteur**, à l'**histoire** de l'entreprise et à sa **croissance** attendue.
+
+L'inverse du PER, le **rendement bénéficiaire** (1 / 15 ≈ 6,7 %), se compare directement aux taux d'intérêt : c'est pour cela que, quand les taux montent, les investisseurs exigent des PER plus bas (chapitre 4).
+
+### La valeur d'entreprise
+
+La capitalisation ne dit pas tout : racheter Cycléa, c'est aussi récupérer **sa dette**. On calcule donc la **valeur d'entreprise** (*enterprise value*, EV) : capitalisation + dette nette = 135 + 35 = **170 M€**. Rapportée à l'EBITDA, elle donne le multiple **EV/EBITDA** : 170 / 20 = **8,5**. C'est le ratio préféré des fusions-acquisitions, parce qu'il compare des entreprises quel que soit leur niveau d'endettement.
+
+<Quiz question="Deux entreprises ont la même capitalisation (100 M€) et le même EBITDA (20 M€). L'une n'a aucune dette, l'autre a 80 M€ de dette nette. Laquelle est la plus chère à racheter ?" options={['Elles coûtent pareil, la capitalisation est identique', 'Celle qui a 80 M€ de dette : sa valeur d’entreprise est de 180 M€, soit 9 fois l’EBITDA contre 5', 'Celle sans dette, car elle est plus solide']} answer={1}>
+  **Celle qui est endettée.** En la rachetant, tu reprends sa dette : tu paies en réalité 180 M€ pour 20 M€ d'EBITDA, contre 100 M€ pour l'autre. C'est exactement l'information que la capitalisation seule cache, et que la valeur d'entreprise révèle.
+</Quiz>
+
+### Les grandes méthodes de valorisation
+
+<CardGrid cols={3}>
+  <Card title="Par les multiples" kicker="Comparer">
+    On applique à l'entreprise les PER ou EV/EBITDA d'entreprises comparables. Simple et rapide, mais si tout le secteur est surévalué, l'entreprise le sera aussi.
+  </Card>
+  <Card title="Par les flux actualisés" kicker="DCF">
+    On prévoit les free cash flows des années futures et on les **actualise** (chapitre 4). Le plus rigoureux en théorie, mais très sensible aux hypothèses : un point de taux en plus peut faire baisser la valeur de 20 %.
+  </Card>
+  <Card title="Par le patrimoine" kicker="Actif net">
+    On évalue chaque actif (immeubles, participations) et on retire les dettes. Adapté aux holdings et aux foncières, peu pertinent pour une entreprise dont la valeur est dans ses idées et ses clients.
+  </Card>
+</CardGrid>
+
+<KeyIdea>Un prix ne dit rien seul. Une action à 500 € peut être bon marché et une action à 5 € très chère : ce qui compte, c'est ce que tu paies par rapport aux bénéfices et aux flux de trésorerie que l'entreprise va générer.</KeyIdea>
+
+<DeepDive title="Normes comptables : IFRS et normes françaises" level="approfondissement">
+  Les sociétés cotées de l'Union européenne publient leurs comptes consolidés selon les normes **IFRS** (*International Financial Reporting Standards*), élaborées par une fondation internationale et imposées dans plus de 140 juridictions. Les autres entreprises françaises appliquent le **plan comptable général**. Les principes sont proches, mais certains postes diffèrent : en IFRS, par exemple, les loyers de longue durée apparaissent au bilan comme une dette (norme IFRS 16, depuis 2019), ce qui gonfle l'EBITDA et la dette par rapport aux normes françaises. Les États-Unis utilisent leurs propres normes (US GAAP). En comparant des entreprises, il faut vérifier qu'elles utilisent les mêmes règles.
+</DeepDive>
+
+## À retenir
+
+<Takeaways>
+1. **Le bilan est une photo, le compte de résultat un film.** L'actif égale toujours le passif ; le résultat net est ce qui revient aux actionnaires.
+2. **Les coûts fixes amplifient tout.** Le levier opérationnel fait bouger les bénéfices bien plus que les ventes, dans les deux sens.
+3. **Bénéfice n'est pas trésorerie.** Une entreprise meurt quand elle n'a plus de cash, et la croissance consomme du cash : regarde le free cash flow.
+4. **Les ratios permettent de comparer.** Marges, ROE et dette nette sur EBITDA se jugent face au secteur.
+5. **Valoriser, c'est payer des bénéfices futurs.** Le PER dit combien d'années de bénéfices tu paies, la valeur d'entreprise ajoute la dette.
+</Takeaways>

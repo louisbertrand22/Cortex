@@ -70,6 +70,9 @@ import MementoHistory from '../viz/MementoHistory.astro';
 import SupplyDemand from '../viz/SupplyDemand.astro';
 import PurchasingPower from '../viz/PurchasingPower.astro';
 import DebtSnowball from '../viz/DebtSnowball.astro';
+import CompoundGrowth from '../viz/CompoundGrowth.astro';
+import IncomeWaterfall from '../viz/IncomeWaterfall.astro';
+import BondPrice from '../viz/BondPrice.astro';
 
 export const components = {
   Callout,
@@ -140,4 +143,7 @@ export const components = {
   SupplyDemand,
   PurchasingPower,
   DebtSnowball,
+  CompoundGrowth,
+  IncomeWaterfall,
+  BondPrice,
 };
