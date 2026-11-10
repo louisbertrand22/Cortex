@@ -94,5 +94,9 @@ Dans une leçon (ou sur `/guide`) : build, puis rendu clair/sombre, 1440 px et 3
   (syllogisme catégorique : diagramme de Venn, validité par recherche de contre-exemple, lecture moderne) · `FallacyHunt`
   (dix arguments, trouver le sophisme, score) · `CartesianDoubt` (les trois raisons de douter de Descartes appliquées à
   des croyances, jusqu'au cogito) · `InductionChicken` (le poulet de Russell, confiance selon la règle de Laplace jusqu'au
-  jour de fête) · `ChineseRoom` (la chambre chinoise de Searle : répondre en chinois avec un manuel, sans comprendre).
+  jour de fête) · `ChineseRoom` (la chambre chinoise de Searle : répondre en chinois avec un manuel, sans comprendre)
+  · `DesireSorter` (classer huit désirs selon Épicure) · `Trolley` (trois variantes du dilemme du tramway, réponse de
+  chaque théorie morale) · `FreedomMap` (deux questions, quatre positions sur le libre arbitre) · `PrisonerDilemma`
+  (dilemme du prisonnier, avec ou sans souverain qui punit : Hobbes) · `VeilOfIgnorance` (choisir une société puis lever
+  le voile : Rawls, revenus illustratifs).
 - **Génériques** : `Pipeline` · `BarChart` (valeurs formatées en `fr-FR` : passer des nombres, pas des chaînes).

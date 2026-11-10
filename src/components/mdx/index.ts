@@ -84,6 +84,11 @@ import FallacyHunt from '../viz/FallacyHunt.astro';
 import CartesianDoubt from '../viz/CartesianDoubt.astro';
 import InductionChicken from '../viz/InductionChicken.astro';
 import ChineseRoom from '../viz/ChineseRoom.astro';
+import DesireSorter from '../viz/DesireSorter.astro';
+import Trolley from '../viz/Trolley.astro';
+import FreedomMap from '../viz/FreedomMap.astro';
+import PrisonerDilemma from '../viz/PrisonerDilemma.astro';
+import VeilOfIgnorance from '../viz/VeilOfIgnorance.astro';
 
 export const components = {
   Callout,
@@ -168,4 +173,9 @@ export const components = {
   CartesianDoubt,
   InductionChicken,
   ChineseRoom,
+  DesireSorter,
+  Trolley,
+  FreedomMap,
+  PrisonerDilemma,
+  VeilOfIgnorance,
 };
