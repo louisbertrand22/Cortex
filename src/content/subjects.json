@@ -16,13 +16,13 @@
     "id": "ia-zero",
     "title": "L'IA expliquée de zéro",
     "short": "IA 101",
-    "description": "Pour les curieux sans bagage technique : ce qu'est vraiment l'IA, comment une machine apprend, comment ChatGPT écrit, et comment s'en servir sans se faire avoir.",
+    "description": "Pour les curieux sans bagage technique, de tout âge : ce qu'est l'IA, comment une machine apprend, comment ChatGPT écrit, et comment bien s'en servir.",
     "teacher": "Louis",
-    "semester": "Seconde",
+    "semester": "Débutants",
     "domain": "ia",
     "accent": "signal",
     "order": 2,
-    "plannedSessions": 5
+    "plannedSessions": 6
   },
   {
     "id": "arcl",

@@ -89,6 +89,8 @@ import Trolley from '../viz/Trolley.astro';
 import FreedomMap from '../viz/FreedomMap.astro';
 import PrisonerDilemma from '../viz/PrisonerDilemma.astro';
 import VeilOfIgnorance from '../viz/VeilOfIgnorance.astro';
+import ClaudeToolPicker from '../viz/ClaudeToolPicker.astro';
+import ConversationCost from '../viz/ConversationCost.astro';
 
 export const components = {
   Callout,
@@ -178,4 +180,6 @@ export const components = {
   FreedomMap,
   PrisonerDilemma,
   VeilOfIgnorance,
+  ClaudeToolPicker,
+  ConversationCost,
 };

@@ -1,0 +1,213 @@
+---
+title: Bien utiliser Claude Pro
+subtitle: Projets, artifacts, recherche, limites et données
+subject: ia-zero
+session: 6
+description: "Ce qu'apporte l'abonnement Claude Pro, comment tirer parti des projets, des artifacts, de la recherche et des connecteurs, comment ménager ses limites d'usage et protéger ses données."
+tags: [Claude, abonnement, projets, artifacts, recherche, connecteurs, limites d'usage, confidentialité]
+objectives:
+  - Dire ce que l'offre Pro ajoute à la version gratuite de Claude, et ce qu'elle coûte.
+  - Choisir le bon outil (conversation, projet, artifact, recherche, connecteur, fichier) pour une tâche.
+  - Organiser un travail suivi dans un projet avec des instructions et des documents.
+  - Expliquer comment fonctionnent les limites d'usage et les ménager.
+  - Régler la confidentialité de son compte et savoir ce qu'on ne confie jamais.
+sources:
+  - label: Anthropic, page des offres et tarifs de Claude (consultée le 15 novembre 2026)
+    url: https://claude.com/pricing
+  - label: Centre d'aide Claude, « What is the Pro plan? »
+    url: https://support.claude.com/en/articles/8325606-what-is-the-pro-plan
+  - label: Centre d'aide Claude, « How do usage and length limits work? »
+    url: https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work
+  - label: Anthropic, conditions d'utilisation grand public (âge minimum, section 2)
+    url: https://www.anthropic.com/legal/consumer-terms
+  - label: Anthropic, « Updates to Consumer Terms and Privacy Policy » (28 août 2025)
+    url: https://www.anthropic.com/news/updates-to-our-consumer-terms
+updated: 2026-11-15
+---
+
+<Callout type="warning" title="Réservé aux 18 ans et plus">
+  Les conditions d'utilisation de Claude exigent d'avoir **au moins 18 ans**, ou l'âge minimum fixé par la loi de ton pays s'il est plus élevé. Si tu es plus jeune, ce chapitre peut t'aider à comprendre comment fonctionne un assistant d'IA payant, mais ne crée pas de compte : utilise les outils proposés par ton établissement, ou fais-toi accompagner par un adulte.
+</Callout>
+
+Les chapitres précédents valent pour toutes les IA qui discutent : ChatGPT, Gemini, Le Chat, Claude. Celui-ci est différent : il se concentre sur **un outil précis**, Claude, l'assistant de l'entreprise américaine Anthropic, et sur son abonnement payant, **Claude Pro**. Payer pour une IA n'a de sens que si on se sert de ce qu'on paie. Or la plupart des abonnés utilisent Claude comme une simple boîte de dialogue, et passent à côté de ce qui fait sa force : les projets, les artifacts, la recherche, les connecteurs. Ce chapitre te montre à quoi ils servent, comment ne pas te heurter aux limites, et comment garder la main sur tes données.
+
+<Callout type="note" title="Une offre qui change vite">
+  Les prix, les fonctions et les noms des modèles évoluent souvent, parfois d'un mois à l'autre. Ce chapitre décrit l'offre de **novembre 2026**, d'après les pages officielles d'Anthropic. Avant de t'abonner, vérifie sur [claude.com/pricing](https://claude.com/pricing).
+</Callout>
+
+## Gratuit ou Pro : qu'est-ce qui change ?
+
+### Le prix
+
+Claude Pro coûte **20 dollars par mois** aux États-Unis, ou l'équivalent de 17 dollars par mois avec un paiement annuel (200 dollars d'un coup). En Europe, le prix s'affiche dans ta monnaie au moment de payer, et les taxes peuvent s'y ajouter selon le pays : regarde bien le montant final avant de valider. L'abonnement se résilie à tout moment, il reste actif jusqu'à la fin de la période payée.
+
+### Ce que tu as déjà en gratuit
+
+La version gratuite est loin d'être une version au rabais. Elle permet déjà de discuter avec Claude sur le web, sur téléphone et sur ordinateur, de lui envoyer des documents et des images, de lui faire chercher sur Internet, de créer des **artifacts**, de lui faire créer des fichiers, de lui parler à voix haute, et même d'utiliser sa **mémoire** et quelques **projets** (jusqu'à cinq).
+
+### Ce que Pro ajoute
+
+<CardGrid cols={2}>
+  <Card title="Beaucoup plus d'usage" kicker="La raison n°1" tone="signal">
+    La version gratuite se bloque vite si tu travailles longtemps. Pro donne nettement plus de messages, avec des limites qui se renouvellent toutes les cinq heures et chaque semaine (voir plus bas).
+  </Card>
+  <Card title="Le modèle le plus puissant" kicker="Opus" tone="signal">
+    En gratuit, tu as les modèles Sonnet et Haiku. Pro donne aussi accès à **Opus**, le plus capable, utile pour les tâches longues ou difficiles.
+  </Card>
+  <Card title="La Recherche" kicker="Des rapports sourcés" tone="synapse">
+    Claude lance de nombreuses recherches, lit les pages et rend un rapport avec ses sources. Idéal pour comparer, faire le point sur un sujet, préparer une décision.
+  </Card>
+  <Card title="Projets illimités" kicker="Et d'autres outils" tone="synapse">
+    Autant de projets que tu veux, plus des outils plus avancés : Claude Code pour programmer, Claude dans le navigateur Chrome, l'intégration à Microsoft 365 et Outlook, la planification de tâches.
+  </Card>
+</CardGrid>
+
+<Quiz question="Tu utilises Claude dix minutes par jour pour te faire expliquer des notions et corriger des mails. Faut-il prendre Pro ?" options={['Oui, car la version gratuite ne permet pas de corriger des textes', 'Pas forcément : la version gratuite couvre très bien cet usage, Pro devient utile si tu te heurtes souvent aux limites ou si tu as besoin d’Opus ou de la Recherche', 'Oui, sinon Claude invente davantage', 'Non, la version gratuite ne permet pas d’envoyer de documents']} answer={1}>
+  **Pas forcément.** Pour un usage léger, la version gratuite suffit largement : conversations, documents, recherche web, artifacts. Pro se justifie quand tu travailles longtemps (et que tu atteins les limites), ou quand tu as besoin d'Opus, de la Recherche ou des projets illimités. La troisième réponse est un piège : un modèle plus puissant se trompe moins souvent, mais **n'importe quel** modèle peut inventer. Les réflexes de vérification du chapitre 4 restent indispensables.
+</Quiz>
+
+## Quel outil pour quelle tâche ?
+
+Claude n'est pas qu'une boîte de dialogue. Il offre plusieurs outils, et choisir le bon change tout. Teste-toi sur six situations.
+
+<Figure caption="Pour chaque situation, choisis l'outil le plus adapté. Offres d'après claude.com/pricing, novembre 2026." wide>
+  <ClaudeToolPicker />
+</Figure>
+
+### Les projets : ton espace de travail permanent
+
+Un **projet** est un dossier dans lequel tu ranges trois choses : des **documents** (ton cours, tes notes, un règlement, un cahier des charges), des **instructions** qui s'appliquent à toutes les conversations du projet, et ces **conversations** elles-mêmes. Chaque nouvelle discussion ouverte dans le projet part avec tout ce contexte, sans que tu aies à le réexpliquer.
+
+C'est l'application directe d'une technique du chapitre 5 : **donner son cours à l'IA** pour qu'elle s'appuie dessus au lieu d'inventer. Avec un projet, tu le fais une fois pour toutes.
+
+```mermaid title="Ce que contient un projet"
+flowchart TB
+  P["Projet : préparer le concours"]
+  subgraph C["Le contexte, fixé une fois"]
+    direction LR
+    D["Documents : programme, fiches, annales"] ~~~ I["Instructions : explique simplement, interroge-moi, cite le cours"]
+  end
+  subgraph V["Les conversations, autant que tu veux"]
+    direction LR
+    v1["Réviser le chapitre 3"] ~~~ v2["Corriger ma dissertation"] ~~~ v3["Quiz de la semaine"]
+  end
+  P --> C
+  C --> V
+  classDef core fill:var(--signal-soft),stroke:var(--signal);
+  class P core;
+```
+
+De bonnes instructions de projet ressemblent à un bon prompt, mais permanent :
+
+<Steps>
+1. **Qui tu es et ce que tu prépares** : « Je prépare le concours d'aide-soignant, je reprends les études après dix ans. »
+2. **Comment Claude doit t'aider** : « Explique avec des exemples concrets, puis pose-moi une question pour vérifier que j'ai compris. »
+3. **Sur quoi il s'appuie** : « Base-toi d'abord sur les documents du projet, et dis-le quand tu sors de ce qu'ils contiennent. »
+4. **Ce qu'il ne doit pas faire** : « Ne rédige jamais mes devoirs à ma place : guide-moi. »
+</Steps>
+
+### Les artifacts : des créations à part
+
+Quand tu demandes à Claude quelque chose qui se suffit à soi-même, un quiz, une page web, un schéma, un tableau, un petit jeu, il le place dans un **artifact** : une fenêtre à côté de la conversation. Tu peux le modifier en discutant (« ajoute un chronomètre », « mets les réponses en vert ») et le partager par un lien. C'est l'outil idéal pour fabriquer des fiches de révision interactives.
+
+### La recherche, et la recherche web
+
+Deux choses à ne pas confondre. La **recherche web**, disponible en gratuit, permet à Claude de consulter quelques pages pour répondre à une question d'actualité. La **Recherche** (avec une majuscule, réservée à Pro) est un mode plus approfondi : Claude mène lui-même plusieurs recherches à la suite, pendant plusieurs minutes, et rend un rapport avec ses sources. Dans les deux cas, garde le réflexe du chapitre 4 : **ouvre les sources**, et vérifie qu'elles disent bien ce que Claude leur fait dire.
+
+### Les connecteurs et les fichiers
+
+Les **connecteurs** relient Claude à tes outils : ta messagerie, ton agenda, ton espace de stockage en ligne, et bien d'autres. Avec ton autorisation, Claude peut alors y chercher des informations (« retrouve le dernier mail de l'agence immobilière »). Active uniquement ceux dont tu as vraiment besoin : chaque connecteur ouvre une porte vers tes données.
+
+Claude peut aussi **créer et modifier des fichiers** (tableur, texte, présentation, PDF) en écrivant et en exécutant du code, puis te les donner à télécharger. Pratique pour mettre en forme un budget ou un compte rendu ; mais relis les calculs et le contenu, comme tu le ferais pour le travail d'un stagiaire.
+
+<KeyIdea>Une simple question va dans une conversation ; un travail suivi va dans un projet ; une création va dans un artifact ; une enquête sourcée va dans la Recherche.</KeyIdea>
+
+<DeepDive title="Et pour programmer ?" level="approfondissement">
+  L'offre Pro comprend aussi **Claude Code**, un outil qui permet à Claude d'écrire, de lancer et de corriger du code directement dans les fichiers d'un projet informatique, depuis un terminal, un éditeur de code ou le navigateur. C'est un outil de développeur, au-delà de ce chapitre, mais bon à connaître : son usage compte dans les mêmes limites que les conversations.
+</DeepDive>
+
+## Les limites d'usage
+
+### Deux compteurs
+
+Même payant, Claude n'est pas illimité. L'abonnement Pro a **deux limites** :
+
+<CardGrid cols={2}>
+  <Card title="La limite de session" kicker="Toutes les 5 heures" tone="amber">
+    Le compteur démarre avec ton **premier message**, et se remet entièrement à zéro **cinq heures plus tard**. Si tu l'atteins, tu attends la fin de la fenêtre.
+  </Card>
+  <Card title="La limite hebdomadaire" kicker="Chaque semaine" tone="amber">
+    Un plafond sur toute la semaine, tous modèles confondus, qui se renouvelle à un moment fixe attribué à ton compte.
+  </Card>
+</CardGrid>
+
+Tout ce que tu fais compte dans les mêmes limites : les conversations sur le site, l'application de bureau, Claude Code. Anthropic peut ajuster ces limites, et propose des **crédits d'usage** payants pour continuer au-delà.
+
+### Pourquoi une longue conversation coûte plus cher
+
+Souviens-toi du chapitre 3 : pour écrire chaque réponse, le modèle relit **tout le texte qui précède**. Dans une conversation de quarante messages, il relit les trente-neuf précédents avant d'écrire le quarantième, plus les documents joints. Chaque nouveau message coûte donc un peu plus cher que le précédent.
+
+<Figure caption="Fais varier la longueur de la conversation et ajoute un document : regarde ce que le modèle relit à chaque message, et ce que tu économises en repartant de zéro à mi-chemin." wide>
+  <ConversationCost />
+</Figure>
+
+<Steps>
+1. **Une conversation par sujet.** Quand tu changes de sujet, ouvre une nouvelle conversation.
+2. **Repartir avec un résumé.** Si une conversation devient très longue, demande à Claude de résumer l'essentiel, puis colle ce résumé dans une conversation neuve.
+3. **Le bon modèle pour la bonne tâche.** Garde Opus pour les tâches difficiles ; Sonnet suffit pour la plupart des questions et consomme moins.
+4. **Pas de documents inutiles.** Joins seulement les pages utiles, pas le manuel entier, sauf dans un projet où c'est fait une fois pour toutes.
+5. **Des demandes groupées.** « Corrige ce texte, propose un titre et trois idées de conclusion » coûte moins que trois messages séparés.
+</Steps>
+
+<Quiz question="Après deux heures de travail, Claude t’annonce que tu as atteint ta limite. Que s’est-il probablement passé ?" options={['Ton abonnement a été suspendu', 'Tu as atteint la limite de la fenêtre de cinq heures, sans doute avec une très longue conversation ou de gros documents', 'Claude est fatigué', 'Tu as dépassé la limite de la journée, qui se renouvelle à minuit']} answer={1}>
+  **La fenêtre de cinq heures.** Elle a commencé avec ton premier message ; elle se renouvellera cinq heures après. Les longues conversations et les gros documents l'usent plus vite, puisque tout est relu à chaque message. Il n'y a pas de limite « à minuit » (réponse 4) : il y a une fenêtre de cinq heures et une limite hebdomadaire.
+</Quiz>
+
+## Tes données
+
+### Ce qu'Anthropic fait de tes conversations
+
+Depuis l'automne 2025, Anthropic peut utiliser les conversations des comptes grand public (gratuit et Pro) pour **entraîner ses futurs modèles**, sauf si tu le refuses. Le réglage se trouve dans les **paramètres de confidentialité** de ton compte, et tu peux changer d'avis à tout moment. Ce choix a aussi une conséquence sur la durée de conservation : si tu acceptes, tes conversations peuvent être gardées **jusqu'à cinq ans** ; si tu refuses, la durée de conservation habituelle de **30 jours** s'applique.
+
+Quelques précisions utiles :
+
+- une conversation que tu **supprimes** n'est pas utilisée pour entraîner les futurs modèles ;
+- si tu refuses après avoir accepté, tes nouvelles conversations ne servent plus, mais ce qui a déjà servi à entraîner un modèle y reste ;
+- les conversations peuvent quand même être examinées si elles sont signalées pour des raisons de sécurité, ou si tu envoies un avis (pouce levé ou baissé) ;
+- les **conversations incognito** servent aux échanges que tu ne veux pas garder dans ton historique.
+
+### Ce que tu ne confies jamais
+
+Le chapitre 4 l'a déjà dit, et c'est encore plus vrai avec un compte relié à tes mails et à tes documents : ne donne jamais à une IA tes **mots de passe**, tes **codes bancaires**, ton **numéro de sécurité sociale**, les **données de santé** ou les informations **confidentielles de ton employeur**. Pour un usage professionnel, vérifie d'abord ce qu'autorise ton entreprise : les offres pour les entreprises (Team, Enterprise) ont d'autres règles, et n'entraînent pas les modèles sur les données par défaut.
+
+<Quiz question="Tu veux que Claude t’aide à préparer ta déclaration d’impôts. Quelle est la bonne approche ?" options={['Lui envoyer une photo de ton avis d’imposition complet, avec ton numéro fiscal', 'Lui décrire ta situation sans identifiants (« célibataire, un enfant, des frais de garde ») et lui demander quelles cases te concernent, puis vérifier sur le site officiel', 'Lui donner ton mot de passe pour qu’il remplisse la déclaration', 'Ne jamais lui en parler, c’est interdit']} answer={1}>
+  **Décrire sans identifier, puis vérifier.** Claude peut t'expliquer les règles et t'orienter, sans avoir besoin de ton numéro fiscal ni de tes documents complets. Et comme pour tout conseil en droit ou en argent, le chapitre 4 l'a dit : la référence reste le site officiel ou un professionnel. Donner un mot de passe (réponse 3) est à proscrire dans tous les cas.
+</Quiz>
+
+## Quelques réglages qui changent tout
+
+<CardGrid cols={3}>
+  <Card title="Les préférences" kicker="Paramètres" tone="signal">
+    Dis une fois pour toutes comment tu veux qu'on te réponde : « réponses courtes », « explique comme à un débutant », « en français ». Elles s'appliquent à toutes tes conversations.
+  </Card>
+  <Card title="La mémoire" kicker="À surveiller" tone="signal">
+    Claude peut se souvenir d'informations d'une conversation à l'autre. Tu peux consulter, corriger ou effacer ce qu'il retient, et la désactiver. Fais le point de temps en temps.
+  </Card>
+  <Card title="Le mode vocal" kicker="Mains libres" tone="synapse">
+    Tu peux parler à Claude et l'écouter répondre, sur téléphone. Utile pour réviser à l'oral ou pratiquer une langue étrangère.
+  </Card>
+</CardGrid>
+
+<DeepDive title="Claude n'est pas le seul" level="terrain">
+  Les principaux assistants d'IA proposent tous une offre gratuite et un abonnement payant, souvent autour d'une vingtaine d'euros par mois : ChatGPT (OpenAI), Gemini (Google), Le Chat (Mistral AI, une entreprise française), Copilot (Microsoft). Leurs fonctions se ressemblent de plus en plus (projets, recherche approfondie, connecteurs, création de fichiers), avec des différences de style, de qualité selon les tâches et de règles sur les données. Avant de payer, le plus sûr est de tester gratuitement deux ou trois d'entre eux sur **tes** tâches réelles, et de lire leurs réglages de confidentialité. Rien n'oblige à s'abonner à un seul pour toujours : un abonnement se résilie.
+</DeepDive>
+
+## À retenir
+
+<Takeaways>
+1. Claude est réservé aux **18 ans et plus**. La version **gratuite** fait déjà beaucoup ; **Pro** (20 dollars par mois aux États-Unis, prix local en Europe) ajoute surtout plus d'usage, le modèle **Opus**, la **Recherche** et les projets illimités.
+2. Choisis le bon outil : une conversation pour une question, un **projet** pour un travail suivi (documents + instructions), un **artifact** pour une création, la **Recherche** pour une enquête sourcée.
+3. Les limites Pro se comptent par **fenêtres de cinq heures** et par **semaine** ; les longues conversations et les gros documents les usent plus vite, car tout est relu à chaque message.
+4. Règle la **confidentialité** : tu peux refuser que tes conversations servent à l'entraînement ; ne confie jamais de mots de passe, de codes ou de données sensibles.
+5. Un modèle plus puissant reste un modèle de langage : il peut inventer. **Vérifie** les faits et ouvre les sources.
+</Takeaways>
