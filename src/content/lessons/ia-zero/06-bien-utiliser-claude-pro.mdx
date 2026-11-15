@@ -10,6 +10,7 @@ objectives:
   - Choisir le bon outil (conversation, projet, artifact, recherche, connecteur, fichier) pour une tâche.
   - Organiser un travail suivi dans un projet avec des instructions et des documents.
   - Expliquer comment fonctionnent les limites d'usage et les ménager.
+  - "Utiliser les commandes de l'interface : modèle, effort, réflexion, « + », « / », partage, mémoire."
   - Régler la confidentialité de son compte et savoir ce qu'on ne confie jamais.
 sources:
   - label: Anthropic, page des offres et tarifs de Claude (consultée le 15 novembre 2026)
@@ -18,6 +19,14 @@ sources:
     url: https://support.claude.com/en/articles/8325606-what-is-the-pro-plan
   - label: Centre d'aide Claude, « How do usage and length limits work? »
     url: https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work
+  - label: Centre d'aide Claude, « Change the model, effort, and thinking settings »
+    url: https://support.claude.com/en/articles/8664678-change-the-model-effort-and-thinking-settings
+  - label: Centre d'aide Claude, « Use incognito chats » et « Public links for shared chats »
+    url: https://support.claude.com/en/articles/12260368-use-incognito-chats
+  - label: Centre d'aide Claude, « Use skills in Claude » et « Schedule recurring tasks »
+    url: https://support.claude.com/en/articles/12512180-use-skills-in-claude
+  - label: Centre d'aide Claude, mémoire et recherche dans les conversations
+    url: https://support.claude.com/en/articles/11817273-use-claude-s-chat-search-and-memory-to-build-on-previous-context
   - label: Anthropic, conditions d'utilisation grand public (âge minimum, section 2)
     url: https://www.anthropic.com/legal/consumer-terms
   - label: Anthropic, « Updates to Consumer Terms and Privacy Policy » (28 août 2025)
@@ -126,6 +135,92 @@ Claude peut aussi **créer et modifier des fichiers** (tableur, texte, présenta
   L'offre Pro comprend aussi **Claude Code**, un outil qui permet à Claude d'écrire, de lancer et de corriger du code directement dans les fichiers d'un projet informatique, depuis un terminal, un éditeur de code ou le navigateur. C'est un outil de développeur, au-delà de ce chapitre, mais bon à connaître : son usage compte dans les mêmes limites que les conversations.
 </DeepDive>
 
+## Les commandes et options à connaître
+
+Au-delà des grands outils, l'interface de Claude cache une série de commandes qui changent beaucoup le confort d'usage. Les intitulés ci-dessous sont ceux du centre d'aide officiel, en anglais ; ton interface peut les afficher en français. Ils évoluent souvent : si un bouton a bougé, le [centre d'aide](https://support.claude.com) donne le chemin à jour.
+
+### Dans la zone de message
+
+Presque tout se règle depuis la zone où tu écris, autour du bouton d'envoi.
+
+<CardGrid cols={2}>
+  <Card title="Choisir le modèle" kicker="Gratuit : Sonnet, Haiku · Pro : en plus Opus" tone="signal">
+    **Où** : clic sur le nom du modèle, à côté du bouton d'envoi ; « More models » pour les autres. Passer de Haiku (rapide) à Sonnet (polyvalent) ou Opus (le plus capable), à tout moment de la conversation.
+  </Card>
+  <Card title="Régler l'effort" kicker="Selon le modèle" tone="signal">
+    **Où** : même menu, ligne « Effort ». De « Low » à « Max » : plus l'effort est élevé, plus Claude réfléchit avant de répondre, plus c'est lent et plus ça consomme.
+  </Card>
+  <Card title="La réflexion" kicker="Selon le modèle" tone="signal">
+    **Où** : même menu, interrupteur « Thinking » ou « Extended ». Claude raisonne avant de répondre ; son raisonnement s'affiche dans une section dépliable. Sur les modèles récents (Opus, Sonnet et Haiku 5.5), elle est toujours active et se règle par l'effort.
+  </Card>
+  <Card title="Le bouton « + »" kicker="Recherche : Pro" tone="signal">
+    **Où** : sous la zone de message. Joindre des fichiers, lancer la **Recherche**, couper la mémoire pour cette conversation (avant le premier message).
+  </Card>
+  <Card title="« Output »" kicker="Gratuit et Pro" tone="signal">
+    **Où** : dans la zone de message. Choisir ce que tu veux obtenir : un document (Docs), une présentation (Slides), un visuel (Design).
+  </Card>
+  <Card title="Les commandes « / »" kicker="Selon la commande" tone="signal">
+    **Où** : taper `/` au début du message. Raccourcis : `/deep-research` lance la Recherche, `/docs` crée un document, `/design` un visuel.
+  </Card>
+  <Card title="Conversation incognito" kicker="Gratuit et Pro" tone="signal">
+    **Où** : icône de fantôme, en haut à droite d'une nouvelle conversation. Une conversation qui n'est gardée ni dans l'historique ni dans la mémoire, et n'est pas utilisée pour l'entraînement.
+  </Card>
+  <Card title="Modifier un message" kicker="Gratuit et Pro" tone="signal">
+    **Où** : sur un de tes messages déjà envoyés. Reformuler ta demande : la conversation repart de là, dans une nouvelle version.
+  </Card>
+</CardGrid>
+
+<Callout type="tip" title="Le bon réglage pour la bonne tâche">
+  Pour une question simple, Sonnet avec un effort moyen suffit, et ménage tes limites. Garde Opus avec un effort élevé pour ce qui est long ou difficile : un raisonnement en plusieurs étapes, un document complexe à analyser, un plan détaillé. C'est le même principe qu'au chapitre 5 : laisser l'IA réfléchir améliore la réponse, mais prend du temps.
+</Callout>
+
+### Partager
+
+<CardGrid cols={2}>
+  <Card title="Partager une conversation" kicker="Bouton « Share », en haut à droite" tone="signal">
+    Tu peux créer un **lien public** (offres gratuite et Pro) ou inviter des personnes par leur adresse mail. Elles voient un **instantané en lecture seule** : elles ne peuvent pas continuer la conversation, et tes fichiers joints ne sont pas partagés. Tu arrêtes le partage depuis le même menu, ou dans les paramètres de confidentialité, rubrique « Shared chats ». Le partage par mail ne se fait pas encore depuis l'application mobile.
+  </Card>
+  <Card title="Partager un artifact ou un document" kicker="Bouton « Share » de l'artifact" tone="signal">
+    Un artifact est privé au départ. Choisis « Anyone with the link » pour le partager, avec un niveau d'accès : voir, commenter ou modifier. Les documents (Docs) s'exportent aussi en Word, PDF ou Google Docs, et les visuels (Design) en PDF ou PowerPoint.
+  </Card>
+</CardGrid>
+
+### Personnaliser Claude
+
+<CardGrid cols={2}>
+  <Card title="Les instructions et préférences" kicker="Paramètres, « Your Claude »" tone="signal">
+    Dis une fois pour toutes comment tu veux qu'on te réponde : « réponses courtes », « explique comme à un débutant », « en français ». Elles s'appliquent à toutes tes conversations ; celles d'un **projet** ne s'appliquent qu'à ce projet.
+  </Card>
+  <Card title="La mémoire" kicker="Paramètres, « Your Claude », « Manage »" tone="signal">
+    Activée par défaut : Claude retient des informations d'une conversation à l'autre, rangées par sujets. Tu peux les lire, les corriger ou les supprimer, **mettre en pause** la mémoire (« Pause memory ») ou tout effacer (« Reset memory »). Fais le point de temps en temps.
+  </Card>
+  <Card title="Les Skills" kicker="« Customize », puis « Skills »" tone="synapse">
+    Des savoir-faire que Claude charge quand il en a besoin : ceux d'Anthropic pour créer des fichiers Excel, Word, PowerPoint ou PDF s'utilisent tout seuls. Tu peux en activer d'autres ou importer les tiens. Il faut que la création de fichiers soit activée dans les paramètres (« Capabilities »). Gratuit et Pro.
+  </Card>
+  <Card title="Le mode vocal" kicker="Bouton micro, sur téléphone" tone="synapse">
+    Tu parles à Claude et il te répond à voix haute. Utile pour réviser à l'oral, pratiquer une langue étrangère ou réfléchir en marchant. Gratuit et Pro.
+  </Card>
+</CardGrid>
+
+### Réservé à Pro : déléguer
+
+Deux fonctions de Pro changent la nature de l'outil : Claude ne fait plus seulement répondre, il **agit** pour toi.
+
+<CardGrid cols={2}>
+  <Card title="Les tâches planifiées" kicker="« Scheduled », puis « New task »" tone="amber">
+    Tu décris une tâche et sa fréquence (toutes les heures, chaque jour, chaque semaine, les jours ouvrés ou à la demande) : Claude l'exécute tout seul, même quand ton ordinateur est éteint. Par exemple, un résumé de l'actualité de ton secteur chaque lundi matin. Chaque exécution consomme de l'usage.
+  </Card>
+  <Card title="Claude dans le navigateur" kicker="Claude in Chrome" tone="amber">
+    Une extension qui permet à Claude de lire et d'utiliser des pages web à ta place : remplir un formulaire, comparer des produits. Puissant, mais à surveiller : relis toujours avant une action qui engage (un achat, un envoi).
+  </Card>
+</CardGrid>
+
+<KeyIdea>Le bon modèle, le bon effort, le bon outil : trois réglages qui comptent autant que la qualité de ton prompt.</KeyIdea>
+
+<Quiz question="Tu veux montrer à une amie comment Claude t’a aidé à préparer un entretien, sans qu’elle puisse modifier la conversation ni voir ton CV joint. Que fais-tu ?" options={['Tu lui donnes ton mot de passe', 'Tu partages la conversation avec le bouton « Share » : elle verra un instantané en lecture seule, sans tes fichiers joints', 'Tu ouvres une conversation incognito', 'C’est impossible']} answer={1}>
+  **Le partage de conversation.** Il crée un instantané en lecture seule, et les fichiers joints ne sont pas partagés. Donner ton mot de passe (réponse 1) est à proscrire dans tous les cas. Le mode incognito (réponse 3) sert à ne pas garder une conversation, pas à la partager. Pense quand même à relire ce que contient la conversation avant de la partager : tout ce que tu y as écrit sera visible.
+</Quiz>
+
 ## Les limites d'usage
 
 ### Deux compteurs
@@ -174,7 +269,7 @@ Quelques précisions utiles :
 - une conversation que tu **supprimes** n'est pas utilisée pour entraîner les futurs modèles ;
 - si tu refuses après avoir accepté, tes nouvelles conversations ne servent plus, mais ce qui a déjà servi à entraîner un modèle y reste ;
 - les conversations peuvent quand même être examinées si elles sont signalées pour des raisons de sécurité, ou si tu envoies un avis (pouce levé ou baissé) ;
-- les **conversations incognito** servent aux échanges que tu ne veux pas garder dans ton historique.
+- les **conversations incognito** ne sont gardées ni dans ton historique ni dans la mémoire, et ne servent pas à l'entraînement (elles sont tout de même conservées 30 jours pour la sécurité).
 
 ### Ce que tu ne confies jamais
 
@@ -184,20 +279,6 @@ Le chapitre 4 l'a déjà dit, et c'est encore plus vrai avec un compte relié à
   **Décrire sans identifier, puis vérifier.** Claude peut t'expliquer les règles et t'orienter, sans avoir besoin de ton numéro fiscal ni de tes documents complets. Et comme pour tout conseil en droit ou en argent, le chapitre 4 l'a dit : la référence reste le site officiel ou un professionnel. Donner un mot de passe (réponse 3) est à proscrire dans tous les cas.
 </Quiz>
 
-## Quelques réglages qui changent tout
-
-<CardGrid cols={3}>
-  <Card title="Les préférences" kicker="Paramètres" tone="signal">
-    Dis une fois pour toutes comment tu veux qu'on te réponde : « réponses courtes », « explique comme à un débutant », « en français ». Elles s'appliquent à toutes tes conversations.
-  </Card>
-  <Card title="La mémoire" kicker="À surveiller" tone="signal">
-    Claude peut se souvenir d'informations d'une conversation à l'autre. Tu peux consulter, corriger ou effacer ce qu'il retient, et la désactiver. Fais le point de temps en temps.
-  </Card>
-  <Card title="Le mode vocal" kicker="Mains libres" tone="synapse">
-    Tu peux parler à Claude et l'écouter répondre, sur téléphone. Utile pour réviser à l'oral ou pratiquer une langue étrangère.
-  </Card>
-</CardGrid>
-
 <DeepDive title="Claude n'est pas le seul" level="terrain">
   Les principaux assistants d'IA proposent tous une offre gratuite et un abonnement payant, souvent autour d'une vingtaine d'euros par mois : ChatGPT (OpenAI), Gemini (Google), Le Chat (Mistral AI, une entreprise française), Copilot (Microsoft). Leurs fonctions se ressemblent de plus en plus (projets, recherche approfondie, connecteurs, création de fichiers), avec des différences de style, de qualité selon les tâches et de règles sur les données. Avant de payer, le plus sûr est de tester gratuitement deux ou trois d'entre eux sur **tes** tâches réelles, et de lire leurs réglages de confidentialité. Rien n'oblige à s'abonner à un seul pour toujours : un abonnement se résilie.
 </DeepDive>
@@ -206,7 +287,7 @@ Le chapitre 4 l'a déjà dit, et c'est encore plus vrai avec un compte relié à
 
 <Takeaways>
 1. Claude est réservé aux **18 ans et plus**. La version **gratuite** fait déjà beaucoup ; **Pro** (20 dollars par mois aux États-Unis, prix local en Europe) ajoute surtout plus d'usage, le modèle **Opus**, la **Recherche** et les projets illimités.
-2. Choisis le bon outil : une conversation pour une question, un **projet** pour un travail suivi (documents + instructions), un **artifact** pour une création, la **Recherche** pour une enquête sourcée.
+2. Choisis le bon outil : une conversation pour une question, un **projet** pour un travail suivi (documents + instructions), un **artifact** pour une création, la **Recherche** pour une enquête sourcée ; et règle le **modèle** et l'**effort** selon la difficulté.
 3. Les limites Pro se comptent par **fenêtres de cinq heures** et par **semaine** ; les longues conversations et les gros documents les usent plus vite, car tout est relu à chaque message.
 4. Règle la **confidentialité** : tu peux refuser que tes conversations servent à l'entraînement ; ne confie jamais de mots de passe, de codes ou de données sensibles.
 5. Un modèle plus puissant reste un modèle de langage : il peut inventer. **Vérifie** les faits et ouvre les sources.
